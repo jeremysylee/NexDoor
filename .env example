@@ -1,0 +1,4 @@
+DB_USER=root
+DB_HOST=localhost
+DB_DB=FILL_ME_IN
+DB_PASS=FILL_ME_IN
