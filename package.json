@@ -25,15 +25,11 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-<<<<<<< HEAD
     "luxon": "^2.0.1",
     "morgan": "^1.10.0",
     "parcel-bundler": "^1.12.5",
-=======
     "express-validator": "^6.12.0",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
->>>>>>> 5e23aa5a95c6193d8c23a6bdfacc0ca68b07d1e9
     "pg": "^8.6.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
