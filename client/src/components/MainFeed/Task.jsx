@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
 const Task = ({ task }) => {
   const placeholder = 'Task placeholder';
 
@@ -11,7 +10,7 @@ const Task = ({ task }) => {
     <div>
       <img
         src={task.user.profile_picture}
-        alt='profilePhoto'
+        alt="profilePhoto"
         style={{
           height: '32px', width: '32px', objectFit: 'cover', borderRadius: '100%',
         }}
@@ -24,7 +23,14 @@ const Task = ({ task }) => {
 };
 
 Task.propTypes = {
-  task: PropTypes.element.isRequired,
+  task: PropTypes.shape({
+    user: PropTypes.shape({
+      firstname: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+      profile_picture: PropTypes.string.isRequired,
+    }),
+    description: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Task;
