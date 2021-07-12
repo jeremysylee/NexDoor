@@ -10,12 +10,12 @@ const Task = ({ task }) => {
     const start = DateTime.local();
     const time = DateTime.fromISO(task.time);
     const diff = end.diff(start, ['months', 'days', 'hours', 'minutes', 'seconds']);
-    console.log(diff);
-    console.log('start', time);
+    // console.log(diff);
+    // console.log('start', time);
   };
 
   timeDifference();
-  console.log(task);
+  // console.log(task);
 
   return (
     <div>
