@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm test",
     "start": "parcel ./client/static/index.html",
-    "server": "nodemon start ./server"
+    "server": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
