@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import MainFeed from './MainFeed';
+import MainFeed from './MainFeed/MainFeed';
 import SignUp from './SignUp';
 
 const App = () => (

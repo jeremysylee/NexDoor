@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+// import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+// import axios from 'axios';
 
-import Task from './MainFeed/Task';
+import Task from './Task';
 
 const MainFeed = () => {
   // const [ratingModal, setRatingModal] = useState(false);
@@ -15,7 +15,7 @@ const MainFeed = () => {
   return (
     <div>
       <h1>{placeholder}</h1>
-      {tasks.map((task) => (<Task task={task} key={task.task_id} />))}
+      {tasks.map((task) => (<Task task={task || {}} key={task.task_id} />))}
     </div>
   );
 };
