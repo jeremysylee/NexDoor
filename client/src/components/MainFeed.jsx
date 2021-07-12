@@ -5,8 +5,17 @@ import axios from 'axios';
 
 const MainFeed = () => {
 
+  const [ratingModal, setRatingModal] = useState(false);
+  const [requestModal, setRequestModal] = useState(false);
+
   return (
-    <h1>Lemon</h1>
+
+
+    <div>
+      <h1>Lemon</h1>
+    <button>Rating</button>
+    <button></button>
+    </div>
   )
 }
 
