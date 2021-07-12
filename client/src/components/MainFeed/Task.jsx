@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { DateTime } from 'luxon';
 
 const Task = ({ task }) => {
   const placeholder = 'Task placeholder';
 
+  const timeDifference = () => {
+    const end = DateTime.fromISO(task.date);
+    const start = DateTime.local();
+    const diff = end.diff(start, ['months', 'days', 'hours', 'minutes', 'seconds']);
+    console.log(diff);
+  };
+
+  timeDifference();
   console.log(task);
 
   return (
@@ -18,6 +27,9 @@ const Task = ({ task }) => {
       {task.user.firstname}
       {task.user.lastname}
       {task.description}
+      {task.duration}
+      {task.time}
+      {task.car_required}
     </div>
   );
 };
@@ -30,6 +42,9 @@ Task.propTypes = {
       profile_picture: PropTypes.string.isRequired,
     }),
     description: PropTypes.string.isRequired,
+    duration: PropTypes.string,
+    time: PropTypes.string,
+    car_required: PropTypes.bool,
   }).isRequired,
 };
 

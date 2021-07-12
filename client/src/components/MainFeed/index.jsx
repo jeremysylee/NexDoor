@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import Task from './Task';
 
 const MainFeed = () => {
-  // const [ratingModal, setRatingModal] = useState(false);
-  // const [requestModal, setRequestModal] = useState(false);
   const tasks = useSelector((store) => store.tasksReducer.tasks);
 
   const placeholder = 'placeholder';
