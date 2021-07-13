@@ -19,5 +19,10 @@ module.exports = {
     'react',
   ],
   rules: {
+    'linebreak-style': 0,
+    'react/destructuring-assignment': 'warn',
+    'no-plusplus': 'off',
+    'no-console': 'off',
+    'react/jsx-curly-brace-presence': 'warn',
   },
 };

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 const SignUp = () => {
-
   return (
     <h1>hey</h1>
   )
