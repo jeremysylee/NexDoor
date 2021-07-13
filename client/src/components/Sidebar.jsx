@@ -17,7 +17,7 @@ import {
 
 const SidebarContainer = styled.div`
   padding-top: 1.5em;
-  padding-right: 1.5em;
+  padding-right: 2em;
 `;
 
 const Sidebar = () => (

@@ -130,7 +130,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-16',
-      time: null,
+      time: '06:33:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {

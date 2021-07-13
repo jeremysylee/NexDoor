@@ -6,14 +6,16 @@ import { Avatar } from '@material-ui/core';
 
 const Card = styled.div`
   max-width: 100%;
-  padding: 1.5em;
-  margin-top: 1.5em;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px 0 #BDC9D7;
+  margin-top: 1em;
+  padding: 1em;
+  border-radius: 10px;
+  background-color: #FFFFFF;
   overflow: hidden;
+  flex: 1;
 `;
 
 const Row = styled.div`
+  margin-top: 2px;
   display: flex;
   direction: row;
 `;
@@ -23,35 +25,33 @@ const CardContent = styled.div`
   margin-left: 1em;
 `;
 
+const Username = styled.div`
+  font-weight: 400;
+  font-size: 14px;
+`;
+
 const Description = styled.div`
-  wrap: wrap;
-  max-width: 40%
   font-size: 14px;
   font-weight: lighter;
   margin-top: 2px;
+  wrap: wrap;
   color: grey;
-`;
-
-const Username = styled.div`
-  font-weight: 400;
-  font-size: 16px;
+  max-width: 90%;
 `;
 
 const DetailsCol = styled.div`
   font-family: Roboto;
-  margin-left: 1em;
   margin-right: 1.5em;
   text-align: right;
   color: grey;
-  flex-wrap: no-wrap;
+  flex-wrap: nowrap;
 `;
 
 const Details = styled.div`
   font-size: 14px;
   font-weight: lighter;
-  margin-top: 2px;
   color: grey;
-  width: 120%
+  width: 140%;
 `;
 
 const Task = ({ task }) => {
@@ -65,15 +65,14 @@ const Task = ({ task }) => {
 
     if (diff.values.days <= 1) {
       setDay('Today');
-      setTime(DateTime.fromISO(task.time).toFormat('h:mm a'));
     } else if (diff.values.days === 2) {
       setDay('Tomorow');
-      console.log(`in ${endDate.toFormat('ccc, LLL dd')} days`);
     } else if (diff.values.days < 8) {
-      setDay(endDate.toFormat('ccc, LLL dd'));
+      setDay(endDate.toFormat('cccc'));
     } else {
       setDay(endDate.toFormat('LLL dd'));
     }
+    setTime(DateTime.fromISO(task.time).toFormat('h:mm a'));
   };
 
   useEffect(() => {
@@ -87,7 +86,7 @@ const Task = ({ task }) => {
           <Avatar src={task.user.profile_picture} alt="profilePhoto" />
           <CardContent>
             <Username>{`${task.user.firstname} ${task.user.lastname}`}</Username>
-            <Description>{`${task.description.substring(0, 80)}...`}</Description>
+            <Description>{`${task.description.substring(0, 60)}...`}</Description>
           </CardContent>
         </Row>
         <DetailsCol>
