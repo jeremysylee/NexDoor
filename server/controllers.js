@@ -406,7 +406,7 @@ const controllers = {
     db.query(queryStr)
       .then((data) => {
         if (!data.rows[0]) {
-          res.status(400).send("error: user not found");
+          res.status(400).send("Error: username/password combination not found");
         } else {
           console.log('data: ', data.rows[0]);
           res.status(200).send(data.rows[0]);
