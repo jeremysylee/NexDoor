@@ -41,7 +41,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = () => {
+  const [info, setInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    streetAddress: '',
+    city: '',
+    state: '',
+    zipCode: '',
+  });
   const classes = useStyles();
+
+  const handleChange = (e) => {
+    setInfo({
+      [e.target.name]: e.target.value,
+    }, console.log(e.target.value));
+  };
+
+  const postUserInfo = (e) => {
+    e.preventDefault();
+    const userInfo = {
+      firstName: info.firstName,
+      lastName: info.lastName,
+      email: info.email,
+      password: info.password,
+      streetAddress: info.streetAddress,
+      city: info.city,
+      state: info.state,
+      zipCode: info.zipCode,
+    };
+    axios.post('/api/newuser', userInfo);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,7 +84,7 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={postUserInfo} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -65,6 +96,7 @@ const SignUp = () => {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -76,6 +108,7 @@ const SignUp = () => {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -87,6 +120,7 @@ const SignUp = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -99,6 +133,7 @@ const SignUp = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -108,6 +143,7 @@ const SignUp = () => {
                 fullWidth
                 name="streetAddress"
                 label="Street Address"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -117,6 +153,7 @@ const SignUp = () => {
                 fullWidth
                 name="city"
                 label="City"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -126,6 +163,7 @@ const SignUp = () => {
                 fullWidth
                 name="state"
                 label="State"
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
@@ -135,14 +173,15 @@ const SignUp = () => {
                 fullWidth
                 name="zipCode"
                 label="Zip Code"
+                onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type="submit"
