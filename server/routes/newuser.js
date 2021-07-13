@@ -4,7 +4,6 @@ const newuser = express.Router();
 const { check, validationResult } = require('express-validator');
 const db = require('../controllers');
 
-
 newuser.post('/',
   [
     check('firstName')
@@ -40,18 +39,6 @@ newuser.post('/',
       });
     }
     return db.addUser(req, res);
-      // .then(response =>{
-      //   res.status(200).json({
-      //     success: true,
-      //     message: 'New user successfully created',
-      //   })
-      // })
-      // .catch(errors => {
-      //   req.status(200).json({
-      //     success: false,
-      //     errors: errors.array(),
-      //   })
-      // })
   });
 
 module.exports = newuser;
