@@ -40,7 +40,7 @@ const Map = () => {
       .then(() => {
         setCoordinates(coordinateContainer);
       });
-  }, []);
+  }, [addresses]);
 
   return (
     <LoadScript
