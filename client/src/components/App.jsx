@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainFeed from './MainFeed';
 import SignUp from './SignUp';
+import Map from './Map';
 
 const App = () => (
   <div>
@@ -11,6 +12,7 @@ const App = () => (
         <Route path="/signup" component={SignUp} />
       </Switch>
     </BrowserRouter>
+    <Map />
   </div>
 );
 
