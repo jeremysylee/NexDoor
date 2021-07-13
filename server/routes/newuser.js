@@ -2,14 +2,15 @@ const express = require('express');
 
 const newuser = express.Router();
 const { check, validationResult } = require('express-validator');
+const API = require('../controllers');
 
 newuser.post('/',
   [
-    check('firstname')
+    check('firstName')
       .not()
       .isEmpty()
       .withMessage('Name is required'),
-    check('lastname')
+    check('lastName')
       .not()
       .isEmpty()
       .withMessage('Name is required'),
@@ -37,10 +38,7 @@ newuser.post('/',
         errors: errors.array(),
       });
     }
-    res.status(200).json({
-      success: true,
-      message: 'New user successfully created',
-    });
+    return API.addUser(req, res);
   });
 
 module.exports = newuser;
