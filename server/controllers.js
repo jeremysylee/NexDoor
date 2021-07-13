@@ -1,6 +1,7 @@
 const db = require('../db/index');
 
 const controllers = {
+  // ******************************************************
   addUser: (req, res) => {
     const {
       streetAddress,
@@ -65,14 +66,168 @@ const controllers = {
       }
     });
   },
+  // ******************************************************
+  // ADD TASK WITH NON-HOME ADDRESS
+  // POST api/task/new/5
+  /* req.body =
+  {
+    "streetAddress": "111 Random Street",
+    "city": "Los Angeles",
+    "state": "CA",
+    "zipcode": 12345,
+    "neighborhood": "Hollywood",
+    "description": "Hoping to borrow 2 lawnchairs",
+    "carRequired": false,
+    "laborRequired": false,
+    "category": "borrow",
+    "date": "08/10/2021",
+    "time": "5:08",
+    "dateRequested": "08/10/2021",
+    "timeRequested": "11:38",
+    "duration": 2
+  }
+  */
+  addTaskNewAddress: (req, res) => {
+    const { id } = req.params;
+    const {
+      streetAddress,
+      city,
+      state,
+      zipcode,
+      neighborhood,
+      description,
+      carRequired,
+      laborRequired,
+      category,
+      date,
+      time,
+      dateRequested,
+      timeRequested,
+      duration,
+    } = req.body;
 
+    const queryStr = `
+      WITH X AS (
+        INSERT INTO nexdoor.address (
+          street_address,
+          city,
+          state,
+          zipcode,
+          neighborhood
+        )
+        VALUES (
+          '${streetAddress}',
+          '${city}',
+          '${state}',
+          ${zipcode},
+          '${neighborhood}'
+        )
+        RETURNING address_id
+      )
+      INSERT INTO nexdoor.tasks (
+        requester_id,
+        location_id,
+        description,
+        car_required,
+        physical_labor_required,
+        status,
+        category,
+        date,
+        time,
+        date_requested,
+        time_requested,
+        duration
+      )
+      SELECT
+        ${id},
+        address_id,
+        '${description}',
+        ${carRequired},
+        ${laborRequired},
+        'open',
+        '${category}',
+        '${date}',
+        '${time}',
+        '${dateRequested}',
+        '${timeRequested}',
+        ${duration}
+      FROM X;
+    `;
+
+    db.query(queryStr, (err, data) => {
+      if (err) {
+        res.status(400).send(err.stack);
+      } else {
+        res.status(200).send(data.rows);
+      }
+    });
+  },
+
+  addTaskHomeAddress: (req, res) => {
+    const { id } = req.params;
+
+    const {
+      description,
+      carRequired,
+      laborRequired,
+      category,
+      date,
+      time,
+      dateRequested,
+      timeRequested,
+      duration,
+    } = req.body;
+
+    const queryStr = `
+      INSERT INTO nexdoor.tasks (
+        requester_id,
+        location_id,
+        description,
+        car_required,
+        physical_labor_required,
+        status,
+        category,
+        date,
+        time,
+        date_requested,
+        time_requested,
+        duration
+      ) VALUES (
+        ${id},
+        (
+          SELECT address_id
+          FROM nexdoor.users
+          WHERE user_id=${id}
+        ),
+        '${description}',
+        ${carRequired},
+        ${laborRequired},
+        'open', '${category}',
+        '${date}',
+        '${time}',
+        '${dateRequested}',
+        '${timeRequested}',
+        ${duration}
+      );
+    `;
+
+    db.query(queryStr, (err, data) => {
+      if (err) {
+        res.status(400).send(err.stack);
+      } else {
+        res.status(200).send(data.rows);
+      }
+    });
+  },
+
+  // ******************************************************
   addAnnouncement: (req, res) => {
     const { userId } = req.params;
     const {
       announcementBody,
       date,
       time,
-    } = req.params;
+    } = req.body;
 
     const queryStr = `
       INSERT INTO nexdoor.announcements (
@@ -131,6 +286,24 @@ const controllers = {
         res.status(400).send(err.stack);
       } else {
         res.status(200).send(data.rows);
+      }
+    });
+  },
+
+  checkForEmail: (req, res) => {
+    const { email } = req.body;
+    const queryStr = `
+      SELECT EXISTS (
+        SELECT true FROM nexdoor.users
+        WHERE email='${email}'
+        LIMIT 1
+      )
+    `;
+    db.query(queryStr, (err, data) => {
+      if (err) {
+        res.status(400).send(err.stack);
+      } else {
+        res.status(200).send(data.rows[0].exists);
       }
     });
   },
