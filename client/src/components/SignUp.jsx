@@ -42,14 +42,15 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const [info, setInfo] = useState({
+    streetAddress: '',
+    city: '',
+    state: '',
+    zipcode: '',
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    streetAddress: '',
-    city: '',
-    state: '',
-    zipCode: '',
+    confirm_password: '',
   });
   const classes = useStyles();
 
@@ -62,16 +63,26 @@ const SignUp = () => {
   const postUserInfo = (e) => {
     e.preventDefault();
     const userInfo = {
+      streetAddress: info.streetAddress,
+      city: info.city,
+      state: info.state,
+      zipcode: info.zipcode,
       firstName: info.firstName,
       lastName: info.lastName,
       email: info.email,
       password: info.password,
-      streetAddress: info.streetAddress,
-      city: info.city,
-      state: info.state,
-      zipCode: info.zipCode,
+      confirm_password: info.confirm_password,
     };
-    axios.post('/api/newuser', userInfo);
+    axios.get('http://localhost:3500/api/email')
+      .then((response) => {
+        console.log(response);
+        if (response.data === true) {
+          console.log('email already exists!');
+        } else {
+          axios.post('http://localhost:3500/api/newuser', userInfo);
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -132,6 +143,19 @@ const SignUp = () => {
                 label="Password"
                 type="password"
                 id="password"
+                autoComplete="current-password"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="confirm_password"
+                label="Confirm Password"
+                type="password"
+                id="confirm_password"
                 autoComplete="current-password"
                 onChange={handleChange}
               />
