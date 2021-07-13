@@ -596,17 +596,8 @@ const controllers = {
         LIMIT 1
       )
     `;
-<<<<<<< HEAD
     db.query(queryStr)
       .then((data) => {
-=======
-    db.query(queryStr, (err, data) => {
-      if (err) {
-        res.status(400).send(err.stack);
-        // return true;
-      } else {
-        // return false
->>>>>>> main
         res.status(200).send(data.rows[0].exists);
       })
       .catch((err) => {
