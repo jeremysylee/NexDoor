@@ -334,6 +334,25 @@ const controllers = {
   },
 
   // ******************************************************
+  /*
+    GET /api/user/${userId}
+    req.body = none;
+    res = {
+      "firstname": "Spongebob",
+      "lastname": "Squarepants",
+      "email": "ss@gmail.com",
+      "karma": 0,
+      "task_count": 0,
+      "avg_rating": 5,
+      "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png",
+      "address": {
+          "street_address": "538 Newcastle",
+          "city": "Los Angeles",
+          "state": "CA",
+          "zipcode": "90028",
+          "neighborhood": "Los Feliz"
+      }
+  */
   getUser: (req, res) => {
     const { id } = req.params;
 
@@ -346,7 +365,7 @@ const controllers = {
         task_count,
         avg_rating,
         profile_picture_url, (
-          SELECT JSON_AGG(ROW_TO_JSON(t))
+          SELECT ROW_TO_JSON(add)
           FROM (
             SELECT
               street_address,
@@ -356,7 +375,7 @@ const controllers = {
               neighborhood
             FROM nexdoor.address
             WHERE address_id=nexdoor.users.address_id
-          ) t
+          ) add
         ) as address
       FROM nexdoor.users
       WHERE user_id=${id};
@@ -366,7 +385,7 @@ const controllers = {
       if (err) {
         res.status(400).send(err.stack);
       } else {
-        res.status(200).send(data.rows);
+        res.status(200).send(data.rows[0]);
       }
     });
   },
@@ -446,6 +465,26 @@ const controllers = {
   },
 
   // ******************************************************
+  /*
+    GET /api/messages/${taskId}
+    req.body = none
+    res = [
+      {
+        "firstname": "andrew",
+        "lastname": "munoz",
+        "message_body": "where are you",
+        "date": "2021-06-13T07:00:00.000Z",
+        "time": "04:51:00"
+    },
+    {
+        "firstname": "Spongebob",
+        "lastname": "Squarepants",
+        "message_body": "i have no idea where i am",
+        "date": "2021-04-13T07:00:00.000Z",
+        "time": "06:21:00"
+      },
+    ]
+  */
   getMessagesByTask: (req, res) => {
     const { taskId } = req.params;
     const queryStr = `
@@ -473,6 +512,17 @@ const controllers = {
   },
 
   // ******************************************************
+  /*
+    GET /api/email
+    req.body = {
+      "email": "ss@gmail.com"
+    }
+    res = true
+    req.body = {
+      "email": "thisemaildoesntexistindb@gmail.com"
+    }
+    res = false
+  */
   checkForEmail: (req, res) => {
     const { email } = req.body;
     const queryStr = `
