@@ -8,7 +8,6 @@ const MainFeed = () => {
 
   return (
     <div>
-      <h1>Lemon</h1>
       <NewRequestModal />
     </div>
   )

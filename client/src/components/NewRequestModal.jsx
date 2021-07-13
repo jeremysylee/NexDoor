@@ -19,7 +19,7 @@ function NewRequestModal() {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
         Submit A New Request
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -33,6 +33,11 @@ function NewRequestModal() {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Typography>YOUR TASK LOCATION</Typography>
+                  <TextField
+                    placeholder="Location"
+                    variant="outlined"
+                    fullWidth
+                  />
                 </Grid>
 
                 <Grid item xs={12}>
@@ -49,6 +54,61 @@ function NewRequestModal() {
 
                 <Grid item xs={12}>
                   <Typography>WHEN DO YOU NEED HELP?</Typography>
+                </Grid>
+
+                <Grid item xs={4}>
+                  <TextField
+                    id="startDate"
+                    name="startDate"
+                    label="Start Date"
+                    type="date"
+                    variant="outlined"
+                    defaultValue="2021-08-24"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <TextField
+                    id="endDate"
+                    name="endDate"
+                    label="End Date"
+                    type="date"
+                    variant="outlined"
+                    defaultValue="2021-08-27"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={4}>
+                  <TextField
+                    id="time"
+                    name="time"
+                    label="Time"
+                    type="time"
+                    variant="outlined"
+                    defaultValue="07:30"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  // inputProps={{
+                  //   step: 300, // 5 min
+                  // }}
+                  />
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                  >
+                  Submit
+                  </Button>
                 </Grid>
 
               </Grid>
