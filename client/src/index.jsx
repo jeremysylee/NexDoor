@@ -12,4 +12,3 @@ ReactDOM.render(
   </Provider>,
   root,
 );
-
