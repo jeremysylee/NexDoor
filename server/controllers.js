@@ -74,13 +74,13 @@ const controllers = {
       FROM X;
     `;
 
-    db.query(queryStr, (err) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then(() => {
         res.status(200).send('User added to db');
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
   // ******************************************************
   // ADD TASK WITH NON-HOME ADDRESS
@@ -171,13 +171,13 @@ const controllers = {
       FROM X;
     `;
 
-    db.query(queryStr, (err) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then(() => {
         res.status(200).send('Added task to db');
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
   // ******************************************************
@@ -244,13 +244,13 @@ const controllers = {
       );
     `;
 
-    db.query(queryStr, (err) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then(() => {
         res.status(200).send('Added task to db');
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
   // ******************************************************
@@ -281,13 +281,13 @@ const controllers = {
         '${time}'
       );
     `;
-    db.query(queryStr, (err, data) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then(() => {
         res.status(200).send('Added message to db');
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
   // ******************************************************
@@ -324,13 +324,13 @@ const controllers = {
       )
     `;
 
-    db.query(queryStr, (err) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then(() => {
         res.status(200).send('Added announcement to db');
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
   // ******************************************************
@@ -381,13 +381,60 @@ const controllers = {
       WHERE user_id=${id};
     `;
 
-    db.query(queryStr, (err, data) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then((data) => {
         res.status(200).send(data.rows[0]);
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
+  },
+  // ******************************************************
+  /*
+    GET /users/rating/${quantity}
+    req.body = none
+    res = [
+      {
+          "user_id": 3,
+          "firstname": "andrew",
+          "lastname": "munoz",
+          "password": "testing123",
+          "email": "testing123@gmail.com",
+          "address_id": 1,
+          "karma": 0,
+          "task_count": 0,
+          "avg_rating": 5,
+          "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
+      },
+      {
+          "user_id": 4,
+          "firstname": "Spongebob",
+          "lastname": "Squarepants",
+          "password": "bikinibottom",
+          "email": "ss@gmail.com",
+          "address_id": 2,
+          "karma": 0,
+          "task_count": 0,
+          "avg_rating": 5,
+          "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
+      },
+    ]
+  */
+  getUsersByRating: (req, res) => {
+    const { quantity } = req.params;
+    const queryStr = `
+      SELECT *
+      FROM nexdoor.users
+      ORDER BY avg_rating
+      LIMIT ${quantity}
+    `;
+    db.query(queryStr)
+      .then((data) => {
+        res.status(200).send(data.rows);
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
   // ******************************************************
@@ -419,6 +466,7 @@ const controllers = {
         "time_requested": "08:41:00",
         "duration": 2
       },
+    ]
   */
   getTasks: (req, res) => {
     const queryStr = `
@@ -455,13 +503,13 @@ const controllers = {
       FROM nexdoor.tasks
       LIMIT 100;
     `;
-    db.query(queryStr, (err, data) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then((data) => {
         res.status(200).send(data.rows);
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
   // ******************************************************
@@ -502,13 +550,13 @@ const controllers = {
       WHERE
         task_id=${taskId};
     `;
-    db.query(queryStr, (err, data) => {
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then((data) => {
         res.status(200).send(data.rows);
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
   // ******************************************************
@@ -532,20 +580,13 @@ const controllers = {
         LIMIT 1
       )
     `;
-    db.query(queryStr, (err, data) => {
-      // if (err) {
-      //   res.status(400).send(err.stack);
-      // } else if (data.rows[0].exists) {
-      //   res.status(200).send(data.rows[0].exists);
-      // } else {
-      //   res.status(400).send(false);
-      // }
-      if (err) {
-        res.status(400).send(err.stack);
-      } else {
+    db.query(queryStr)
+      .then((data) => {
         res.status(200).send(data.rows[0].exists);
-      }
-    });
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
   },
 
 };

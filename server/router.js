@@ -6,6 +6,7 @@ router
   .get('/email', controllers.checkForEmail)
   .get('/tasks', controllers.getTasks)
   .get('/messages/:taskId', controllers.getMessagesByTask)
+  .get('/users/rating/:quantity', controllers.getUsersByRating)
   .post('/user', controllers.addUser)
   .post('/task/new/:id', controllers.addTaskNewAddress)
   .post('/task/home/:id', controllers.addTaskHomeAddress)
