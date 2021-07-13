@@ -2,7 +2,16 @@ const router = require('express').Router();
 const controllers = require('./controllers');
 
 router
-  .post('/user', controllers.addUser);
+  .get('/user/:id', controllers.getUser)
+  .get('/email', controllers.checkForEmail)
+  .get('/tasks', controllers.getTasks)
+  .get('/messages/:taskId', controllers.getMessagesByTask)
+  .get('/users/rating/:quantity', controllers.getUsersByRating)
+  .post('/user', controllers.addUser)
+  .post('/task/new/:id', controllers.addTaskNewAddress)
+  .post('/task/home/:id', controllers.addTaskHomeAddress)
+  .post('/announce/:userId', controllers.addAnnouncement)
+  .post('/messages/:taskId/:userId', controllers.addMessage);
 
 // import individual routes
 const login = require('./routes/login');
