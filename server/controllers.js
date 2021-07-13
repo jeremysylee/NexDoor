@@ -10,6 +10,8 @@ const controllers = {
       "state": "CA",
       "zipcode": 87980,
       "neighborhood": "Pasadena",
+      "latitude": 34.5,
+      "longitude": -131.5
       "firstName": "George",
       "lastName": "Kentucky",
       "password": "431jkl",
@@ -25,6 +27,8 @@ const controllers = {
       state,
       zipcode,
       neighborhood,
+      latitude,
+      longitude,
       firstName,
       lastName,
       password,
@@ -39,14 +43,18 @@ const controllers = {
           city,
           state,
           zipcode,
-          neighborhood
+          neighborhood,
+          latitude,
+          longitude
         )
         VALUES (
           '${streetAddress}',
           '${city}',
           '${state}',
           ${zipcode},
-          '${neighborhood}'
+          '${neighborhood}',
+          ${latitude},
+          ${longitude}
         )
         RETURNING address_id
       )
@@ -92,6 +100,8 @@ const controllers = {
     "state": "CA",
     "zipcode": 12345,
     "neighborhood": "Hollywood",
+    "latitude": 34.5,
+    "longitude": -131.5,
     "description": "Hoping to borrow 2 lawnchairs",
     "carRequired": false,
     "laborRequired": false,
@@ -112,6 +122,8 @@ const controllers = {
       state,
       zipcode,
       neighborhood,
+      latitude,
+      longitude,
       description,
       carRequired,
       laborRequired,
@@ -130,14 +142,18 @@ const controllers = {
           city,
           state,
           zipcode,
-          neighborhood
+          neighborhood,
+          latitude,
+          longitude
         )
         VALUES (
           '${streetAddress}',
           '${city}',
           '${state}',
           ${zipcode},
-          '${neighborhood}'
+          '${neighborhood}',
+          ${latitude},
+          ${longitude}
         )
         RETURNING address_id
       )
