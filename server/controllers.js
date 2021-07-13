@@ -302,7 +302,9 @@ const controllers = {
     db.query(queryStr, (err, data) => {
       if (err) {
         res.status(400).send(err.stack);
+        // return true;
       } else {
+        // return false
         res.status(200).send(data.rows[0].exists);
       }
     });

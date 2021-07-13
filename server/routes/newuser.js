@@ -2,7 +2,8 @@ const express = require('express');
 
 const newuser = express.Router();
 const { check, validationResult } = require('express-validator');
-const API = require('../controllers');
+const db = require('../controllers');
+
 
 newuser.post('/',
   [
@@ -17,13 +18,7 @@ newuser.post('/',
     check('email')
       .isEmail()
       .exists()
-      .withMessage('A valid email address is required')
-      .custom(value => {
-        return API.checkForEmail(value)
-        .then(response => {
-          console.log(response)
-        })
-      }),
+      .withMessage('A valid email address is required'),
     check('password').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, 'i')
       .withMessage('Password must include one lowercase character, one uppercase character, a number, and a special character.')
       .isLength({ min: 8, max: 20 })
@@ -44,7 +39,7 @@ newuser.post('/',
         errors: errors.array(),
       });
     }
-    // return API.addUser(req, res);
+    return db.addUser(req, res);
       // .then(response =>{
       //   res.status(200).json({
       //     success: true,
