@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 // import axios from 'axios';
@@ -7,7 +7,9 @@ import { StarIcon, DashboardIcon, PeopleIcon, ShoppingCartIcon, BarChartIcon, La
 import { ListItem, ListItemIcon, ListItemText, ListSubheader, Container, Avatar, } from '@material-ui/core';
 
 const HelpfulFeed = () => {
-  const tasks = useSelector((store) => store.tasksReducer.tasks);
+  // const tasks = useSelector((store) => store.tasksReducer.tasks);
+
+
 
   const placeholder = 'NexDoors Most Helpful';
 
