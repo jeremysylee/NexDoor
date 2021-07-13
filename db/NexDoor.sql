@@ -21,6 +21,11 @@ COMMENT ON DATABASE postgres
 CREATE SCHEMA nexdoor
     AUTHORIZATION blueboolean;
 --*********************************************************************
+-- EXTENSIONS
+--*********************************************************************
+CREATE EXTENSION CUBE;
+CREATE EXTENSION EARTHDISTANCE;
+--*********************************************************************
 -- ADDRESS TABLE
 --*********************************************************************
 -- Table: nexdoor.address
