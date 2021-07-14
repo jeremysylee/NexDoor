@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import MyRequest from './MyRequest';
 import styled from 'styled-components';
+import MyRequest from './MyRequest';
 import {
   CardHeaders,
 } from './style';

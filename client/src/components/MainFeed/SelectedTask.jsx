@@ -35,6 +35,7 @@ const Username = styled.div`
 const UserInfo = styled.div`
   font-weight: 400;
   font-size: 14px;
+  margin-top: 0.5em;
 `;
 
 const StatusText = styled(Username)`
@@ -133,6 +134,7 @@ const SelectedTask = () => {
           </Col>
         </DetailsContainer>
       </Row>
+      <button>Next</button>
     </SelectedTaskContainer>
   );
 };

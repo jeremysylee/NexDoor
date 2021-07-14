@@ -10,7 +10,6 @@ import {
   Description,
   DetailsCol,
   Details,
-  CardHeaders,
 } from './style';
 
 const MyRequest = ({ request }) => {

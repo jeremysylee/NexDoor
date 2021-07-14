@@ -15,7 +15,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-13',
-      time: '22:21:13',
+      time: '22:30:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {
@@ -44,7 +44,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-14',
-      time: '12:21:13',
+      time: '12:30:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {
@@ -73,7 +73,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-13',
-      time: '09:24:13',
+      time: '09:00:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {
@@ -102,7 +102,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-23',
-      time: '12:21:13',
+      time: '12:00:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {
@@ -131,7 +131,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-16',
-      time: '06:33:13',
+      time: '06:30:13',
       date_requested: '2021-07-15',
       duration: 'short: < 1 hour',
       user: {
@@ -160,7 +160,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-16',
-      time: '06:33:13',
+      time: '06:50:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {
@@ -189,7 +189,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-16',
-      time: '12:21:13',
+      time: '11:00:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {
@@ -218,7 +218,7 @@ export default {
       status: false,
       category: 'sitter',
       date: '2021-07-18',
-      time: '12:21:13',
+      time: '01:45:13',
       date_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
       user: {
