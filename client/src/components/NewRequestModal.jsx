@@ -15,7 +15,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core/';
-import axios from 'axios';
+// import axios from 'axios';
 
 function NewRequestModal() {
   const [open, setOpen] = useState(false);
