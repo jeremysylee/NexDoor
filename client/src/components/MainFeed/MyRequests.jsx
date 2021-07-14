@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import MyRequest from './MyRequest';
 import {
   CardHeaders,
-} from './style';
+} from './MainFeedStyles';
 
 const Card = styled.div`
   max-width: 100%;

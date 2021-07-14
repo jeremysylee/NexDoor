@@ -12,7 +12,7 @@ import {
   Description,
   DetailsCol,
   Details,
-} from './style';
+} from './MainFeedStyles';
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();

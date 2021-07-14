@@ -10,7 +10,7 @@ import {
   Description,
   DetailsCol,
   Details,
-} from './style';
+} from './MainFeedStyles';
 
 const MyRequest = ({ request }) => {
   const placeholder = 'placeholder';

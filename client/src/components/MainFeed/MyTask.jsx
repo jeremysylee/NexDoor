@@ -10,7 +10,7 @@ import {
   Description,
   DetailsCol,
   Details,
-} from './style';
+} from './MainFeedStyles';
 
 const MyTask = ({ task }) => {
   const placeholder = 'placeholder';
