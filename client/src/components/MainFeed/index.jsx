@@ -1,30 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, useEffect } from 'react-redux';
+import { useSelector, useDispatch, } from 'react-redux';
 import axios from 'axios';
 
 import Task from './Task';
 
 const MainFeed = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const placeholder = 'placeholder';
 
-  const getTasks = () => {
-    axios.get('/api/tasks')
-      .then(({ data }) => {
-        console.log(data);
-        dispatch({
-          type: 'SET_TASKS',
-          tasks: data,
-        })
-          .catch((err) => console.error(err));
-      });
-  };
+  // const getTasks = () => {
+  //   axios.get('/api/tasks')
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //       dispatch({
+  //         type: 'SET_TASKS',
+  //         tasks: data,
+  //       })
+  //         .catch((err) => console.error(err));
+  //     });
+  // };
 
-  useEffect(() => {
-    getTasks();
-  }, []);
+  // useEffect(() => {
+  //   getTasks();
+  // }, []);
 
   return (
     <div>
