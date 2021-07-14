@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainFeed from './MainFeed';
 import SignUp from './SignUp';
 import Map from './Map';
+import LogIn from './LogIn';
 
 const App = () => (
   <div>
@@ -10,6 +11,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={MainFeed} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/login" component={LogIn} />
       </Switch>
     </BrowserRouter>
     <Map />
