@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
+import styled, { ThemeProvider } from 'styled-components';
 
 import {
   Card,
@@ -12,11 +13,56 @@ import {
   Details,
 } from './MainFeedStyles';
 
-const MyRequest = ({ request }) => {
-  const placeholder = 'placeholder';
+const StatusBadge = styled.div`
+  border-radius: 100px;
+  height: 20px;
+  width: 100px;
+  z-index: 1;
+  background-color: ${(props) => props.theme.statusColor};
+  position: absolute;
+  text-align: center;
+  padding: 1px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 400;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transform: scale(1) translate(15%, -135%);
+  transform-origin: 0% 0%;
+  box-sizing: border-box;
+`;
 
+StatusBadge.defaultProps = {
+  theme: {
+    statusColor: '#f50257',
+  },
+};
+
+const MyRequest = ({ request }) => {
+  // 0: unclaimed, 1: pending, 2: active;
+  const [status, setStatus] = useState(0);
+  const [color, setColor] = useState('#f50257');
+
+  const theme = {
+    statusColor: color,
+  };
+
+  const getColor = () => {
+    if (status === 'Pending') { setColor('#f50257'); }
+    if (status === 'Active') { setColor('#1A97DD'); }
+    if (status === 'Closed') { setColor('#F3960A'); }
+    if (status === 'Completed') { setColor('#666666'); }
+  };
+
+  useEffect(() => {
+    setStatus(request.status);
+    getColor();
+  });
+
+  if (request.status === 'open') {
+    return (<div>hello</div>);
+  }
   return (
-    <Card>
+    <Card style={{ overflow: 'visible' }}>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
           <Avatar src={request.user.profile_picture} alt="profilePHoto" />
@@ -26,7 +72,10 @@ const MyRequest = ({ request }) => {
           </CardContent>
         </Row>
         <DetailsCol>
-          <Details>{placeholder}</Details>
+          <ThemeProvider theme={theme}>
+            <StatusBadge>{status}</StatusBadge>
+          </ThemeProvider>
+          <Details>charmeleon</Details>
           <Details>charmander</Details>
         </DetailsCol>
       </Row>
@@ -47,6 +96,7 @@ MyRequest.propTypes = {
     date: PropTypes.string,
     time: PropTypes.string,
     car_required: PropTypes.bool,
+    status: PropTypes.oneOf(['Open', 'Pending', 'Active', 'Complete', 'Closed']),
   }).isRequired,
 };
 
