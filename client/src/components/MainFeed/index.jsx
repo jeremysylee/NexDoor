@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Tasks from './Tasks';
 import Sidebar from '../Sidebar';
 import SelectedTask from './SelectedTask';
+import MyRequests from './MyRequests';
 
 const MapPlaceholder = styled.div`
   width: 500px;
