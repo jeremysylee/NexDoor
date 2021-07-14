@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
@@ -55,6 +56,7 @@ const Details = styled.div`
 `;
 
 const Task = ({ task }) => {
+  const dispatch = useDispatch();
   const [day, setDay] = useState(0);
   const [time, setTime] = useState();
 
@@ -74,6 +76,12 @@ const Task = ({ task }) => {
     }
     setTime(DateTime.fromISO(task.time).toFormat('h:mm a'));
   };
+
+  // const selectTaskHandler = () => {
+  //   dispatch({
+
+  //   });
+  // };
 
   useEffect(() => {
     timeDifference();
