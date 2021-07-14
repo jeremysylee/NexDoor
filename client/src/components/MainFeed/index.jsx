@@ -1,21 +1,33 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-// import axios from 'axios';
+import { Grid } from '@material-ui/core';
+import styled from 'styled-components';
 
-import Task from './Task';
+import Tasks from './Tasks';
+import Sidebar from '../Sidebar';
 
-const MainFeed = () => {
-  const tasks = useSelector((store) => store.tasksReducer.tasks);
+const MapPlaceholder = styled.div`
+  width: 500px;
+  height: 500px;
+  margin: 1em;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px 0 #BDC9D7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-  const placeholder = 'placeholder';
-
-  return (
-    <div>
-      <h1>{placeholder}</h1>
-      {tasks.map((task) => (<Task task={task || {}} key={task.task_id} />))}
-    </div>
-  );
-};
+const MainFeed = () => (
+  <Grid
+    container
+    direction="row"
+    justifyContent="center"
+    alignItems="flex-start"
+    style={{ fontStyle: 'Roboto' }}
+  >
+    <Sidebar />
+    <Tasks />
+    <MapPlaceholder />
+  </Grid>
+);
 
 export default MainFeed;
