@@ -1,7 +1,14 @@
+/* eslint-disable max-len */
+/* eslint-disable indent */
 const db = require('../db/index');
 
 const controllers = {
-  // ******************************************************
+  // *************************************************************
+  // ADD A NEW USER
+  // *************************************************************
+    // Needs from Front End - street address, city, state, zipcode, neighborhood (optional), coordinate (from GoogleMaps API), first name, last name, password, email, imgUrl (optional)
+    // Returns - String confirmation
+  // *************************************************************
   /*
     POST /api/user
       req.body = {
@@ -10,8 +17,6 @@ const controllers = {
       "state": "CA",
       "zipcode": 87980,
       "neighborhood": "Pasadena",
-      "latitude": 34.5,
-      "longitude": -131.5
       "firstName": "George",
       "lastName": "Kentucky",
       "password": "431jkl",
@@ -27,8 +32,6 @@ const controllers = {
       state,
       zipcode,
       neighborhood,
-      latitude,
-      longitude,
       firstName,
       lastName,
       password,
@@ -36,6 +39,8 @@ const controllers = {
       imgUrl,
     } = req.body;
 
+    // NEED TO FIGURE OUT COORDINATE (HOW TO GET FROM GMAPS API, FRONT OR BACK)
+    // NEED TO FIGURE OUT ACCT_CREATED TIMESTAMP
     const queryStr = `
       WITH X AS (
         INSERT INTO nexdoor.address (
@@ -44,8 +49,6 @@ const controllers = {
           state,
           zipcode,
           neighborhood,
-          latitude,
-          longitude
         )
         VALUES (
           '${streetAddress}',
@@ -53,8 +56,6 @@ const controllers = {
           '${state}',
           ${zipcode},
           '${neighborhood}',
-          ${latitude},
-          ${longitude}
         )
         RETURNING address_id
       )
@@ -67,7 +68,8 @@ const controllers = {
         karma,
         task_count,
         avg_rating,
-        profile_picture_url
+        profile_picture_url,
+        acct_created_timestamp
       )
       SELECT
         '${firstName}',
@@ -78,7 +80,8 @@ const controllers = {
         0,
         0,
         null,
-        '${imgUrl}'
+        '${imgUrl}',
+        (SELECT CURRENT_TIMESTAMP)
       FROM X;
     `;
 
@@ -90,8 +93,14 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
-  // ******************************************************
-  // ADD TASK WITH NON-HOME ADDRESS
+  // *************************************************************
+
+  // *************************************************************
+  // ADD TASK WITH NEW ADDRESS (i.e not the user's home address)
+  // *************************************************************
+    // Needs from Front End - userId, street address, city, state, zipcode, coordinate (from GoogleMaps API), description, car required (optional), labor required (optional), category, start date, end date, start time, duration,
+    // Returns - String confirmation
+  // *************************************************************
   // POST api/task/new/${userId}
   /* req.body =
   {
@@ -100,8 +109,6 @@ const controllers = {
     "state": "CA",
     "zipcode": 12345,
     "neighborhood": "Hollywood",
-    "latitude": 34.5,
-    "longitude": -131.5,
     "description": "Hoping to borrow 2 lawnchairs",
     "carRequired": false,
     "laborRequired": false,
@@ -114,16 +121,15 @@ const controllers = {
   }
   res = 'Added task to db'
   */
+ // *************************************************************
   addTaskNewAddress: (req, res) => {
-    const { id } = req.params;
+    const { userId } = req.params;
     const {
       streetAddress,
       city,
       state,
       zipcode,
       neighborhood,
-      latitude,
-      longitude,
       description,
       carRequired,
       laborRequired,
@@ -135,6 +141,7 @@ const controllers = {
       duration,
     } = req.body;
 
+    // NEED TO FIGURE OUT COORDINATE (HOW TO GET FROM GMAPS API, FRONT OR BACK)
     const queryStr = `
       WITH X AS (
         INSERT INTO nexdoor.address (
@@ -143,8 +150,6 @@ const controllers = {
           state,
           zipcode,
           neighborhood,
-          latitude,
-          longitude
         )
         VALUES (
           '${streetAddress}',
@@ -152,8 +157,6 @@ const controllers = {
           '${state}',
           ${zipcode},
           '${neighborhood}',
-          ${latitude},
-          ${longitude}
         )
         RETURNING address_id
       )
@@ -172,7 +175,7 @@ const controllers = {
         duration
       )
       SELECT
-        ${id},
+        ${userId},
         address_id,
         '${description}',
         ${carRequired},
@@ -195,8 +198,13 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
-  // ******************************************************
+  // *************************************************************
+  // ADD A TASK AT A USER'S HOME ADDRESS
+  // *************************************************************
+
+  // *************************************************************
   /*
     POST api/task/home/${userId}
     req.body = {
@@ -212,6 +220,7 @@ const controllers = {
       }
       res = 'Added task to db'
   */
+ // *************************************************************
   addTaskHomeAddress: (req, res) => {
     const { id } = req.params;
 
@@ -268,8 +277,14 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
-  // ******************************************************
+  // *************************************************************
+  // ADD A MESSAGE
+  // *************************************************************
+    // Needs from Front End - taskId, userId, messageBody
+    // Returns - String confirmation
+  // *************************************************************
   /*
     POST /api/messages/5/3
     req.body = {
@@ -279,6 +294,7 @@ const controllers = {
     }
     res = 'Added message to db'
   */
+ // *************************************************************
   addMessage: (req, res) => {
     const { taskId, userId } = req.params;
     const { messageBody, date, time } = req.body;
@@ -305,8 +321,14 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
-  // ******************************************************
+  // *************************************************************
+  // ADD ANNOUNCEMENT
+  // *************************************************************
+    // Needs from Front End - UserId (optional), defaults to null
+    // Returns - String confirmation
+  // *************************************************************
   /*
     POST api/announce/${userId}
     req.body = {
@@ -316,8 +338,9 @@ const controllers = {
     }
     res = 'Added announcement to db'
   */
+ // *************************************************************
   addAnnouncement: (req, res) => {
-    const { userId } = req.params;
+    const { userId } = req.params || null;
 
     const {
       announcementBody,
@@ -348,8 +371,14 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
-  // ******************************************************
+  // *************************************************************
+  // GET USER INFO BY USERID
+  // *************************************************************
+    // Needs from Front End - userId
+    // Returns - user object for given ID
+  // *************************************************************
   /*
     GET /api/user/${userId}
     req.body = none;
@@ -369,8 +398,9 @@ const controllers = {
           "neighborhood": "Los Feliz"
       }
   */
+ // *************************************************************
   getUser: (req, res) => {
-    const { id } = req.params;
+    const { userId } = req.params;
 
     const queryStr = `
       SELECT
@@ -394,7 +424,7 @@ const controllers = {
           ) add
         ) as address
       FROM nexdoor.users
-      WHERE user_id=${id};
+      WHERE user_id=${userId};
     `;
 
     db.query(queryStr)
@@ -405,39 +435,37 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
-  // ******************************************************
+  // *************************************************************
+
+  // *************************************************************
+  // GET USERS BY RATING
+  // *************************************************************
+    // Needs from front end - max quantity of results, defaults to 10
+    // Returns - array of user objects, ordered by user's average rating
+  // *************************************************************
   /*
     GET /users/rating/${quantity}
     req.body = none
-    res = [
-      {
-          "user_id": 3,
-          "firstname": "andrew",
-          "lastname": "munoz",
-          "password": "testing123",
-          "email": "testing123@gmail.com",
-          "address_id": 1,
-          "karma": 0,
-          "task_count": 0,
-          "avg_rating": 5,
-          "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
-      },
-      {
-          "user_id": 4,
-          "firstname": "Spongebob",
-          "lastname": "Squarepants",
-          "password": "bikinibottom",
-          "email": "ss@gmail.com",
-          "address_id": 2,
-          "karma": 0,
-          "task_count": 0,
-          "avg_rating": 5,
-          "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
-      },
-    ]
+    res =
+      [
+        {
+            "user_id": 3,
+            "firstname": "andrew",
+            "lastname": "munoz",
+            "password": "testing123",
+            "email": "testing123@gmail.com",
+            "address_id": 1,
+            "karma": 0,
+            "task_count": 0,
+            "avg_rating": 5,
+            "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
+        },
+        .......
+      ]
   */
+ // *************************************************************
   getUsersByRating: (req, res) => {
-    const { quantity } = req.params;
+    const { quantity } = req.params || 25;
     const queryStr = `
       SELECT *
       FROM nexdoor.users
@@ -452,8 +480,14 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
-  // ******************************************************
+  // *************************************************************
+  // GET ALL TASKS (LIMIT 100)
+  // *************************************************************
+    // Needs from Front End - none
+    // Returns - array of task objects, ordered by start date and start time
+  // *************************************************************
   /*
     GET /api/tasks
     [
@@ -484,28 +518,35 @@ const controllers = {
       },
     ]
   */
+ // *************************************************************
   getTasks: (req, res) => {
     const queryStr = `
       SELECT
         task_id,
-        (SELECT ROW_TO_JSON(reqname)
-        FROM (
-          SELECT firstname, lastname
-          FROM nexdoor.users
-          WHERE nexdoor.users.user_id=nexdoor.tasks.requester_id
-        ) reqname ) AS requester_name,
-        (SELECT ROW_TO_JSON(helpname)
-        FROM (
-          SELECT firstname, lastname
-          FROM nexdoor.users
-          WHERE nexdoor.users.user_id=nexdoor.tasks.helper_id
-        ) helpname ) AS helper_name,
-        (SELECT ROW_TO_JSON(loc)
-        FROM (
-          SELECT street_address, city, state, zipcode, neighborhood
-          FROM nexdoor.address
-          WHERE address_id=nexdoor.tasks.location_id
-        ) loc ) AS location,
+        (
+          SELECT ROW_TO_JSON(reqname)
+          FROM (
+            SELECT firstname, lastname
+            FROM nexdoor.users
+            WHERE nexdoor.users.user_id=nexdoor.tasks.requester_id
+          ) reqname
+        ) AS requester_name,
+        (
+          SELECT ROW_TO_JSON(helpname)
+          FROM (
+            SELECT firstname, lastname
+            FROM nexdoor.users
+            WHERE nexdoor.users.user_id=nexdoor.tasks.helper_id
+          ) helpname
+        ) AS helper_name,
+        (
+          SELECT ROW_TO_JSON(loc)
+          FROM (
+            SELECT street_address, city, state, zipcode, neighborhood
+            FROM nexdoor.address
+            WHERE address_id=nexdoor.tasks.address_id
+          ) loc
+        ) AS location,
         description,
         car_required,
         physical_labor_required,
@@ -517,6 +558,9 @@ const controllers = {
         time_requested,
         duration
       FROM nexdoor.tasks
+      ORDER BY
+        start_date,
+        start_time
       LIMIT 100;
     `;
     db.query(queryStr)
@@ -527,8 +571,135 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
-  // ******************************************************
+  // *************************************************************
+  // GET TASKS IN RANGE
+  // *************************************************************
+    // Needs from Front End - UserId(int), Range(in miles)(int or float)
+    // Return - Array of task objects, each returned task object falls within
+    //   the given range in miles from the given userId's home address, array is sorted
+    //   by starting date and time
+  // *************************************************************
+  /*
+    GET /api/tasks/:userId/:range(in miles)
+    req.body = none
+    res =
+      [
+        {
+            "task_id": 13,
+            "requester_name": {
+                "firstname": "Jenny",
+                "lastname": "Cho"
+            },
+            "helper_name": null,
+            "address": {
+                "street_address": "8737 Ashcroft Ave",
+                "city": "West Hollywood",
+                "state": "CA",
+                "zipcode": 90048,
+                "neighborhood": "West Hollywood"
+            },
+            "coordinate": {
+                "x": -118.38298,
+                "y": 34.07903
+            },
+            "description": "In need of a house sitter for 2 to 3 months",
+            "car_required": null,
+            "physical_labor_required": null,
+            "status": "open",
+            "category": "sitting",
+            "start_date": "2021-04-21T07:00:00.000Z",
+            "start_time": "12:30:00",
+            "duration": 24,
+            "timestamp_requested": "2021-07-14T09:36:16.418Z"
+      },
+      .......
+    ]
+  */
+  // *************************************************************
+  getTasksInRange: (req, res) => {
+    const { userId, range } = req.params;
+
+    const queryStr = `
+      SELECT
+        task_id,
+        (
+          SELECT ROW_TO_JSON(reqname)
+          FROM (
+            SELECT firstname, lastname
+            FROM nexdoor.users
+            WHERE nexdoor.users.user_id=nexdoor.tasks.requester_id
+          ) reqname
+        ) AS requester_name,
+        (
+          SELECT ROW_TO_JSON(helpname)
+          FROM (
+            SELECT firstname, lastname
+            FROM nexdoor.users
+            WHERE nexdoor.users.user_id=nexdoor.tasks.helper_id
+          ) helpname
+        ) AS helper_name,
+        (
+          SELECT ROW_TO_JSON(loc)
+          FROM (
+            SELECT street_address, city, state, zipcode, neighborhood
+            FROM nexdoor.address
+            WHERE address_id=nexdoor.tasks.address_id
+          ) loc
+        ) AS address,
+        (
+          SELECT coordinate
+          FROM nexdoor.address
+          WHERE address_id=nexdoor.tasks.address_id
+        ) AS coordinate,
+        description,
+        car_required,
+        physical_labor_required,
+        status,
+        category,
+        start_date,
+        start_time,
+        duration,
+        timestamp_requested
+      FROM nexdoor.tasks
+      WHERE (
+        (
+          SELECT coordinate
+          FROM nexdoor.address
+          WHERE address_id=nexdoor.tasks.address_id
+        )
+        <@>
+        (
+          SELECT coordinate
+          FROM nexdoor.address
+          WHERE address_id=
+            (
+              SELECT address_id
+              FROM nexdoor.users
+              WHERE user_id=${userId}
+            )
+          ) < ${range}
+        )
+      ORDER BY
+        start_date,
+        start_time
+      LIMIT 100;
+    `;
+
+    db.query(queryStr)
+      .then((data) => {
+        res.status(200).send(data.rows);
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
+  },
+  // *************************************************************
+
+  // *************************************************************
+  // GET MESSAGES BY TASKID
+  // *************************************************************
   /*
     GET /api/messages/${taskId}
     req.body = none
@@ -549,6 +720,7 @@ const controllers = {
       },
     ]
   */
+ // *************************************************************
   getMessagesByTask: (req, res) => {
     const { taskId } = req.params;
     const queryStr = `
@@ -574,8 +746,11 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
-  // ******************************************************
+  // *************************************************************
+  // CHECK FOR EMAIL
+  // *************************************************************
   /*
     GET /api/email
     req.body = {
@@ -587,6 +762,7 @@ const controllers = {
     }
     res = false
   */
+ // *************************************************************
   checkForEmail: (req, res) => {
     const { email } = req.body;
     const queryStr = `
@@ -604,7 +780,11 @@ const controllers = {
         res.status(400).send(err.stack);
       });
   },
+  // *************************************************************
 
 };
 
 module.exports = controllers;
+
+// add task adder that checks for the address first
+// separate date with start and end date

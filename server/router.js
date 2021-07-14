@@ -2,14 +2,15 @@ const router = require('express').Router();
 const controllers = require('./controllers');
 
 router
-  .get('/user/:id', controllers.getUser)
+  .get('/user/:userId', controllers.getUser)
   .get('/email', controllers.checkForEmail)
   .get('/tasks', controllers.getTasks)
+  .get('/tasks/:userId/:range', controllers.getTasksInRange)
   .get('/messages/:taskId', controllers.getMessagesByTask)
   .get('/users/rating/:quantity', controllers.getUsersByRating)
   .post('/user', controllers.addUser)
-  .post('/task/new/:id', controllers.addTaskNewAddress)
-  .post('/task/home/:id', controllers.addTaskHomeAddress)
+  .post('/task/new/:userId', controllers.addTaskNewAddress)
+  .post('/task/home/:userId', controllers.addTaskHomeAddress)
   .post('/announce/:userId', controllers.addAnnouncement)
   .post('/messages/:taskId/:userId', controllers.addMessage);
 
