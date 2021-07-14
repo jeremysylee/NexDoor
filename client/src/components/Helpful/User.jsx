@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Avatar } from '@material-ui/core';
+import { Container, Avatar, Grid } from '@material-ui/core';
 import styled from 'styled-components';
 import StarIcon from '@material-ui/icons/Star';
 import { Button, Modal } from 'react-bootstrap';
@@ -7,13 +7,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Ratings from 'react-ratings-declarative';
 
 const Card = styled.div`
-width: 40%;
+width: 100%;
 padding: 2em;
 margin: 1em;
 border-radius: 5px;
 box-shadow: 0 8px 16px 0 #BDC9D7;
 overflow: hidden;
 display: inline-block;
+`;
+
+const CardContent = styled.div`
+  font-family: Roboto;
+  margin-left: 1em;
+  font-size: 14px;
+  font-weight: 400;
 `;
 
 const Name = styled.div`
@@ -31,25 +38,22 @@ const User = ({ user }) => {
   return (
     <Container>
       <Card onClick={handleShow}>
-        <Avatar src={profile_picture} />
-        <Name>
-          {firstname}
-          {lastname}
-        </Name>
-        <StarIcon style={{ fill: "red" }} />
-        {average_rating}
-        {/* <Ratings
-              rating={4}
-              widgetDimensions="16px"
-              widgetRatedColors="rgb(87, 87, 87)"
-              widgetSpacings="0px"
-            >
-              <Ratings.Widget />
-              <Ratings.Widget />
-              <Ratings.Widget />
-              <Ratings.Widget />
-              <Ratings.Widget />
-            </Ratings> */}
+        <Grid container direction="row" justifyContent="flex-start"
+          alignItems="center">
+          <div>
+            <Avatar src={profile_picture} />
+          </div>
+          <div>
+            <CardContent>
+              {firstname}
+              {lastname}
+              <div>
+                <StarIcon style={{ fill: "red" }} />
+                {average_rating}
+              </div>
+            </CardContent>
+          </div>
+        </Grid>
       </Card>
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>

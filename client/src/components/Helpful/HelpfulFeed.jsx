@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Grid } from '@material-ui/core';
+import styled from 'styled-components';
+import Header from '../Header';
+import Sidebar from '../Sidebar';
 // import axios from 'axios';
 import User from './User';
-import { StarIcon, DashboardIcon, PeopleIcon, ShoppingCartIcon, BarChartIcon, LayersIcon, AssignmentIcon, } from '@material-ui/icons';
-import { ListItem, ListItemIcon, ListItemText, ListSubheader, Container, Avatar, } from '@material-ui/core';
+
+const SideMenu = styled.div`
+ float: left;
+`;
 
 const HelpfulFeed = () => {
-  // const tasks = useSelector((store) => store.tasksReducer.tasks);
+  const tasks = useSelector((store) => store.tasksReducer.tasks);
 
 
 
@@ -15,8 +21,20 @@ const HelpfulFeed = () => {
 
   return (
     <div>
-      <h1>{placeholder}</h1>
-      {tasks.map((task) => (<User user={task.user} />))}
+      <Header />
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        style={{ fontStyle: 'Roboto' }}
+      >
+        <Sidebar />
+        <div>
+          <h1>{placeholder}</h1>
+          {tasks.map((task, index) => (<User user={task.user} key={index} />))}
+        </div>
+      </Grid>
     </div>
   );
 };
