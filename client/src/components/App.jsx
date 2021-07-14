@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainFeed from './MainFeed';
 import SignUp from './SignUp';
+import HelpfulFeed from './HelpFul/HelpfulFeed';
 import LogIn from './LogIn';
 
 const App = () => (
@@ -10,6 +11,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={MainFeed} />
         <Route path="/signup" component={SignUp} />
+        <Route path="/helpfulfeed" component={HelpfulFeed} />
         <Route path="/login" component={LogIn} />
       </Switch>
     </BrowserRouter>

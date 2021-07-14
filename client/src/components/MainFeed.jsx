@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import NewRequestModal from './NewRequestModal';
 import Feed from './MainFeed/index';
 import Header from './Header';
-// import axios from 'axios';
 
 const MainFeed = () => (
   <div>
     <Header />
+    <NewRequestModal />
     <Feed />
   </div>
 );
