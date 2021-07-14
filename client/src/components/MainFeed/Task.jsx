@@ -2,58 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
-import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
 
-const Card = styled.div`
-  max-width: 100%;
-  margin-top: 1em;
-  padding: 1em;
-  border-radius: 10px;
-  background-color: #FFFFFF;
-  overflow: hidden;
-  flex: 1;
-`;
-
-const Row = styled.div`
-  margin-top: 2px;
-  display: flex;
-  direction: row;
-`;
-
-const CardContent = styled.div`
-  font-family: Roboto;
-  margin-left: 1em;
-`;
-
-const Username = styled.div`
-  font-weight: 400;
-  font-size: 14px;
-`;
-
-const Description = styled.div`
-  font-size: 14px;
-  font-weight: lighter;
-  margin-top: 2px;
-  wrap: wrap;
-  color: grey;
-  max-width: 90%;
-`;
-
-const DetailsCol = styled.div`
-  font-family: Roboto;
-  margin-right: 1.5em;
-  text-align: right;
-  color: grey;
-  flex-wrap: nowrap;
-`;
-
-const Details = styled.div`
-  font-size: 14px;
-  font-weight: lighter;
-  color: grey;
-  width: 140%;
-`;
+import {
+  Card,
+  Row,
+  CardContent,
+  Username,
+  Description,
+  DetailsCol,
+  Details,
+} from './style';
 
 const Task = ({ task }) => {
   const dispatch = useDispatch();

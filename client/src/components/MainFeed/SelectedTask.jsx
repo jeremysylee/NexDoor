@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 
 const SelectedTaskContainer = styled.div`
   width: 500px;
-  height: 500px;
+  height: 600px;
   background-color: #FBFBFB;
   margin-top: 2em;
   margin-left: 1em;
@@ -134,7 +134,7 @@ const SelectedTask = () => {
           </Col>
         </DetailsContainer>
       </Row>
-      <button>Next</button>
+      {/* <button>Next</button> */}
     </SelectedTaskContainer>
   );
 };

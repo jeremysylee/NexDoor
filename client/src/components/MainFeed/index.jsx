@@ -1,25 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch, } from 'react-redux';
-import axios from 'axios';
 import { Grid } from '@material-ui/core';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
 import Tasks from './Tasks';
 import Sidebar from '../Sidebar';
 import SelectedTask from './SelectedTask';
-import MyRequests from './MyRequests';
 
-const MapPlaceholder = styled.div`
-  width: 500px;
-  height: 500px;
-  margin: 1em;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px 0 #BDC9D7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const MapPlaceholder = styled.div`
+//   width: 500px;
+//   height: 500px;
+//   margin: 1em;
+//   border-radius: 20px;
+//   box-shadow: 0 8px 16px 0 #BDC9D7;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 const MainFeed = () => (
   <Grid

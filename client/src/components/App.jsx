@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainFeed from './MainFeed';
 import SignUp from './SignUp';
-import HelpfulFeed from './HelpFul/HelpfulFeed';
+import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
 
 const App = () => (
@@ -19,10 +19,3 @@ const App = () => (
 );
 
 export default App;
-// import React from 'react';
-
-// const test = () => (
-//   <h1>Hello</h1>
-// );
-
-// export default test;

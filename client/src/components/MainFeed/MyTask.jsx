@@ -12,17 +12,16 @@ import {
   Details,
 } from './style';
 
-const MyRequest = ({ request }) => {
+const MyTask = ({ task }) => {
   const placeholder = 'placeholder';
-
   return (
     <Card>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
-          <Avatar src={request.user.profile_picture} alt="profilePHoto" />
+          <Avatar src={task.user.profile_picture} alt="profilePHoto" />
           <CardContent>
-            <Username>{`${request.user.firstname} ${request.user.lastname}`}</Username>
-            <Description>{`${request.description.substring(0, 60)}...`}</Description>
+            <Username>{`${task.user.firstname} ${task.user.lastname}`}</Username>
+            <Description>{`${task.description.substring(0, 60)}...`}</Description>
           </CardContent>
         </Row>
         <DetailsCol>
@@ -34,8 +33,8 @@ const MyRequest = ({ request }) => {
   );
 };
 
-MyRequest.propTypes = {
-  request: PropTypes.shape({
+MyTask.propTypes = {
+  task: PropTypes.shape({
     user: PropTypes.shape({
       firstname: PropTypes.string.isRequired,
       lastname: PropTypes.string.isRequired,
@@ -50,4 +49,4 @@ MyRequest.propTypes = {
   }).isRequired,
 };
 
-export default MyRequest;
+export default MyTask;

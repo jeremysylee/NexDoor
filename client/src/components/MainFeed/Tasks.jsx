@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Task from './Task';
 import MyRequests from './MyRequests';
+import MyTasks from './MyTasks';
 
 const Card = styled.div`
   max-width: 100%;
@@ -20,6 +21,7 @@ const Tasks = () => {
   return (
     <div style={{ margin: '1em', maxWidth: '33%' }}>
       <MyRequests />
+      <MyTasks />
       <Card>
         <div style={{
           fontFamily: 'Roboto',

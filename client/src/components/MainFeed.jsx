@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import React from 'react';
 import NewRequestModal from './NewRequestModal';
 import Feed from './MainFeed/index';
 import Header from './Header';
 
 const MainFeed = () => (
-  <div>
+  <div style={{ backgroundColor: '#f1f2f5' }}>
     <Header />
     <NewRequestModal />
     <Feed />

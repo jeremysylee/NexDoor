@@ -36,9 +36,10 @@ export const Description = styled.div`
   font-size: 14px;
   font-weight: lighter;
   margin-top: 2px;
+  padding-right: 1em;
   wrap: wrap;
   color: grey;
-  max-width: 90%;
+  max-width: auto;
 `;
 
 export const DetailsCol = styled.div`
