@@ -5,8 +5,8 @@ import axios from 'axios';
 const Map = () => {
   const [addresses, setAddresses] = useState(['6616 Cleon Ave North Hollywood CA']);
   const [coordinates, setCoordinates] = useState([]);
-
   const coordinateContainer = [];
+  const url = 'localhost:3500';
 
   const mapStyles = {
     height: '50vh',
@@ -27,7 +27,7 @@ const Map = () => {
     return result;
   };
 
-  let iterateAddressesAsync = async () => {
+  const iterateAddressesAsync = async () => {
     for (let address of addresses) {
       let coordinate = await getCoordinates(address);
       coordinateContainer.push(coordinate);
@@ -35,7 +35,15 @@ const Map = () => {
     }
   };
 
+  const getAddresses = () => {
+    axios.get(url + '/api/tasks')
+      .then(res => {
+        console.log(res);
+      });
+  };
+
   useEffect(() => {
+    getAddresses();
     iterateAddressesAsync()
       .then(() => {
         setCoordinates(coordinateContainer);

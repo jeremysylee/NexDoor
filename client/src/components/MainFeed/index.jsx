@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+// import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch, } from 'react-redux';
+import axios from 'axios';
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
@@ -16,18 +19,40 @@ const MapPlaceholder = styled.div`
   align-items: center;
 `;
 
-const MainFeed = () => (
-  <Grid
-    container
-    direction="row"
-    justifyContent="center"
-    alignItems="flex-start"
-    style={{ fontStyle: 'Roboto' }}
-  >
-    <Sidebar />
-    <Tasks />
-    <MapPlaceholder />
-  </Grid>
-);
+const MainFeed = () => {
+  const tasks = useSelector((store) => store.tasksReducer.tasks);
+  // const dispatch = useDispatch();
+  const placeholder = 'placeholder';
+
+  // const getTasks = () => {
+  //   axios.get('/api/tasks')
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //       dispatch({
+  //         type: 'SET_TASKS',
+  //         tasks: data,
+  //       })
+  //         .catch((err) => console.error(err));
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getTasks();
+  // }, []);
+
+  return (
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="flex-start"
+      style={{ fontStyle: 'Roboto' }}
+    >
+      <Sidebar />
+      <Tasks />
+      <MapPlaceholder />
+    </Grid>
+  );
+};
 
 export default MainFeed;
