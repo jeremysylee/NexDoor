@@ -24,11 +24,8 @@
     "@reduxjs/toolkit": "^1.6.0",
     "@types/react": "^17.0.14",
     "axios": "^0.21.1",
-<<<<<<< HEAD
     "connect-pg-simple": "^6.2.1",
-=======
     "bootstrap": "^5.0.2",
->>>>>>> e9c54df2d634214c8010868df6244d33a4fd1a24
     "cors": "^2.8.5",
     "css-loader": "^5.2.6",
     "dotenv": "^10.0.0",
