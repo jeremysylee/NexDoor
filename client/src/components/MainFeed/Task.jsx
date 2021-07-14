@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
@@ -77,18 +77,18 @@ const Task = ({ task }) => {
     setTime(DateTime.fromISO(task.time).toFormat('h:mm a'));
   };
 
-  // const selectTaskHandler = () => {
-  //   dispatch({
-
-  //   });
-  // };
+  const selectTaskHandler = () => {
+    dispatch({
+      type: 'SET_TASK', task,
+    });
+  };
 
   useEffect(() => {
     timeDifference();
   });
 
   return (
-    <Card>
+    <Card onClick={selectTaskHandler}>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
           <Avatar src={task.user.profile_picture} alt="profilePhoto" />
@@ -113,6 +113,7 @@ Task.propTypes = {
       lastname: PropTypes.string.isRequired,
       profile_picture: PropTypes.string.isRequired,
     }),
+    task_id: PropTypes.number,
     description: PropTypes.string.isRequired,
     duration: PropTypes.string,
     date: PropTypes.string,

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Tasks from './Tasks';
 import Sidebar from '../Sidebar';
+import SelectedTask from './SelectedTask';
 
 const MapPlaceholder = styled.div`
   width: 500px;
@@ -26,7 +27,8 @@ const MainFeed = () => (
   >
     <Sidebar />
     <Tasks />
-    <MapPlaceholder />
+    <SelectedTask />
+    {/* <MapPlaceholder /> */}
   </Grid>
 );
 
