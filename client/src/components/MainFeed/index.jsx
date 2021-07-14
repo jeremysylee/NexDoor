@@ -4,8 +4,8 @@ import { Grid } from '@material-ui/core';
 // import styled from 'styled-components';
 
 import Tasks from './Tasks';
-import Sidebar from '../Sidebar';
-import SelectedTask from './SelectedTask';
+import MyRequests from './MyRequests';
+import MyTasks from './MyTasks';
 
 // const MapPlaceholder = styled.div`
 //   width: 500px;
@@ -19,18 +19,11 @@ import SelectedTask from './SelectedTask';
 // `;
 
 const MainFeed = () => (
-  <Grid
-    container
-    direction="row"
-    justifyContent="center"
-    alignItems="flex-start"
-    style={{ fontStyle: 'Roboto' }}
-  >
-    <Sidebar />
+  <div style={{ margin: '1em', maxWidth: '33%' }}>
+    <MyRequests />
+    <MyTasks />
     <Tasks />
-    <SelectedTask />
-    {/* <MapPlaceholder /> */}
-  </Grid>
+  </div>
 );
 
 export default MainFeed;
