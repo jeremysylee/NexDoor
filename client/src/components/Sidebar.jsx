@@ -65,7 +65,7 @@ const Sidebar = () => {
         <ListItemText primary="Active Tasks" />
       </ListItem>
       <ListItem button onClick={handleHelpfulFeed}>
-        <ListItemText primary="NexDoors Most Helpful" />
+        <ListItemText primary="NexDoor's Most Helpful" />
       </ListItem>
     </SidebarContainer>
   );

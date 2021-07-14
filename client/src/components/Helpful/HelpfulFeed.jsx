@@ -17,7 +17,7 @@ const HelpfulFeed = () => {
 
 
 
-  const placeholder = 'NexDoors Most Helpful';
+  const placeholder = "NexDoor's Most Helpful";
 
   return (
     <div>
