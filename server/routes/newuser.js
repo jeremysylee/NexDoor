@@ -2,7 +2,7 @@ const express = require('express');
 
 const newuser = express.Router();
 const { check, validationResult } = require('express-validator');
-const db = require('../controllers');
+const db = require('../controllers/userCtrl');
 
 newuser.post('/',
   [

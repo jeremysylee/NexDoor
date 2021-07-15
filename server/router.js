@@ -1,18 +1,53 @@
+/* eslint-disable indent */
 const router = require('express').Router();
-const controllers = require('./controllers');
+const announceCtrl = require('./controllers/announceCtrl');
+const messageCtrl = require('./controllers/messageCtrl');
+const taskCtrl = require('./controllers/taskCtrl');
+const userCtrl = require('./controllers/userCtrl');
+
+// GET TASK BY TASK ID - May be solveable on front
+// look into S3 for photo storage
 
 router
-  .get('/user/:userId', controllers.getUser)
-  .get('/email', controllers.checkForEmail)
-  .get('/tasks', controllers.getTasks)
-  .get('/tasks/:userId/:range', controllers.getTasksInRange)
-  .get('/messages/:taskId', controllers.getMessagesByTask)
-  .get('/users/rating/:quantity', controllers.getUsersByRating)
-  .post('/user', controllers.addUser)
-  .post('/task/new/:userId', controllers.addTaskNewAddress)
-  .post('/task/home/:userId', controllers.addTaskHomeAddress)
-  .post('/announce/:userId', controllers.addAnnouncement)
-  .post('/messages/:taskId/:userId', controllers.addMessage);
+  // ANNOUNCEMENTS---------------------------------------------------
+    // GET
+    .get('/announce/:quantity', announceCtrl.getAnnouncements)
+    // ADD / UPDATE
+    .post('/announce/:userId', announceCtrl.addAnnouncement)
+  // MESSAGES--------------------------------------------------------
+    // GET
+    .get('/messages/:taskId', messageCtrl.getMessagesByTask)
+    // ADD / UPDATE
+    .post('/messages/:taskId/:userId', messageCtrl.addMessage)
+  // TASKS-----------------------------------------------------------
+    // GET
+    // .get('/taskobj', taskCtrl.getOneTask)
+    // .get('/tasks/user/:userId', taskCtrl, getTasksByUser)
+    .get('/tasks/:quantity', taskCtrl.getTasks)
+    .get('/tasks/req/:userId', taskCtrl.getReqTasksByUser)
+    .get('/tasks/help/:userId', taskCtrl.getHelpTasksByUser)
+    .get('/tasks/:userId/:range', taskCtrl.getTasksInRange)
+    // ADD / UPDATE
+    .put('/task/help/:taskId/:userId', taskCtrl.updateHelper)
+    .put('/task/rmhelp/:taskId', taskCtrl.removeHelper)
+    .put('/task/change/:status/:taskId', taskCtrl.changeTaskStatus)
+    // .put('/task/conf/:taskId', taskCtrl.confirmTask)
+    .post('/task/check/:userId', taskCtrl.addTaskCheckAddress)
+    .post('/task/new/:userId', taskCtrl.addTaskNewAddress)
+    .post('/task/home/:userId', taskCtrl.addTaskHomeAddress)
+    // .put('/task/:taskId', taskCtrl.updateTask)
+    // .delete('/task/:taskId', taskCtrl.deleteTask)
+  // USERS----------------------------------------------------------
+    // GET
+    .get('/user/:userId', userCtrl.getUser)
+    .get('/users/rating/:quantity', userCtrl.getUsersByRating)
+    // ADD / UPDATE
+    .post('/user', userCtrl.addUser)
+    // .put('/user/:userId', userCtrl.updateUser)
+    // .delete('/user/:userId', userCtrl.deleteUser)
+  // LOGIN ----------------------------------------------------------
+    .get('/credentials/:userId', userCtrl.getUserCredentials)
+    .get('/email', userCtrl.checkForEmail);
 
 // import individual routes
 const login = require('./routes/login');
