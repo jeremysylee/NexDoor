@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Message from './Message';
 import axios from 'axios';
 
-const Chat = () => {
-  //input -> two user id's
-  //get existing chat messages from database
-  //display existing chat messages
+const Chat = (taskId) => {
+  // input -> two user id's
+  // get existing chat messages from database
+  // display existing chat messages
   //
-
+  let userId; // from react-redux
+  const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
   const [messages, setMessages] = useState([
     {
@@ -23,7 +24,7 @@ const Chat = () => {
       "message_body": "i have no idea where i am",
       "date": "2021-04-13T07:00:00.000Z",
       "time": "06:21:00"
-    }
+    },
   ]);
   const [currentUser, setCurrentUser] = useState('Spongebob Squarepants');
 
@@ -32,20 +33,34 @@ const Chat = () => {
   };
 
   const handleSend = () => {
-    //send Message to database
-    //add message to messages and display render on screen(setstate)
+    // send Message to database
+    // add message to messages and display render on screen(setstate)
+    const d = new Date();
+    console.log(d.toISOString());
     const message = {
-
+      firstname: 'Spongebob',
+      lastname: 'Squarepants',
+      message_body: 'hello sir',
+      date: '',
+      time: '',
     };
+
+    setMessages((prev) => [...prev, message]); // ???
+
+    // axios.post(`${url}/${taskId}/${userId}`)
+    //   .catch((err) => {
+    //     throw (err);
+    //   });
+
+    // add message to
   };
-
-
 
   return (
     <div>
       <div>
         {messages.map((message, idx) => {
           const user = `${message.firstname} ${message.lastname}`;
+          // console.log(messages);
           let isUser;
           if (user === currentUser) {
             isUser = true;
@@ -63,5 +78,5 @@ const Chat = () => {
 
 export default Chat;
 
-//are messages already in order??
-//using user_id rather than name would be preferable
+// are messages already in order??
+// using user_id rather than name would be preferable

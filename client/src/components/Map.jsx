@@ -6,7 +6,7 @@ const Map = () => {
   const [addresses, setAddresses] = useState(['6616 Cleon Ave North Hollywood CA']);
   const [coordinates, setCoordinates] = useState([]);
   const coordinateContainer = [];
-  const url = 'localhost:3500';
+  const url = 'http://localhost:3500';
 
   const mapStyles = {
     height: '50vh',
