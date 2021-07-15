@@ -2,7 +2,7 @@ import testData from '../../../../testData/testData';
 
 const initialState = { task: testData.testTasks[0] };
 
-const selectTaskReducer = (state = initialState, action) => {
+const selectedTaskReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SET_TASK':
       return { task: action.task };
@@ -11,4 +11,4 @@ const selectTaskReducer = (state = initialState, action) => {
   }
 };
 
-export default selectTaskReducer;
+export default selectedTaskReducer;

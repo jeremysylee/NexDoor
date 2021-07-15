@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import styled, { ThemeProvider } from 'styled-components';
@@ -38,6 +39,8 @@ StatusBadge.defaultProps = {
 };
 
 const MyRequest = ({ request }) => {
+  const dispatch = useDispatch();
+
   // 0: unclaimed, 1: pending, 2: active;
   const [status, setStatus] = useState(0);
   const [color, setColor] = useState('#f50257');
@@ -58,11 +61,17 @@ const MyRequest = ({ request }) => {
     getColor();
   });
 
+  const selectTaskHandler = () => {
+    dispatch({
+      type: 'SET_TASK', task: request,
+    });
+  };
+
   if (request.status === 'open') {
     return (<div>hello</div>);
   }
   return (
-    <Card style={{ overflow: 'visible' }}>
+    <Card onClick={selectTaskHandler}>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
           <Avatar src={request.user.profile_picture} alt="profilePHoto" />

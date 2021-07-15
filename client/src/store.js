@@ -8,18 +8,20 @@ import {
 import thunk from 'redux-thunk';
 
 import tasksReducer from './components/MainFeed/reducers/tasksReducer';
-import selectTaskReducer from './components/MainFeed/reducers/selectTaskReducer';
+import selectedTaskReducer from './components/SelectedTask/reducers/selectedTaskReducer';
 import requestsReducer from './components/MainFeed/reducers/requestsReducer';
 import myTasksReducer from './components/MainFeed/reducers/myTasksReducer';
+import taskDataFormattedReducer from './components/SelectedTask/reducers/taskDataFormattedReducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   combineReducers({
     tasksReducer,
-    selectTaskReducer,
+    selectedTaskReducer,
     requestsReducer,
     myTasksReducer,
+    taskDataFormattedReducer,
   }),
   composeEnhancers(
     applyMiddleware(thunk),

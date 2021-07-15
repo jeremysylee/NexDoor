@@ -11,6 +11,7 @@ const Card = styled.div`
   overflow: hidden;
   flex: 1;
   padding: 1em;
+  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
 `;
 
 const Tasks = () => {
