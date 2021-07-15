@@ -26,15 +26,28 @@ const OpenRequest = () => {
   //   zipcode,
   // } = task.address;
 
+  // function to get user from task.helper_id
+  // Temp data below
+  const helper = {
+    id: 1,
+    firstname: 'Huge',
+    lastname: 'Jackedman',
+    address_id: 1,
+    karma: 5,
+    response_count: 24,
+    average_rating: 4.7,
+    profile_picture: 'https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg',
+  };
+
   return (
     <SelectedTaskContainer>
       <AvatarLg
-        src={task.user.profile_picture}
-        alt={task.user.firstname}
+        src={helper.profile_picture}
+        alt={helper.firstname}
       />
-      <Username>{`${task.user.firstname} ${task.user.lastname}`}</Username>
+      <Username>{`${helper.firstname} ${helper.lastname}`}</Username>
       <UserInfo>
-        <span>{`★ ${task.user.average_rating}`}</span>
+        <span>{`★ ${helper.average_rating}`}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>

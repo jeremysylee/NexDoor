@@ -44,7 +44,7 @@ const User = ({ user }) => {
             <Avatar src={profile_picture} />
           </div>
           <div>
-            <CardContent>asdfasdfasdfa
+            <CardContent>
               {firstname}
               {lastname}
               <div>

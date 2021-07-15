@@ -8,7 +8,7 @@ import ClaimedRequest from './ClaimedRequest';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
-  height: 600px;
+  height: 650px;
   background-color: #FBFBFB;
   margin-top: 2em;
   margin-left: 1em;
@@ -19,6 +19,7 @@ const SelectedTaskFrame = styled.div`
 const SelectedTask = () => {
   const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
+  const currentUserId = useSelector((store) => store.currentUserReducer.userId);
 
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
@@ -37,11 +38,26 @@ const SelectedTask = () => {
     });
   });
 
+  if (task.status === 'Open' && task.requester_id === currentUserId) {
+    return (
+      <SelectedTaskFrame>
+        <PendingRequest />
+      </SelectedTaskFrame>
+
+    );
+  }
+
+  if (task.status === 'Pending') {
+    return (
+      <SelectedTaskFrame>
+        <ClaimedRequest />
+      </SelectedTaskFrame>
+    );
+  }
+
   return (
     <SelectedTaskFrame>
-      {/* <OpenRequest /> */}
-      {/* <PendingRequest /> */}
-      <ClaimedRequest />
+      <OpenRequest />
     </SelectedTaskFrame>
   );
 };

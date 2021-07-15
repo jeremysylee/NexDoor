@@ -59,6 +59,7 @@ export const Row = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 80%;
+  margin-top: 1em;
 `;
 
 export const Col = styled.div`

@@ -11,6 +11,8 @@ import {
   HeadingSmall,
   Row,
   Col,
+  Button,
+  ButtonDecline,
 } from './styles-SelectedTask';
 
 const OpenRequest = () => {
@@ -56,6 +58,10 @@ const OpenRequest = () => {
             <span>{`${time}`}</span>
           </Col>
         </DetailsContainer>
+      </Row>
+      <Row>
+        <ButtonDecline>Decline</ButtonDecline>
+        <Button>Approve</Button>
       </Row>
       {/* <button>Next</button> */}
     </SelectedTaskContainer>

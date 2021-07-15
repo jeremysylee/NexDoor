@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 
@@ -10,10 +10,17 @@ import {
   Description,
   DetailsCol,
   Details,
-} from './MainFeedStyles';
+} from './styles-MainFeed';
 
-const MyTask = ({ task }) => {
-  const placeholder = 'placeholder';
+const MyTask = ({ task, formatDate }) => {
+  const [day, setDay] = useState(0);
+  const [time, setTime] = useState();
+
+  useEffect(() => {
+    setDay(formatDate(task.date, task.time).date);
+    setTime(formatDate(task.date, task.time).time);
+  });
+
   return (
     <Card>
       <Row style={{ justifyContent: 'space-between' }}>
@@ -25,8 +32,8 @@ const MyTask = ({ task }) => {
           </CardContent>
         </Row>
         <DetailsCol>
-          <Details>{placeholder}</Details>
-          <Details>charmander</Details>
+          <Details>{day}</Details>
+          <Details>{time}</Details>
         </DetailsCol>
       </Row>
     </Card>
@@ -47,6 +54,7 @@ MyTask.propTypes = {
     time: PropTypes.string,
     car_required: PropTypes.bool,
   }).isRequired,
+  formatDate: PropTypes.func.isRequired,
 };
 
 export default MyTask;

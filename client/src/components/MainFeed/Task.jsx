@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { DateTime } from 'luxon';
 import { Avatar } from '@material-ui/core';
 
 import {
@@ -12,29 +11,12 @@ import {
   Description,
   DetailsCol,
   Details,
-} from './MainFeedStyles';
+} from './styles-MainFeed';
 
-const Task = ({ task }) => {
+const Task = ({ task, formatDate }) => {
   const dispatch = useDispatch();
   const [day, setDay] = useState(0);
   const [time, setTime] = useState();
-
-  const timeDifference = () => {
-    const endDate = DateTime.fromISO(task.date);
-    const start = DateTime.local();
-    const diff = endDate.diff(start, ['months', 'days']);
-
-    if (diff.values.days <= 1) {
-      setDay('Today');
-    } else if (diff.values.days === 2) {
-      setDay('Tomorow');
-    } else if (diff.values.days < 8) {
-      setDay(endDate.toFormat('cccc'));
-    } else {
-      setDay(endDate.toFormat('LLL dd'));
-    }
-    setTime(DateTime.fromISO(task.time).toFormat('h:mm a'));
-  };
 
   const selectTaskHandler = () => {
     dispatch({
@@ -43,7 +25,8 @@ const Task = ({ task }) => {
   };
 
   useEffect(() => {
-    timeDifference();
+    setDay(formatDate(task.date, task.time).date);
+    setTime(formatDate(task.date, task.time).time);
   });
 
   return (
@@ -79,6 +62,7 @@ Task.propTypes = {
     time: PropTypes.string,
     car_required: PropTypes.bool,
   }).isRequired,
+  formatDate: PropTypes.func.isRequired,
 };
 
 export default Task;

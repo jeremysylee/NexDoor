@@ -12,7 +12,7 @@ export default {
       },
       description: 'I need someone to come check on my dogs once a day for the next three days. They are very friendly. Two small poodles, hypoallergenic, about 20 pounds each. Just need somone to make sure their water bowls are filled. Thank you guys!',
       car_required: true,
-      status: 'Pending',
+      status: 'Open',
       category: 'sitter',
       date: '2021-07-13',
       time: '22:30:13',
@@ -41,7 +41,7 @@ export default {
       },
       description: 'I just have a few questions. Would love a second of your time',
       car_required: false,
-      status: 'Pending',
+      status: 'Open',
       category: 'sitter',
       date: '2021-07-14',
       time: '12:30:13',
@@ -176,7 +176,7 @@ export default {
     },
     {
       task_id: 7,
-      requester_id: 4,
+      requester_id: 2,
       helper_id: null,
       address: {
         streetAddress: '727 N Broadway',
@@ -205,7 +205,7 @@ export default {
     },
     {
       task_id: 8,
-      requester_id: 3,
+      requester_id: 2,
       helper_id: null,
       address: {
         streetAddress: '727 N Broadway',
@@ -232,7 +232,70 @@ export default {
         profile_picture: 'https://api.time.com/wp-content/uploads/2015/07/nicolas-cage1.jpg',
       },
     },
+    {
+      task_id: 9,
+      requester_id: 2,
+      helper_id: null,
+      address: {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+      },
+      description: 'I need some forks for a dinner party',
+      car_required: false,
+      status: 'Open',
+      category: 'sitter',
+      date: '2021-07-18',
+      time: '01:45:13',
+      date_requested: '2021-07-15',
+      duration: 'Short: < 1 hour',
+      user: {
+        id: 2,
+        firstname: 'Sandra',
+        lastname: 'Bollox',
+        address_id: 2,
+        karma: 5,
+        response_count: 24,
+        average_rating: 4.7,
+        profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
+      },
+    },
+    {
+      task_id: 10,
+      requester_id: 2,
+      helper_id: null,
+      address: {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+      },
+      description: 'Can someone walk my dog tomorrow?',
+      car_required: false,
+      status: 'Pending',
+      category: 'sitter',
+      date: '2021-07-18',
+      time: '01:45:13',
+      date_requested: '2021-07-15',
+      duration: 'Short: < 1 hour',
+      user: {
+        id: 2,
+        firstname: 'Sandra',
+        lastname: 'Bollox',
+        address_id: 2,
+        karma: 5,
+        response_count: 24,
+        average_rating: 4.7,
+        profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
+      },
+    },
   ],
+
+
+
+
+
 
   testUsers: [
     {
