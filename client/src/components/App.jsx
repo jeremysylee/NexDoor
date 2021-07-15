@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainFeed from './MainFeed';
 import SignUp from './SignUp';
 import Map from './Map';
+import Chat from './Chat/Chat';
 import HelpfulFeed from './HelpFul/HelpfulFeed';
 import LogIn from './LogIn';
 
@@ -16,6 +17,7 @@ const App = () => (
         <Route path="/login" component={LogIn} />
       </Switch>
     </BrowserRouter>
+    <Chat />
     <Map />
   </div>
 );
