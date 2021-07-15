@@ -12,6 +12,10 @@ const SideMenu = styled.div`
  float: left;
 `;
 
+// const MostHelpful = styled.div`
+// margin-left: 3em;
+// `;
+
 const HelpfulFeed = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
 
@@ -25,15 +29,18 @@ const HelpfulFeed = () => {
       <Grid
         container
         direction="row"
-        justifyContent="flex-start"
-        alignItems="flex-start"
+        spacing={5}
         style={{ fontStyle: 'Roboto' }}
       >
-        <Sidebar />
-        <div>
+        <Grid item xs={3} >
+          <Sidebar />
+        </Grid>
+        <Grid
+          item xs={5}
+        >
           <h1>{placeholder}</h1>
           {tasks.map((task, index) => (<User user={task.user} key={index} />))}
-        </div>
+        </Grid>
       </Grid>
     </div>
   );

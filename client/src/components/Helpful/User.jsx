@@ -7,13 +7,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Ratings from 'react-ratings-declarative';
 
 const Card = styled.div`
-width: 100%;
-padding: 2em;
-margin: 1em;
-border-radius: 5px;
-box-shadow: 0 8px 16px 0 #BDC9D7;
+max-width: 100%;
+margin-top: 1em;
+padding: 1em;
+border-radius: 10px;
+background-color: #FFFFFF;
 overflow: hidden;
-display: inline-block;
+flex: 1;
 `;
 
 const CardContent = styled.div`
