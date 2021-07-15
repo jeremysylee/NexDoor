@@ -23,10 +23,11 @@ router
     // GET
     // .get('/taskobj', taskCtrl.getOneTask)
     // .get('/tasks/user/:userId', taskCtrl, getTasksByUser)
-    .get('/tasks/:quantity', taskCtrl.getTasks)
+    .get('/tasks/all/:quantity', taskCtrl.getTasks)
     .get('/tasks/req/:userId', taskCtrl.getReqTasksByUser)
     .get('/tasks/help/:userId', taskCtrl.getHelpTasksByUser)
-    .get('/tasks/:userId/:range', taskCtrl.getTasksInRange)
+    .get('/tasks/range/:userId/:range', taskCtrl.getTasksInRange)
+    .get('/tasks/alt/:range', taskCtrl.getTasksInRangeAltAddress)
     // ADD / UPDATE
     .put('/task/help/:taskId/:userId', taskCtrl.updateHelper)
     .put('/task/rmhelp/:taskId', taskCtrl.removeHelper)

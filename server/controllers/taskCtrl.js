@@ -680,6 +680,179 @@ const taskControllers = {
   // *************************************************************
 
   // *************************************************************
+  // GET TASKS IN RANGE FOR INPUT ADDRESS
+  // *************************************************************
+  // Needs from Front End - userId, range (in miles), street address, city, state, zipcode, neighborhood (optional)
+  // Return - array of tasks objects
+  // Note - does not create a new entry in the address table for the input address
+  // *************************************************************
+  /*
+    GET /api/tasks/alt/:range
+    req.body =
+      {
+        "streetAddress": "1154 Glendale Blvd",
+        "city": "Los Angeles",
+        "state": "CA",
+        "zipcode": 90026,
+        "neighborhood": "Echo Park"
+      }
+    res =
+      [
+        {
+          "task_id": 40,
+          "requester": {
+              "user_id": 43,
+              "firstname": "Adam",
+              "lastname": "Croggins",
+              "email": "acroggins@gmail.com",
+              "address_id": 78,
+              "karma": 0,
+              "task_count": 0,
+              "avg_rating": null,
+              "profile_picture_url": "https://yt3.ggpht.com/ytc/AKedOLS9pqgIqwr8DKFtTl2FrNxCOAa7z7pjvWcAL7Jupw=s900-c-k-c0x00ffffff-no-rj"
+          },
+          "helper": {
+              "user_id": 41,
+              "firstname": "Cheryl",
+              "lastname": "Monstera",
+              "email": "cmonst@gmail.com",
+              "address_id": 76,
+              "karma": 0,
+              "task_count": 0,
+              "avg_rating": null,
+              "profile_picture_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Cheryl_Cole_Cannes_2014.jpg"
+          },
+          "address": {
+              "address_id": 78,
+              "street_address": "1822 Sunset Blvd",
+              "city": "Los Angeles",
+              "state": "CA",
+              "zipcode": 90026,
+              "neighborhood": "Echo Park",
+              "coordinate": "(-118.260108,34.0777287)"
+          },
+          "description": "Looking to trade an old set of golf clubs for an equally prized heirloom",
+          "car_required": true,
+          "physical_labor_required": "false",
+          "status": "Pending",
+          "category": "Favor",
+          "start_date": "2021-02-01T08:00:00.000Z",
+          "end_date": "2021-02-01T08:00:00.000Z",
+          "start_time": "11:00:00",
+          "duration": 1,
+          "timestamp_requested": "2021-07-15T09:42:29.051Z"
+        },
+        ....
+      ]
+  */
+  // *************************************************************
+  getTasksInRangeAltAddress: (req, res) => {
+    const { range } = req.params;
+    const {
+      streetAddress,
+      city,
+      state,
+      zipcode,
+    } = req.body;
+    const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
+    let coordinate;
+
+    const queryDb = () => {
+      const queryStr = `
+        SELECT
+          task_id,
+          (
+            SELECT ROW_TO_JSON(reqname)
+            FROM (
+              SELECT
+                user_id,
+                firstname,
+                lastname,
+                email,
+                address_id,
+                karma,
+                task_count,
+                avg_rating,
+                profile_picture_url
+              FROM nexdoor.users
+              WHERE user_id=nexdoor.tasks.requester_id
+            ) reqname
+          ) as requester,
+          (
+            SELECT ROW_TO_JSON(helpname)
+            FROM (
+              SELECT
+                user_id,
+                firstname,
+                lastname,
+                email,
+                address_id,
+                karma,
+                task_count,
+                avg_rating,
+                profile_picture_url
+              FROM nexdoor.users
+              WHERE user_id=nexdoor.tasks.helper_id
+            ) helpname
+          ) AS helper,
+          (
+            SELECT ROW_TO_JSON(loc)
+            FROM (
+              SELECT *
+              FROM nexdoor.address
+              WHERE address_id=nexdoor.tasks.address_id
+            ) loc
+          ) AS address,
+          description,
+          car_required,
+          physical_labor_required,
+          status,
+          category,
+          start_date,
+          end_date,
+          start_time,
+          duration,
+          timestamp_requested
+        FROM nexdoor.tasks
+        WHERE (
+          (
+            SELECT coordinate
+            FROM nexdoor.address
+            WHERE address_id=nexdoor.tasks.address_id
+          )
+          <@>
+          (${coordinate})
+        ) < ${range}
+        ORDER BY
+          start_date,
+          start_time
+        LIMIT 100;
+      ;`;
+      db.query(queryStr)
+        .then((data) => {
+          res.status(200).send(data.rows);
+        })
+        .catch((err) => {
+          res.status(400).send(err.stack);
+        });
+    };
+
+    getCoordinates(addressQuery)
+      .then((testCoord) => {
+        coordinate = `point(${testCoord.lng},${testCoord.lat})`;
+        console.log('coordinate', coordinate);
+        console.log('range', range);
+      })
+      .then(() => {
+        queryDb();
+      })
+      .catch((err) => {
+        res.status(400).send('Error getting coordinates', err.stack);
+      });
+  },
+  // *************************************************************
+
+  // *************************************************************
   // GET REQUESTED TASKS BY USER ID
   // *************************************************************
   // Needs from Front End - userId
@@ -1032,3 +1205,4 @@ module.exports = taskControllers;
 
 /// GET TASKS IN RANGE WITH A NON-HOME ADDRESS
 /// GET TOP REQUESTS FOR THE SAME NON-HOME ADDRESS
+/// UPDATE USER RATING AND TOTAL TASKS
