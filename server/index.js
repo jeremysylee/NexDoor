@@ -2,6 +2,11 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const path = require('path');
+const io = require('socket.io')(3000, {
+  cors: {
+    origin: '*',
+  },
+});
 const router = require('./router');
 require('dotenv').config();
 
@@ -13,7 +18,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan('dev'));
 app.use(cors());
-
 app.use('/api', router);
 
 app.listen(port, () => {
@@ -21,3 +25,10 @@ app.listen(port, () => {
 });
 
 app.use(express.static(path.join(__dirname, '..', 'client/index')));
+
+io.on('connection', (socket) => {
+  console.log('user connected');
+  socket.on('send-chat-message', (message) => {
+    socket.broadcast.emit('chat-message', message);
+  });
+});
