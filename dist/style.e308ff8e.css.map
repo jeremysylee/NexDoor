@@ -1,1 +1,0 @@
-{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"style.e308ff8e.css","sourceRoot":"../client/static","sourcesContent":["body {\n  background-color: blue;\n  color: red;\n}\n"]}
