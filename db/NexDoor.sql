@@ -21,6 +21,11 @@ COMMENT ON DATABASE postgres
 CREATE SCHEMA nexdoor
     AUTHORIZATION blueboolean;
 --*********************************************************************
+-- EXTENSIONS
+--*********************************************************************
+CREATE EXTENSION CUBE;
+CREATE EXTENSION EARTHDISTANCE;
+--*********************************************************************
 -- ADDRESS TABLE
 --*********************************************************************
 -- Table: nexdoor.address
@@ -238,8 +243,9 @@ CREATE TABLE nexdoor.tasks (
   physical_labor_required VARCHAR(50),
   status VARCHAR(50) NOT NULL,
   category VARCHAR (50) NOT NULL,
-  date DATE,
-  "time" TIME WITHOUT TIME ZONE,
+  start_date DATE,
+  end_date DATE,
+  start_time TIME WITHOUT TIME ZONE,
   date_requested DATE NOT NULL,
   time_requested TIME WITHOUT TIME ZONE NOT NULL,
   duration INT,
