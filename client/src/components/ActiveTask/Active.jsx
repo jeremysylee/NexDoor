@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { Button, Modal, Form } from 'react-bootstrap';
 // import Ratings from 'react-ratings-declarative';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,10 +10,12 @@ import Sidebar from '../Sidebar';
 
 const ModalHeaderContent = styled.div`
 font-family: Roboto;
-margin-left: 1em;
 font-size: 14px;
 font-weight: 400;
-text-align: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-content: center;
 `;
 
 
@@ -29,7 +31,8 @@ const Active = () => {
 
 
   return (
-    <div>
+    <Container>
+
       <Header />
       <Grid
         container
@@ -39,19 +42,22 @@ const Active = () => {
         style={{ fontStyle: 'Roboto' }}
       >
         <Sidebar />
-        <Button onClick={handleShow}>Mark as finished!</Button>
       </Grid>
+      <Button onClick={handleShow}>Mark as finished!</Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header >
           <ModalHeaderContent>
             <Modal.Title>Your helper</Modal.Title>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <br />
+            <div >
               pfp
             </div>
-            <span style={{ display: 'flex', justifyContent: 'center' }}>
+            <br />
+            <div >
               First and Last name
-            </span>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            </div>
+            <br />
+            <div >
               <StarIcon style={{ fill: "red" }} />
               rating (count)
             </div>
@@ -72,7 +78,7 @@ const Active = () => {
                 rows={3}
                 placeholder="Name was very friendly and very helpful..."
                 onChange={handleReview}
-                />
+              />
             </Form.Group>
           </Form>
           <div>
@@ -82,8 +88,8 @@ const Active = () => {
           </div>
         </Modal.Footer>
       </Modal>
-    </div>
-  )
-}
+    </Container>
+  );
+};
 
 export default Active;
