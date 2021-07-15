@@ -6,7 +6,6 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import LoginButton from './AuthSignIn';
 
 function Copyright() {
   return (
@@ -64,7 +63,7 @@ const LogIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} onClick={() => LogInButton} noValidate>
+        <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
