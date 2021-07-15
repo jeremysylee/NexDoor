@@ -104,7 +104,7 @@ const taskControllers = {
           '${description}',
           ${carRequired},
           ${laborRequired},
-          'open',
+          'Open',
           '${category}',
           '${startDate}',
           '${endDate}',
@@ -193,7 +193,7 @@ const taskControllers = {
         '${description}',
         ${carRequired},
         ${laborRequired},
-        'open',
+        'Open',
         '${category}',
         '${startDate}',
         '${endDate}',
@@ -295,7 +295,7 @@ const taskControllers = {
         '${description}',
         ${carRequired},
         ${laborRequired},
-        'open',
+        'Open',
         '${category}',
         '${startDate}',
         '${endDate}',
@@ -348,7 +348,7 @@ const taskControllers = {
         '${description}',
         ${carRequired},
         ${laborRequired},
-        'open',
+        'Open',
         '${category}',
         '${startDate}',
         '${endDate}',
@@ -954,7 +954,7 @@ const taskControllers = {
       UPDATE nexdoor.tasks
       SET
         helper_id=${userId},
-        status='pending'
+        status='Pending'
       WHERE task_id=${taskId}
     `;
     db.query(queryStr)
@@ -985,7 +985,7 @@ const taskControllers = {
       UPDATE nexdoor.tasks
       SET
         helper_id=null,
-        status='open'
+        status='Open'
       WHERE task_id=${taskId}
     ;`;
     db.query(queryStr)
