@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import {
   Dashboard,
   People,
-  ShoppingCart,
   BarChart,
   Layers,
   MarkunreadMailboxTwoTone,
@@ -20,6 +19,7 @@ import {
 const SidebarContainer = styled.div`
   padding-top: 1.5em;
   padding-right: 2em;
+  height: 100vh;
 `;
 
 const Sidebar = () => {

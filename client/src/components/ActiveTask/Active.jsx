@@ -1,34 +1,55 @@
 import React, { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { Button, Modal, Form } from 'react-bootstrap';
-// import Ratings from 'react-ratings-declarative';
+import Ratings from 'react-ratings-declarative';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StarIcon from '@material-ui/icons/Star';
 import styled from 'styled-components';
 import Header from '../Header';
 import Sidebar from '../Sidebar';
+import ActiveModal from './ActiveModal';
+import YouAreHelping from './YouAreHelping';
 
-const ModalHeaderContent = styled.div`
-font-family: Roboto;
-font-size: 14px;
-font-weight: 400;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-content: center;
+const RequestDescription = styled.div`
+  width: 660px;
+  height: 320px;
+  background-color: #FFF2F2;
+  margin-top: 2em;
+  margin-left: 3em;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 4px #DEDEDE, inset -2px -2px 4px white;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  flex-direction: column;
+  font-family: Roboto;
+  padding: 1em;
 `;
 
+const ChatContainer = styled.div`
+  width: 660px;
+  height: 320px;
+  background-color: #FBFBFB;
+  margin-top: 2em;
+  margin-left: 3em;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 4px #DEDEDE, inset -2px -2px 4px white;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  flex-direction: column;
+  font-family: Roboto;
+  padding: 1em;
+`;
+
+const CancelButton = styled.div`
+margin-top: 1em;
+display: flex;
+justify-content: center;
+`;
 
 const Active = () => {
-  const [show, setShow] = useState(false);
-  const [review, setReview] = useState('');
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleReview = (e) => setReview(e.target.value);
-
-  console.log(review);
-
+  const word = 'hi';
 
   return (
     <Container>
@@ -42,52 +63,32 @@ const Active = () => {
         style={{ fontStyle: 'Roboto' }}
       >
         <Sidebar />
+        <Grid
+          direction="column"
+          justifyContent="center"
+          alignItems="flex-start"
+          style={{ fontStyle: 'Roboto' }}
+        >
+          <YouAreHelping />
+          <ActiveModal />
+          <CancelButton>
+            <Button style={{ backgroundColor: '#EEEEEE', borderRadius: '24px', height: '50px', width: '200px', borderColor: '#EEEEEE', color: '#6C6C6C' }} >Cancel Request</Button>
+          </CancelButton>
+        </Grid>
+        <Grid
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          style={{ fontStyle: 'Roboto' }}
+        >
+          <RequestDescription>
+            hello
+          </RequestDescription>
+          <ChatContainer>
+            Chat
+          </ChatContainer>
+        </Grid>
       </Grid>
-      <Button onClick={handleShow}>Mark as finished!</Button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header >
-          <ModalHeaderContent>
-            <Modal.Title>Your helper</Modal.Title>
-            <br />
-            <div >
-              pfp
-            </div>
-            <br />
-            <div >
-              First and Last name
-            </div>
-            <br />
-            <div >
-              <StarIcon style={{ fill: "red" }} />
-              rating (count)
-            </div>
-          </ModalHeaderContent>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-            Rate your helper!
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Leave kind word for Name</Form.Label>
-              <Form.Control
-                type="text"
-                as="textarea"
-                rows={3}
-                placeholder="Name was very friendly and very helpful..."
-                onChange={handleReview}
-              />
-            </Form.Group>
-          </Form>
-          <div>
-            <Button variant="secondary" >
-              Submit
-            </Button>
-          </div>
-        </Modal.Footer>
-      </Modal>
     </Container>
   );
 };
