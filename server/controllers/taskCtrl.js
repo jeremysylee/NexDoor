@@ -1172,9 +1172,9 @@ const taskControllers = {
   // *************************************************************
 
   // *************************************************************
-  // CHANGE TASK STATUS TO ACTIVE, COMPLETED, OR CLOSED
+  // CHANGE TASK STATUS TO ACTIVE, COMPLETED
   // *************************************************************
-  // Needs from Front End - status(active, completed, closed) taskId
+  // Needs from Front End - status(active, completed) taskId
   // Returns - String confirmation
   // *************************************************************
   /*
@@ -1199,6 +1199,67 @@ const taskControllers = {
       });
   },
   // *************************************************************
+
+  // *************************************************************
+  // CLOSE TASK (AND INCREMENT HELPER TASK COUNT / RATING)
+  // *************************************************************
+  // Needs from Front End - taskId, helper rating
+  // Returns - String confirmation
+  // Notes - Changes task status to 'Closed', increments helper task count by 1, increments karma by the input rating, calculates and updates new avg rating
+  // *************************************************************
+  /*
+    PUT /task/close/:taskId/:rating
+    req.body = none
+    res = 'Task 17 closed'
+  */
+  // *************************************************************
+  closeTask: (req, res) => {
+    const { taskId, rating } = req.params;
+    const queryStr1 = `
+      UPDATE nexdoor.users
+        SET
+          task_count=task_count + 1,
+          karma=karma + ${rating}
+        WHERE user_id=(
+          SELECT helper_id
+          FROM nexdoor.tasks
+          WHERE task_id=${taskId}
+        )
+    ;`;
+    const queryStr2 = `
+      UPDATE nexdoor.users
+      SET avg_rating=karma / task_count
+      WHERE user_id=(
+        SELECT helper_id
+        FROM nexdoor.tasks
+        WHERE task_id=${taskId}
+      )
+    ;`;
+    const queryStr3 = `
+      UPDATE nexdoor.tasks
+      SET status='Closed'
+      WHERE task_id=${taskId}
+    ;`;
+    db.query(queryStr1)
+      .then(() => {
+        db.query(queryStr2)
+          .then(() => {
+            db.query(queryStr3)
+              .then(() => {
+                res.status(200).send(`Task ${taskId} closed`);
+              })
+              .catch((err) => {
+                res.status(400).send('err updating task status', err.stack);
+              });
+          })
+          .catch((err) => {
+            res.status(400).send('err updating avg_rating', err.stack);
+          });
+      })
+      .catch((err) => {
+        res.status(400).send('err updating taskcount and karma', err.stack);
+      });
+  }
 };
 
 module.exports = taskControllers;
