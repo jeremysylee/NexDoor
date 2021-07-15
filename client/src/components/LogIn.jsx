@@ -6,6 +6,7 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
+import LoginButton from './AuthSignIn';
 
 function Copyright() {
   return (
@@ -41,7 +42,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LogIn = () => {
+  const [login, setLogin] = useState({
+    email: '',
+    password: '',
+  });
   const classes = useStyles();
+
+  const handleChange = (e) => {
+    setLogin({
+      [e.target.name]: e.target.value,
+    }, console.log(e.target.value));
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,7 +64,7 @@ const LogIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onClick={() => LogInButton} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -64,6 +75,7 @@ const LogIn = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -75,6 +87,7 @@ const LogIn = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handleChange}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
