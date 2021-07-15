@@ -4,7 +4,7 @@ import Home from './Home';
 import SignUp from './SignUp';
 import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
-import Auth from './Auth';
+import LoginButton from './LoginButton';
 import Active from './ActiveTask/Active';
 
 const App = () => (
@@ -16,7 +16,7 @@ const App = () => (
         <Route path="/helpfulfeed" component={HelpfulFeed} />
         <Route path="/active" component={Active} />
         <Route path="/login" component={LogIn} />
-        <Route path="/Auth" component={Auth} />
+        <Route path="/auth" component={LoginButton} />
       </Switch>
     </BrowserRouter>
   </div>
