@@ -4,6 +4,7 @@ import MainFeed from './MainFeed';
 import SignUp from './SignUp';
 import HelpfulFeed from './HelpFul/HelpfulFeed';
 import LogIn from './LogIn';
+import Active from './ActiveTask/Active';
 
 const App = () => (
   <div>
@@ -12,6 +13,7 @@ const App = () => (
         <Route exact path="/" component={MainFeed} />
         <Route path="/signup" component={SignUp} />
         <Route path="/helpfulfeed" component={HelpfulFeed} />
+        <Route path="/active" component={Active} />
         <Route path="/login" component={LogIn} />
       </Switch>
     </BrowserRouter>

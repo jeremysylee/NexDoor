@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   BarChart,
   Layers,
+  MarkunreadMailboxTwoTone,
 } from '@material-ui/icons';
 
 import {
@@ -32,6 +33,10 @@ const Sidebar = () => {
     history.push('/helpfulfeed');
   };
 
+  const handleActive = () => {
+    history.push('/active');
+  };
+
   return (
     <SidebarContainer>
       <ListItem button value={'home'} onClick={handleHome}>
@@ -42,7 +47,7 @@ const Sidebar = () => {
       </ListItem>
       <ListItem button>
         <ListItemIcon>
-          <ShoppingCart />
+          <MarkunreadMailboxTwoTone />
         </ListItemIcon>
         <ListItemText primary="My Requests" />
       </ListItem>
@@ -58,7 +63,7 @@ const Sidebar = () => {
         </ListItemIcon>
         <ListItemText primary="Open Tasks" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={handleActive}>
         <ListItemIcon>
           <Layers />
         </ListItemIcon>
