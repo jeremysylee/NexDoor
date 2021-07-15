@@ -2,6 +2,7 @@ const express = require('express');
 
 const login = express.Router();
 const { check, validationResult } = require('express-validator');
+const db = require('../controllers');
 
 login.post('/',
   [
@@ -22,10 +23,7 @@ login.post('/',
         errors: errors.array(),
       });
     }
-    res.status(200).json({
-      success: true,
-      message: 'login successful',
-    });
-});
+    db.findUser(req, res);
+  });
 
 module.exports = login;
