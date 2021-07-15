@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -11,9 +12,10 @@ const Card = styled.div`
   overflow: hidden;
   flex: 1;
   padding: 1em;
+  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
 `;
 
-const Tasks = () => {
+const Tasks = ({ formatDate }) => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
 
   return (
@@ -28,9 +30,13 @@ const Tasks = () => {
           Others Requesting Help
         </div>
       </Card>
-      {tasks.map((task) => (<Task task={task} key={task.task_id} />))}
+      {tasks.map((task) => (<Task task={task} formatDate={formatDate} key={task.task_id} />))}
     </div>
   );
+};
+
+Tasks.propTypes = {
+  formatDate: PropTypes.func.isRequired,
 };
 
 export default Tasks;

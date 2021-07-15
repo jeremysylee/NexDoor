@@ -6,8 +6,9 @@ export const Card = styled.div`
   padding: 1em;
   border-radius: 10px;
   background-color: #FFFFFF;
-  overflow: hidden;
+  overflow: visible;
   flex: 1;
+  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5
 `;
 
 export const CardHeaders = styled.div`
@@ -38,7 +39,7 @@ export const Description = styled.div`
   margin-top: 2px;
   padding-right: 1em;
   wrap: wrap;
-  color: grey;
+  color: black;
   max-width: auto;
 `;
 

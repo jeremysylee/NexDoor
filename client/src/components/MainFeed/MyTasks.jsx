@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {
   CardHeaders,
-} from './MainFeedStyles';
+} from './styles-MainFeed';
 
 import MyTask from './MyTask';
 
@@ -15,10 +16,17 @@ const Card = styled.div`
   overflow: hidden;
   flex: 1;
   padding: 1em;
+  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
 `;
 
-const MyTasks = () => {
+const MyTasks = ({ formatDate }) => {
   const myTasks = useSelector((store) => store.myTasksReducer.myTasks);
+
+  /* TODO: get list of tasks by helper id
+     API ENDPOINT => /api/getHelpTasksByUser
+     params required /:userId
+     returns list of tasks that have current user as helper in helper_id
+  */
 
   return (
     <div>
@@ -26,10 +34,14 @@ const MyTasks = () => {
         <CardHeaders>People I Am Helping</CardHeaders>
       </Card>
       {myTasks.map((task) => (
-        <MyTask task={task} key={task.task_id} />
+        <MyTask task={task} formatDate={formatDate} key={task.task_id} />
       ))}
     </div>
   );
+};
+
+MyTasks.propTypes = {
+  formatDate: PropTypes.func.isRequired,
 };
 
 export default MyTasks;
