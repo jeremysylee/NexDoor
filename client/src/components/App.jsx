@@ -6,6 +6,7 @@ import Map from './Map';
 import Chat from './Chat/Chat';
 import HelpfulFeed from './HelpFul/HelpfulFeed';
 import LogIn from './LogIn';
+import Auth from './Auth';
 import Active from './ActiveTask/Active';
 
 const App = () => (
@@ -17,6 +18,7 @@ const App = () => (
         <Route path="/helpfulfeed" component={HelpfulFeed} />
         <Route path="/active" component={Active} />
         <Route path="/login" component={LogIn} />
+        <Route path="/Auth" component={Auth} />
       </Switch>
     </BrowserRouter>
     <Chat />
