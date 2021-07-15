@@ -42,7 +42,7 @@ const OpenRequest = () => {
   return (
     <SelectedTaskContainer>
       <AvatarLg
-        src={helper.profile_picture}
+        src={helper.profile_picture_url}
         alt={helper.firstname}
       />
       <Username>{`${helper.firstname} ${helper.lastname}`}</Username>

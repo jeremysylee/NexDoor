@@ -1,6 +1,8 @@
-import testData from '../../../../testData/testData';
+import { testTasks } from '../../../../testData/testData';
 
-const initialState = { requests: [testData.testTasks[8], testData.testTasks[9]] };
+const initialState = { requests: [testTasks[0]] };
+
+// const initialState = {}
 
 const requestReducer = (state = initialState, action) => {
   switch (action.type) {

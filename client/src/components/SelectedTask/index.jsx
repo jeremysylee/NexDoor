@@ -6,6 +6,7 @@ import OpenRequest from './OpenRequest';
 import UnclaimedRequest from './UnclaimedRequest';
 import ClaimedRequest from './ClaimedRequest';
 import PendingTask from './PendingTask';
+import Active from '../ActiveTask/Active';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
@@ -35,8 +36,8 @@ const SelectedTask = () => {
   useEffect(() => {
     dispatch({
       type: 'FORMAT_DATA',
-      time: DateTime.fromISO(task.time).toFormat('h:mm a'),
-      date: getTimeUntil(task.date),
+      time: DateTime.fromISO(task.start_time).toFormat('h:mm a'),
+      date: getTimeUntil(task.start_date),
     });
   });
 
@@ -62,6 +63,12 @@ const SelectedTask = () => {
       <SelectedTaskFrame>
         <PendingTask />
       </SelectedTaskFrame>
+    );
+  }
+
+  if (task.status === 'Active') {
+    return (
+      <Active />
     );
   }
 

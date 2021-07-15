@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import styled, { ThemeProvider } from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import {
   Card,
@@ -40,8 +41,8 @@ StatusBadge.defaultProps = {
 
 const MyRequest = ({ request, formatDate }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  // 0: unclaimed, 1: pending, 2: active;
   const [status, setStatus] = useState(0);
   const [color, setColor] = useState('#f50257');
 
@@ -49,8 +50,8 @@ const MyRequest = ({ request, formatDate }) => {
   const [time, setTime] = useState();
 
   useEffect(() => {
-    setDay(formatDate(request.date, request.time).date);
-    setTime(formatDate(request.date, request.time).time);
+    setDay(formatDate(request.start_date, request.start_time).date);
+    setTime(formatDate(request.start_date, request.start_time).time);
   });
 
   const theme = {
@@ -83,11 +84,15 @@ const MyRequest = ({ request, formatDate }) => {
   });
 
   const selectTaskHandler = () => {
+    if (request.status === 'Active') {
+      history.push('/active');
+    }
     dispatch({
       type: 'SET_TASK', task: request,
     });
   };
 
+  //
   if (request.status === 'open') {
     return (<div>hello</div>);
   }
@@ -95,9 +100,9 @@ const MyRequest = ({ request, formatDate }) => {
     <Card onClick={selectTaskHandler}>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
-          <Avatar src={request.user.profile_picture} alt="profilePHoto" />
+          <Avatar src={request.requester.profile_picture_url} alt="profilePHoto" />
           <CardContent>
-            <Username>{`${request.user.firstname} ${request.user.lastname}`}</Username>
+            <Username>{`${request.requester.firstname} ${request.requester.lastname}`}</Username>
             <Description>{`${request.description.substring(0, 60)}...`}</Description>
           </CardContent>
         </Row>
@@ -115,16 +120,16 @@ const MyRequest = ({ request, formatDate }) => {
 
 MyRequest.propTypes = {
   request: PropTypes.shape({
-    user: PropTypes.shape({
+    requester: PropTypes.shape({
       firstname: PropTypes.string.isRequired,
       lastname: PropTypes.string.isRequired,
-      profile_picture: PropTypes.string.isRequired,
+      profile_picture_url: PropTypes.string.isRequired,
     }),
     task_id: PropTypes.number,
     description: PropTypes.string.isRequired,
-    duration: PropTypes.string,
-    date: PropTypes.string,
-    time: PropTypes.string,
+    duration: PropTypes.number,
+    start_date: PropTypes.string,
+    start_time: PropTypes.string,
     car_required: PropTypes.bool,
     status: PropTypes.oneOf(['Open', 'Pending', 'Active', 'Complete', 'Closed']),
   }).isRequired,

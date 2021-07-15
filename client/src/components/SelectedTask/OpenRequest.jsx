@@ -1,5 +1,8 @@
+/* eslint camelcase: 0 */ // --> OFF
+
 import React from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 import {
   SelectedTaskContainer,
@@ -15,26 +18,33 @@ import {
   ButtonDecline,
 } from './styles-SelectedTask';
 
+const url = 'http://localhost:3500';
+
 const OpenRequest = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
   const {
-    streetAddress,
+    street_address,
     city,
     state,
     zipcode,
-  } = task.address;
+  } = task.location;
+
+  const clickApproveHandler = () => {
+    axios.get(`${url}/task/help/${task.task_id}/37`)
+      .then((res) => console.log(res));
+  };
 
   return (
     <SelectedTaskContainer>
       <AvatarLg
-        src={task.user.profile_picture}
-        alt={task.user.firstname}
+        src={task.requester.profile_picture_url}
+        alt={task.requester.firstname}
       />
-      <Username>{`${task.user.firstname} ${task.user.lastname}`}</Username>
+      <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
       <UserInfo>
-        <span>{`★ ${task.user.average_rating}`}</span>
+        <span>{`★ ${task.requester.average_rating}`}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>
@@ -47,7 +57,7 @@ const OpenRequest = () => {
         <DetailsContainer>
           <HeadingSmall>TASK LOCATION</HeadingSmall>
           <Col>
-            <span>{`${streetAddress}`}</span>
+            <span>{`${street_address}`}</span>
             <span>{`${city} ${state} ${zipcode}`}</span>
           </Col>
         </DetailsContainer>
@@ -61,7 +71,7 @@ const OpenRequest = () => {
       </Row>
       <Row>
         <ButtonDecline>Decline</ButtonDecline>
-        <Button>Approve</Button>
+        <Button onClick={clickApproveHandler}>Approve</Button>
       </Row>
       {/* <button>Next</button> */}
     </SelectedTaskContainer>

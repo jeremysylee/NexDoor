@@ -17,16 +17,16 @@ const PendingRequest = () => {
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
   const {
-    streetAddress,
+    street_address,
     city,
     state,
     zipcode,
-  } = task.address;
+  } = task.location;
 
   return (
     <SelectedTaskContainer>
       <AvatarLg
-        src={task.user.profile_picture}
+        src={task.user.profile_picture_url}
         alt={task.user.firstname}
       />
       <Username />
@@ -45,7 +45,7 @@ const PendingRequest = () => {
         <DetailsContainer>
           <HeadingSmall>TASK LOCATION</HeadingSmall>
           <Col>
-            <span>{`${streetAddress}`}</span>
+            <span>{`${street_address}`}</span>
             <span>{`${city} ${state} ${zipcode}`}</span>
           </Col>
         </DetailsContainer>
