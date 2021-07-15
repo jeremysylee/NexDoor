@@ -90,7 +90,7 @@ export default {
     {
       task_id: 4,
       requester_id: 7,
-      helper_id: null,
+      helper_id: 2,
       address: {
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
@@ -99,7 +99,7 @@ export default {
       },
       description: 'Can I borrow a vacuum? Mine broke',
       car_required: false,
-      status: 'Active',
+      status: 'Pending',
       category: 'sitter',
       date: '2021-07-23',
       time: '12:00:13',

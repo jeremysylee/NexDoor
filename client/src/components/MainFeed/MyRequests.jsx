@@ -22,6 +22,12 @@ const MyRequests = ({ formatDate }) => {
   const placeholder = 'People Helping Me';
   const requests = useSelector((store) => store.requestsReducer.requests);
 
+  /* get list of tasks by requester id
+     API ENDPOINT => /api/getHelpTasksByUser
+     params required /:userId
+     returns list of tasks that have current user as helper in helper_id
+  */
+
   return (
     <div>
       <Card>

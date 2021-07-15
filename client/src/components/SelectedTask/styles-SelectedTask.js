@@ -29,7 +29,6 @@ export const UserInfo = styled.div`
 `;
 
 export const StatusText = styled(Username)`
-  margin-bottom: 2em;
   font-weight: 200;
 `;
 
@@ -45,6 +44,7 @@ export const DetailsContainer = styled.div`
   padding: 1em 2em;
   box-shadow: inset 2px 2px 4px #DEDEDE, inset -2px -2px 4px white;
   background-color: #FBFBFB;
+  margin-top: 2em;
 `;
 
 export const HeadingSmall = styled.div`
@@ -74,7 +74,6 @@ export const Button = styled.button`
   color: white;
   border-radius: 100px;
   border: none;
-  margin-bottom: 2em;
 `;
 
 export const ButtonDecline = styled(Button)`

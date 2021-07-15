@@ -12,7 +12,7 @@ import {
   Col,
 } from './styles-SelectedTask';
 
-const PendingRequest = () => {
+const UnclaimedRequest = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
@@ -57,4 +57,4 @@ const PendingRequest = () => {
   );
 };
 
-export default PendingRequest;
+export default UnclaimedRequest;

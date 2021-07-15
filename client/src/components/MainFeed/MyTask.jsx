@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 
@@ -13,6 +14,7 @@ import {
 } from './styles-MainFeed';
 
 const MyTask = ({ task, formatDate }) => {
+  const dispatch = useDispatch();
   const [day, setDay] = useState(0);
   const [time, setTime] = useState();
 
@@ -21,8 +23,14 @@ const MyTask = ({ task, formatDate }) => {
     setTime(formatDate(task.date, task.time).time);
   });
 
+  const selectTaskHandler = () => {
+    dispatch({
+      type: 'SET_TASK', task,
+    });
+  };
+
   return (
-    <Card>
+    <Card onClick={selectTaskHandler}>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
           <Avatar src={task.user.profile_picture} alt="profilePHoto" />

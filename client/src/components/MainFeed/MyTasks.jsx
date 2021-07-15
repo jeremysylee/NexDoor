@@ -22,6 +22,12 @@ const Card = styled.div`
 const MyTasks = ({ formatDate }) => {
   const myTasks = useSelector((store) => store.myTasksReducer.myTasks);
 
+  /* TODO: get list of tasks by helper id
+     API ENDPOINT => /api/getHelpTasksByUser
+     params required /:userId
+     returns list of tasks that have current user as helper in helper_id
+  */
+
   return (
     <div>
       <Card>

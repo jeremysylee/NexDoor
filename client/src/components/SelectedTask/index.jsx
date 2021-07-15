@@ -3,17 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import OpenRequest from './OpenRequest';
-import PendingRequest from './PendingRequest';
+import UnclaimedRequest from './UnclaimedRequest';
 import ClaimedRequest from './ClaimedRequest';
+import PendingTask from './PendingTask';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
-  height: 650px;
+  height: 100%;
   background-color: #FBFBFB;
   margin-top: 2em;
   margin-left: 1em;
   border-radius: 10px;
   font-family: Roboto;
+  padding: 2em 0;
 `;
 
 const SelectedTask = () => {
@@ -41,16 +43,24 @@ const SelectedTask = () => {
   if (task.status === 'Open' && task.requester_id === currentUserId) {
     return (
       <SelectedTaskFrame>
-        <PendingRequest />
+        <UnclaimedRequest />
       </SelectedTaskFrame>
 
     );
   }
 
-  if (task.status === 'Pending') {
+  if (task.status === 'Pending' && task.requester_id === currentUserId) {
     return (
       <SelectedTaskFrame>
         <ClaimedRequest />
+      </SelectedTaskFrame>
+    );
+  }
+
+  if (task.status === 'Pending' && task.helper_id === currentUserId) {
+    return (
+      <SelectedTaskFrame>
+        <PendingTask />
       </SelectedTaskFrame>
     );
   }
