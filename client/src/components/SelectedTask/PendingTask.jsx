@@ -1,3 +1,5 @@
+/* eslint camelcase: 0 */ // --> OFF
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -26,17 +28,17 @@ const PendingRequest = () => {
   return (
     <SelectedTaskContainer>
       <AvatarLg
-        src={task.user.profile_picture_url}
-        alt={task.user.firstname}
+        src={task.requester.profile_picture_url}
+        alt={task.requester.firstname}
       />
       <Username />
-      <Username>{`${task.user.firstname} ${task.user.lastname}`}</Username>
+      <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
       <UserInfo>
-        <span>{`★ ${task.user.average_rating}`}</span>
+        <span>{`★ ${task.requester.avg}`}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>
-      <StatusText>{`${task.user.firstname} has not accepted your help yet`}</StatusText>
+      <StatusText>{`${task.requester.firstname} has not accepted your help yet`}</StatusText>
       <DetailsContainer>
         <HeadingSmall>REQUEST DETAILS</HeadingSmall>
         <p>{task.description}</p>

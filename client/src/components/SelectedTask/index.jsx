@@ -41,7 +41,7 @@ const SelectedTask = () => {
     });
   });
 
-  if (task.status === 'Open' && task.requester_id === currentUserId) {
+  if (task.status === 'Open' && task.requester.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
         <UnclaimedRequest />
@@ -50,7 +50,7 @@ const SelectedTask = () => {
     );
   }
 
-  if (task.status === 'Pending' && task.requester_id === currentUserId) {
+  if (task.status === 'Pending' && task.requester.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
         <ClaimedRequest />
@@ -58,7 +58,7 @@ const SelectedTask = () => {
     );
   }
 
-  if (task.status === 'Pending' && task.helper_id === currentUserId) {
+  if (task.status === 'Pending' && task.helper.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
         <PendingTask />

@@ -57,3 +57,21 @@ export const Details = styled.div`
   color: grey;
   width: 140%;
 `;
+
+export const StatusBadge = styled.div`
+border-radius: 100px;
+height: 20px;
+width: 100px;
+z-index: 1;
+background-color: ${(props) => props.theme.statusColor};
+position: absolute;
+text-align: center;
+padding: 1px;
+color: white;
+font-size: 0.75rem;
+font-weight: 400;
+transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+transform: scale(1) translate(-13%, -135%);
+transform-origin: 0% 0%;
+box-sizing: border-box;
+`;

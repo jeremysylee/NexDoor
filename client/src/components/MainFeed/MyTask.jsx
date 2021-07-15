@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 
 import {
   Card,
@@ -12,7 +13,14 @@ import {
   Description,
   DetailsCol,
   Details,
+  StatusBadge,
 } from './styles-MainFeed';
+
+StatusBadge.defaultProps = {
+  theme: {
+    statusColor: '#f50257',
+  },
+};
 
 const MyTask = ({ task, formatDate }) => {
   const dispatch = useDispatch();
@@ -20,7 +28,44 @@ const MyTask = ({ task, formatDate }) => {
   const [day, setDay] = useState(0);
   const [time, setTime] = useState();
 
+  // ************************************************************* //
+
+  // STATUS TRANSLATION //
+
+  /* Status's here are being translated for the current users perspective.
+  A request status that is 'open' will appear as "Unclaimed".
+  Once a helper claims the requesters task, the task status converts to 'Pending' which
+  will appear as "Claimed" to the requester.
+  */
+
+  const [status, setStatus] = useState(0);
+  const translateStatus = () => {
+    if (task.status === 'Open') { return 'Unclaimed'; }
+    return task.status;
+  };
+
+  // ************************************************************* //
+
+  // COLOR THEMING FOR STATUS BADGE //
+
+  const [color, setColor] = useState('#f50257');
+  const theme = {
+    statusColor: color,
+  };
+
+  const getColor = () => {
+    if (status === 'Unclaimed') { setColor('#ed8e99'); }
+    if (status === 'Pending') { setColor('#ed8e99'); }
+    if (status === 'Active') { setColor('#1A97DD'); }
+    if (status === 'Closed') { setColor('#F3960A'); }
+    if (status === 'Completed') { setColor('#666666'); }
+  };
+
+  // ************************************************************* //
+
   useEffect(() => {
+    setStatus(translateStatus());
+    getColor();
     setDay(formatDate(task.start_date, task.start_time).start_date);
     setTime(formatDate(task.start_date, task.start_time).time);
   });
@@ -45,6 +90,9 @@ const MyTask = ({ task, formatDate }) => {
           </CardContent>
         </Row>
         <DetailsCol>
+          <ThemeProvider theme={theme}>
+            <StatusBadge>{status}</StatusBadge>
+          </ThemeProvider>
           <Details>{day}</Details>
           <Details>{time}</Details>
         </DetailsCol>
