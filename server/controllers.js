@@ -369,6 +369,55 @@ const controllers = {
           "neighborhood": "Los Feliz"
       }
   */
+  findUser: (req, res) => {
+    const { email, password } = req.body;
+    console.log(email);
+    console.log(password);
+    // -- SELECT * FROM nexdoor.users
+    // SELECT row_to_json(row) from (
+    const queryStr = `
+      SELECT
+        user_id,
+        firstname,
+        lastname,
+        email,
+        address_id,
+        karma,
+        task_count,
+        avg_rating,
+        profile_picture_url, (
+          SELECT ROW_TO_JSON(add)
+          FROM (
+            SELECT
+              street_address,
+              city,
+              state,
+              zipcode,
+              neighborhood
+            FROM nexdoor.address
+            WHERE address_id=nexdoor.users.address_id
+          ) add
+        ) as address
+      FROM nexdoor.users
+      WHERE email='${email}'
+      AND password='${password}';
+    `;
+
+    db.query(queryStr)
+      .then((data) => {
+        if (!data.rows[0]) {
+          res.status(400).send("Error: username/password combination not found");
+        } else {
+          console.log('data: ', data.rows[0]);
+          res.status(200).send(data.rows[0]);
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(400).send(err.stack);
+      });
+    },
+
   getUser: (req, res) => {
     const { id } = req.params;
 

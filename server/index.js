@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const path = require('path');
 const router = require('./router');
+require('dotenv').config();
 
 const app = express();
 const port = 3500;
