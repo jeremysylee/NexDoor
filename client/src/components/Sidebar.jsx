@@ -39,7 +39,7 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <ListItem button value={'home'} onClick={handleHome}>
+      <ListItem button onClick={handleHome}>
         <ListItemIcon>
           <Dashboard />
         </ListItemIcon>
