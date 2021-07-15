@@ -19,6 +19,8 @@ const App = () => {
   //   return result;
   // };
 
+  const userId = 37;
+
   const getTasks = () => {
     axios.get(`${url}/api/tasks/15`)
       .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
@@ -26,13 +28,13 @@ const App = () => {
 
   const getRequests = () => {
     // user id param hardcoded until session component completed
-    axios.get(`${url}/api/tasks/req/37`)
+    axios.get(`${url}/api/tasks/req/${userId}`)
       .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
   };
 
   const getMyTasks = () => {
     // user id param hardcoded until session component completed
-    axios.get(`${url}/api/tasks/help/35`)
+    axios.get(`${url}/api/tasks/help/${userId}`)
       .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
   };
 
