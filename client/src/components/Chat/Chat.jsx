@@ -34,6 +34,9 @@ const Chat = () => {
   const handleSend = () => {
     //send Message to database
     //add message to messages and display render on screen(setstate)
+    const message = {
+
+    };
   };
 
 
@@ -42,8 +45,14 @@ const Chat = () => {
     <div>
       <div>
         {messages.map((message, idx) => {
-
-          return (<Message key={idx} message={message} />);
+          const user = `${message.firstname} ${message.lastname}`;
+          let isUser;
+          if (user === currentUser) {
+            isUser = true;
+          } else {
+            isUser = false;
+          }
+          return (<Message key={idx} message={message} isUser={isUser} />);
         })}
       </div>
       <textarea placeholder="Write message here..." onChange={handleChange} />

@@ -1,4 +1,6 @@
-const initialState = { task: {} };
+import testData from '../../../../testData/testData';
+
+const initialState = { task: testData.testTasks[0] };
 
 const selectTaskReducer = (state = initialState, action) => {
   switch (action.type) {

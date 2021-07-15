@@ -17,7 +17,7 @@ const Tasks = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
 
   return (
-    <div style={{ margin: '1em', maxWidth: '33%' }}>
+    <div>
       <Card>
         <div style={{
           fontFamily: 'Roboto',

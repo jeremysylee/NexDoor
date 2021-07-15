@@ -1,10 +1,18 @@
 import React from 'react';
 
-const Message = ({ message }) => {
+const Message = ({ message, isUser }) => {
   console.log(message);
+  let style;
+
+  if (isUser) {
+    style = { 'margin-right': '10%', 'text-align': 'right' };
+  } else {
+    style = { 'margin-left': '10%' };
+  }
   return (
-    <div>
-      Message
+    <div style={style}>
+      <div>{message.message_body}</div>
+      <span>{message.time}</span>
     </div>
   );
 };
