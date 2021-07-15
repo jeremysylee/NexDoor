@@ -4,6 +4,7 @@ import MainFeed from './MainFeed';
 import SignUp from './SignUp';
 import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
+import Auth from './Auth';
 
 const App = () => (
   <div>
@@ -13,6 +14,7 @@ const App = () => (
         <Route path="/signup" component={SignUp} />
         <Route path="/helpfulfeed" component={HelpfulFeed} />
         <Route path="/login" component={LogIn} />
+        <Route path="/Auth" component={Auth} />
       </Switch>
     </BrowserRouter>
   </div>

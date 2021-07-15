@@ -40,6 +40,7 @@
     "jquery": "^3.6.0",
     "luxon": "^2.0.1",
     "material-ui": "^0.20.2",
+    "mkcert": "^1.4.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.12",
     "parcel-bundler": "^1.12.5",
