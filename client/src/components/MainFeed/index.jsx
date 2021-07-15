@@ -1,21 +1,15 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-// import axios from 'axios';
 
-import Task from './Task';
+import Tasks from './Tasks';
+import MyRequests from './MyRequests';
+import MyTasks from './MyTasks';
 
-const MainFeed = () => {
-  const tasks = useSelector((store) => store.tasksReducer.tasks);
-
-  const placeholder = 'placeholder';
-
-  return (
-    <div>
-      <h1>{placeholder}</h1>
-      {tasks.map((task) => (<Task task={task || {}} key={task.task_id} />))}
-    </div>
-  );
-};
+const MainFeed = () => (
+  <div style={{ margin: '1em', maxWidth: '33%' }}>
+    <MyRequests />
+    <MyTasks />
+    <Tasks />
+  </div>
+);
 
 export default MainFeed;

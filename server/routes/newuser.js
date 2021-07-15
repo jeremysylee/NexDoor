@@ -25,6 +25,7 @@ newuser.post('/',
     check('confirm_password')
       .custom((value, { req }) => {
         if (value !== req.body.password) {
+          console.log("passwords don't match")
           throw new Error("Passwords don't match");
         } else {
           return true;
@@ -33,6 +34,7 @@ newuser.post('/',
   ], (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors);
       return res.status(400).json({
         success: false,
         errors: errors.array(),

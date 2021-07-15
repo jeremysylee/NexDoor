@@ -1,38 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { DateTime } from 'luxon';
+import { Avatar } from '@material-ui/core';
+
+import {
+  Card,
+  Row,
+  CardContent,
+  Username,
+  Description,
+  DetailsCol,
+  Details,
+} from './MainFeedStyles';
 
 const Task = ({ task }) => {
-  const placeholder = 'Task placeholder';
+  const dispatch = useDispatch();
+  const [day, setDay] = useState(0);
+  const [time, setTime] = useState();
 
   const timeDifference = () => {
-    const end = DateTime.fromISO(task.date);
+    const endDate = DateTime.fromISO(task.date);
     const start = DateTime.local();
-    const time = DateTime.fromISO(task.time);
-    const diff = end.diff(start, ['months', 'days', 'hours', 'minutes', 'seconds']);
-    // console.log(diff);
-    // console.log('start', time);
+    const diff = endDate.diff(start, ['months', 'days']);
+
+    if (diff.values.days <= 1) {
+      setDay('Today');
+    } else if (diff.values.days === 2) {
+      setDay('Tomorow');
+    } else if (diff.values.days < 8) {
+      setDay(endDate.toFormat('cccc'));
+    } else {
+      setDay(endDate.toFormat('LLL dd'));
+    }
+    setTime(DateTime.fromISO(task.time).toFormat('h:mm a'));
   };
 
-  timeDifference();
-  // console.log(task);
+  const selectTaskHandler = () => {
+    dispatch({
+      type: 'SET_TASK', task,
+    });
+  };
+
+  useEffect(() => {
+    timeDifference();
+  });
 
   return (
-    <div>
-      <img
-        src={task.user.profile_picture}
-        alt="profilePhoto"
-        style={{
-          height: '32px', width: '32px', objectFit: 'cover', borderRadius: '100%',
-        }}
-      />
-      {task.user.firstname}
-      {task.user.lastname}
-      {task.description}
-      {task.duration}
-      {task.time}
-      {task.car_required}
-    </div>
+    <Card onClick={selectTaskHandler}>
+      <Row style={{ justifyContent: 'space-between' }}>
+        <Row>
+          <Avatar src={task.user.profile_picture} alt="profilePhoto" />
+          <CardContent>
+            <Username>{`${task.user.firstname} ${task.user.lastname}`}</Username>
+            <Description>{`${task.description.substring(0, 60)}...`}</Description>
+          </CardContent>
+        </Row>
+        <DetailsCol>
+          <Details>{day}</Details>
+          <Details>{`${time}`}</Details>
+        </DetailsCol>
+      </Row>
+    </Card>
   );
 };
 
@@ -43,11 +72,31 @@ Task.propTypes = {
       lastname: PropTypes.string.isRequired,
       profile_picture: PropTypes.string.isRequired,
     }),
+    task_id: PropTypes.number,
     description: PropTypes.string.isRequired,
     duration: PropTypes.string,
+    date: PropTypes.string,
     time: PropTypes.string,
     car_required: PropTypes.bool,
   }).isRequired,
 };
 
 export default Task;
+
+// const timeDifference = () => {
+//   const endDate = DateTime.fromISO(task.date);
+//   const endTime = DateTime.fromISO(task.time);
+//   const start = DateTime.local();
+//   const diff = endDate.diff(start, ['months', 'days']);
+//   const diffTime = endTime.diff(start, ['hours', 'minutes', 'seconds']);
+
+//   if (diff.values.days <= 1) {
+//     setTime(DateTime.fromISO(task.time).toFormat('h:mm a'));
+//     // setMinutesRemaining(diffTime.values.minutes);
+//     // setHoursRemaining(diffTime.values.hours);
+//     // setDaysRemaining('today');
+//   } else if (diff.values.days > 1) {
+//     // setDaysRemaining(endDate.toFormat('ccc, LLL dd'));
+//     console.log(`in ${endDate.toFormat('ccc, LLL dd')} days`);
+//   }
+// };
