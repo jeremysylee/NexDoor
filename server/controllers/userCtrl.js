@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 const db = require('../../db/index');
 const getCoordinates = require('./coordinates');
+const bcrypt = require('bcrypt');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -36,7 +37,7 @@ const userControllers = {
     res = "User added to db"
   */
   addUser: (req, res) => {
-    const {
+    let {
       streetAddress,
       city,
       state,
@@ -48,7 +49,7 @@ const userControllers = {
       email,
       imgUrl,
     } = req.body;
-
+    password = bcrypt.hashSync(password, 10);
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
 
@@ -290,6 +291,48 @@ const userControllers = {
     db.query(queryStr)
       .then((data) => {
         res.status(200).send(data.rows[0]);
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
+  },
+  // *************************************************************
+
+  // *************************************************************
+  // AUTHENTICATE USERNAME & PASSWORD
+  // *************************************************************
+  /*  Takes a username and password and, if valid, returns a session
+
+    GET /api/login
+    req.body =
+    {
+        "email": "questionmaster3000@gmail.com",
+        "password": "chobiden"
+    }
+
+    res =
+      {
+
+      }
+  */
+  // *************************************************************
+  authenticateLogin: (req, res) => {
+    const { email, password } = req.body;
+    const queryStr = `
+      SELECT user_id, password
+      FROM nexdoor.users
+      WHERE email='${email}'
+    ;`;
+    db.query(queryStr)
+      .then((data) => {
+        const user_id = data.rows[0].user_id;
+        //compare passwords
+        if (!bcrypt.compareSync(password, data.rows[0].password)) {
+          res.status(404).send("error: password does not match");
+        } else {
+
+          res.status(200).send({user_id});
+        }
       })
       .catch((err) => {
         res.status(400).send(err.stack);

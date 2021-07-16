@@ -23,7 +23,8 @@ login.post('/',
         errors: errors.array(),
       });
     }
-    db.findUser(req, res);
+    // console.log(req.body)
+    db.authenticateLogin(req, res);
   });
 
 module.exports = login;
