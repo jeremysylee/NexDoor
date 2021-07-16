@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
+import EditTaskModal from './EditTaskModal'
 import {
   SelectedTaskContainer,
   AvatarLg,
@@ -54,6 +55,7 @@ const UnclaimedRequest = () => {
           </Col>
         </DetailsContainer>
       </Row>
+      <EditTaskModal />
       {/* <button>Next</button> */}
     </SelectedTaskContainer>
   );

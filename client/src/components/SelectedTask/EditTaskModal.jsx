@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
 import {
   Button,
   TextField,
@@ -15,27 +18,32 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core/';
-import axios from 'axios';
 
-function NewRequestModal() {
+function EditTaskModal() {
   const [open, setOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
-  const [request, setRequest] = useState({
-    streetAddress: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    neighborhood: '',
-    description: '',
-    category: '',
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    carRequired: false,
-    laborRequired: false,
-    duration: null,
-  });
+  const task = useSelector((store) => store.selectedTaskReducer.task);
+  console.log(task);
+  const [request, setRequest] = useState({});
   // const userId = useSelector((store) => store.currentUserReducer.userId);
+
+  useEffect(() => {
+    setRequest({
+      streetAddress: task.location.street_address,
+      city: task.location.city,
+      state: task.location.state,
+      zipcode: task.location.zipcode,
+      neighborhood: task.location.neighborhood,
+      description: task.description,
+      category: task.category.toLowerCase(),
+      startDate: task.start_date.split('T')[0],
+      endDate: task.end_date.split('T')[0],
+      startTime: task.start_time,
+      carRequired: (task.car_required === 'true'),
+      laborRequired: (task.physical_labor_required === 'true'),
+      duration: task.duration,
+    });
+  }, []);
 
   function handleClickOpen() {
     setOpen(true);
@@ -151,10 +159,10 @@ function NewRequestModal() {
   return (
     <div>
       <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-        Submit A New Request
+        Edit Request
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Request Help</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Request</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit}>
 
@@ -348,4 +356,4 @@ function NewRequestModal() {
   );
 }
 
-export default NewRequestModal;
+export default EditTaskModal;
