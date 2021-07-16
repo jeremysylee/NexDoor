@@ -13,7 +13,9 @@ const Chat = (taskId) => {
   let userId; // from react-redux
   const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
-  const [currentTask, setCurrentTask] = useState();
+  const [currentTask, setCurrentTask] = useState(taskId);
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
   const [messages, setMessages] = useState([
     {
       "firstname": "andrew",
@@ -31,7 +33,7 @@ const Chat = (taskId) => {
     },
   ]);
 
-  const [currentUser, setCurrentUser] = useState('Spongebob Squarepants');
+  const [currentUser, setCurrentUser] = useState();
 
   const handleChange = (e) => {
     setCurrentMessage(e.target.value);
@@ -41,15 +43,15 @@ const Chat = (taskId) => {
     // send Message to database
     // add message to messages and display render on screen(setstate)
     const d = new Date();
-    console.log(d.toISOString());
+    console.log(d);
     const message = {
-      firstname: 'Spongebob',
-      lastname: 'Squarepants',
+      firstname: firstName,
+      lastname: lastName,
       message_body: currentMessage,
       date: '',
       time: '',
     };
-    socket.emit('send-message', { task: currentTask, message: currentMessage });
+    socket.emit('send-message', { task: currentTask, message: message });
 
     setMessages((prev) => [...prev, message]); // ???
 
@@ -62,14 +64,23 @@ const Chat = (taskId) => {
   };
 
   useEffect(() => {
+    const result = window.prompt('Enter name and task number');
+    const resultContainer = result.split(' ');
+    setFirstName(resultContainer[0]);
+    setLastName(resultContainer[1]);
+    setCurrentUser(resultContainer[0] + ' ' + resultContainer[1]);
+    setCurrentTask(resultContainer[2]);
+  }, []);
+
+  useEffect(() => {
     // console.log('hi');
-    const result = window.prompt('Enter task id');
     // console.log('result: ', result);
-    setCurrentTask(result);
+    // setCurrentTask(taskId);
     // socket.emit('join', 'room1');
     socket.on(currentTask, (data) => {
-      console.log('currentTask: ', currentTask);
-      console.log('data: ', data);
+      // console.log('currentTask: ', currentTask);
+      // console.log('data: ', data);
+      setMessages((prev) => [...prev, data]);
     });
   }, [currentTask]);
 
@@ -77,6 +88,8 @@ const Chat = (taskId) => {
     <div>
       <div>
         {messages.map((message, idx) => {
+          console.log('current User: ', currentUser);
+          console.log('info: ', message.firstname, ' ', message.lastname);
           const user = `${message.firstname} ${message.lastname}`;
           // console.log(messages);
           let isUser;
