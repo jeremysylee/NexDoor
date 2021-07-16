@@ -1258,13 +1258,37 @@ const taskControllers = {
         res.status(400).send('err updating taskcount and karma', err.stack);
       });
   },
+
+  // *************************************************************
+  // DELETE TASK FROM DB
+  // *************************************************************
+  // Needs from Front End - taskId
+  // Returns - String confirmation
+  // *************************************************************
+  /*
+    DELETE /task/:taskId
+    req.body - none
+    res - 'Deleted task 17 from db'
+  */
+  // *************************************************************
+  deleteTask: (req, res) => {
+    const { taskId } = req.params;
+    const queryStr = `
+      DELETE FROM nexdoor.tasks
+      WHERE task_id=${taskId}
+    ;`;
+    db.query(queryStr)
+      .then(() => {
+        res.status(200).send(`Deleted task ${taskId} from db`);
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
+  },
 };
 
 module.exports = taskControllers;
 
-/// GET TASKS IN RANGE WITH A NON-HOME ADDRESS
-/// GET TOP REQUESTS FOR THE SAME NON-HOME ADDRESS
-/// UPDATE USER RATING AND TOTAL TASKS
 /// rendering more tasks - inifinite scroll thingss
 /// UPDATE TASKS - GET WHOLE TASK OBJECT
 /// DELETE TASK ENTIRELY

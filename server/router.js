@@ -38,7 +38,7 @@ router
     .post('/task/new/:userId', taskCtrl.addTaskNewAddress)
     .post('/task/home/:userId', taskCtrl.addTaskHomeAddress)
     // .put('/task/:taskId', taskCtrl.updateTask)
-    // .delete('/task/:taskId', taskCtrl.deleteTask)
+    .delete('/task/:taskId', taskCtrl.deleteTask)
   // USERS----------------------------------------------------------
     // GET
     .get('/user/info/:userId', userCtrl.getUser)
