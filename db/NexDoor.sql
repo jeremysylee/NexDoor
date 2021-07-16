@@ -206,7 +206,13 @@ CREATE INDEX fki_fk_photos_announcement_id
 CREATE TABLE nexdoor.sessions (
   session_id SERIAL,
   session_hash VARCHAR(255) NOT NULL,
-  CONSTRAINT sessions_pkey PRIMARY KEY (session_id)
+  user_id INTEGER NOT NULL,
+  expiry_date TIMESTAMP WITH TIME ZONE NOT NULL,
+  CONSTRAINT sessions_pkey PRIMARY KEY (session_id),
+  CONSTRAINT sessions_user_id_fk FOREIGN KEY (user_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.sessions
@@ -217,6 +223,19 @@ CREATE INDEX session_id_idx
     ON nexdoor.sessions USING btree
     (session_id ASC NULLS LAST)
     TABLESPACE pg_default;
+-- Index: fki_sessions_user_id_fk
+-- DROP INDEX nexdoor.fki_sessions_user_id_fk;
+CREATE INDEX fki_sessions_user_id_fk
+    ON nexdoor.sessions USING btree
+    (user_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Trigger: sessions_expiry_date_delete_trigger
+-- DROP TRIGGER sessions_expiry_date_delete_trigger ON nexdoor.sessions;
+CREATE TRIGGER sessions_expiry_date_delete_trigger
+    AFTER INSERT
+    ON nexdoor.sessions
+    FOR EACH ROW
+    EXECUTE FUNCTION nexdoor.sessions_expiry_date_delete();
 --*********************************************************************
 -- TASKS TABLE
 --*********************************************************************
@@ -317,4 +336,23 @@ CREATE INDEX user_avg_rating_idx
     ON nexdoor.users USING btree
     (avg_rating ASC NULLS LAST)
     TABLESPACE pg_default;
+--*********************************************************************
+--TRIGGER FUNCTIONS
+--*********************************************************************
+-- FUNCTION: nexdoor.sessions_expiry_date_delete()
+-- DROP FUNCTION nexdoor.sessions_expiry_date_delete();
+CREATE FUNCTION nexdoor.sessions_expiry_date_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+  DELETE FROM nexdoor.sessions WHERE expiry_date < NOW();
+  RETURN NEW;
+END;
+$BODY$;
+
+ALTER FUNCTION nexdoor.sessions_expiry_date_delete()
+    OWNER TO blueboolean;
 --*********************************************************************
