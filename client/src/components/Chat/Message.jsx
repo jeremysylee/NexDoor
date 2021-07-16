@@ -13,6 +13,7 @@ const Message = ({ message, isUser }) => {
   // console.log(message.message_body)
   return (
     <div style={style}>
+
       <div>{message.message_body}</div>
       <span>{message.time}</span>
     </div>
