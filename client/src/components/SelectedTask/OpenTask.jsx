@@ -20,7 +20,7 @@ import {
 
 const url = 'http://localhost:3500';
 
-const OpenRequest = () => {
+const OpenTask = () => {
   const userId = useSelector((store) => store.currentUserReducer.userId);
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
@@ -79,4 +79,4 @@ const OpenRequest = () => {
   );
 };
 
-export default OpenRequest;
+export default OpenTask;

@@ -21,6 +21,9 @@ const SidebarContainer = styled.div`
   padding-top: 1.5em;
   padding-right: 2em;
   height: 100vh;
+  position: sticky;
+  top: 0;
+  font-size: 8px;
 `;
 
 const Sidebar = () => {
