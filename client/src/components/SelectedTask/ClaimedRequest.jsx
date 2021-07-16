@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { useGetTasks, useGetRequests } from '../AppHooks/apiHooks';
 
 import {
   SelectedTaskContainer,
@@ -18,19 +19,8 @@ import {
 
 const url = 'http://localhost:3500';
 
-const OpenRequest = () => {
+const ClaimedRequest = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
-  // const date = useSelector((store) => store.taskDataFormattedReducer.date);
-  // const time = useSelector((store) => store.taskDataFormattedReducer.time);
-  // const {
-  //   streetAddress,
-  //   city,
-  //   state,
-  //   zipcode,
-  // } = task.address;
-
-  // function to get user from task.helper_id
-  // Temp data below
 
   const clickAcceptHandler = () => {
     axios.put(`${url}/api/task/change/Active/${task.task_id}`)
@@ -68,4 +58,4 @@ const OpenRequest = () => {
   );
 };
 
-export default OpenRequest;
+export default ClaimedRequest;

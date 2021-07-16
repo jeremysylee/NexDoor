@@ -8,37 +8,38 @@ import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
 import LoginButton from './LoginButton';
 import Active from './ActiveTask/Active';
-import { useGetTasks, useGetRequests } from './AppHooks/apiHooks';
 
 const url = 'http://localhost:3500';
 
 const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userId);
-  // const userId = 37;
 
   const getTasks = () => {
-    axios.get(`${url}/api/tasks/15`)
-      .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/15`)
+        .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
+    }, 500)
   };
 
-  // const getRequests = () => {
-  //   axios.get(`${url}/api/tasks/req/${userId}`)
-  //     .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
-  // };
+  const getRequests = () => {
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/req/${userId}`)
+        .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
+    }, 500)
+  };
 
-  // const getMyTasks = () => {
-  //   axios.get(`${url}/api/tasks/help/${userId}`)
-  //     .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
-  // };
-
-  useGetTasks(userId, dispatch);
-  useGetRequests(userId, dispatch);
+  const getMyTasks = () => {
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/help/${userId}`)
+        .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+    }, 500)
+  };
 
   useEffect(() => {
     getTasks();
-    // getRequests();
-    // getMyTasks();
+    getRequests();
+    getMyTasks();
   });
 
   return (
