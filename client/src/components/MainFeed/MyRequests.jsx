@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -18,15 +17,9 @@ const Card = styled.div`
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
 `;
 
-const MyRequests = ({ formatDate }) => {
+const MyRequests = () => {
   const placeholder = 'People Helping Me';
   const requests = useSelector((store) => store.requestsReducer.requests);
-
-  /* get list of tasks by requester id
-     API ENDPOINT => /api/getHelpTasksByUser
-     params required /:userId
-     returns list of tasks that have current user as helper in helper_id
-  */
 
   return (
     <div>
@@ -34,14 +27,10 @@ const MyRequests = ({ formatDate }) => {
         <CardHeaders>{placeholder}</CardHeaders>
       </Card>
       {requests.map((request) => (
-        <MyRequest request={request} formatDate={formatDate} key={request.task_id} />
+        <MyRequest request={request} key={request.task_id} />
       ))}
     </div>
   );
-};
-
-MyRequests.propTypes = {
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default MyRequests;

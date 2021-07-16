@@ -17,6 +17,8 @@ const SelectedTaskFrame = styled.div`
   border-radius: 10px;
   font-family: Roboto;
   padding: 2em 0;
+  position: sticky;
+  top: 1em;
 `;
 
 const SelectedTask = () => {

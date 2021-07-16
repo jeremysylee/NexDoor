@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import useFormatDate from './hooks/useFormatDate';
 
 import {
   Card,
@@ -22,11 +23,10 @@ StatusBadge.defaultProps = {
   },
 };
 
-const MyTask = ({ task, formatDate }) => {
+const MyTask = ({ task }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [day, setDay] = useState(0);
-  const [time, setTime] = useState();
+  const { day, time } = useFormatDate(task.start_date, task.start_time);
 
   // ************************************************************* //
 
@@ -55,8 +55,8 @@ const MyTask = ({ task, formatDate }) => {
 
   const getColor = () => {
     if (status === 'Unclaimed') { setColor('#ed8e99'); }
-    if (status === 'Pending') { setColor('#ed8e99'); }
-    if (status === 'Active') { setColor('#1A97DD'); }
+    if (status === 'Pending') { setColor('#e87f4c'); }
+    if (status === 'Active') { setColor('#1698b7'); }
     if (status === 'Closed') { setColor('#F3960A'); }
     if (status === 'Completed') { setColor('#666666'); }
   };
@@ -66,8 +66,6 @@ const MyTask = ({ task, formatDate }) => {
   useEffect(() => {
     setStatus(translateStatus());
     getColor();
-    setDay(formatDate(task.start_date, task.start_time).start_date);
-    setTime(formatDate(task.start_date, task.start_time).time);
   });
 
   const selectTaskHandler = () => {
@@ -116,7 +114,6 @@ MyTask.propTypes = {
     car_required: PropTypes.bool,
     status: PropTypes.oneOf(['Open', 'Pending', 'Active', 'Complete', 'Closed']),
   }).isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default MyTask;

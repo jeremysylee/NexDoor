@@ -33,7 +33,12 @@ const OpenRequest = () => {
   // Temp data below
 
   const clickAcceptHandler = () => {
-    axios.put(`${url}/api/task/change/active/${task.task_id}`)
+    axios.put(`${url}/api/task/change/Active/${task.task_id}`)
+      .then((res) => console.log(res));
+  };
+
+  const clickDeclineHandler = () => {
+    axios.put(`${url}/api/task/rmhelp/${task.task_id}`)
       .then((res) => console.log(res));
   };
 
@@ -51,7 +56,7 @@ const OpenRequest = () => {
       </UserInfo>
       <StatusText>has claimed your request!</StatusText>
       <Row>
-        <ButtonDecline>Decline</ButtonDecline>
+        <ButtonDecline onClick={clickDeclineHandler}>Decline</ButtonDecline>
         <Button onClick={clickAcceptHandler}>Accept</Button>
       </Row>
       <DetailsContainer>

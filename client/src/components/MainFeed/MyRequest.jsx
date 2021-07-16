@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { useHistory } from 'react-router-dom';
+
+import useFormatDate from './hooks/useFormatDate';
 
 import {
   Card,
@@ -22,12 +24,10 @@ StatusBadge.defaultProps = {
   },
 };
 
-const MyRequest = ({ request, formatDate }) => {
+const MyRequest = ({ request }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const [day, setDay] = useState(0);
-  const [time, setTime] = useState(0);
+  const { day, time } = useFormatDate(request.start_date, request.start_time);
 
   // ************************************************************* //
 
@@ -56,9 +56,9 @@ const MyRequest = ({ request, formatDate }) => {
   };
 
   const getColor = () => {
-    if (status === 'Unclaimed') { setColor('#ed8e99'); }
-    if (status === 'Claimed') { setColor('#f50257'); }
-    if (status === 'Active') { setColor('#1A97DD'); }
+    if (status === 'Unclaimed') { setColor('#7E7E7E'); }
+    if (status === 'Claimed') { setColor('#e87f4c'); }
+    if (status === 'Active') { setColor('#1698b7'); }
     if (status === 'Closed') { setColor('#F3960A'); }
     if (status === 'Completed') { setColor('#666666'); }
   };
@@ -67,8 +67,6 @@ const MyRequest = ({ request, formatDate }) => {
 
   useEffect(() => {
     getColor();
-    setDay(formatDate(request.start_date, request.start_time).date);
-    setTime(formatDate(request.start_date, request.start_time).time);
     setStatus(translateStatus());
   });
 
@@ -122,7 +120,6 @@ MyRequest.propTypes = {
     car_required: PropTypes.bool,
     status: PropTypes.oneOf(['Open', 'Pending', 'Active', 'Complete', 'Closed']),
   }).isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default MyRequest;
