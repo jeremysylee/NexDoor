@@ -6,7 +6,7 @@ import OpenRequest from './OpenRequest';
 import UnclaimedRequest from './UnclaimedRequest';
 import ClaimedRequest from './ClaimedRequest';
 import PendingTask from './PendingTask';
-import Active from '../ActiveTask/Active';
+import Active from '../ActiveTask/MyActive/MyActiveRequest';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;

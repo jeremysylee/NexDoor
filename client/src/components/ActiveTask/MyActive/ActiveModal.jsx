@@ -19,6 +19,7 @@ const ActiveModal = () => {
   const [ratings, setRatings] = useState(0);
   const [reviewStar, setReviewStar] = useState('');
 
+  const selectTask = useSelector((store) => store.selectedTaskReducer.task);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -136,7 +137,7 @@ const ActiveModal = () => {
         </Modal.Footer>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default ActiveModal;

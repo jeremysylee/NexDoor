@@ -35,7 +35,7 @@ const Sidebar = () => {
   };
 
   const handleActive = () => {
-    history.push('/active');
+    history.push('/myactiverequest');
   };
 
   return (
