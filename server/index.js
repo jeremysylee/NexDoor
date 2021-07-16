@@ -28,7 +28,12 @@ app.use(express.static(path.join(__dirname, '..', 'client/index')));
 
 io.on('connection', (socket) => {
   console.log('user connected');
-  socket.on('send-chat-message', (message) => {
-    socket.broadcast.emit('chat-message', message);
+  // socket.on('join', (room) => {
+  //   socket.join(room);
+  // });
+  socket.on('send-message', ({ task, message }) => {
+    console.log(task);
+    socket.broadcast.emit(task, message);
+    // socket.to('room1').emit(message);
   });
 });

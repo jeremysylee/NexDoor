@@ -13,6 +13,7 @@ const Chat = (taskId) => {
   let userId; // from react-redux
   const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
+  const [currentTask, setCurrentTask] = useState();
   const [messages, setMessages] = useState([
     {
       "firstname": "andrew",
@@ -48,7 +49,7 @@ const Chat = (taskId) => {
       date: '',
       time: '',
     };
-    socket.emit('send-chat-message', message.message_body);
+    socket.emit('send-message', { task: currentTask, message: currentMessage });
 
     setMessages((prev) => [...prev, message]); // ???
 
@@ -61,11 +62,16 @@ const Chat = (taskId) => {
   };
 
   useEffect(() => {
-    console.log('hi');
-    socket.on('chat-message', (data) => {
+    // console.log('hi');
+    const result = window.prompt('Enter task id');
+    // console.log('result: ', result);
+    setCurrentTask(result);
+    // socket.emit('join', 'room1');
+    socket.on(currentTask, (data) => {
+      console.log('currentTask: ', currentTask);
       console.log('data: ', data);
     });
-  }, []);
+  }, [currentTask]);
 
   return (
     <div>

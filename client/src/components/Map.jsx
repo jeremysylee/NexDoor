@@ -48,7 +48,7 @@ const Map = () => {
   const getAddresses = () => {
     axios.get(url + '/api/tasks/15')
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setAddresses(res.data);
       });
   };

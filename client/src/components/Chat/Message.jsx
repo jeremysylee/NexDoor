@@ -10,7 +10,7 @@ const Message = ({ message, isUser }) => {
     style = { margintLeft: '10%' };
   }
 
-  console.log(message.message_body)
+  // console.log(message.message_body)
   return (
     <div style={style}>
       <div>{message.message_body}</div>
