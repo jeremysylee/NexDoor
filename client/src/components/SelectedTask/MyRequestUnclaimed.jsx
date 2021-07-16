@@ -1,3 +1,5 @@
+/* eslint camelcase: 0 */ // --> OFF
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {

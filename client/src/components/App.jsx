@@ -14,21 +14,29 @@ const url = 'http://localhost:3500';
 const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userId);
-  // const userId = 37;
 
   const getTasks = () => {
-    axios.get(`${url}/api/tasks/15`)
-      .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/all/15`)
+        .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
+    }, 500)
   };
 
   const getRequests = () => {
-    axios.get(`${url}/api/tasks/req/${userId}`)
-      .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/req/${userId}`)
+        .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
+    }, 500);
   };
 
   const getMyTasks = () => {
     axios.get(`${url}/api/tasks/help/${userId}`)
       .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/help/${userId}`)
+        .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+    }, 500);
   };
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import {
   SelectedTaskContainer,
@@ -11,29 +12,24 @@ import {
   DetailsContainer,
   HeadingSmall,
   Row,
-  // Col,
   Button,
   ButtonDecline,
 } from './styles-SelectedTask';
 
 const url = 'http://localhost:3500';
 
-const OpenRequest = () => {
+const MyRequestClaimed = () => {
+  const history = useHistory();
   const task = useSelector((store) => store.selectedTaskReducer.task);
-  // const date = useSelector((store) => store.taskDataFormattedReducer.date);
-  // const time = useSelector((store) => store.taskDataFormattedReducer.time);
-  // const {
-  //   streetAddress,
-  //   city,
-  //   state,
-  //   zipcode,
-  // } = task.address;
-
-  // function to get user from task.helper_id
-  // Temp data below
 
   const clickAcceptHandler = () => {
-    axios.put(`${url}/api/task/change/active/${task.task_id}`)
+    axios.put(`${url}/api/task/change/Active/${task.task_id}`)
+      .then((res) => console.log(res))
+      .then(() => { history.push('/active'); });
+  };
+
+  const clickDeclineHandler = () => {
+    axios.put(`${url}/api/task/rmhelp/${task.task_id}`)
       .then((res) => console.log(res));
   };
 
@@ -51,16 +47,15 @@ const OpenRequest = () => {
       </UserInfo>
       <StatusText>has claimed your request!</StatusText>
       <Row>
-        <ButtonDecline>Decline</ButtonDecline>
+        <ButtonDecline onClick={clickDeclineHandler}>Decline</ButtonDecline>
         <Button onClick={clickAcceptHandler}>Accept</Button>
       </Row>
       <DetailsContainer>
         <HeadingSmall>REQUEST DETAILS</HeadingSmall>
         <p>{task.description}</p>
       </DetailsContainer>
-      {/* <button>Next</button> */}
     </SelectedTaskContainer>
   );
 };
 
-export default OpenRequest;
+export default MyRequestClaimed;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
+import useFormatDate from './hooks/useFormatDate';
 
 import {
   Card,
@@ -13,21 +14,18 @@ import {
   Details,
 } from './styles-MainFeed';
 
-const Task = ({ task, formatDate }) => {
+const Task = ({ task }) => {
   const dispatch = useDispatch();
-  const [day, setDay] = useState(0);
-  const [time, setTime] = useState();
+  const { day, time } = useFormatDate(task.start_date, task.start_time);
 
   const selectTaskHandler = () => {
     dispatch({
       type: 'SET_TASK', task,
     });
+    dispatch({
+      type: 'SHOW_MAP', toggle: false,
+    });
   };
-
-  useEffect(() => {
-    setDay(formatDate(task.start_date, task.start_time).start_date);
-    setTime(formatDate(task.start_date, task.start_time).time);
-  });
 
   return (
     <Card onClick={selectTaskHandler}>
@@ -62,7 +60,6 @@ Task.propTypes = {
     start_time: PropTypes.string,
     car_required: PropTypes.bool,
   }).isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default Task;
