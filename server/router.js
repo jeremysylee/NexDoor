@@ -41,7 +41,7 @@ router
     // .delete('/task/:taskId', taskCtrl.deleteTask)
   // USERS----------------------------------------------------------
     // GET
-    .get('/user/:userId', userCtrl.getUser)
+    .get('/user/info/:userId', userCtrl.getUser)
     .get('/users/rating/:quantity', userCtrl.getUsersByRating)
     // ADD / UPDATE
     .post('/user', userCtrl.addUser)

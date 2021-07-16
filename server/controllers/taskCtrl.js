@@ -840,8 +840,6 @@ const taskControllers = {
     getCoordinates(addressQuery)
       .then((testCoord) => {
         coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-        console.log('coordinate', coordinate);
-        console.log('range', range);
       })
       .then(() => {
         queryDb();
@@ -1259,7 +1257,7 @@ const taskControllers = {
       .catch((err) => {
         res.status(400).send('err updating taskcount and karma', err.stack);
       });
-  }
+  },
 };
 
 module.exports = taskControllers;

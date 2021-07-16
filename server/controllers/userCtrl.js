@@ -15,8 +15,9 @@ const userControllers = {
   // *************************************************************
   // ADD A NEW USER
   // *************************************************************
-  //   Needs from Front End - street address, city, state, zipcode, neighborhood (optional), coordinate (from GoogleMaps API), first name, last name, password, email, imgUrl (optional)
-  //   Returns - String confirmation
+  // Needs from Front End - street address, city, state, zipcode, neighborhood (optional), coordinate (from GoogleMaps API), first name, last name, password, email, imgUrl (optional)
+  // Returns - String confirmation
+  // Notes
   // *************************************************************
   /*
     POST /api/user
@@ -41,13 +42,13 @@ const userControllers = {
       city,
       state,
       zipcode,
-      neighborhood,
       firstName,
       lastName,
       password,
       email,
-      imgUrl,
     } = req.body;
+
+    const { imgUrl, neighborhood } = req.body || null;
 
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
@@ -96,12 +97,14 @@ const userControllers = {
           null,
           '${imgUrl}',
           (SELECT CURRENT_TIMESTAMP)
-        FROM X;
+        FROM X
+        RETURNING
+          user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
       `;
 
       db.query(queryStr)
-        .then(() => {
-          res.status(200).send('User added to db');
+        .then((data) => {
+          res.status(200).send(data.rows[0]);
         })
         .catch((err) => {
           res.status(400).send(err.stack);
