@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import {
   Dashboard,
   People,
-  ShoppingCart,
   BarChart,
   Layers,
   MarkunreadMailboxTwoTone,
@@ -16,10 +15,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
+import LoginButton from './LoginButton';
 
 const SidebarContainer = styled.div`
   padding-top: 1.5em;
   padding-right: 2em;
+  height: 100vh;
 `;
 
 const Sidebar = () => {
@@ -72,6 +73,7 @@ const Sidebar = () => {
       <ListItem button onClick={handleHelpfulFeed}>
         <ListItemText primary="NexDoor's Most Helpful" />
       </ListItem>
+      <LoginButton />
     </SidebarContainer>
   );
 };

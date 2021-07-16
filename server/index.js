@@ -18,6 +18,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan('dev'));
 app.use(cors());
+
+// const config = {
+//   baseURL: process.env.BASE_URL,
+//   clientID: process.env.CLIENT_ID,
+//   issuerBaseURL: process.env.ISSUER_BASE_URL,
+//   secret: process.env.SECRET,
+//   idpLogout: true,
+//   authRequired: false,
+// };
+
+// app.use(auth(config));
+
 app.use('/api', router);
 
 app.listen(port, () => {

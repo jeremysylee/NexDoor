@@ -43,7 +43,8 @@ const Chat = (taskId) => {
     // send Message to database
     // add message to messages and display render on screen(setstate)
     const d = new Date();
-    console.log(d);
+    // console.log(JSON.stringify(d));
+    console.log(typeof d);
     const message = {
       firstname: firstName,
       lastname: lastName,
