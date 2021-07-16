@@ -20,17 +20,15 @@ const HelpfulFeed = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
 
 
-
   const placeholder = "NexDoor's Most Helpful";
 
   return (
-    <div>
+    <div style={{ fontStyle: 'Roboto', backgroundColor: "rgb(241, 242, 245)" }}>
       <Header />
       <Grid
         container
         direction="row"
         spacing={5}
-        style={{ fontStyle: 'Roboto' }}
       >
         <Grid item xs={3} >
           <Sidebar />
@@ -39,7 +37,7 @@ const HelpfulFeed = () => {
           item xs={5}
         >
           <h1>{placeholder}</h1>
-          {tasks.map((task, index) => (<User user={task.user} key={index} />))}
+          {tasks.map((task, index) => (<User user={task.requester} key={index} />))}
         </Grid>
       </Grid>
     </div>
