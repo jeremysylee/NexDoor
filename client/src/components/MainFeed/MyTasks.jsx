@@ -26,14 +26,14 @@ const MyTasks = () => {
   const myTasks = useSelector((store) => store.myTasksReducer.myTasks);
   const userId = useSelector((store) => store.currentUserReducer.userId);
 
-  const getMyTasks = () => {
-    axios.get(`${url}/api/tasks/help/${userId}`)
-      .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
-  };
+  // const getMyTasks = () => {
+  //   axios.get(`${url}/api/tasks/help/${userId}`)
+  //     .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+  // };
 
-  useEffect(() => {
-    getMyTasks();
-  });
+  // useEffect(() => {
+  //   getMyTasks();
+  // }, [myTasks]);
 
   return (
     <div>
@@ -41,7 +41,7 @@ const MyTasks = () => {
         <CardHeaders>People I Am Helping</CardHeaders>
       </Card>
       {myTasks.map((task) => (
-        <MyTask task={task} getTasks={getMyTasks} key={task.task_id} />
+        <MyTask task={task} key={task.task_id} />
       ))}
     </div>
   );

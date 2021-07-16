@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
 const useFormatDate = (rawDate, rawTime) => {
@@ -21,7 +21,7 @@ const useFormatDate = (rawDate, rawTime) => {
     formatDate(rawDate, rawTime);
   });
 
-  return { day, time }
+  return { day, time };
 };
 
 export default useFormatDate;

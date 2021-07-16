@@ -8,6 +8,7 @@ import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
 import LoginButton from './LoginButton';
 import Active from './ActiveTask/Active';
+import { useGetTasks, useGetRequests } from './AppHooks/apiHooks';
 
 const url = 'http://localhost:3500';
 
@@ -21,20 +22,23 @@ const App = () => {
       .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
   };
 
-  const getRequests = () => {
-    axios.get(`${url}/api/tasks/req/${userId}`)
-      .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
-  };
+  // const getRequests = () => {
+  //   axios.get(`${url}/api/tasks/req/${userId}`)
+  //     .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
+  // };
 
-  const getMyTasks = () => {
-    axios.get(`${url}/api/tasks/help/${userId}`)
-      .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
-  };
+  // const getMyTasks = () => {
+  //   axios.get(`${url}/api/tasks/help/${userId}`)
+  //     .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+  // };
+
+  useGetTasks(userId, dispatch);
+  useGetRequests(userId, dispatch);
 
   useEffect(() => {
     getTasks();
-    getRequests();
-    getMyTasks();
+    // getRequests();
+    // getMyTasks();
   });
 
   return (
