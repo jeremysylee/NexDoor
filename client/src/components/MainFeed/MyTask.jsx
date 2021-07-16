@@ -14,10 +14,10 @@ import {
   Description,
   DetailsCol,
   Details,
-  StatusBadge,
+  StatusBadgeTasks,
 } from './styles-MainFeed';
 
-StatusBadge.defaultProps = {
+StatusBadgeTasks.defaultProps = {
   theme: {
     statusColor: '#f50257',
   },
@@ -69,11 +69,16 @@ const MyTask = ({ task }) => {
   });
 
   const selectTaskHandler = () => {
+    let showMapToggle = false;
     if (task.status === 'Active') {
       history.push('/active');
+      showMapToggle = true;
     }
     dispatch({
       type: 'SET_TASK', task,
+    });
+    dispatch({
+      type: 'SHOW_MAP', toggle: showMapToggle,
     });
   };
 
@@ -89,7 +94,7 @@ const MyTask = ({ task }) => {
         </Row>
         <DetailsCol>
           <ThemeProvider theme={theme}>
-            <StatusBadge>{status}</StatusBadge>
+            <StatusBadgeTasks>{status}</StatusBadgeTasks>
           </ThemeProvider>
           <Details>{day}</Details>
           <Details>{time}</Details>

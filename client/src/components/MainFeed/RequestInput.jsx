@@ -67,7 +67,7 @@ const RequestInput = () => {
       <Card>
         <VerticalLine />
         <Row>
-          <Avatar src="https://static.wikia.nocookie.net/gotham-inc/images/6/6a/Kristin_Kringle.png/revision/latest?cb=20150826211938" alt={userId} />
+          <Avatar src="https://static.wikia.nocookie.net/gotham-inc/images/6/6a/Kristin_Kringle.png/revision/latest?cb=20150826211938" alt={userId.toString()} />
           <Input>&nbsp;What do you need help with?</Input>
         </Row>
         <Line />

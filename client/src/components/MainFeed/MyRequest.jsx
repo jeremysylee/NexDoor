@@ -71,11 +71,16 @@ const MyRequest = ({ request }) => {
   });
 
   const selectTaskHandler = () => {
+    let showMapToggle = false;
     if (request.status === 'Active') {
       history.push('/active');
+      showMapToggle = true;
     }
     dispatch({
       type: 'SET_TASK', task: request,
+    });
+    dispatch({
+      type: 'SHOW_MAP', toggle: showMapToggle,
     });
   };
 
@@ -87,7 +92,7 @@ const MyRequest = ({ request }) => {
     <Card onClick={selectTaskHandler}>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row style={{ marginBottom: '0.5em' }}>
-          {request.status === 'Open' && <Avatar src="potato" alt="?" />}
+          {request.status === 'Open' && <Avatar src="" alt="?" />}
           {request.status !== 'Open' && <Avatar src={request.helper.profile_picture_url} alt={request.helper.firstname} />}
           <CardContent>
             {request.status === 'Open' && <Username>No one has claimed your request yet!</Username>}

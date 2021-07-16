@@ -66,19 +66,24 @@ export const Subdetails = styled.div`
 `;
 
 export const StatusBadge = styled.div`
-border-radius: 100px;
-height: 20px;
-width: 100px;
-z-index: 1;
-background-color: ${(props) => props.theme.statusColor};
-position: absolute;
-text-align: center;
-padding: 1px;
-color: white;
-font-size: 0.75rem;
-font-weight: 400;
-transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-transform: scale(1) translate(-57%, -118%);
-transform-origin: 0% 0%;
-box-sizing: border-box;
+  border-radius: 100px;
+  height: 20px;
+  width: 100px;
+  z-index: 1;
+  background-color: ${(props) => props.theme.statusColor};
+  position: absolute;
+  text-align: center;
+  padding: 1px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 400;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transform: scale(1) translate(-57%, -118%);
+  transform-origin: 0% 0%;
+  box-sizing: border-box;
+`;
+
+export const StatusBadgeTasks = styled(StatusBadge)`
+transform: scale(1) translate(-10%, -118%);
+
 `;

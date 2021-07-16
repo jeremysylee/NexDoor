@@ -22,6 +22,9 @@ const Task = ({ task }) => {
     dispatch({
       type: 'SET_TASK', task,
     });
+    dispatch({
+      type: 'SHOW_MAP', toggle: false,
+    });
   };
 
   return (

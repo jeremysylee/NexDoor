@@ -16,6 +16,7 @@ const Card = styled.div`
 
 const Tasks = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
+  const userId = useSelector((store) => store.currentUserReducer.userId);
 
   return (
     <div>
@@ -29,9 +30,20 @@ const Tasks = () => {
           Others Requesting Help
         </div>
       </Card>
-      {tasks.map((task) => (<Task task={task} key={task.task_id} />))}
+      {tasks.map((task) => {
+        if (task.status === 'Open' && task.requester.user_id !== userId) {
+          return (<Task task={task} key={task.task_id} />);
+        }
+      })}
     </div>
   );
 };
 
 export default Tasks;
+
+// {tasks.map((task) => {
+//   if (task.requester.user_id !== userId || task.helper.user_id !== userId) {
+//     return (<Task task={task} key={task.task_id} />);
+//   }
+//   return <></>;
+// })};
