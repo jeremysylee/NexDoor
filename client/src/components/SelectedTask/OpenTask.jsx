@@ -7,10 +7,12 @@ import axios from 'axios';
 import {
   SelectedTaskContainer,
   AvatarLg,
+  // AvatarRing,
   Username,
   UserInfo,
   StatusText,
   DetailsContainer,
+  DetailsContainerTime,
   HeadingSmall,
   Row,
   RowSlim,
@@ -18,6 +20,7 @@ import {
   Button,
   ButtonDecline,
   BackButton,
+  Line,
 } from './styles-SelectedTask';
 
 const url = 'http://localhost:3500';
@@ -51,10 +54,13 @@ const OpenTask = () => {
       <RowSlim>
         <BackButton onClick={clickBackHandler}>Back</BackButton>
       </RowSlim>
-      <AvatarLg
-        src={task.requester.profile_picture_url}
-        alt={task.requester.firstname}
-      />
+      <div>
+        <AvatarLg
+          src={task.requester.profile_picture_url}
+          alt={task.requester.firstname}
+        />
+        {/* <AvatarRing /> */}
+      </div>
       <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
       <UserInfo>
         <span>{`★ ${task.requester.average_rating}`}</span>
@@ -74,16 +80,17 @@ const OpenTask = () => {
             <span>{`${city} ${state} ${zipcode}`}</span>
           </Col>
         </DetailsContainer>
-        <DetailsContainer>
+        <DetailsContainerTime>
           <HeadingSmall>TIME</HeadingSmall>
           <Col>
             <span>{`${date}`}</span>
             <span>{`${time}`}</span>
           </Col>
-        </DetailsContainer>
+        </DetailsContainerTime>
       </Row>
+      <Line />
       <Row>
-        <ButtonDecline>Back</ButtonDecline>
+        <ButtonDecline onClick={clickBackHandler}>Decline</ButtonDecline>
         <Button onClick={clickClaimHandler}>Claim</Button>
       </Row>
       {/* <button>Next</button> */}

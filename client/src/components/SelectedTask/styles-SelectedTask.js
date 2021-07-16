@@ -16,9 +16,16 @@ export const AvatarLg = styled.img`
   border-radius: 100%;
 `;
 
+export const AvatarRing = styled.div`
+  border-radius: 100px;
+  background: linear-gradient(to right, #DB8457, #4496B4, #61C0CB);
+  width: 90px;
+  height: 90px;
+`;
+
 export const BackButton = styled.button`
   border: none;
-  background-color: #fbfbfb;
+  background-color: white;
   font-weight: 300;
   font-size: 18px;
   -webkit-transition: all 100ms ease-out;
@@ -45,7 +52,9 @@ export const UserInfo = styled.div`
 
 export const StatusText = styled(Username)`
   font-weight: 200;
-  // font-size: 18px;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  font-size: 24px;
 `;
 
 export const DetailsContainer = styled.div`
@@ -58,16 +67,21 @@ export const DetailsContainer = styled.div`
   line-height: 1.5;
   border-radius: 10px;
   padding: 1em 2em;
-  box-shadow: inset 2px 2px 4px #DEDEDE, inset -2px -2px 4px white;
-  background-color: #FBFBFB;
-  margin-top: 2em;
+  box-shadow: inset 4px 4px 4px #E8E8E8, inset -2px -2px 4px #F4F4F4;
+  background-color: white;
+`;
+
+export const DetailsContainerTime = styled(DetailsContainer)`
+  margin-left: 15px;
+  flex-shrink: 2;
 `;
 
 export const HeadingSmall = styled.div`
   font-weight: 400;
   font-size: 14px;
-  color: grey;
-  margin-bottom: 10px;
+  color: black;
+  margin-bottom: 7px;
+  margin-top: 5px;
 `;
 
 export const Row = styled.div`
@@ -89,14 +103,33 @@ export const Col = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 160px;
+  width: 100%;
   height: 40px;
-  background-color: #f50257;
-  color: white;
-  border-radius: 100px;
+  background-color: white;
+  color: #4496B4;
+  border-radius: 10px;
   border: none;
+  font-weight: 300;
+  font-size: 18px;
+  -webkit-transition: all 400ms ease;
+  -moz-transition: all 400ms ease;
+  -ms-transition: all 400ms ease;
+  -o-transition: all 400ms ease;
+  transition: all 400ms ease;
+  &:hover {
+    background-color: #ECECEC;
+    font-weight: 500;
+  }
 `;
 
 export const ButtonDecline = styled(Button)`
-  background-color: grey;
+  color: grey;
+`;
+
+export const Line = styled.hr`
+  margin-bottom: 0px;
+  margin-top: 18px;
+  border-top: 10px;
+  border: 1px solid #b7b7b7;
+  width: 80%;
 `;

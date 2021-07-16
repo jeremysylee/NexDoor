@@ -1,7 +1,7 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   SelectedTaskContainer,
   AvatarLg,
@@ -11,10 +11,13 @@ import {
   DetailsContainer,
   HeadingSmall,
   Row,
+  RowSlim,
   Col,
+  BackButton,
 } from './styles-SelectedTask';
 
-const UnclaimedRequest = () => {
+const MyRequestUnclaimed = () => {
+  const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
@@ -25,8 +28,17 @@ const UnclaimedRequest = () => {
     zipcode,
   } = task.location;
 
+  const clickBackHandler = () => {
+    dispatch({
+      type: 'SHOW_MAP', toggle: true,
+    });
+  };
+
   return (
     <SelectedTaskContainer>
+      <RowSlim>
+        <BackButton onClick={clickBackHandler}>Back</BackButton>
+      </RowSlim>
       <AvatarLg
         style={{ backgroundColor: 'grey' }}
         alt=""
@@ -59,4 +71,4 @@ const UnclaimedRequest = () => {
   );
 };
 
-export default UnclaimedRequest;
+export default MyRequestUnclaimed;
