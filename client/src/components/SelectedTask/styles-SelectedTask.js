@@ -16,6 +16,21 @@ export const AvatarLg = styled.img`
   border-radius: 100%;
 `;
 
+export const BackButton = styled.button`
+  border: none;
+  background-color: #fbfbfb;
+  font-weight: 300;
+  font-size: 18px;
+  -webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  &:hover{
+    color: grey;
+  }
+`;
+
 export const Username = styled.div`
   font-weight: 400;
   font-size: 18px;
@@ -61,6 +76,11 @@ export const Row = styled.div`
   justify-content: space-between;
   width: 80%;
   margin-top: 1em;
+`;
+
+export const RowSlim = styled(Row)`
+  margin-top: -1em;
+  margin-bottom: -1em;
 `;
 
 export const Col = styled.div`

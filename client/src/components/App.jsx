@@ -6,7 +6,7 @@ import Home from './Home';
 import SignUp from './SignUp';
 import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
-import LoginButton from './LoginButton';
+// import LoginButton from './LoginButton';
 import Active from './ActiveTask/Active';
 
 const url = 'http://localhost:3500';
@@ -17,9 +17,9 @@ const App = () => {
 
   const getTasks = () => {
     setInterval(() => {
-      axios.get(`${url}/api/tasks/all/15`)
+      axios.get(`${url}/api/tasks/all/30`)
         .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
-    }, 500)
+    }, 500);
   };
 
   const getRequests = () => {

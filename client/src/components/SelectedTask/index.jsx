@@ -16,9 +16,14 @@ const SelectedTaskFrame = styled.div`
   margin-left: 1em;
   border-radius: 10px;
   font-family: Roboto;
-  padding: 2em 0;
+  padding: 3em 0;
   position: sticky;
   top: 1em;
+  -webkit-transition: 200ms linear;
+  -moz-transition: 200ms linear;
+  -ms-transition: 200ms linear;
+  -o-transition: 200ms linear;
+  transition: 200ms linear;
 `;
 
 const SelectedTask = () => {

@@ -1,7 +1,7 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import {
@@ -13,14 +13,17 @@ import {
   DetailsContainer,
   HeadingSmall,
   Row,
+  RowSlim,
   Col,
   Button,
   ButtonDecline,
+  BackButton,
 } from './styles-SelectedTask';
 
 const url = 'http://localhost:3500';
 
 const OpenTask = () => {
+  const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userId);
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
@@ -37,8 +40,17 @@ const OpenTask = () => {
       .then((res) => console.log(res));
   };
 
+  const clickBackHandler = () => {
+    dispatch({
+      type: 'SHOW_MAP', toggle: true,
+    });
+  };
+
   return (
     <SelectedTaskContainer>
+      <RowSlim>
+        <BackButton onClick={clickBackHandler}>Back</BackButton>
+      </RowSlim>
       <AvatarLg
         src={task.requester.profile_picture_url}
         alt={task.requester.firstname}
