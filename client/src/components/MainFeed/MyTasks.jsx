@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import React from 'react';
+import { useSelector } from 'react-redux';
+// import axios from 'axios';
 import styled from 'styled-components';
 import {
   CardHeaders,
@@ -8,7 +8,7 @@ import {
 
 import MyTask from './MyTask';
 
-const url = 'http://localhost:3500';
+// const url = 'http://localhost:3500';
 
 const Card = styled.div`
   max-width: 100%;
@@ -22,18 +22,7 @@ const Card = styled.div`
 `;
 
 const MyTasks = () => {
-  const dispatch = useDispatch();
   const myTasks = useSelector((store) => store.myTasksReducer.myTasks);
-  const userId = useSelector((store) => store.currentUserReducer.userId);
-
-  // const getMyTasks = () => {
-  //   axios.get(`${url}/api/tasks/help/${userId}`)
-  //     .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
-  // };
-
-  // useEffect(() => {
-  //   getMyTasks();
-  // }, [myTasks]);
 
   return (
     <div>

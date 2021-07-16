@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
 
 import {
-  CardHeaders,
   Row,
 } from './styles-MainFeed';
 
-const url = 'http://localhost:3500';
+// const url = 'http://localhost:3500';
 
 const Card = styled.div`
   max-width: 100%;
