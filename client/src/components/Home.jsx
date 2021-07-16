@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 // import styled from 'styled-components';
 
 import NewRequestModal from './NewRequestModal';
@@ -19,23 +20,28 @@ import SelectedTask from './SelectedTask';
 //   align-items: center;
 // `;
 
-const Home = () => (
-  <div style={{ backgroundColor: '#f1f2f5' }}>
-    <Header />
-    <NewRequestModal />
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="flex-start"
-      style={{ fontStyle: 'Roboto' }}
-    >
-      <Sidebar />
-      <MainFeed />
-      <SelectedTask />
-      {/* <MapPlaceholder /> */}
-    </Grid>
-  </div>
-);
+const Home = () => {
+  const selectedStyle = useSelector((store) => store.selectedTaskReducer.task);
+
+  return (
+    <div style={{ backgroundColor: '#f1f2f5' }}>
+      <Header />
+      <NewRequestModal />
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="flex-start"
+        style={{ fontStyle: 'Roboto' }}
+      >
+        <Sidebar />
+        <MainFeed />
+        <SelectedTask />
+        {/* <MapPlaceholder /> */}
+      </Grid>
+    </div>
+  );
+}
+
 
 export default Home;

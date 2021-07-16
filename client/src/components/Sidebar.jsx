@@ -23,6 +23,7 @@ const SidebarContainer = styled.div`
   height: 100vh;
   position: sticky;
   top: 0;
+  font-size: 8px;
 `;
 
 const Sidebar = () => {

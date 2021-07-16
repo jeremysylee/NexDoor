@@ -1,7 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { useGetTasks, useGetRequests } from '../AppHooks/apiHooks';
 
 import {
   SelectedTaskContainer,
@@ -19,7 +18,7 @@ import {
 
 const url = 'http://localhost:3500';
 
-const ClaimedRequest = () => {
+const MyRequestClaimed = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
 
   const clickAcceptHandler = () => {
@@ -53,9 +52,8 @@ const ClaimedRequest = () => {
         <HeadingSmall>REQUEST DETAILS</HeadingSmall>
         <p>{task.description}</p>
       </DetailsContainer>
-      {/* <button>Next</button> */}
     </SelectedTaskContainer>
   );
 };
 
-export default ClaimedRequest;
+export default MyRequestClaimed;

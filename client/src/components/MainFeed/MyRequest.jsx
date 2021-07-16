@@ -14,7 +14,7 @@ import {
   Username,
   Description,
   DetailsCol,
-  Details,
+  Subdetails,
   StatusBadge,
 } from './styles-MainFeed';
 
@@ -86,21 +86,22 @@ const MyRequest = ({ request }) => {
   return (
     <Card onClick={selectTaskHandler}>
       <Row style={{ justifyContent: 'space-between' }}>
-        <Row>
-          <Avatar src={request.requester.profile_picture_url} alt="profilePHoto" />
+        <Row style={{ marginBottom: '0.5em' }}>
+          {request.status === 'Open' && <Avatar src="potato" alt="?" />}
+          {request.status !== 'Open' && <Avatar src={request.helper.profile_picture_url} alt={request.helper.firstname} />}
           <CardContent>
-            <Username>{`${request.requester.firstname} ${request.requester.lastname}`}</Username>
-            <Description>{`${request.description.substring(0, 60)}...`}</Description>
+            {request.status === 'Open' && <Username>No one has claimed your request yet!</Username>}
+            {request.status !== 'Open' && <Username>{`${request.helper.firstname} ${request.helper.lastname} is helping you with this request`}</Username>}
+            <Subdetails>{`${day} ${time}`}</Subdetails>
           </CardContent>
         </Row>
         <DetailsCol>
           <ThemeProvider theme={theme}>
             <StatusBadge>{status}</StatusBadge>
           </ThemeProvider>
-          <Details>{day}</Details>
-          <Details>{time}</Details>
         </DetailsCol>
       </Row>
+      <Description>{`${request.description.substring(0, 60)}...`}</Description>
     </Card>
   );
 };
@@ -110,6 +111,11 @@ MyRequest.propTypes = {
     requester: PropTypes.shape({
       firstname: PropTypes.string.isRequired,
       lastname: PropTypes.string.isRequired,
+      profile_picture_url: PropTypes.string.isRequired,
+    }),
+    helper: PropTypes.shape({
+      firstname: PropTypes.string,
+      lastname: PropTypes.string,
       profile_picture_url: PropTypes.string.isRequired,
     }),
     task_id: PropTypes.number,

@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
-import OpenRequest from './OpenRequest';
-import UnclaimedRequest from './UnclaimedRequest';
-import ClaimedRequest from './ClaimedRequest';
-import PendingTask from './PendingTask';
+import OpenTask from './OpenTask';
+import MyRequestUnclaimed from './MyRequestUnclaimed';
+import MyRequestClaimed from './MyRequestClaimed';
+import MyTaskPending from './MyTaskPending';
 import Active from '../ActiveTask/Active';
 
 const SelectedTaskFrame = styled.div`
@@ -46,7 +46,7 @@ const SelectedTask = () => {
   if (task.status === 'Open' && task.requester.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
-        <UnclaimedRequest />
+        <MyRequestUnclaimed />
       </SelectedTaskFrame>
 
     );
@@ -55,7 +55,7 @@ const SelectedTask = () => {
   if (task.status === 'Pending' && task.requester.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
-        <ClaimedRequest />
+        <MyRequestClaimed />
       </SelectedTaskFrame>
     );
   }
@@ -63,7 +63,7 @@ const SelectedTask = () => {
   if (task.status === 'Pending' && task.helper.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
-        <PendingTask />
+        <MyTaskPending />
       </SelectedTaskFrame>
     );
   }
@@ -76,7 +76,7 @@ const SelectedTask = () => {
 
   return (
     <SelectedTaskFrame>
-      <OpenRequest />
+      <OpenTask />
     </SelectedTaskFrame>
   );
 };

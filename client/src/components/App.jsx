@@ -30,6 +30,9 @@ const App = () => {
   };
 
   const getMyTasks = () => {
+    axios.get(`${url}/api/tasks/help/${userId}`)
+    .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+
     setInterval(() => {
       axios.get(`${url}/api/tasks/help/${userId}`)
         .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
