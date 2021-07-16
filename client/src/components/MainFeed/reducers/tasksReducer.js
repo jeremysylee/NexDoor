@@ -1,6 +1,6 @@
-import testData from '../../../../testData/testData';
+import { testTasks } from '../../../../testData/testData';
 
-const initialState = { tasks: testData.testTasks };
+const initialState = { tasks: testTasks };
 
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
