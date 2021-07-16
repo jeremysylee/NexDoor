@@ -1,8 +1,10 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
+const bcrypt = require('bcrypt');
+const uuid = require('uuid');
+const session = require('express-session');
 const db = require('../../db/index');
 const getCoordinates = require('./coordinates');
-const bcrypt = require('bcrypt');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -37,7 +39,7 @@ const userControllers = {
     res = "User added to db"
   */
   addUser: (req, res) => {
-    let {
+    const {
       streetAddress,
       city,
       state,
@@ -49,7 +51,7 @@ const userControllers = {
       email,
       imgUrl,
     } = req.body;
-    password = bcrypt.hashSync(password, 10);
+    const hashPass = bcrypt.hashSync(password, 10);
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
 
@@ -89,7 +91,7 @@ const userControllers = {
         SELECT
           '${firstName}',
           '${lastName}',
-          '${password}',
+          '${hashPass}',
           '${email}',
           address_id,
           0,
@@ -316,7 +318,7 @@ const userControllers = {
       }
   */
   // *************************************************************
-  authenticateLogin: (req, res) => {
+  authenticateLogin: (req, res, next) => {
     const { email, password } = req.body;
     const queryStr = `
       SELECT user_id, password
@@ -325,16 +327,18 @@ const userControllers = {
     ;`;
     db.query(queryStr)
       .then((data) => {
-        const user_id = data.rows[0].user_id;
+        const { user_id } = data.rows[0].user_id;
         //compare passwords
         if (!bcrypt.compareSync(password, data.rows[0].password)) {
-          res.status(404).send("error: password does not match");
+          res.status(404).send('error: password does not match');
         } else {
-
-          res.status(200).send({user_id});
+          //return session
+          req.session.user_Id = user_id;
+          res.status(200).send('success!');
         }
       })
       .catch((err) => {
+        req.session.destroy();
         res.status(400).send(err.stack);
       });
   },

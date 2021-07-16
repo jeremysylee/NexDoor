@@ -2,6 +2,7 @@ const express = require('express');
 
 const login = express.Router();
 const { check, validationResult } = require('express-validator');
+const session = require('express-session');
 const db = require('../controllers/userCtrl');
 
 login.post('/',
@@ -23,8 +24,21 @@ login.post('/',
         errors: errors.array(),
       });
     }
-    // console.log(req.body)
-    db.authenticateLogin(req, res);
+    if (!req.session || !req.session.userId) {
+      db.authenticateLogin(req, res);
+      // if authenticated, create a new session
+    } else if (req.session) {
+      // check if (req.session === valid)
+      // if yes, redirect user to home page
+    }
   });
+
+// const redirectLogin = (req, res, next) => {
+//   if (!req.session.userId) {
+//     res.redirect('/login');
+//   } else {
+//     next();
+//   }
+// };
 
 module.exports = login;
