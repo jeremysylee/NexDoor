@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, Avatar } from '@material-ui/core';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Ratings from 'react-ratings-declarative';
