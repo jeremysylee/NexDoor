@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import {
   SelectedTaskContainer,
@@ -11,7 +12,6 @@ import {
   DetailsContainer,
   HeadingSmall,
   Row,
-  // Col,
   Button,
   ButtonDecline,
 } from './styles-SelectedTask';
@@ -19,11 +19,13 @@ import {
 const url = 'http://localhost:3500';
 
 const MyRequestClaimed = () => {
+  const history = useHistory();
   const task = useSelector((store) => store.selectedTaskReducer.task);
 
   const clickAcceptHandler = () => {
     axios.put(`${url}/api/task/change/Active/${task.task_id}`)
-      .then((res) => console.log(res));
+      .then((res) => console.log(res))
+      .then(() => { history.push('/active'); });
   };
 
   const clickDeclineHandler = () => {

@@ -34,6 +34,7 @@ const Tasks = () => {
         if (task.status === 'Open' && task.requester.user_id !== userId) {
           return (<Task task={task} key={task.task_id} />);
         }
+        return <span key={task.task_id} />;
       })}
     </div>
   );
