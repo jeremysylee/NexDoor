@@ -12,12 +12,21 @@ import SelectedTask from './SelectedTask';
 const MapPlaceholder = styled.div`
   width: 500px;
   height: 500px;
-  margin: 1em;
   border-radius: 20px;
   box-shadow: 0 8px 16px 0 #BDC9D7;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 2em;
+  margin-left: 1em;
+  font-family: Roboto;
+  position: sticky;
+  top: 1em;
+  -webkit-transition: 200ms linear;
+  -moz-transition: 200ms linear;
+  -ms-transition: 200ms linear;
+  -o-transition: 200ms linear;
+  transition: 200ms linear;
 `;
 
 const Home = () => {

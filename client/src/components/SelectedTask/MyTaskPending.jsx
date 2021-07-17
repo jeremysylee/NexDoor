@@ -1,7 +1,7 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   SelectedTaskContainer,
   AvatarLg,
@@ -11,10 +11,13 @@ import {
   DetailsContainer,
   HeadingSmall,
   Row,
+  RowSlim,
   Col,
+  BackButton,
 } from './styles-SelectedTask';
 
-const PendingRequest = () => {
+const MyTaskPending = () => {
+  const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
@@ -25,8 +28,17 @@ const PendingRequest = () => {
     zipcode,
   } = task.location;
 
+  const clickBackHandler = () => {
+    dispatch({
+      type: 'SHOW_MAP', toggle: true,
+    });
+  };
+
   return (
     <SelectedTaskContainer>
+      <RowSlim>
+        <BackButton onClick={clickBackHandler}>Back</BackButton>
+      </RowSlim>
       <AvatarLg
         src={task.requester.profile_picture_url}
         alt={task.requester.firstname}
@@ -34,7 +46,7 @@ const PendingRequest = () => {
       <Username />
       <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
       <UserInfo>
-        <span>{`★ ${task.requester.avg}`}</span>
+        <span>{`★ ${task.requester.avg_rating || 0} (${task.requester.task_count})`}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>
@@ -64,4 +76,4 @@ const PendingRequest = () => {
   );
 };
 
-export default PendingRequest;
+export default MyTaskPending;
