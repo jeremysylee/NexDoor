@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 function Copyright() {
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = () => {
+  const history = useHistory();
   const [info, setInfo] = useState({
     streetAddress: '',
     city: '',
@@ -58,6 +60,10 @@ const SignUp = () => {
     setInfo({
       [e.target.name]: e.target.value,
     }, console.log(e.target.value));
+  };
+
+  const handleLogIn = () => {
+    history.push('/home');
   };
 
   const postUserInfo = (e) => {
@@ -82,7 +88,25 @@ const SignUp = () => {
           axios.post('http://localhost:3500/api/newuser', userInfo);
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .then((response) => {
+        axios.post('http://localhost:3500/api/login/', login, {
+          headers: { 'content-type': 'application/json' },
+          withCredentials: true,
+        })
+          .then((response) => {
+            console.log(response);
+            console.log(response.session)
+            if (response.status === 200) {
+              console.log("login successful!");
+              // redirect to home page
+              handleLogIn();
+            } else {
+              console.log('error logging in');
+            }
+          })
+          .catch((err) => console.error(err));
+      });
   };
 
   return (

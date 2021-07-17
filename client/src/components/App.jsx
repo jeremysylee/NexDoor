@@ -9,6 +9,7 @@ import LogIn from './LogIn';
 // import LoginButton from './LoginButton';
 import Active from './ActiveTask/YouAreHelping/Active';
 import MyActiveRequest from './ActiveTask/MyActive/MyActiveRequest';
+import PrivateRoute from './PrivateRoute';
 
 const url = 'http://localhost:3500';
 
@@ -20,6 +21,11 @@ const App = () => {
     axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
       // .then(({ data }) => console.log(data.allothers));
       .then(({ data }) => {
+        if (!data.task_id) {
+          data.task_id = 0;
+          return;
+        }
+        // add error handling if data is null
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
@@ -59,7 +65,7 @@ const App = () => {
   // };
 
   useEffect(() => {
-    getTasksByLocation();
+    // getTasksByLocation();
     // getTasks();
     // getRequests();
     // getMyTasks();
@@ -69,12 +75,15 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route exact path="/" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/helpfulfeed" component={HelpfulFeed} />
           <Route path="/active" component={Active} />
           <Route path="/myactiverequest" component={MyActiveRequest} />
           <Route path="/login" component={LogIn} />
+          {/* <PrivateRoute> */}
+          <Route path="/home" component={Home} />
+          {/* </PrivateRoute> */}
           {/* <Route path="/Auth" component={Auth} /> */}
         </Switch>
       </BrowserRouter>

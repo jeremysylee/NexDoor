@@ -1,5 +1,8 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
+const bcrypt = require('bcrypt');
+const uuid = require('uuid');
+const session = require('express-session');
 const db = require('../../db/index');
 const getCoordinates = require('./coordinates');
 
@@ -47,6 +50,7 @@ const userControllers = {
       password,
       email,
     } = req.body;
+    const hashPass = bcrypt.hashSync(password, 10);
 
     const { imgUrl, neighborhood } = req.body || null;
 
@@ -89,7 +93,7 @@ const userControllers = {
         SELECT
           '${firstName}',
           '${lastName}',
-          '${password}',
+          '${hashPass}',
           '${email}',
           address_id,
           0,
@@ -131,7 +135,7 @@ const userControllers = {
   //   Returns - user object for given ID
   // *************************************************************
   /*
-    GET /api/user/${userId}
+    GET /api/user/info/${userId}
     req.body = none;
     res = {
       "firstname": "Spongebob",
@@ -295,6 +299,53 @@ const userControllers = {
         res.status(200).send(data.rows[0]);
       })
       .catch((err) => {
+        res.status(400).send(err.stack);
+      });
+  },
+  // *************************************************************
+
+  // *************************************************************
+  // AUTHENTICATE USERNAME & PASSWORD
+  // *************************************************************
+  /*  Takes a username and password and, if valid, returns a session
+
+    GET /api/login
+    req.body =
+    {
+        "email": "questionmaster3000@gmail.com",
+        "password": "chobiden"
+    }
+
+    res =
+      {
+        user_id: 12345,
+      }
+  */
+  // *************************************************************
+  authenticateLogin: (req, res, next) => {
+    const { email, password } = req.body;
+    const queryStr = `
+      SELECT user_id, password
+      FROM nexdoor.users
+      WHERE email='${email}'
+    ;`;
+    db.query(queryStr)
+      .then((data) => {
+        const user_id = data.rows[0].user_id;
+        //compare passwords
+        console.log(user_id);
+        if (!bcrypt.compareSync(password, data.rows[0].password)) {
+          res.status(404).send('error: password does not match');
+        } else {
+          //return session
+          req.session.user_Id = user_id;
+          // res.session.user_Id = user_id;
+          res.status(200).send({user_id});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        req.session.destroy();
         res.status(400).send(err.stack);
       });
   },
