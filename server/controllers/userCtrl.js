@@ -351,3 +351,7 @@ const userControllers = {
 };
 
 module.exports = userControllers;
+
+// user_id fk field
+// date with timezone - expiry
+// only query for dates that have not already passed
