@@ -39,23 +39,23 @@ const App = () => {
     }, 5000);
   };
 
-  useEffect(() => {
-    getTasks();
-    getRequests();
-    getMyTasks();
-  });
+  // useEffect(() => {
+  //   getTasks();
+  //   getRequests();
+  //   getMyTasks();
+  // });
 
   return (
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path="/" component={LogIn} />
+          <Route exact path="/" component={LogIn} />
           <Route path="/signup" component={SignUp} />
-          <PrivateRoute>
+          {/* <PrivateRoute> */}
             <Route path="/home" component={Home} />
             <Route path="/helpfulfeed" component={HelpfulFeed} />
             <Route path="/active" component={Active} />
-          </PrivateRoute>
+          {/* </PrivateRoute> */}
           {/* <Route path="/Auth" component={Auth} /> */}
         </Switch>
       </BrowserRouter>

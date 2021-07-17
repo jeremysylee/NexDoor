@@ -67,6 +67,9 @@ const LogIn = () => {
     axios.get(`http://localhost:3500/api/user/info/${userId}`)
       .then((response) => {
         dispatch({ type: 'SET_USER', userData: response.data });
+      })
+      .then(() => {
+        handleLogIn();
       });
   };
 
@@ -83,7 +86,6 @@ const LogIn = () => {
           console.log('login successful: ', response.data);
           getUserData(Number(response.data.user_id));
           // redirect to home page
-          handleLogIn();
           //set response to redux state
         } else {
           console.log('error logging in');
