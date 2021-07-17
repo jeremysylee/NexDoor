@@ -14,6 +14,7 @@ import selectedTaskReducer from './components/SelectedTask/reducers/selectedTask
 import taskDataFormattedReducer from './components/SelectedTask/reducers/taskDataFormattedReducer';
 import currentUserReducer from './components/AppReducers/currentUserReducer';
 import showMapReducer from './components/AppReducers/showMapReducer';
+import locationReducer from './components/AppReducers/locationReducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -26,6 +27,7 @@ const store = createStore(
     taskDataFormattedReducer,
     currentUserReducer,
     showMapReducer,
+    locationReducer,
   }),
   composeEnhancers(
     applyMiddleware(thunk),

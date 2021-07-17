@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import {
   SelectedTaskContainer,
@@ -16,20 +16,17 @@ import {
   DetailsContainerTime,
   HeadingSmall,
   Row,
-  RowSlim,
   Col,
-  Button,
-  ButtonDecline,
-  BackButton,
   LineTop,
-  LineBottom,
+  RowSlim,
+  ButtonGoToRequest,
+  ButtonClaimedDecline,
+  BackButton,
 } from './styles-SelectedTask';
 
-const url = 'http://localhost:3500';
-
-const OpenTask = () => {
+const MyRequestActive = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
+  const history = useHistory();
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
@@ -40,9 +37,8 @@ const OpenTask = () => {
     zipcode,
   } = task.location;
 
-  const clickClaimHandler = () => {
-    axios.put(`${url}/api/task/help/${task.task_id}/${userId}`)
-      .then((res) => console.log(res));
+  const clickGoToRequestHandler = () => {
+    history.push('/active');
   };
 
   const clickBackHandler = () => {
@@ -70,7 +66,7 @@ const OpenTask = () => {
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>
-      <StatusText>is requesting your assistance</StatusText>
+      <StatusText>{`You are helping ${task.requester.firstname} with this request`}</StatusText>
       <DetailsContainer>
         <HeadingSmall>REQUEST DETAILS</HeadingSmall>
         <p>{task.description}</p>
@@ -91,14 +87,13 @@ const OpenTask = () => {
           </Col>
         </DetailsContainerTime>
       </Row>
-      <LineTop />
-      <Row>
-        <ButtonDecline onClick={clickBackHandler}>Decline</ButtonDecline>
-        <Button onClick={clickClaimHandler}>Claim</Button>
+      <LineTop style={{ marginBottom: '1px' }} />
+      <Row style={{ justifyContent: 'space-between' }}>
+        <ButtonClaimedDecline onClick={clickBackHandler}>Back</ButtonClaimedDecline>
+        <ButtonGoToRequest onClick={clickGoToRequestHandler}>Go to request</ButtonGoToRequest>
       </Row>
-      <LineBottom />
     </SelectedTaskContainer>
   );
 };
 
-export default OpenTask;
+export default MyRequestActive;

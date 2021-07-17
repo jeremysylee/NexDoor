@@ -69,16 +69,16 @@ const MyTask = ({ task }) => {
   });
 
   const selectTaskHandler = () => {
-    let showMapToggle = false;
-    if (task.status === 'Active') {
-      history.push('/active');
-      showMapToggle = true;
-    }
+    // let showMapToggle = false;
+    // if (task.status === 'Active') {
+    //   history.push('/active');
+    //   showMapToggle = true;
+    // }
     dispatch({
       type: 'SET_TASK', task,
     });
     dispatch({
-      type: 'SHOW_MAP', toggle: showMapToggle,
+      type: 'SHOW_MAP', toggle: false,
     });
   };
 
