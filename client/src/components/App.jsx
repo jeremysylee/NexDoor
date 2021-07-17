@@ -15,34 +15,53 @@ const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userId);
 
-  const getTasks = () => {
-    setInterval(() => {
-      axios.get(`${url}/api/tasks/all/30`)
-        .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
-    }, 500);
+  const getTasksByLocation = () => {
+    axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
+      // .then(({ data }) => console.log(data.allothers));
+      .then(({ data }) => {
+        dispatch({
+          type: 'SET_TASKS', tasks: data.allothers,
+        });
+        dispatch({
+          type: 'SET_REQUESTS', requests: data.requested,
+        });
+        dispatch({
+          type: 'SET_MY_TASKS', myTasks: data.helper,
+        });
+      });
   };
 
-  const getRequests = () => {
-    setInterval(() => {
-      axios.get(`${url}/api/tasks/req/${userId}`)
-        .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
-    }, 500);
-  };
+  // Deprecated Requests BELOW: All tasks now pulled from master API call.
 
-  const getMyTasks = () => {
-    axios.get(`${url}/api/tasks/help/${userId}`)
-      .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+  // const getTasks = () => {
+  //   setInterval(() => {
+  //     axios.get(`${url}/api/tasks/all/30`)
+  //       .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
+  //   }, 500);
+  // };
 
-    setInterval(() => {
-      axios.get(`${url}/api/tasks/help/${userId}`)
-        .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
-    }, 500);
-  };
+  // const getRequests = () => {
+  //   setInterval(() => {
+  //     axios.get(`${url}/api/tasks/req/${userId}`)
+  //       .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
+  //   }, 500);
+  // };
+
+  // const getMyTasks = () => {
+  //   axios.get(`${url}/api/tasks/help/${userId}`)
+  //     .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+
+  //   setInterval(() => {
+  //     axios.get(`${url}/api/tasks/help/${userId}`)
+  //       .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+  //   }, 500);
+  // };
 
   useEffect(() => {
-    getTasks();
-    getRequests();
-    getMyTasks();
+    getTasksByLocation();
+    // getTasks();
+    // getRequests();
+    // getMyTasks();
   });
 
   return (
