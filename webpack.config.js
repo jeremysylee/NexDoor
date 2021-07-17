@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
+require('dotenv').config();
+
 const SRC_DIR = path.join(__dirname, '/client/src');
 var DIST_DIR = path.join(__dirname, '/client/dist');
 
@@ -43,6 +45,7 @@ const config = {
   },
   devServer: {
     contentBase: DIST_DIR,
+    port: process.env.CLIENT_PORT || 8080,
   },
 };
 

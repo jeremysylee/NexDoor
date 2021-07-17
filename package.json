@@ -33,6 +33,7 @@
     "bcrypt": "^5.0.1",
     "bootstrap": "^5.0.2",
     "connect-pg-simple": "^6.2.1",
+    "connect-redis": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -57,9 +58,11 @@
     "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
+    "redis": "^3.1.2",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^5.3.0"
+    "styled-components": "^5.3.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",

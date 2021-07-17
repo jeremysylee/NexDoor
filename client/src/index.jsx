@@ -8,14 +8,8 @@ import App from './components/App';
 
 const root = document.getElementById('app');
 ReactDOM.render(
-  <Auth0Provider
-    domain="dev-45974l81.us.auth0.com"
-    clientId="GJJ6l6wKObYHurNxEEw9aOw4Jno1ndjk"
-    redirectUri={window.location.origin}
-  >
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </Auth0Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   root,
 );
