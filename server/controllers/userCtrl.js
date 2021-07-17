@@ -108,6 +108,7 @@ const userControllers = {
 
       db.query(queryStr)
         .then((data) => {
+          console.log(data.rows[0])
           res.status(200).send(data.rows[0]);
         })
         .catch((err) => {
@@ -338,7 +339,9 @@ const userControllers = {
           res.status(404).send('error: password does not match');
         } else {
           //return session
-          req.session.user_Id = user_id;
+          console.log("user_id:", user_id)
+          req.session.user_id = user_id;
+          req.session.save();
           // res.session.user_Id = user_id;
           res.status(200).send({user_id});
         }
@@ -350,6 +353,17 @@ const userControllers = {
       });
   },
   // *************************************************************
+  authenticateSession: (req, res) => {
+    console.log(req.session.user_id, "<---------- this is the associated uid");
+    if(req.session.user_id) {
+      const user_id = req.session.user_id;
+      getUser({ params: user_id });
+      res.status(200).send({user_id});
+    } else {
+      res.status(418).send("error: I'm a teapot");
+    }
+  },
+
 };
 
 module.exports = userControllers;

@@ -26,11 +26,12 @@ login.post('/',
         errors: errors.array(),
       });
     }
+    console.log(req.body);
     if (!req.session || !req.session.userId) {
       db.authenticateLogin(req, res);
       // if authenticated, create a new session
     } else if (req.session) {
-      db.authenticateLogin(req, res);
+      // db.authenticateLogin(req, res);
       // check if (req.session === valid)
       // if yes, redirect user to home page
       console.log("success using a session!")
