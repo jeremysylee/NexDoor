@@ -205,16 +205,24 @@ const userControllers = {
     res =
       [
         {
-            "user_id": 3,
-            "firstname": "andrew",
-            "lastname": "munoz",
-            "password": "testing123",
-            "email": "testing123@gmail.com",
-            "address_id": 1,
-            "karma": 0,
-            "task_count": 0,
-            "avg_rating": 5,
-            "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
+          "user_id": 36,
+          "firstname": "Erika",
+          "lastname": "Chumbles",
+          "address_id": 71,
+          "karma": 58,
+          "task_count": 15,
+          "avg_rating": 3,
+          "profile_picture_url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Erika_Eleniak_2011.jpg",
+          "reviews": [
+              {
+                  "review_id": 1,
+                  "rating": 5,
+                  "review": "Best couch carrying help I have ever received in my life.",
+                  "requester_id": 35,
+                  "helper_id": 36
+              },
+              .....
+          ]
         },
         .......
       ]
@@ -223,7 +231,23 @@ const userControllers = {
   getUsersByRating: (req, res) => {
     const { quantity } = req.params || 25;
     const queryStr = `
-      SELECT *
+      SELECT
+        user_id,
+        firstname,
+        lastname,
+        address_id,
+        karma,
+        task_count,
+        avg_rating,
+        profile_picture_url,
+        (
+          SELECT ARRAY_TO_JSON(ARRAY_AGG(reviews))
+          FROM (
+            SELECT *
+            FROM nexdoor.reviews
+            WHERE helper_id=nexdoor.users.user_id
+          ) reviews
+        ) as reviews
       FROM nexdoor.users
       ORDER BY avg_rating
       LIMIT ${quantity}
