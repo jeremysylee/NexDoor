@@ -23,7 +23,7 @@ const App = () => {
     // api/tasks/master/:userId/:range/:count/:offset
     axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         if (!data.allothers) { return; }
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
@@ -87,7 +87,6 @@ const App = () => {
           <Route path="/helpfulfeed" component={HelpfulFeed} />
           <Route path="/active" component={Active} />
           <Route path="/myactiverequest" component={MyActiveRequest} />
-          <Route path="/login" component={LogIn} />
           {/* <PrivateRoute> */}
           <Route path="/home" component={Home} />
           {/* </PrivateRoute> */}
