@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 function Copyright() {
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LogIn = () => {
+  const history = useHistory();
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -54,6 +56,10 @@ const LogIn = () => {
     });
   };
 
+  const handleLogIn = () => {
+    history.push('/home');
+  };
+
   const submitLogin = (e) => {
     e.preventDefault();
     console.log('login: ', login);
@@ -63,9 +69,11 @@ const LogIn = () => {
     })
       .then((response) => {
         console.log(response);
-        console.log(response.cookie)
+        console.log(response.session)
         if (response.status === 200) {
           console.log("login successful!");
+          // redirect to home page
+          handleLogIn();
         } else {
           console.log('error logging in');
         }

@@ -333,6 +333,7 @@ const userControllers = {
       .then((data) => {
         const { user_id } = data.rows[0].user_id;
         //compare passwords
+        console.log(data.rows);
         if (!bcrypt.compareSync(password, data.rows[0].password)) {
           res.status(404).send('error: password does not match');
         } else {
@@ -343,6 +344,7 @@ const userControllers = {
         }
       })
       .catch((err) => {
+        console.log(err);
         req.session.destroy();
         res.status(400).send(err.stack);
       });

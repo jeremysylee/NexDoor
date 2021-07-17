@@ -17,9 +17,10 @@ login.post('/',
       .isEmpty()
       .withMessage('Please enter password'),
   ], (req, res) => {
-    console.log('req: ', req);
+    console.log('req: ', req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors);
       return res.status(400).json({
         success: false,
         errors: errors.array(),
