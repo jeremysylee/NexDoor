@@ -5,29 +5,30 @@ import { Avatar } from '@material-ui/core';
 
 import {
   Row,
+  Button,
+  ButtonDecline,
 } from './styles-MainFeed';
 
-// const url = 'http://localhost:3500';
-
-const Card = styled.div`
+export const InputCard = styled.div`
   max-width: 100%;
   margin-top: 1em;
+  padding: 0.75em 1em;
   border-radius: 10px;
   background-color: #FFFFFF;
-  overflow: hidden;
+  overflow: visible;
   flex: 1;
-  padding: 1em;
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
+  color: black;
 `;
 
 const Input = styled.button`
   border-radius: 100px;
   background-color: #F1F2F5;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 300;
   border: none;
   width: 100%;
-  margin-left: 1em;
+  margin-left: 0.5em;
   padding-top: 4px;
   text-align: left;
   color: #5E5E5E;
@@ -44,32 +45,37 @@ const Input = styled.button`
 
 const Line = styled.hr`
   color: #BDBDBD;
-  margin-bottom: 0px;
+  margin-bottom: 6px;
+  margin-top: 13px;
 `;
 
 const VerticalLine = styled.div`
   background-color: #4496B4;
   width: 4px;
-  height: 80px;
+  height: 105px;
   position: absolute;
-  transform: scale(1) translate(-655%,-14%);
+  transform: scale(1) translate(-720%,-8%);
   border-radius: 60px;
 `;
 
 const RequestInput = () => {
-  const userId = useSelector((store) => store.currentUserReducer.userId);
+  const user = useSelector((store) => store.currentUserReducer.userData);
   // waiting for userId data
 
   return (
     <div>
-      <Card>
+      <InputCard>
         <VerticalLine />
         <Row>
-          <Avatar src="https://static.wikia.nocookie.net/gotham-inc/images/6/6a/Kristin_Kringle.png/revision/latest?cb=20150826211938" alt={userId.toString()} />
+          <Avatar src={user.profile_picture_url} alt={user.user_id.toString()} />
           <Input>&nbsp;What do you need help with?</Input>
         </Row>
         <Line />
-      </Card>
+        <Row>
+          <ButtonDecline>Schedule for later</ButtonDecline>
+          <Button>Make a request</Button>
+        </Row>
+      </InputCard>
     </div>
   );
 };
