@@ -218,7 +218,24 @@ const userControllers = {
   getUsersByRating: (req, res) => {
     const { quantity } = req.params || 25;
     const queryStr = `
-      SELECT *
+      SELECT (
+        user_id,
+        firstname,
+        lastname,
+        address_id,
+        karma,
+        task_count,
+        avg_rating,
+        profile_picture_url,
+        (
+          SELECT ARRAY_TO_JSON(ARRAY_AGG(reviews))
+          FROM (
+            SELECT *
+            FROM nexdoor.reviews
+            WHERE helper_id=nexdoor.users.user_id
+          ) reviews
+        ) as reviews
+      )
       FROM nexdoor.users
       ORDER BY avg_rating
       LIMIT ${quantity}

@@ -327,6 +327,46 @@ CREATE INDEX user_avg_rating_idx
     (avg_rating ASC NULLS LAST)
     TABLESPACE pg_default;
 --*********************************************************************
+--REVIEWS TABLE
+--*********************************************************************
+CREATE TABLE nexdoor.reviews (
+  review_id SERIAL,
+  rating DOUBLE PRECISION NOT NULL,
+  review VARCHAR(1000),
+  requester_id INT NOT NULL,
+  helper_id INT NOT NULL,
+  CONSTRAINT reviews_pkey PRIMARY KEY (review_id),
+  CONSTRAINT fk_reviews_helper_id FOREIGN KEY (helper_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION,
+  CONSTRAINT fk_reviews_requester_id FOREIGN KEY (requester_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+)
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.reviews
+    OWNER to blueboolean;
+-- Index: review_id_idx
+-- DROP INDEX nexdoor.review_id_idx;
+CREATE INDEX review_id_idx
+    ON nexdoor.reviews USING btree
+    (review_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_fk_reviews_requester_id
+-- DROP INDEX nexdoor.fki_fk_reviews_requester_id;
+CREATE INDEX fki_fk_reviews_requester_id
+    ON nexdoor.reviews USING btree
+    (requester_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_fk_reviews_helper_id
+-- DROP INDEX nexdoor.fki_fk_reviews_helper_id;
+CREATE INDEX fki_fk_reviews_helper_id
+    ON nexdoor.reviews USING btree
+    (helper_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+--*********************************************************************
 --TRIGGER FUNCTIONS
 --*********************************************************************
 -- FUNCTION: nexdoor.sessions_expiry_date_delete()
