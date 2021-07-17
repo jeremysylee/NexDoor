@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-// import axios from 'axios';
+import axios from 'axios';
 
 import {
   Button,
@@ -46,7 +46,7 @@ function EditTaskModal() {
       addressId: task.location.address_id,
       userId: task.requester.user_id,
     });
-  }, []);
+  }, [task]);
 
   function handleClickOpen() {
     setOpen(true);
@@ -87,6 +87,9 @@ function EditTaskModal() {
       carRequired: false,
       laborRequired: false,
       duration: null,
+      taskId: null,
+      addressId: null,
+      userId: null,
     });
     setValidationErrors({});
   }
@@ -144,16 +147,16 @@ function EditTaskModal() {
     if (Object.keys(errors).length === 0) {
       console.log('edited req', request);
       resetReqAndErr();
-      // axios.put('http://localhost:3500/api/task/check/35', request)
-      //   .then((response) => {
-      //     console.log(response.data);
-      //     setOpen(false);
-      //     resetReqAndErr();
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //     setOpen(false);
-      //   });
+      axios.put('http://localhost:3500/api/task/edit/', request)
+        .then((response) => {
+          console.log(response.data);
+          setOpen(false);
+          resetReqAndErr();
+        })
+        .catch((err) => {
+          console.log(err);
+          setOpen(false);
+        });
     } else {
       setValidationErrors(errors);
     }
@@ -169,10 +172,16 @@ function EditTaskModal() {
         <DialogContent>
           <form onSubmit={handleSubmit}>
 
-            <Grid container justifyContent="center" alignItems="center" spacing={2}>
-
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={2}
+            >
               <Grid item xs={12}>
                 <Typography>LOCATION OF TASK</Typography>
+              </Grid>
+              <Grid item xs={12}>
                 <TextField
                   id="outlined-helperText"
                   label="Address Line"
@@ -230,8 +239,12 @@ function EditTaskModal() {
               </Grid>
 
               <Grid item xs={6}>
-                <FormControl component="fieldset">
+
+                <Grid item xs={12}>
                   <Typography>Select All That Apply</Typography>
+                </Grid>
+
+                <FormControl component="fieldset">
                   <FormGroup>
                     <FormControlLabel
                       control={<Checkbox checked={request.laborRequired} onChange={handleChange} name="laborRequired" />}
@@ -269,6 +282,9 @@ function EditTaskModal() {
 
               <Grid item xs={12}>
                 <Typography>DESCRIBE YOUR REQUEST</Typography>
+              </Grid>
+
+              <Grid item xs={12}>
                 <TextField
                   value={request.description}
                   onChange={handleChange}

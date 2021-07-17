@@ -26,7 +26,6 @@ StatusBadge.defaultProps = {
 
 const MyRequest = ({ request }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { day, time } = useFormatDate(request.start_date, request.start_time);
 
   // ************************************************************* //
@@ -71,11 +70,11 @@ const MyRequest = ({ request }) => {
   });
 
   const selectTaskHandler = () => {
-    // let showMapToggle = false;
-    // if (request.status === 'Active') {
-    //   history.push('/active');
-    //   showMapToggle = true;
-    // }
+    let showMapToggle = false;
+    if (request.status === 'Active') {
+      history.push('/active');
+      showMapToggle = true;
+    }
     dispatch({
       type: 'SET_TASK', task: request,
     });

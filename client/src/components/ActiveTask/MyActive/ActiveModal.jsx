@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, Avatar } from '@material-ui/core';
 import { Button, Modal, Form } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import Ratings from 'react-ratings-declarative';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StarIcon from '@material-ui/icons/Star';
@@ -18,6 +19,7 @@ const ActiveModal = () => {
   const [ratings, setRatings] = useState(0);
   const [reviewStar, setReviewStar] = useState('');
 
+  const selectTask = useSelector((store) => store.selectedTaskReducer.task);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -57,17 +59,27 @@ const ActiveModal = () => {
             <div>
               <Modal.Title>Your helper</Modal.Title>
               <br />
-              <div >
-                pfp
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Avatar src={selectTask.helper.profile_picture_url} />
               </div>
               <br />
               <div >
-                First and Last name
+                {selectTask.helper.firstname}
+                &nbsp;
+                {selectTask.helper.lastname}
               </div>
               <br />
               <div >
-                <StarIcon style={{ fill: "red" }} />
-                rating (count)
+                {selectTask.helper.task_count > 0 ? (
+                  <span>
+                    <StarIcon style={{ fill: "red" }} />
+                    {selectTask.helper.avg_rating}
+                    &nbsp;
+                    ({selectTask.helper.task_count})
+                  </span>
+                ) : (
+                  <p>Submit {selectTask.helper.firstname}'s first rating!</p>
+                )}
               </div>
             </div>
           </Grid>
@@ -112,7 +124,7 @@ const ActiveModal = () => {
             <div style={{ width: '30vw', fontFamily: 'Roboto' }}>
               <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                  <Form.Label>Leave kind word for Name</Form.Label>
+                  <Form.Label>Leave kind word for {selectTask.helper.firstname} {selectTask.helper.lastname}</Form.Label>
                   <Form.Control
                     type="text"
                     as="textarea"
@@ -135,7 +147,7 @@ const ActiveModal = () => {
         </Modal.Footer>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 export default ActiveModal;

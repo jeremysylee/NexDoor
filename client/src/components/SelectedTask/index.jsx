@@ -7,7 +7,6 @@ import MyRequestUnclaimed from './MyRequestUnclaimed';
 import MyRequestClaimed from './MyRequestClaimed';
 import MyTaskPending from './MyTaskPending';
 import MyRequestActive from './MyRequestActive';
-import Active from '../ActiveTask/Active';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
@@ -31,8 +30,8 @@ const SelectedTaskFrame = styled.div`
 const SelectedTask = () => {
   const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
-  const currentUserId = useSelector((store) => store.currentUserReducer.userId);
-
+  // const currentUserId = useSelector((store) => store.currentUserReducer.userId);
+  const currentUserId = 37;
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
     const { days } = DateTime.fromISO(rawDate).diff(dateToday, ['days']).values;
@@ -79,6 +78,7 @@ const SelectedTask = () => {
     return (
       <SelectedTaskFrame>
         <MyRequestActive />
+        {/* <Active /> */}
       </SelectedTaskFrame>
     );
   }

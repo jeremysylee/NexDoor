@@ -60,7 +60,6 @@ const VerticalLine = styled.div`
 
 const RequestInput = () => {
   const user = useSelector((store) => store.currentUserReducer.userData);
-  // waiting for userId data
 
   return (
     <div>
