@@ -18,15 +18,7 @@ const App = () => {
   const getTasksByLocation = () => {
     axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
       .then(({ data }) => {
-<<<<<<< HEAD
         if (!data.user_id) { return; }
-=======
-        if(!data.task_id) {
-          data.task_id = 0;
-          return;
-        }
-        // add error handling if data is null
->>>>>>> bf147702bf7daa0477dea953f3a9fba98e17acc2
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
