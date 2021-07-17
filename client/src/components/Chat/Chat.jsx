@@ -5,38 +5,40 @@ import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:3000');
 
-const Chat = (taskId) => {
+const Chat = ({ taskId }) => {
+  if (!taskId) {
+    return <></>;
+  }
   // input -> two user id's
   // get existing chat messages from database
   // display existing chat messages
   //
-  let userId; // from react-redux
+  let userId; // from react-redux*********
   const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
   const [currentTask, setCurrentTask] = useState(taskId);
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
-  const [messages, setMessages] = useState([
-    {
-      "firstname": "andrew",
-      "lastname": "munoz",
-      "message_body": "where are you",
-      "date": "2021-06-13T07:00:00.000Z",
-      "time": "04:51:00"
-    },
-    {
-      "firstname": "Spongebob",
-      "lastname": "Squarepants",
-      "message_body": "i have no idea where i am",
-      "date": "2021-04-13T07:00:00.000Z",
-      "time": "06:21:00"
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
 
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState();//set to user id*********
 
   const handleChange = (e) => {
     setCurrentMessage(e.target.value);
+  };
+
+  const formatTime = (time) => {
+    let trail = 'AM';
+    let hour = Number(time.substring(0, 2));
+    const minutes = time.slice(2);
+    // console.log(minutes);
+    // console.log(hour);
+    if (hour >= 12) {
+      hour -= 12;
+      trail = 'PM';
+    }
+
+    return hour + minutes + ' ' + trail;
   };
 
   const handleSend = () => {
@@ -47,10 +49,11 @@ const Chat = (taskId) => {
     const currentDayOfMonth = d.getDate();
     const currentMonth = d.getMonth(); // Be careful! January is 0, not 1
     const currentYear = d.getFullYear();
-    const timeString = dStr.slice(16, 24);
-    const dateString = currentDayOfMonth + "/" + (currentMonth + 1) + "/" + currentYear;
+    // const timeString = dStr.slice(16, 21);
+    const timeString = formatTime(dStr.slice(16, 21));
+    const dateString = (currentMonth + 1) + "/" + currentDayOfMonth + "/" + currentYear;
 
-    console.log(dStr.slice(16, 24));
+    console.log(timeString);
     console.log(dateString);
     const message = {
       firstname: firstName,
@@ -69,19 +72,24 @@ const Chat = (taskId) => {
     //   });
 
     // add message to
+    const resetElements = document.getElementsByClassName('messageInput');
+    for (let i = 0; i < resetElements.length; i++) {
+      resetElements[i].value = '';
+      resetElements[i].src = '';
+    }
   };
 
   useEffect(() => {
-    const result = window.prompt('Enter name and task number');
-    const resultContainer = result.split(' ');
-    setFirstName(resultContainer[0]);
-    setLastName(resultContainer[1]);
-    setCurrentUser(resultContainer[0] + ' ' + resultContainer[1]);
-    setCurrentTask(resultContainer[2]);
-    // axios.get(`${url}/api/messages/1`)
-    //   .then((data) => {
-    //     setMessages(data);
-    //   });
+    // const result = window.prompt('Enter name and task number');
+    // const resultContainer = result.split(' ');
+    setFirstName();
+    setLastName();
+    setCurrentUser();
+    setCurrentTask(taskId);
+    axios.get(`${url}/api/messages/${taskId}`)
+      .then((data) => {
+        setMessages(data);
+      });
   }, []);
 
   useEffect(() => {
@@ -96,8 +104,14 @@ const Chat = (taskId) => {
     });
   }, [currentTask]);
 
-  const CHAT_STYLE = {
-    width: '800px',
+  useEffect(() => {
+    const elem = document.getElementById('allMessages');
+    elem.scrollTop = elem.scrollHeight;
+  }, [messages]);
+
+  const chatStyle = {
+    position: 'relative',
+    width: '600px',
     height: 'auto',
     margin: '50px auto',
     padding: '5px',
@@ -105,16 +119,22 @@ const Chat = (taskId) => {
     boxShadow: '0 8px 16px 0 #BDC9D7',
   };
 
+  const messageContaierStyle = {
+    margin: '10px',
+    height: '30vh',
+    overflow: 'auto',
+  };
+
   return (
-    <div style={CHAT_STYLE}>
-      <div>
+    <div style={chatStyle}>
+      <div style={messageContaierStyle} id="allMessages">
         {messages.map((message, idx) => {
           // console.log('current User: ', currentUser);
           // console.log('info: ', message.firstname, ' ', message.lastname);
           const user = `${message.firstname} ${message.lastname}`;
           // console.log(messages);
           let isUser;
-          if (user === currentUser) {
+          if (user === currentUser) {//set user to user id *********
             isUser = true;
           } else {
             isUser = false;
@@ -122,8 +142,8 @@ const Chat = (taskId) => {
           return (<Message key={idx} message={message} isUser={isUser} />);
         })}
       </div>
-      <div style={{ bottom: 0, right: 0 }}>
-        <textarea placeholder="Write message here..." onChange={handleChange} />
+      <div style={{ position: 'relative', bottom: '0', right: '0', margin: '5px' }}>
+        <input className="messageInput" placeholder="Write message here..." onChange={handleChange} />
         <button onClick={handleSend}>Send</button>
       </div>
     </div>

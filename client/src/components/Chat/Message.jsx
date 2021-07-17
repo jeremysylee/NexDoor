@@ -4,7 +4,11 @@ const Message = ({ message, isUser }) => {
   // console.log(message);
   let style;
   let profilePic = message.firstname[0];
-  console.log(profilePic);
+  // console.log(profilePic);
+  const dateStyle = {
+    fontSize: '10px',
+    color: 'grey',
+  };
 
   const profilePicStyle = {
     height: '25px',
@@ -13,6 +17,10 @@ const Message = ({ message, isUser }) => {
     borderRadius: '50%',
     display: 'inline-block',
     textAlign: 'center',
+  };
+
+  const messageStyle = {
+    margin: '10px',
   };
 
   if (isUser) {
@@ -24,8 +32,9 @@ const Message = ({ message, isUser }) => {
 
     return (
       <div style={style}>
-        <span>{message.message_body}</span>
+        <span style={messageStyle}>{message.message_body}</span>
         <span style={profilePicStyle}>{profilePic}</span>
+        <div style={dateStyle}>{message.time} {message.date}</div>
         {/* <span>{message.time}</span> */}
       </div>
     );
@@ -37,7 +46,8 @@ const Message = ({ message, isUser }) => {
   return (
     <div style={style}>
       <span style={profilePicStyle}>{profilePic}</span>
-      <span>{message.message_body}</span>
+      <span style={messageStyle}>{message.message_body}</span>
+      <div style={dateStyle}>{message.time} {message.date}</div>
       {/* <span>{message.time}</span> */}
     </div>
   );
