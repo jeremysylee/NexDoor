@@ -66,7 +66,7 @@ const RequestInput = () => {
       <InputCard>
         <VerticalLine />
         <Row>
-          <Avatar src={user.profile_picture_url} alt={JSON.stringify(user.user_id)} />
+          <Avatar src={user.profile_picture_url} alt={user.firstname} />
           <Input>&nbsp;What do you need help with?</Input>
         </Row>
         <Line />
