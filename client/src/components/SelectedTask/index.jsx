@@ -6,8 +6,7 @@ import OpenTask from './OpenTask';
 import MyRequestUnclaimed from './MyRequestUnclaimed';
 import MyRequestClaimed from './MyRequestClaimed';
 import MyTaskPending from './MyTaskPending';
-import Active from '../ActiveTask/YouAreHelping/Active';
-// import MyActiveRequest from '../ActiveTask/MyActive/MyActiveRequest';
+import MyRequestActive from './MyRequestActive';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
@@ -78,8 +77,8 @@ const SelectedTask = () => {
   if (task.status === 'Active') {
     return (
       <SelectedTaskFrame>
-        {/* <MyRequestActive /> */}
-        <Active />
+        <MyRequestActive />
+        {/* <Active /> */}
       </SelectedTaskFrame>
     );
   }
