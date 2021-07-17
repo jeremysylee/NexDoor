@@ -73,7 +73,7 @@ const MyRequest = ({ request }) => {
   const selectTaskHandler = () => {
     let showMapToggle = false;
     if (request.status === 'Active') {
-      history.push('/active');
+      history.push('/myactiverequest');
       showMapToggle = true;
     }
     dispatch({

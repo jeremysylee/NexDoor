@@ -59,17 +59,27 @@ const ActiveModal = () => {
             <div>
               <Modal.Title>Your helper</Modal.Title>
               <br />
-              <div >
-                pfp
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Avatar src={selectTask.helper.profile_picture_url} />
               </div>
               <br />
               <div >
-                First and Last name
+                {selectTask.helper.firstname}
+                &nbsp;
+                {selectTask.helper.lastname}
               </div>
               <br />
               <div >
-                <StarIcon style={{ fill: "red" }} />
-                rating (count)
+                {selectTask.helper.task_count > 0 ? (
+                  <span>
+                    <StarIcon style={{ fill: "red" }} />
+                    {selectTask.helper.avg_rating}
+                    &nbsp;
+                    ({selectTask.helper.task_count})
+                  </span>
+                ) : (
+                  <p>Submit {selectTask.helper.firstname}'s first rating!</p>
+                )}
               </div>
             </div>
           </Grid>
@@ -114,7 +124,7 @@ const ActiveModal = () => {
             <div style={{ width: '30vw', fontFamily: 'Roboto' }}>
               <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                  <Form.Label>Leave kind word for Name</Form.Label>
+                  <Form.Label>Leave kind word for {selectTask.helper.firstname} {selectTask.helper.lastname}</Form.Label>
                   <Form.Control
                     type="text"
                     as="textarea"

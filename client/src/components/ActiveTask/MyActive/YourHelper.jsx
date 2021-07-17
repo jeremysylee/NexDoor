@@ -42,24 +42,30 @@ const YourHelper = () => {
   return (
     <YouAreHelpingContainer>
       <p>Your helper</p>
-      <Avatar src={selectTask.requester.profile_picture_url} />
+      <Avatar src={selectTask.helper.profile_picture_url} />
       <RequestUser>
-        {selectTask.requester.firstname}
+        {selectTask.helper.firstname}
         &nbsp;
-        {selectTask.requester.lastname}
+        {selectTask.helper.lastname}
       </RequestUser>
       <RequestUserInfo>
         <span>
-          <StarIcon style={{ fill: "red" }} />
-          {selectTask.requester.average_rating}
-          &nbsp;
-          ({selectTask.requester.response_count})
+          {selectTask.helper.task_count > 0 ? (
+            <span>
+              <StarIcon style={{ fill: "red" }} />
+              {selectTask.helper.avg_rating}
+              &nbsp;
+              ({selectTask.helper.task_count})
+            </span>
+          ) : (
+            <StarIcon style={{ fill: "red" }} />
+          )}
         </span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </RequestUserInfo>
       <RequestUserStatus>
-        is waiting for you
+        is completing your task
       </RequestUserStatus>
     </YouAreHelpingContainer>
   );

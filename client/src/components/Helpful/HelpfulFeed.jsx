@@ -18,6 +18,7 @@ const SideMenu = styled.div`
 
 const HelpfulFeed = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
+  console.log('Tasssssskkksss', tasks);
 
 
   const placeholder = "NexDoor's Most Helpful";
