@@ -19,6 +19,11 @@ const App = () => {
     axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
       // .then(({ data }) => console.log(data.allothers));
       .then(({ data }) => {
+        if(!data.task_id) {
+          data.task_id = 0;
+          return;
+        }
+        // add error handling if data is null
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
