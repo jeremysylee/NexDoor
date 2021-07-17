@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import useFormatDate from './hooks/useFormatDate';
 
@@ -25,7 +24,6 @@ StatusBadgeTasks.defaultProps = {
 
 const MyTask = ({ task }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { day, time } = useFormatDate(task.start_date, task.start_time);
 
   // ************************************************************* //

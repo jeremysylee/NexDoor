@@ -70,11 +70,11 @@ const MyRequest = ({ request }) => {
   });
 
   const selectTaskHandler = () => {
-    let showMapToggle = false;
-    if (request.status === 'Active') {
-      history.push('/active');
-      showMapToggle = true;
-    }
+    // let showMapToggle = false;
+    // if (request.status === 'Active') {
+    //   history.push('/active');
+    //   showMapToggle = true;
+    // }
     dispatch({
       type: 'SET_TASK', task: request,
     });
