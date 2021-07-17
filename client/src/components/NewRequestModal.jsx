@@ -117,7 +117,7 @@ function NewRequestModal() {
     }
     if (!values.endDate) {
       errors.endDate = 'Required';
-    } else if (d1 > d2) {
+    } else if (d1 > d2 || d2 <= yesterday) {
       errors.endDate = 'Invalid Date';
     }
     if (!values.startTime) {
@@ -150,7 +150,7 @@ function NewRequestModal() {
 
   return (
     <div>
-      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+      <Button variant="contained" color="secondary" size="large" fullwidth="true" onClick={handleClickOpen}>
         Submit A New Request
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -158,10 +158,17 @@ function NewRequestModal() {
         <DialogContent>
           <form onSubmit={handleSubmit}>
 
-            <Grid container justifyContent="center" alignItems="center" spacing={2}>
-
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={2}
+            >
               <Grid item xs={12}>
                 <Typography>LOCATION OF TASK</Typography>
+              </Grid>
+
+              <Grid item xs={12}>
                 <TextField
                   id="outlined-helperText"
                   label="Address Line"
@@ -219,8 +226,12 @@ function NewRequestModal() {
               </Grid>
 
               <Grid item xs={6}>
-                <FormControl component="fieldset">
+
+                <Grid item xs={12}>
                   <Typography>Select All That Apply</Typography>
+                </Grid>
+
+                <FormControl component="fieldset">
                   <FormGroup>
                     <FormControlLabel
                       control={<Checkbox checked={request.laborRequired} onChange={handleChange} name="laborRequired" />}
@@ -249,6 +260,7 @@ function NewRequestModal() {
                     <MenuItem value="labor">Labor</MenuItem>
                     <MenuItem value="sitter">Sitter</MenuItem>
                     <MenuItem value="borrow">Borrow</MenuItem>
+                    <MenuItem value="favor">Favor</MenuItem>
                     <MenuItem value="other">Other</MenuItem>
                   </Select>
                   {(validationErrors.category) ? <div>{validationErrors.category}</div> : null}
@@ -257,6 +269,9 @@ function NewRequestModal() {
 
               <Grid item xs={12}>
                 <Typography>DESCRIBE YOUR REQUEST</Typography>
+              </Grid>
+
+              <Grid item xs={12}>
                 <TextField
                   value={request.description}
                   onChange={handleChange}
@@ -275,58 +290,66 @@ function NewRequestModal() {
                 <Typography>WHEN DO YOU NEED HELP?</Typography>
               </Grid>
 
-              <Grid item xs={4}>
-                <TextField
-                  onChange={handleChange}
-                  value={request.startDate}
-                  id="startDate"
-                  name="startDate"
-                  label="Start Date"
-                  type="date"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  error={validationErrors.startDate && true}
-                  helperText={(validationErrors.startDate) ? validationErrors.startDate : null}
-                />
-              </Grid>
+              <Grid
+                container
+                spacing={3}
+                direction="row"
+                // justifyContent="space-around"
+                alignItems="flex-start"
+              >
+                <Grid item xs={4}>
+                  <TextField
+                    onChange={handleChange}
+                    value={request.startDate}
+                    id="startDate"
+                    name="startDate"
+                    label="Start Date"
+                    type="date"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={validationErrors.startDate && true}
+                    helperText={(validationErrors.startDate) ? validationErrors.startDate : null}
+                  />
+                </Grid>
 
-              <Grid item xs={4}>
-                <TextField
-                  onChange={handleChange}
-                  value={request.endDate}
-                  id="endDate"
-                  name="endDate"
-                  label="End Date"
-                  type="date"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  error={validationErrors.endDate && true}
-                  helperText={(validationErrors.endDate) ? validationErrors.endDate : null}
-                />
-              </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    onChange={handleChange}
+                    value={request.endDate}
+                    id="endDate"
+                    name="endDate"
+                    label="End Date"
+                    type="date"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    error={validationErrors.endDate && true}
+                    helperText={(validationErrors.endDate) ? validationErrors.endDate : null}
+                  />
+                </Grid>
 
-              <Grid item xs={4}>
-                <TextField
-                  onChange={handleChange}
-                  value={request.startTime}
-                  id="startTime"
-                  name="startTime"
-                  label="Time"
-                  type="time"
-                  variant="outlined"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  // inputProps={{
-                  //   step: 300, // 5 min
-                  // }}
-                  error={validationErrors.startTime && true}
-                  helperText={(validationErrors.startTime) ? validationErrors.startTime : null}
-                />
+                <Grid item xs={4}>
+                  <TextField
+                    onChange={handleChange}
+                    value={request.startTime}
+                    id="startTime"
+                    name="startTime"
+                    label="Time"
+                    type="time"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    // inputProps={{
+                    //   step: 300, // 5 min
+                    // }}
+                    error={validationErrors.startTime && true}
+                    helperText={(validationErrors.startTime) ? validationErrors.startTime : null}
+                  />
+                </Grid>
               </Grid>
 
               <Grid item xs={6}>

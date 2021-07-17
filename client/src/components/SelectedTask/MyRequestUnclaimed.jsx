@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import EditTaskModal from './EditTaskModal'
+import EditTaskModal from './EditTaskModal';
 import {
   SelectedTaskContainer,
   AvatarLg,

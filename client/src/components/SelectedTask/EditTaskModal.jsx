@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+// import axios from 'axios';
 
 import {
   Button,
@@ -42,6 +42,9 @@ function EditTaskModal() {
       carRequired: (task.car_required === 'true'),
       laborRequired: (task.physical_labor_required === 'true'),
       duration: task.duration,
+      taskId: task.task_id,
+      addressId: task.location.address_id,
+      userId: task.requester.user_id,
     });
   }, []);
 
@@ -125,7 +128,7 @@ function EditTaskModal() {
     }
     if (!values.endDate) {
       errors.endDate = 'Required';
-    } else if (d1 > d2) {
+    } else if (d1 > d2 || d2 <= yesterday) {
       errors.endDate = 'Invalid Date';
     }
     if (!values.startTime) {
@@ -139,18 +142,18 @@ function EditTaskModal() {
     event.preventDefault();
     const errors = validate(request);
     if (Object.keys(errors).length === 0) {
-      console.log(request);
+      console.log('edited req', request);
       resetReqAndErr();
-      axios.post('http://localhost:3500/api/task/check/35', request)
-        .then((response) => {
-          console.log(response.data);
-          setOpen(false);
-          resetReqAndErr();
-        })
-        .catch((err) => {
-          console.log(err);
-          setOpen(false);
-        });
+      // axios.put('http://localhost:3500/api/task/check/35', request)
+      //   .then((response) => {
+      //     console.log(response.data);
+      //     setOpen(false);
+      //     resetReqAndErr();
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     setOpen(false);
+      //   });
     } else {
       setValidationErrors(errors);
     }
@@ -257,6 +260,7 @@ function EditTaskModal() {
                     <MenuItem value="labor">Labor</MenuItem>
                     <MenuItem value="sitter">Sitter</MenuItem>
                     <MenuItem value="borrow">Borrow</MenuItem>
+                    <MenuItem value="favor">Favor</MenuItem>
                     <MenuItem value="other">Other</MenuItem>
                   </Select>
                   {(validationErrors.category) ? <div>{validationErrors.category}</div> : null}

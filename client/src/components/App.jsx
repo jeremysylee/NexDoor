@@ -19,7 +19,7 @@ const App = () => {
     setInterval(() => {
       axios.get(`${url}/api/tasks/all/15`)
         .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
-    }, 500)
+    }, 500);
   };
 
   const getRequests = () => {
