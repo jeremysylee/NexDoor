@@ -159,6 +159,7 @@ const userControllers = {
 
     const queryStr = `
       SELECT
+        user_id,
         firstname,
         lastname,
         email,
