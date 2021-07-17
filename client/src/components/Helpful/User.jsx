@@ -7,13 +7,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Ratings from 'react-ratings-declarative';
 
 const Card = styled.div`
-width: 100%;
-padding: 2em;
-margin: 1em;
-border-radius: 5px;
-box-shadow: 0 8px 16px 0 #BDC9D7;
+max-width: 100%;
+margin-top: 1em;
+padding: 1em;
+border-radius: 10px;
+background-color: #FFFFFF;
 overflow: hidden;
-display: inline-block;
+flex: 1;
 `;
 
 const CardContent = styled.div`
@@ -28,7 +28,7 @@ float: left;
 `;
 
 const User = ({ user }) => {
-  const { firstname, lastname, average_rating, profile_picture, response_count } = user;
+  const { firstname, lastname, avg_rating, profile_picture_url, task_count } = user;
 
   const [show, setShow] = useState(false);
 
@@ -41,7 +41,7 @@ const User = ({ user }) => {
         <Grid container direction="row" justifyContent="flex-start"
           alignItems="center">
           <div>
-            <Avatar src={profile_picture} />
+            <Avatar src={profile_picture_url} />
           </div>
           <div>
             <CardContent>
@@ -49,26 +49,12 @@ const User = ({ user }) => {
               {lastname}
               <div>
                 <StarIcon style={{ fill: "red" }} />
-                {average_rating}
+                {avg_rating}
               </div>
             </CardContent>
           </div>
         </Grid>
       </Card>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Body>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Avatar src={profile_picture} />
-          </div>
-          <span style={{ display: 'flex', justifyContent: 'center' }}>{firstname} {lastname}</span>
-          <div style={{ display: 'flex', justifyContent: 'center' }}><StarIcon style={{ fill: "red" }} /> {average_rating} ({response_count})</div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Container>
   );
 };
