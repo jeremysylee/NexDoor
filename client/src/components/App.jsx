@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
@@ -17,16 +17,22 @@ const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
+  const [currentInterval, setCurrentInterval] = useState();
+
   const getTasksByLocation = () => {
-    axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
+    // api/tasks/master/:userId/:range/:count/:offset
+    axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
-        if (!data.user_id) { return; }
+        // console.log(data);
+        if (!data.allothers) { return; }
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
+        if (!data.requested) { return; }
         dispatch({
           type: 'SET_REQUESTS', requests: data.requested,
         });
+        if (!data.helper) { return; }
         dispatch({
           type: 'SET_MY_TASKS', myTasks: data.helper,
         });
@@ -61,10 +67,16 @@ const App = () => {
 
   useEffect(() => {
     getTasksByLocation();
+    if (currentInterval) {
+      clearInterval(currentInterval);
+    }
+
+    const getTimer = setInterval(getTasksByLocation, 1000);
+    setCurrentInterval(getTimer);
     // getTasks();
     // getRequests();
     // getMyTasks();
-  });
+  }, [userId]);
 
   return (
     <div>

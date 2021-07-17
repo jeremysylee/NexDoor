@@ -93,7 +93,7 @@ CREATE TABLE nexdoor.messages (
   message_body VARCHAR(500),
   "date" DATE NOT NULL,
   "time" TIME WITHOUT TIME ZONE NOT NULL,
-  photo_id INT,
+  photo_url VARCHAR(255),
   CONSTRAINT messages_pkey PRIMARY KEY (message_id),
   CONSTRAINT fk_messages_task_id FOREIGN KEY (task_id)
     REFERENCES nexdoor.tasks (task_id) MATCH SIMPLE
@@ -101,10 +101,6 @@ CREATE TABLE nexdoor.messages (
     ON DELETE CASCADE,
   CONSTRAINT fk_messages_user_id FOREIGN KEY (user_id)
     REFERENCES nexdoor.users (user_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-  CONSTRAINT fk_messages_photo_id FOREIGN KEY (photo_id)
-    REFERENCES nexdoor.photos (photo_id) MATCH SIMPLE
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )
@@ -128,12 +124,6 @@ CREATE INDEX fki_fk_messages_task_id
 CREATE INDEX fki_fk_messages_user_id
     ON nexdoor.messages USING btree
     (user_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: fki_fk_messages_photo_id
--- DROP INDEX nexdoor.fki_fk_messages_photo_id;
-CREATE INDEX fki_fk_messages_photo_id
-    ON nexdoor.messages USING btree
-    (photo_id ASC NULLS LAST)
     TABLESPACE pg_default;
 --*********************************************************************
 -- PHOTOS TABLE
@@ -335,6 +325,46 @@ CREATE INDEX fki_fk_users_address_id
 CREATE INDEX user_avg_rating_idx
     ON nexdoor.users USING btree
     (avg_rating ASC NULLS LAST)
+    TABLESPACE pg_default;
+--*********************************************************************
+--REVIEWS TABLE
+--*********************************************************************
+CREATE TABLE nexdoor.reviews (
+  review_id SERIAL,
+  rating DOUBLE PRECISION NOT NULL,
+  review VARCHAR(1000),
+  requester_id INT NOT NULL,
+  helper_id INT NOT NULL,
+  CONSTRAINT reviews_pkey PRIMARY KEY (review_id),
+  CONSTRAINT fk_reviews_helper_id FOREIGN KEY (helper_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION,
+  CONSTRAINT fk_reviews_requester_id FOREIGN KEY (requester_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+)
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.reviews
+    OWNER to blueboolean;
+-- Index: review_id_idx
+-- DROP INDEX nexdoor.review_id_idx;
+CREATE INDEX review_id_idx
+    ON nexdoor.reviews USING btree
+    (review_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_fk_reviews_requester_id
+-- DROP INDEX nexdoor.fki_fk_reviews_requester_id;
+CREATE INDEX fki_fk_reviews_requester_id
+    ON nexdoor.reviews USING btree
+    (requester_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_fk_reviews_helper_id
+-- DROP INDEX nexdoor.fki_fk_reviews_helper_id;
+CREATE INDEX fki_fk_reviews_helper_id
+    ON nexdoor.reviews USING btree
+    (helper_id ASC NULLS LAST)
     TABLESPACE pg_default;
 --*********************************************************************
 --TRIGGER FUNCTIONS
