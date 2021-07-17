@@ -78,6 +78,10 @@ const Chat = (taskId) => {
     setLastName(resultContainer[1]);
     setCurrentUser(resultContainer[0] + ' ' + resultContainer[1]);
     setCurrentTask(resultContainer[2]);
+    // axios.get(`${url}/api/messages/1`)
+    //   .then((data) => {
+    //     setMessages(data);
+    //   });
   }, []);
 
   useEffect(() => {
@@ -92,8 +96,17 @@ const Chat = (taskId) => {
     });
   }, [currentTask]);
 
+  const CHAT_STYLE = {
+    width: '800px',
+    height: 'auto',
+    margin: '50px auto',
+    padding: '5px',
+    borderRadius: '20px',
+    boxShadow: '0 8px 16px 0 #BDC9D7',
+  };
+
   return (
-    <div>
+    <div style={CHAT_STYLE}>
       <div>
         {messages.map((message, idx) => {
           // console.log('current User: ', currentUser);
@@ -109,8 +122,10 @@ const Chat = (taskId) => {
           return (<Message key={idx} message={message} isUser={isUser} />);
         })}
       </div>
-      <textarea placeholder="Write message here..." onChange={handleChange} />
-      <button onClick={handleSend}>Send</button>
+      <div style={{ bottom: 0, right: 0 }}>
+        <textarea placeholder="Write message here..." onChange={handleChange} />
+        <button onClick={handleSend}>Send</button>
+      </div>
     </div>
   );
 };
