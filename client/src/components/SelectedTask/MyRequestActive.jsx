@@ -1,8 +1,8 @@
 /* eslint camelcase: 0 */ // --> OFF
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import {
   SelectedTaskContainer,
@@ -16,23 +16,21 @@ import {
   DetailsContainerTime,
   HeadingSmall,
   Row,
-  RowSlim,
   Col,
-  Button,
-  ButtonDecline,
-  BackButton,
   LineTop,
-  LineBottom,
+  RowSlim,
+  ButtonGoToRequest,
+  ButtonClaimedDecline,
+  BackButton,
 } from './styles-SelectedTask';
 
-const url = 'http://localhost:3500';
-
-const OpenTask = () => {
+const MyRequestActive = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
+  const history = useHistory();
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
+  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const {
     street_address,
     city,
@@ -40,9 +38,23 @@ const OpenTask = () => {
     zipcode,
   } = task.location;
 
-  const clickClaimHandler = () => {
-    axios.put(`${url}/api/task/help/${task.task_id}/${userId}`)
-      .then((res) => console.log(res));
+  const [user, setUser] = useState({});
+
+  // here here
+  const setTaskRoleRelativeToUser = () => {
+    if (task.requester.user_id !== userId) {
+      setUser(task.requester);
+    } else {
+      setUser(task.helper);
+    }
+  };
+
+  useEffect(() => {
+    setTaskRoleRelativeToUser();
+  });
+
+  const clickGoToRequestHandler = () => {
+    history.push('/active');
   };
 
   const clickBackHandler = () => {
@@ -58,19 +70,19 @@ const OpenTask = () => {
       </RowSlim>
       <Col>
         <AvatarLg
-          src={task.requester.profile_picture_url}
-          alt={task.requester.firstname}
+          src={user.profile_picture_url}
+          alt={user.firstname}
         />
         <AvatarRing />
         <AvatarMiddleRing />
       </Col>
-      <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
+      <Username>{`${user.firstname} ${user.lastname}`}</Username>
       <UserInfo>
-        <span>{`★ ${task.requester.avg_rating || 0} (${task.requester.task_count})`}</span>
+        <span>{`★ ${user.avg_rating || 0} (${user.task_count})`}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>
-      <StatusText>is requesting your assistance</StatusText>
+      <StatusText>is helping you with this request!</StatusText>
       <DetailsContainer>
         <HeadingSmall>REQUEST DETAILS</HeadingSmall>
         <p>{task.description}</p>
@@ -91,14 +103,13 @@ const OpenTask = () => {
           </Col>
         </DetailsContainerTime>
       </Row>
-      <LineTop />
-      <Row>
-        <ButtonDecline onClick={clickBackHandler}>Decline</ButtonDecline>
-        <Button onClick={clickClaimHandler}>Claim</Button>
+      <LineTop style={{ marginBottom: '1px' }} />
+      <Row style={{ justifyContent: 'space-between' }}>
+        <ButtonClaimedDecline onClick={clickBackHandler}>Back</ButtonClaimedDecline>
+        <ButtonGoToRequest onClick={clickGoToRequestHandler}>Go to request</ButtonGoToRequest>
       </Row>
-      <LineBottom />
     </SelectedTaskContainer>
   );
 };
 
-export default OpenTask;
+export default MyRequestActive;
