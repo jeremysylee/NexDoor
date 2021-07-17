@@ -81,21 +81,16 @@ const LogIn = () => {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           console.log('login successful: ', response.data);
           getUserData(Number(response.data.user_id));
           // redirect to home page
-          //set response to redux state
         } else {
           console.log('error logging in');
         }
       })
       .catch((err) => console.error(err));
   };
-// get user data from db.getUser
-
-
 
   return (
     <Container component="main" maxWidth="xs">

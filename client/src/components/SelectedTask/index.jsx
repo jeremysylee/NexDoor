@@ -7,6 +7,7 @@ import MyRequestUnclaimed from './MyRequestUnclaimed';
 import MyRequestClaimed from './MyRequestClaimed';
 import MyTaskPending from './MyTaskPending';
 import MyRequestActive from './MyRequestActive';
+import MyTaskActive from './MyTaskActive';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
@@ -30,8 +31,10 @@ const SelectedTaskFrame = styled.div`
 const SelectedTask = () => {
   const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
-  // const currentUserId = useSelector((store) => store.currentUserReducer.userId);
-  const currentUserId = 37;
+  const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
+
+  console.log(currentUserId);
+
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
     const { days } = DateTime.fromISO(rawDate).diff(dateToday, ['days']).values;
@@ -74,10 +77,19 @@ const SelectedTask = () => {
     );
   }
 
-  if (task.status === 'Active') {
+  if (task.status === 'Active' && task.requester.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
         <MyRequestActive />
+        {/* <Active /> */}
+      </SelectedTaskFrame>
+    );
+  }
+
+  if (task.status === 'Active' && task.helper.user_id === currentUserId) {
+    return (
+      <SelectedTaskFrame>
+        <MyTaskActive />
         {/* <Active /> */}
       </SelectedTaskFrame>
     );
