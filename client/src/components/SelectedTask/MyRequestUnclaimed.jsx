@@ -68,7 +68,6 @@ const MyRequestUnclaimed = () => {
         </DetailsContainer>
       </Row>
       <EditTaskModal />
-      {/* <button>Next</button> */}
     </SelectedTaskContainer>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import {
   Button,
   TextField,
@@ -16,6 +17,28 @@ import {
   Checkbox,
 } from '@material-ui/core/';
 import axios from 'axios';
+
+const Input = styled.button`
+  border-radius: 100px;
+  background-color: #F1F2F5;
+  font-size: 18px;
+  font-weight: 300;
+  border: none;
+  width: 100%;
+  margin-left: 0.5em;
+  padding-top: 4px;
+  text-align: left;
+  color: #5E5E5E;
+  font-family: Roboto;
+  -webkit-transition: 200ms linear;
+  -moz-transition: 200ms linear;
+  -ms-transition: 200ms linear;
+  -o-transition: 200ms linear;
+  transition: 200ms linear;
+  &:hover {
+    background-color: #E7E7E7
+  }
+`;
 
 function NewRequestModal() {
   const [open, setOpen] = useState(false);
@@ -150,9 +173,9 @@ function NewRequestModal() {
 
   return (
     <div>
-      <Button variant="contained" color="secondary" size="large" fullwidth="true" onClick={handleClickOpen}>
-        Submit A New Request
-      </Button>
+
+      <Input onClick={handleClickOpen}>&nbsp;What do you need help with?</Input>
+
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Request Help</DialogTitle>
         <DialogContent>
@@ -354,8 +377,8 @@ function NewRequestModal() {
 
               <Grid item xs={6}>
                 <Button
-                  variant="contained"
-                  color="secondary"
+                  variant="outlined"
+                  color="primary"
                   type="submit"
                   fullWidth
                 >

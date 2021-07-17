@@ -359,8 +359,8 @@ function EditTaskModal() {
 
               <Grid item xs={6}>
                 <Button
-                  variant="contained"
-                  color="secondary"
+                  variant="outlined"
+                  color="variant"
                   type="submit"
                   fullWidth
                 >
