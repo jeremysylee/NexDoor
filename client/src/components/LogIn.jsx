@@ -49,8 +49,28 @@ const LogIn = () => {
 
   const handleChange = (e) => {
     setLogin({
+      ...login,
       [e.target.name]: e.target.value,
-    }, console.log(e.target.value));
+    });
+  };
+
+  const submitLogin = (e) => {
+    e.preventDefault();
+    console.log('login: ', login);
+    axios.post('http://localhost:3500/api/login/', login, {
+      headers: { 'content-type': 'application/json' },
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response);
+        console.log(response.cookie)
+        if (response.status === 200) {
+          console.log("login successful!");
+        } else {
+          console.log('error logging in');
+        }
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -98,6 +118,7 @@ const LogIn = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitLogin}
           >
             Sign In
           </Button>

@@ -17,6 +17,7 @@ login.post('/',
       .isEmpty()
       .withMessage('Please enter password'),
   ], (req, res) => {
+    console.log('req: ', req);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -28,8 +29,11 @@ login.post('/',
       db.authenticateLogin(req, res);
       // if authenticated, create a new session
     } else if (req.session) {
+      db.authenticateLogin(req, res);
       // check if (req.session === valid)
       // if yes, redirect user to home page
+      console.log("success using a session!")
+      res.status(200).send("success using a session!");
     }
   });
 

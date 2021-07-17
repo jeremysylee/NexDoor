@@ -32,6 +32,7 @@ newuser.post('/',
         }
       }),
   ], (req, res) => {
+    console.log(req);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors);

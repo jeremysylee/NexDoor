@@ -23,14 +23,16 @@ router
     // GET
     // .get('/taskobj', taskCtrl.getOneTask)
     // .get('/tasks/user/:userId', taskCtrl, getTasksByUser)
-    .get('/tasks/:quantity', taskCtrl.getTasks)
+    .get('/tasks/all/:quantity', taskCtrl.getTasks)
     .get('/tasks/req/:userId', taskCtrl.getReqTasksByUser)
     .get('/tasks/help/:userId', taskCtrl.getHelpTasksByUser)
-    .get('/tasks/:userId/:range', taskCtrl.getTasksInRange)
+    .get('/tasks/range/:userId/:range', taskCtrl.getTasksInRange)
+    .get('/tasks/alt/:range', taskCtrl.getTasksInRangeAltAddress)
     // ADD / UPDATE
     .put('/task/help/:taskId/:userId', taskCtrl.updateHelper)
     .put('/task/rmhelp/:taskId', taskCtrl.removeHelper)
     .put('/task/change/:status/:taskId', taskCtrl.changeTaskStatus)
+    .put('/task/close/:taskId/:rating', taskCtrl.closeTask)
     // .put('/task/conf/:taskId', taskCtrl.confirmTask)
     .post('/task/check/:userId', taskCtrl.addTaskCheckAddress)
     .post('/task/new/:userId', taskCtrl.addTaskNewAddress)
@@ -39,7 +41,7 @@ router
     // .delete('/task/:taskId', taskCtrl.deleteTask)
   // USERS----------------------------------------------------------
     // GET
-    .get('/user/:userId', userCtrl.getUser)
+    .get('/user/info/:userId', userCtrl.getUser)
     .get('/users/rating/:quantity', userCtrl.getUsersByRating)
     // ADD / UPDATE
     .post('/user', userCtrl.addUser)

@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config();
 const session = require('express-session');
 const router = require('./router');
 require('dotenv').config();
@@ -16,9 +15,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({ origin: `http://localhost:${process.env.CLIENT_PORT}`, credentials: true}));
 
-// app.set('trust proxy', 1); // enable if using proxy/load balancer
+app.set('trust proxy', 1); // enable if using proxy/load balancer
 const RedisStore = connectRedis(session);
 
 const redisClient = redis.createClient({
@@ -32,8 +31,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: process.env.IN_PROD, // HTTPS only (disable in production)
-    httpOnly: process.env.IN_PROD, // client can read cookie manually (disable in production)
+    secure: false, // HTTPS only (disable in production)
+    httpOnly: false, // client can read cookie manually (disable in production)
     maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
   },
 }));
