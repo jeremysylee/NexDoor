@@ -43,14 +43,21 @@ const Chat = (taskId) => {
     // send Message to database
     // add message to messages and display render on screen(setstate)
     const d = new Date();
-    // console.log(JSON.stringify(d));
-    console.log(typeof d);
+    const dStr = d.toString();
+    const currentDayOfMonth = d.getDate();
+    const currentMonth = d.getMonth(); // Be careful! January is 0, not 1
+    const currentYear = d.getFullYear();
+    const timeString = dStr.slice(16, 24);
+    const dateString = currentDayOfMonth + "/" + (currentMonth + 1) + "/" + currentYear;
+
+    console.log(dStr.slice(16, 24));
+    console.log(dateString);
     const message = {
       firstname: firstName,
       lastname: lastName,
       message_body: currentMessage,
-      date: '',
-      time: '',
+      date: dateString,
+      time: timeString,
     };
     socket.emit('send-message', { task: currentTask, message: message });
 
@@ -89,8 +96,8 @@ const Chat = (taskId) => {
     <div>
       <div>
         {messages.map((message, idx) => {
-          console.log('current User: ', currentUser);
-          console.log('info: ', message.firstname, ' ', message.lastname);
+          // console.log('current User: ', currentUser);
+          // console.log('info: ', message.firstname, ' ', message.lastname);
           const user = `${message.firstname} ${message.lastname}`;
           // console.log(messages);
           let isUser;
