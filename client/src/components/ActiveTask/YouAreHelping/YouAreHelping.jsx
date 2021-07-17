@@ -51,9 +51,6 @@ const YouAreHelping = () => {
       <RequestUserInfo>
         <span>
           <StarIcon style={{ fill: "red" }} />
-          {selectTask.requester.average_rating}
-          &nbsp;
-          ({selectTask.requester.response_count})
         </span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>

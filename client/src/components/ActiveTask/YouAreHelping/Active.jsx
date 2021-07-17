@@ -8,7 +8,7 @@ import StarIcon from '@material-ui/icons/Star';
 import styled from 'styled-components';
 import Header from '../../Header';
 import Sidebar from '../../Sidebar';
-// import ActiveModal from './ActiveModal';
+import MarkFinishModal from './MarkFinishModal';
 import YouAreHelping from './YouAreHelping';
 
 const RequestDescription = styled.div`
@@ -88,7 +88,7 @@ const Active = () => {
           style={{ fontStyle: 'Roboto' }}
         >
           <YouAreHelping />
-          {/* <ActiveModal /> */}
+          <MarkFinishModal />
           <CancelButton>
             <Button style={{ backgroundColor: '#EEEEEE', borderRadius: '24px', height: '50px', width: '200px', borderColor: '#EEEEEE', color: '#6C6C6C' }} >Cancel Request</Button>
           </CancelButton>
