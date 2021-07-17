@@ -108,3 +108,5 @@ const messagesControllers = {
 };
 
 module.exports = messagesControllers;
+
+// PHOTOS ADDING ROUTE
