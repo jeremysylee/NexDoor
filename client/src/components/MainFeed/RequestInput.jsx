@@ -4,11 +4,22 @@ import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
 
 import {
-  Card,
   Row,
   Button,
   ButtonDecline,
 } from './styles-MainFeed';
+
+export const InputCard = styled.div`
+  max-width: 100%;
+  margin-top: 1em;
+  padding: 0.75em 1em;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  overflow: visible;
+  flex: 1;
+  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
+  color: black;
+`;
 
 const Input = styled.button`
   border-radius: 100px;
@@ -48,15 +59,15 @@ const VerticalLine = styled.div`
 `;
 
 const RequestInput = () => {
-  const user = useSelector((store) => store.currentUserReducer);
+  const user = useSelector((store) => store.currentUserReducer.userData);
   // waiting for userId data
 
   return (
     <div>
-      <Card>
+      <InputCard>
         <VerticalLine />
         <Row>
-          <Avatar src={user.profile_picture_url} alt={user.userId.toString()} />
+          <Avatar src={user.profile_picture_url} alt={user.user_id.toString()} />
           <Input>&nbsp;What do you need help with?</Input>
         </Row>
         <Line />
@@ -64,7 +75,7 @@ const RequestInput = () => {
           <ButtonDecline>Schedule for later</ButtonDecline>
           <Button>Make a request</Button>
         </Row>
-      </Card>
+      </InputCard>
     </div>
   );
 };

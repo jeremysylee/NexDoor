@@ -13,7 +13,7 @@ const url = 'http://localhost:3500';
 
 const App = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((store) => store.currentUserReducer.userId);
+  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const getTasksByLocation = () => {
     axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)

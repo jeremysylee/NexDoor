@@ -19,10 +19,9 @@ import {
   Row,
   Col,
   LineTop,
-  LineBottom,
   RowSlim,
-  Button,
-  ButtonDecline,
+  ButtonClaimed,
+  ButtonClaimedDecline,
   BackButton,
 } from './styles-SelectedTask';
 
@@ -101,12 +100,11 @@ const MyRequestClaimed = () => {
           </Col>
         </DetailsContainerTime>
       </Row>
-      <LineTop />
-      <Row>
-        <ButtonDecline onClick={clickDeclineHandler}>Decline</ButtonDecline>
-        <Button onClick={clickAcceptHandler}>Accept</Button>
+      <LineTop style={{ marginBottom: '1px' }} />
+      <Row style={{ justifyContent: 'space-between' }}>
+        <ButtonClaimedDecline onClick={clickDeclineHandler}>Decline</ButtonClaimedDecline>
+        <ButtonClaimed onClick={clickAcceptHandler}>Accept</ButtonClaimed>
       </Row>
-      <LineBottom />
     </SelectedTaskContainer>
   );
 };

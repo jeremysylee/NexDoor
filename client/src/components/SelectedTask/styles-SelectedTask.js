@@ -138,6 +138,28 @@ export const ButtonDecline = styled(Button)`
   color: grey;
 `;
 
+export const ButtonClaimed = styled(Button)`
+  width: 44%;
+  height: 36px;
+  font-weight: 300;
+  background-color: #DB6F37;
+  color: white;
+  &:hover {
+    background-color: #EF641C;
+  }
+`;
+
+export const ButtonClaimedDecline = styled(ButtonDecline)`
+  width: 33%;
+`;
+
+export const ButtonGoToRequest = styled(ButtonClaimed)`
+  background-color: #4496B4;
+  &:hover {
+    background-color: #79B9D0;
+  }
+`;
+
 export const LineTop = styled.hr`
   margin-bottom: -11px;
   margin-top: 18px;

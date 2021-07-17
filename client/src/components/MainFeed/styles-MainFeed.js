@@ -17,6 +17,11 @@ export const CardHeaders = styled.div`
   font-weight: 500;
 `;
 
+export const Username = styled.div`
+  font-weight: 500;
+  font-size: 14px;
+`;
+
 export const Card = styled.div`
   max-width: 100%;
   margin-top: 1em;
@@ -27,13 +32,18 @@ export const Card = styled.div`
   flex: 1;
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
   color: black;
-  -webkit-transition: all 400ms ease;
-  -moz-transition: all 400ms ease;
-  -ms-transition: all 400ms ease;
-  -o-transition: all 400ms ease;
-  transition: all 400ms ease;
+  -webkit-transition: all 150ms ease;
+  -moz-transition: all 150ms ease;
+  -ms-transition: all 150ms ease;
+  -o-transition: all 150ms ease;
+  transition: all 150ms ease;
   &:hover {
-    background-color: #EEEEEE;
+    // background-color: #F6F6F6;
+    box-shadow: 2px 2px 3px #959595, -1px -1px 27px #f1f2f5;
+    cursor: pointer;
+  }
+  &:hover ${Username} {
+    text-decoration: underline;
   }
 `;
 
@@ -46,11 +56,6 @@ export const Row = styled.div`
 export const CardContent = styled.div`
   font-family: Roboto;
   margin-left: 1em;
-`;
-
-export const Username = styled.div`
-  font-weight: 500;
-  font-size: 14px;
 `;
 
 export const Description = styled.div`
