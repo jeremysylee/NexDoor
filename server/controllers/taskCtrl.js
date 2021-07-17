@@ -1900,6 +1900,164 @@ const taskControllers = {
         res.status(400).send('Error getting coordinates', err.stack);
       });
   },
+
+  // *************************************************************
+  // EDIT TASK
+  // *************************************************************
+  // Needs from Front End - task info
+  // Returns - string conf
+  // *************************************************************
+  /*
+    // PUT /task/edit
+    req.body =
+    {
+        "streetAddress": "180 Santa Monica Pier",
+        "city": "Santa Monica",
+        "state": "CA",
+        "zipcode": 90401,
+        "neighborhood": "Santa Monica",
+        "description": "I have fallen and I cannot get up. Help please",
+        "carRequired": false,
+        "laborRequired": false,
+        "category": "Favor",
+        "startDate": "2021/05/22",
+        "endDate": "2021/05/27",
+        "startTime": "08:00",
+        "duration": 2,
+        "taskId": 41
+    }
+  */
+  // *************************************************************
+  editTask: (req, res) => {
+    const {
+      streetAddress,
+      city,
+      state,
+      zipcode,
+      neighborhood,
+      description,
+      carRequired,
+      laborRequired,
+      category,
+      startDate,
+      endDate,
+      startTime,
+      duration,
+      taskId,
+    } = req.body;
+    const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
+    let coordinate;
+    let newAddId;
+
+    const queryStr1 = `
+      SELECT address_id
+      FROM nexdoor.address
+      WHERE street_address='${streetAddress}'
+      AND zipcode=${zipcode}
+    ;`;
+    const queryStr2 = `
+      UPDATE nexdoor.tasks
+      SET
+        address_id=
+        (
+          SELECT address_id
+          FROM nexdoor.address
+          WHERE street_address='${streetAddress}'
+          AND zipcode=${zipcode}
+        ),
+        description='${description}',
+        car_required=${carRequired},
+        physical_labor_required=${laborRequired},
+        category='${category}',
+        start_date='${startDate}',
+        end_date='${endDate}',
+        start_time='${startTime}',
+        duration=${duration}
+      WHERE task_id=${taskId}
+    ;`;
+    const queryDbTwo = () => {
+      const queryStr4 = `
+        UPDATE nexdoor.tasks
+        SET
+          nexdoor.tasks.address_id=${newAddId},
+          description='${description}',
+          car_required=${carRequired},
+          physical_labor_required=${laborRequired},
+          category='${category}',
+          start_date='${startDate}',
+          end_date='${endDate}',
+          start_time='${startTime}',
+          duration=${duration}
+        WHERE task_id=${taskId}
+      ;`;
+      db.query(queryStr4)
+        .then(() => {
+          res.status(200).send('Task finally updated');
+        })
+        .catch((err) => {
+          res.status(400).send(err.stack);
+        });
+    };
+    const queryDbOne = () => {
+      const queryStr3 = `
+          INSERT INTO nexdoor.address
+          (
+            street_address,
+            city,
+            state,
+            zipcode,
+            neighborhood,
+            coordinate
+          )
+          VALUES
+          (
+            '${streetAddress}',
+            '${city}',
+            '${state}',
+            ${zipcode},
+            '${neighborhood}',
+            ${coordinate}
+          )
+          RETURNING address_id
+      ;`;
+      db.query(queryStr3)
+        .then((data2) => {
+          newAddId = data2.rows[0].address_id;
+        })
+        .then(() => {
+          queryDbTwo();
+        })
+        .catch((err) => {
+          res.status(400).send(err.stack);
+        });
+    };
+    db.query(queryStr1)
+      .then((data) => {
+        if (data.rows.length > 0) {
+          db.query(queryStr2)
+            .then(() => {
+              res.status(200).send(`Updated task ${taskId}`);
+            })
+            .catch((err) => {
+              res.status(400).send(err.stack);
+            });
+        } else {
+          getCoordinates(addressQuery)
+            .then((testCoord) => {
+              coordinate = `point(${testCoord.lng},${testCoord.lat})`;
+            })
+            .then(() => {
+              queryDbOne();
+            })
+            .catch((err) => {
+              res.status(400).send(err.stack);
+            });
+        }
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
+  },
 };
 
 module.exports = taskControllers;

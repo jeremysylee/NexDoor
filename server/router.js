@@ -35,6 +35,7 @@ router
     .put('/task/rmhelp/:taskId', taskCtrl.removeHelper)
     .put('/task/change/:status/:taskId', taskCtrl.changeTaskStatus)
     .put('/task/close/:taskId/:rating', taskCtrl.closeTask)
+    .put('/task/edit', taskCtrl.editTask)
     // .put('/task/conf/:taskId', taskCtrl.confirmTask)
     .post('/task/check/:userId', taskCtrl.addTaskCheckAddress)
     .post('/task/new/:userId', taskCtrl.addTaskNewAddress)
