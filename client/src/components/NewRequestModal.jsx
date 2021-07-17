@@ -15,7 +15,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core/';
-// import axios from 'axios';
+import axios from 'axios';
 
 function NewRequestModal() {
   const [open, setOpen] = useState(false);
@@ -25,14 +25,17 @@ function NewRequestModal() {
     city: '',
     state: '',
     zipcode: '',
+    neighborhood: '',
     description: '',
     category: '',
     startDate: '',
     endDate: '',
-    time: '',
+    startTime: '',
     carRequired: false,
     laborRequired: false,
+    duration: null,
   });
+  // const userId = useSelector((store) => store.currentUserReducer.userId);
 
   function handleClickOpen() {
     setOpen(true);
@@ -64,13 +67,15 @@ function NewRequestModal() {
       city: '',
       state: '',
       zipcode: '',
+      neighborhood: '',
       description: '',
       category: '',
       startDate: '',
       endDate: '',
-      time: '',
+      startTime: '',
       carRequired: false,
       laborRequired: false,
+      duration: null,
     });
     setValidationErrors({});
   }
@@ -115,8 +120,8 @@ function NewRequestModal() {
     } else if (d1 > d2) {
       errors.endDate = 'Invalid Date';
     }
-    if (!values.time) {
-      errors.time = 'Required';
+    if (!values.startTime) {
+      errors.startTime = 'Required';
     }
     return (errors);
   }
@@ -128,15 +133,16 @@ function NewRequestModal() {
     if (Object.keys(errors).length === 0) {
       console.log(request);
       resetReqAndErr();
-      // axios.post(`api/task/${}`, request)
-      //   .then(response => {
-      //     console.log(response.data);
-      //     setOpen(false);
-      //     resetReqAndErr();
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   })
+      axios.post('http://localhost:3500/api/task/check/35', request)
+        .then((response) => {
+          console.log(response.data);
+          setOpen(false);
+          resetReqAndErr();
+        })
+        .catch((err) => {
+          console.log(err);
+          setOpen(false);
+        });
     } else {
       setValidationErrors(errors);
     }
@@ -189,7 +195,7 @@ function NewRequestModal() {
                   id="outlined-helperText"
                   label="State"
                   name="state"
-                  placeholder="California"
+                  placeholder="CA"
                   value={request.state}
                   onChange={handleChange}
                   error={validationErrors.state && true}
@@ -201,7 +207,7 @@ function NewRequestModal() {
               <Grid item xs={4}>
                 <TextField
                   id="outlined-helperText"
-                  label="Zipxode"
+                  label="Zipcode"
                   name="zipcode"
                   placeholder="90001"
                   value={request.zipcode}
@@ -305,9 +311,9 @@ function NewRequestModal() {
               <Grid item xs={4}>
                 <TextField
                   onChange={handleChange}
-                  value={request.time}
-                  id="time"
-                  name="time"
+                  value={request.startTime}
+                  id="startTime"
+                  name="startTime"
                   label="Time"
                   type="time"
                   variant="outlined"
@@ -317,8 +323,8 @@ function NewRequestModal() {
                   // inputProps={{
                   //   step: 300, // 5 min
                   // }}
-                  error={validationErrors.time && true}
-                  helperText={(validationErrors.time) ? validationErrors.time : null}
+                  error={validationErrors.startTime && true}
+                  helperText={(validationErrors.startTime) ? validationErrors.startTime : null}
                 />
               </Grid>
 
