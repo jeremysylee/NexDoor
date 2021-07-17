@@ -46,7 +46,7 @@ const MyTaskPending = () => {
       <Username />
       <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
       <UserInfo>
-        <span>{`★ ${task.requester.avg}`}</span>
+        <span>{`★ ${task.requester.avg_rating || 0} (${task.requester.task_count})`}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>

@@ -8,6 +8,8 @@ import { useHistory } from 'react-router-dom';
 import {
   SelectedTaskContainer,
   AvatarLg,
+  AvatarRing,
+  AvatarMiddleRing,
   Username,
   UserInfo,
   StatusText,
@@ -16,7 +18,8 @@ import {
   HeadingSmall,
   Row,
   Col,
-  Line,
+  LineTop,
+  LineBottom,
   RowSlim,
   Button,
   ButtonDecline,
@@ -47,6 +50,9 @@ const MyRequestClaimed = () => {
   const clickDeclineHandler = () => {
     axios.put(`${url}/api/task/rmhelp/${task.task_id}`)
       .then((res) => console.log(res));
+    dispatch({
+      type: 'SHOW_MAP', toggle: true,
+    });
   };
 
   const clickBackHandler = () => {
@@ -60,16 +66,17 @@ const MyRequestClaimed = () => {
       <RowSlim>
         <BackButton onClick={clickBackHandler}>Back</BackButton>
       </RowSlim>
-      <div>
+      <Col>
         <AvatarLg
           src={task.helper.profile_picture_url}
           alt={task.helper.firstname}
         />
-        {/* <AvatarRing /> */}
-      </div>
+        <AvatarRing />
+        <AvatarMiddleRing />
+      </Col>
       <Username>{`${task.helper.firstname} ${task.helper.lastname}`}</Username>
       <UserInfo>
-        <span>{`★ ${task.helper.average_rating}`}</span>
+        <span>{`★ ${task.helper.avg_rating || 0} (${task.helper.task_count})`}</span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
       </UserInfo>
@@ -94,11 +101,12 @@ const MyRequestClaimed = () => {
           </Col>
         </DetailsContainerTime>
       </Row>
-      <Line />
+      <LineTop />
       <Row>
         <ButtonDecline onClick={clickDeclineHandler}>Decline</ButtonDecline>
         <Button onClick={clickAcceptHandler}>Accept</Button>
       </Row>
+      <LineBottom />
     </SelectedTaskContainer>
   );
 };

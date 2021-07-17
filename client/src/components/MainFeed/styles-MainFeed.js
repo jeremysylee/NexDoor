@@ -1,5 +1,22 @@
 import styled from 'styled-components';
 
+export const SectionCard = styled.div`
+  max-width: 100%;
+  margin-top: 1em;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  overflow: hidden;
+  flex: 1;
+  padding: 1em;
+  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
+`;
+
+export const CardHeaders = styled.div`
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 500;
+`;
+
 export const Card = styled.div`
   max-width: 100%;
   margin-top: 1em;
@@ -10,12 +27,6 @@ export const Card = styled.div`
   flex: 1;
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
   color: black;
-`;
-
-export const CardHeaders = styled.div`
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 400;
 `;
 
 export const Row = styled.div`
@@ -87,3 +98,29 @@ export const StatusBadgeTasks = styled(StatusBadge)`
 transform: scale(1) translate(-10%, -118%);
 
 `;
+
+export const Button = styled.button`
+  width: 100%;
+  height: 30px;
+  background-color: white;
+  color: #4496B4;
+  border-radius: 10px;
+  border: none;
+  font-weight: 300;
+  font-size: 14px;
+  margin-bottom: -4px;
+  -webkit-transition: all 400ms ease;
+  -moz-transition: all 400ms ease;
+  -ms-transition: all 400ms ease;
+  -o-transition: all 400ms ease;
+  transition: all 400ms ease;
+  &:hover {
+    background-color: #ECECEC;
+  }
+`;
+
+export const ButtonDecline = styled(Button)`
+  color: grey;
+`;
+
+// export const Effect1 = styled.div``

@@ -18,13 +18,26 @@ export const AvatarLg = styled.img`
 
 export const AvatarRing = styled.div`
   border-radius: 100px;
-  background: linear-gradient(to right, #DB8457, #4496B4, #61C0CB);
+  background: linear-gradient(297.42deg, #FF8B50 33.07%, #4496B4 78.11%, #61C0CB 88.78%);
+  width: 98px;
+  height: 98px;
+  top: 36px;
+  left: 201px;
+  position: absolute;
+  z-index: -1;
+`;
+
+export const AvatarMiddleRing = styled(AvatarRing)`
+  background: white;
   width: 90px;
   height: 90px;
+  top: 40px;
+  left: 205px;
 `;
 
 export const BackButton = styled.button`
   border: none;
+  color: #6C6C6C;
   background-color: white;
   font-weight: 300;
   font-size: 18px;
@@ -34,20 +47,20 @@ export const BackButton = styled.button`
   -o-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
   &:hover{
-    color: grey;
+    color: 989898;
   }
 `;
 
 export const Username = styled.div`
-  font-weight: 400;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
   margin-top: 1em;
 `;
 
 export const UserInfo = styled.div`
   font-weight: 400;
-  font-size: 14px;
-  margin-top: 0.5em;
+  font-size: 12px;
+  margin-top: 0;
 `;
 
 export const StatusText = styled(Username)`
@@ -109,7 +122,7 @@ export const Button = styled.button`
   color: #4496B4;
   border-radius: 10px;
   border: none;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 18px;
   -webkit-transition: all 400ms ease;
   -moz-transition: all 400ms ease;
@@ -118,7 +131,6 @@ export const Button = styled.button`
   transition: all 400ms ease;
   &:hover {
     background-color: #ECECEC;
-    font-weight: 500;
   }
 `;
 
@@ -126,10 +138,14 @@ export const ButtonDecline = styled(Button)`
   color: grey;
 `;
 
-export const Line = styled.hr`
-  margin-bottom: 0px;
+export const LineTop = styled.hr`
+  margin-bottom: -11px;
   margin-top: 18px;
   border-top: 10px;
   border: 1px solid #b7b7b7;
   width: 80%;
+`;
+
+export const LineBottom = styled(LineTop)`
+  margin-top: 5px;
 `;
