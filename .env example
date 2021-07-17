@@ -1,4 +1,19 @@
+# Connections for PostgreSQL database
 DB_USER=FILL_ME_IN
 DB_HOST=FILL_ME_IN
 DB_DB=FILL_ME_IN
 DB_PASS=FILL_ME_IN
+
+# Configuration for express-session middleware
+SECRET=some_super_secret_hash#
+
+# In production mode?
+# If set to true, cookies will be set to secure & httpOnly
+IN_PROD=false
+
+# Configuration for which port webpack will serve the frontend from
+CLIENT_PORT=8080
+
+# Configuration for Redis server (storage for sessions)
+REDIS_PORT=6379
+REDIS_HOST=localhost

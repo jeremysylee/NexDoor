@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Grid, } from '@material-ui/core';
+import { Container, Grid, Avatar } from '@material-ui/core';
 import { Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StarIcon from '@material-ui/icons/Star';
 import styled from 'styled-components';
@@ -35,23 +36,30 @@ margin-top: 1em;
 font-weight: 200;
 `;
 
-const YouAreHelping = () => (
-  <YouAreHelpingContainer>
-    <p>You are helping</p>
-    <div>pfp</div>
-    <RequestUser>Name</RequestUser>
-    <RequestUserInfo>
-      <span>
-        <StarIcon style={{ fill: "red" }} />
-        rating
-      </span>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <span>1.2 miles away</span>
-    </RequestUserInfo>
-    <RequestUserStatus>
-      is waiting for you
-    </RequestUserStatus>
-  </YouAreHelpingContainer>
-);
+const YouAreHelping = () => {
+  const selectTask = useSelector((store) => store.selectedTaskReducer.task);
+
+  return (
+    <YouAreHelpingContainer>
+      <p>You are helping</p>
+      <Avatar src={selectTask.requester.profile_picture_url} />
+      <RequestUser>
+        {selectTask.requester.firstname}
+        &nbsp;
+        {selectTask.requester.lastname}
+      </RequestUser>
+      <RequestUserInfo>
+        <span>
+          <StarIcon style={{ fill: "red" }} />
+        </span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>1.2 miles away</span>
+      </RequestUserInfo>
+      <RequestUserStatus>
+        is waiting for you
+      </RequestUserStatus>
+    </YouAreHelpingContainer>
+  );
+};
 
 export default YouAreHelping;

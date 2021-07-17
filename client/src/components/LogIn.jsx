@@ -5,6 +5,9 @@ import {
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import currentUser from './AppReducers/currentUserReducer';
 import axios from 'axios';
 
 function Copyright() {
@@ -41,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LogIn = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -49,9 +54,48 @@ const LogIn = () => {
 
   const handleChange = (e) => {
     setLogin({
+      ...login,
       [e.target.name]: e.target.value,
-    }, console.log(e.target.value));
+    });
   };
+
+  const handleLogIn = () => {
+    history.push('/home');
+  };
+
+  const getUserData = (userId) => {
+    axios.get(`http://localhost:3500/api/user/info/${userId}`)
+      .then((response) => {
+        dispatch({ type: 'SET_USER', userData: response.data });
+      })
+      .then(() => {
+        handleLogIn();
+      });
+  };
+
+  const submitLogin = (e) => {
+    e.preventDefault();
+    console.log('login: ', login);
+    axios.post('http://localhost:3500/api/login/', login, {
+      headers: { 'content-type': 'application/json' },
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          console.log('login successful: ', response.data);
+          getUserData(Number(response.data.user_id));
+          // redirect to home page
+          //set response to redux state
+        } else {
+          console.log('error logging in');
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+// get user data from db.getUser
+
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -98,6 +142,7 @@ const LogIn = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitLogin}
           >
             Sign In
           </Button>
@@ -109,7 +154,7 @@ const LogIn = () => {
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+                "Don't have an account? Sign Up"
               </Link>
             </Grid>
           </Grid>

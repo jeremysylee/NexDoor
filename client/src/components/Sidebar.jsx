@@ -15,7 +15,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import LoginButton from './LoginButton';
 
 const SidebarContainer = styled.div`
   padding-top: 1.5em;
@@ -23,7 +22,6 @@ const SidebarContainer = styled.div`
   height: 100vh;
   position: sticky;
   top: 0;
-  font-size: 8px;
 `;
 
 const Sidebar = () => {
@@ -76,7 +74,6 @@ const Sidebar = () => {
       <ListItem button onClick={handleHelpfulFeed}>
         <ListItemText primary="NexDoor's Most Helpful" />
       </ListItem>
-      <LoginButton />
     </SidebarContainer>
   );
 };

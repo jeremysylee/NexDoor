@@ -12,28 +12,34 @@ const SideMenu = styled.div`
  float: left;
 `;
 
+// const MostHelpful = styled.div`
+// margin-left: 3em;
+// `;
+
 const HelpfulFeed = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
-
+  console.log('Tasssssskkksss', tasks);
 
 
   const placeholder = "NexDoor's Most Helpful";
 
   return (
-    <div>
+    <div style={{ fontStyle: 'Roboto', backgroundColor: "rgb(241, 242, 245)" }}>
       <Header />
       <Grid
         container
         direction="row"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        style={{ fontStyle: 'Roboto' }}
+        spacing={5}
       >
-        <Sidebar />
-        <div>
+        <Grid item xs={3} >
+          <Sidebar />
+        </Grid>
+        <Grid
+          item xs={5}
+        >
           <h1>{placeholder}</h1>
-          {tasks.map((task, index) => (<User user={task.user} key={index} />))}
-        </div>
+          {tasks.map((task, index) => (<User user={task.requester} key={index} />))}
+        </Grid>
       </Grid>
     </div>
   );

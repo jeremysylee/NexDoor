@@ -6,19 +6,25 @@ import OpenTask from './OpenTask';
 import MyRequestUnclaimed from './MyRequestUnclaimed';
 import MyRequestClaimed from './MyRequestClaimed';
 import MyTaskPending from './MyTaskPending';
-import Active from '../ActiveTask/Active';
+import MyRequestActive from './MyRequestActive';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
   height: 100%;
-  background-color: #FBFBFB;
+  background-color: white;
   margin-top: 2em;
   margin-left: 1em;
   border-radius: 10px;
   font-family: Roboto;
-  padding: 2em 0;
+  padding-top: 3em;
+  padding-bottom: 2em;
   position: sticky;
   top: 1em;
+  -webkit-transition: 200ms linear;
+  -moz-transition: 200ms linear;
+  -ms-transition: 200ms linear;
+  -o-transition: 200ms linear;
+  transition: 200ms linear;
 `;
 
 const SelectedTask = () => {
@@ -29,7 +35,7 @@ const SelectedTask = () => {
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
     const { days } = DateTime.fromISO(rawDate).diff(dateToday, ['days']).values;
-    const dateFormatted = DateTime.fromISO(rawDate).toFormat('LLL dd');
+    const dateFormatted = DateTime.fromISO(rawDate).toFormat('ccc, LLL dd');
     if (days <= 1) { return 'Today'; }
     if (days === 2) { return 'Tomorrow'; }
     return dateFormatted;
@@ -70,7 +76,10 @@ const SelectedTask = () => {
 
   if (task.status === 'Active') {
     return (
-      <Active />
+      <SelectedTaskFrame>
+        <MyRequestActive />
+        {/* <Active /> */}
+      </SelectedTaskFrame>
     );
   }
 
