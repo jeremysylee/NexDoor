@@ -23,7 +23,9 @@ router
     // GET
     // .get('/taskobj', taskCtrl.getOneTask)
     // .get('/tasks/user/:userId', taskCtrl, getTasksByUser)
-    .get('/tasks/all/:quantity', taskCtrl.getTasks)
+    .get('/tasks/master/:userId/:range/:quantity/:offset', taskCtrl.getTasksMasterDefaultAddress)
+    .get('/tasks/altmaster/:userId/:range/:quantity/:offset', taskCtrl.getTasksMasterAltAddress)
+    .get('/tasks/all/:userId/:quantity/:offset', taskCtrl.getTasks)
     .get('/tasks/req/:userId', taskCtrl.getReqTasksByUser)
     .get('/tasks/help/:userId', taskCtrl.getHelpTasksByUser)
     .get('/tasks/range/:userId/:range', taskCtrl.getTasksInRange)
@@ -38,7 +40,7 @@ router
     .post('/task/new/:userId', taskCtrl.addTaskNewAddress)
     .post('/task/home/:userId', taskCtrl.addTaskHomeAddress)
     // .put('/task/:taskId', taskCtrl.updateTask)
-    // .delete('/task/:taskId', taskCtrl.deleteTask)
+    .delete('/task/:taskId', taskCtrl.deleteTask)
   // USERS----------------------------------------------------------
     // GET
     .get('/user/info/:userId', userCtrl.getUser)
