@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Avatar, Button, CssBaseline, TextField, FormControlLabel,
   Checkbox, Link, Grid, Box, Typography, Container,
@@ -42,12 +43,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const [info, setInfo] = useState({
     streetAddress: '',
     city: '',
     state: '',
-    zipcode: '',
+    zipcode: 0,
     firstName: '',
     lastName: '',
     email: '',
@@ -58,6 +60,7 @@ const SignUp = () => {
 
   const handleChange = (e) => {
     setInfo({
+      ...info,
       [e.target.name]: e.target.value,
     }, console.log(e.target.value));
   };
@@ -81,32 +84,32 @@ const SignUp = () => {
     };
     axios.get('http://localhost:3500/api/email')
       .then((response) => {
-        console.log(response);
         if (response.data === true) {
-          console.log('email already exists!');
+          throw Error('email already exists!');
+          // console.log('email already exists!');
         } else {
-          axios.post('http://localhost:3500/api/newuser', userInfo);
+          axios.post('http://localhost:3500/api/newuser', userInfo)
+            .then(() => {
+              axios.post('http://localhost:3500/api/login/', userInfo, {
+                headers: { 'content-type': 'application/json' },
+                withCredentials: true,
+              })
+                .then((res) => {
+                  console.log(res, '<--- after login');
+                  if (res.status === 200) {
+                    console.log("login successful!");
+                    // redirect to home page
+                    dispatch({ type: 'SET_USER', userData: res.data });
+                    handleLogIn();
+                  } else {
+                    console.log('error logging in');
+                  }
+                })
+                .catch((err) => console.error(err));
+            });
         }
       })
-      .catch((err) => console.error(err))
-      .then((response) => {
-        axios.post('http://localhost:3500/api/login/', login, {
-          headers: { 'content-type': 'application/json' },
-          withCredentials: true,
-        })
-          .then((response) => {
-            console.log(response);
-            console.log(response.session)
-            if (response.status === 200) {
-              console.log("login successful!");
-              // redirect to home page
-              handleLogIn();
-            } else {
-              console.log('error logging in');
-            }
-          })
-          .catch((err) => console.error(err));
-      });
+      .catch((err) => console.error(err, 'error with signup'))
   };
 
   return (
@@ -219,8 +222,9 @@ const SignUp = () => {
                 variant="outlined"
                 required
                 fullWidth
-                name="zipCode"
+                name="zipcode"
                 label="Zip Code"
+                type="number"
                 onChange={handleChange}
               />
             </Grid>

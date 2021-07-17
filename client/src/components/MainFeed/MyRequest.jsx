@@ -26,7 +26,6 @@ StatusBadge.defaultProps = {
 
 const MyRequest = ({ request }) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { day, time } = useFormatDate(request.start_date, request.start_time);
 
   // ************************************************************* //
