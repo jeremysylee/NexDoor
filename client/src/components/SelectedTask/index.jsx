@@ -30,7 +30,9 @@ const SelectedTaskFrame = styled.div`
 const SelectedTask = () => {
   const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
-  const currentUserId = useSelector((store) => store.currentUserReducer.userId);
+  // const currentUserId = useSelector((store) => store.currentUserReducer.userData.userId);
+  const currentUserId = 37
+  console.log(currentUserId)
 
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();

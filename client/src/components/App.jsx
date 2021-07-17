@@ -18,9 +18,11 @@ const App = () => {
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const getTasksByLocation = () => {
-    axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
+    axios.get(`${url}/api/tasks/master/${37}/5/30/0`)
       .then(({ data }) => {
-        if (!data.user_id) { return; }
+        console.log(data);
+        // if (!data.user_id) { return; }
+        // if no tasks, render something else TODO!!
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
