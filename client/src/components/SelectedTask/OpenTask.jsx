@@ -20,7 +20,8 @@ import {
 
 const url = 'http://localhost:3500';
 
-const OpenRequest = () => {
+const OpenTask = () => {
+  const userId = useSelector((store) => store.currentUserReducer.userId);
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
@@ -31,8 +32,8 @@ const OpenRequest = () => {
     zipcode,
   } = task.location;
 
-  const clickApproveHandler = () => {
-    axios.get(`${url}/task/help/${task.task_id}/37`)
+  const clickClaimHandler = () => {
+    axios.put(`${url}/api/task/help/${task.task_id}/${userId}`)
       .then((res) => console.log(res));
   };
 
@@ -70,12 +71,12 @@ const OpenRequest = () => {
         </DetailsContainer>
       </Row>
       <Row>
-        <ButtonDecline>Decline</ButtonDecline>
-        <Button onClick={clickApproveHandler}>Approve</Button>
+        <ButtonDecline>Back</ButtonDecline>
+        <Button onClick={clickClaimHandler}>Claim</Button>
       </Row>
       {/* <button>Next</button> */}
     </SelectedTaskContainer>
   );
 };
 
-export default OpenRequest;
+export default OpenTask;

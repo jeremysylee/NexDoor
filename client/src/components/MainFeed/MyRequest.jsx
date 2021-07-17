@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import { useHistory } from 'react-router-dom';
+
+import useFormatDate from './hooks/useFormatDate';
 
 import {
   Card,
@@ -12,26 +14,9 @@ import {
   Username,
   Description,
   DetailsCol,
-  Details,
+  Subdetails,
+  StatusBadge,
 } from './styles-MainFeed';
-
-const StatusBadge = styled.div`
-  border-radius: 100px;
-  height: 20px;
-  width: 100px;
-  z-index: 1;
-  background-color: ${(props) => props.theme.statusColor};
-  position: absolute;
-  text-align: center;
-  padding: 1px;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 400;
-  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transform: scale(1) translate(-13%, -135%);
-  transform-origin: 0% 0%;
-  box-sizing: border-box;
-`;
 
 StatusBadge.defaultProps = {
   theme: {
@@ -39,32 +24,14 @@ StatusBadge.defaultProps = {
   },
 };
 
-const MyRequest = ({ request, formatDate }) => {
+const MyRequest = ({ request }) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { day, time } = useFormatDate(request.start_date, request.start_time);
 
-  const [status, setStatus] = useState(0);
-  const [color, setColor] = useState('#f50257');
+  // ************************************************************* //
 
-  const [day, setDay] = useState(0);
-  const [time, setTime] = useState();
-
-  useEffect(() => {
-    setDay(formatDate(request.start_date, request.start_time).date);
-    setTime(formatDate(request.start_date, request.start_time).time);
-  });
-
-  const theme = {
-    statusColor: color,
-  };
-
-  const getColor = () => {
-    if (status === 'Unclaimed') { setColor('#ed8e99'); }
-    if (status === 'Claimed') { setColor('#f50257'); }
-    if (status === 'Active') { setColor('#1A97DD'); }
-    if (status === 'Closed') { setColor('#F3960A'); }
-    if (status === 'Completed') { setColor('#666666'); }
-  };
+  // STATUS TRANSLATION //
 
   /* Status's here are being translated for the current users perspective.
   A request status that is 'open' will appear as "Unclaimed".
@@ -72,48 +39,74 @@ const MyRequest = ({ request, formatDate }) => {
   will appear as "Claimed" to the requester.
   */
 
+  const [status, setStatus] = useState(0);
   const translateStatus = () => {
     if (request.status === 'Open') { return 'Unclaimed'; }
     if (request.status === 'Pending') { return 'Claimed'; }
     return request.status;
   };
 
+  // ************************************************************* //
+
+  // COLOR THEMING FOR STATUS BADGE //
+
+  const [color, setColor] = useState('#f50257');
+  const theme = {
+    statusColor: color,
+  };
+
+  const getColor = () => {
+    if (status === 'Unclaimed') { setColor('#7E7E7E'); }
+    if (status === 'Claimed') { setColor('#e87f4c'); }
+    if (status === 'Active') { setColor('#1698b7'); }
+    if (status === 'Closed') { setColor('#F3960A'); }
+    if (status === 'Completed') { setColor('#666666'); }
+  };
+
+  // ************************************************************* //
+
   useEffect(() => {
-    setStatus(translateStatus());
     getColor();
+    setStatus(translateStatus());
   });
 
   const selectTaskHandler = () => {
+    let showMapToggle = false;
     if (request.status === 'Active') {
       history.push('/active');
+      showMapToggle = true;
     }
     dispatch({
       type: 'SET_TASK', task: request,
     });
+    dispatch({
+      type: 'SHOW_MAP', toggle: showMapToggle,
+    });
   };
 
-  //
+  // ??
   if (request.status === 'open') {
     return (<div>hello</div>);
   }
   return (
     <Card onClick={selectTaskHandler}>
       <Row style={{ justifyContent: 'space-between' }}>
-        <Row>
-          <Avatar src={request.requester.profile_picture_url} alt="profilePHoto" />
+        <Row style={{ marginBottom: '0.5em' }}>
+          {request.status === 'Open' && <Avatar src="" alt="?" />}
+          {request.status !== 'Open' && <Avatar src={request.helper.profile_picture_url} alt={request.helper.firstname} />}
           <CardContent>
-            <Username>{`${request.requester.firstname} ${request.requester.lastname}`}</Username>
-            <Description>{`${request.description.substring(0, 60)}...`}</Description>
+            {request.status === 'Open' && <Username>No one has claimed your request yet!</Username>}
+            {request.status !== 'Open' && <Username>{`${request.helper.firstname} ${request.helper.lastname} is helping you with this request`}</Username>}
+            <Subdetails>{`${day} ${time}`}</Subdetails>
           </CardContent>
         </Row>
         <DetailsCol>
           <ThemeProvider theme={theme}>
             <StatusBadge>{status}</StatusBadge>
           </ThemeProvider>
-          <Details>{day}</Details>
-          <Details>{time}</Details>
         </DetailsCol>
       </Row>
+      <Description>{`${request.description.substring(0, 60)}...`}</Description>
     </Card>
   );
 };
@@ -125,6 +118,11 @@ MyRequest.propTypes = {
       lastname: PropTypes.string.isRequired,
       profile_picture_url: PropTypes.string.isRequired,
     }),
+    helper: PropTypes.shape({
+      firstname: PropTypes.string,
+      lastname: PropTypes.string,
+      profile_picture_url: PropTypes.string.isRequired,
+    }),
     task_id: PropTypes.number,
     description: PropTypes.string.isRequired,
     duration: PropTypes.number,
@@ -133,7 +131,6 @@ MyRequest.propTypes = {
     car_required: PropTypes.bool,
     status: PropTypes.oneOf(['Open', 'Pending', 'Active', 'Complete', 'Closed']),
   }).isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default MyRequest;

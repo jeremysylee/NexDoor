@@ -30,6 +30,7 @@ export const UserInfo = styled.div`
 
 export const StatusText = styled(Username)`
   font-weight: 200;
+  // font-size: 18px;
 `;
 
 export const DetailsContainer = styled.div`

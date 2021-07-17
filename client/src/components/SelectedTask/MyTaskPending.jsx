@@ -1,3 +1,5 @@
+/* eslint camelcase: 0 */ // --> OFF
+
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -12,7 +14,7 @@ import {
   Col,
 } from './styles-SelectedTask';
 
-const UnclaimedRequest = () => {
+const PendingRequest = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
@@ -26,12 +28,17 @@ const UnclaimedRequest = () => {
   return (
     <SelectedTaskContainer>
       <AvatarLg
-        style={{ backgroundColor: 'grey' }}
-        alt=""
+        src={task.requester.profile_picture_url}
+        alt={task.requester.firstname}
       />
       <Username />
-      <UserInfo />
-      <StatusText>No one has claimed your request yet</StatusText>
+      <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
+      <UserInfo>
+        <span>{`★ ${task.requester.avg}`}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <span>1.2 miles away</span>
+      </UserInfo>
+      <StatusText>{`${task.requester.firstname} has not accepted your help yet`}</StatusText>
       <DetailsContainer>
         <HeadingSmall>REQUEST DETAILS</HeadingSmall>
         <p>{task.description}</p>
@@ -57,4 +64,4 @@ const UnclaimedRequest = () => {
   );
 };
 
-export default UnclaimedRequest;
+export default PendingRequest;

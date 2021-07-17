@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import Home from './Home';
@@ -14,29 +14,30 @@ const url = 'http://localhost:3500';
 
 const App = () => {
   const dispatch = useDispatch();
-  // const getTasks = async () => {
-  //   const result = await axios.get(`${url}/api/tasks/15`)
-  //     .then((res) => res);
-  //   return result;
-  // };
-
-  const userId = 37;
+  const userId = useSelector((store) => store.currentUserReducer.userId);
 
   const getTasks = () => {
-    axios.get(`${url}/api/tasks/15`)
-      .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/all/15`)
+        .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
+    }, 500)
   };
 
   const getRequests = () => {
-    // user id param hardcoded until session component completed
-    axios.get(`${url}/api/tasks/req/${userId}`)
-      .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/req/${userId}`)
+        .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
+    }, 500);
   };
 
   const getMyTasks = () => {
-    // user id param hardcoded until session component completed
     axios.get(`${url}/api/tasks/help/${userId}`)
       .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+
+    setInterval(() => {
+      axios.get(`${url}/api/tasks/help/${userId}`)
+        .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
+    }, 500);
   };
 
   useEffect(() => {

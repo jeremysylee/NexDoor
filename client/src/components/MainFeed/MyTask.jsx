@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import useFormatDate from './hooks/useFormatDate';
 
 import {
   Card,
@@ -12,25 +14,71 @@ import {
   Description,
   DetailsCol,
   Details,
+  StatusBadgeTasks,
 } from './styles-MainFeed';
 
-const MyTask = ({ task, formatDate }) => {
+StatusBadgeTasks.defaultProps = {
+  theme: {
+    statusColor: '#f50257',
+  },
+};
+
+const MyTask = ({ task }) => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [day, setDay] = useState(0);
-  const [time, setTime] = useState();
+  const { day, time } = useFormatDate(task.start_date, task.start_time);
+
+  // ************************************************************* //
+
+  // STATUS TRANSLATION //
+
+  /* Status's here are being translated for the current users perspective.
+  A request status that is 'open' will appear as "Unclaimed".
+  Once a helper claims the requesters task, the task status converts to 'Pending' which
+  will appear as "Claimed" to the requester.
+  */
+
+  const [status, setStatus] = useState(0);
+  const translateStatus = () => {
+    if (task.status === 'Open') { return 'Unclaimed'; }
+    return task.status;
+  };
+
+  // ************************************************************* //
+
+  // COLOR THEMING FOR STATUS BADGE //
+
+  const [color, setColor] = useState('#f50257');
+  const theme = {
+    statusColor: color,
+  };
+
+  const getColor = () => {
+    if (status === 'Unclaimed') { setColor('#ed8e99'); }
+    if (status === 'Pending') { setColor('#e87f4c'); }
+    if (status === 'Active') { setColor('#1698b7'); }
+    if (status === 'Closed') { setColor('#F3960A'); }
+    if (status === 'Completed') { setColor('#666666'); }
+  };
+
+  // ************************************************************* //
 
   useEffect(() => {
-    setDay(formatDate(task.start_date, task.start_time).start_date);
-    setTime(formatDate(task.start_date, task.start_time).time);
+    setStatus(translateStatus());
+    getColor();
   });
 
   const selectTaskHandler = () => {
+    let showMapToggle = false;
     if (task.status === 'Active') {
       history.push('/active');
+      showMapToggle = true;
     }
     dispatch({
       type: 'SET_TASK', task,
+    });
+    dispatch({
+      type: 'SHOW_MAP', toggle: showMapToggle,
     });
   };
 
@@ -45,6 +93,9 @@ const MyTask = ({ task, formatDate }) => {
           </CardContent>
         </Row>
         <DetailsCol>
+          <ThemeProvider theme={theme}>
+            <StatusBadgeTasks>{status}</StatusBadgeTasks>
+          </ThemeProvider>
           <Details>{day}</Details>
           <Details>{time}</Details>
         </DetailsCol>
@@ -68,7 +119,6 @@ MyTask.propTypes = {
     car_required: PropTypes.bool,
     status: PropTypes.oneOf(['Open', 'Pending', 'Active', 'Complete', 'Closed']),
   }).isRequired,
-  formatDate: PropTypes.func.isRequired,
 };
 
 export default MyTask;
