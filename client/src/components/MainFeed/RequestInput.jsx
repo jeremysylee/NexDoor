@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
+import NewRequestModal from '../NewRequestModal';
 
 import {
   Row,
@@ -67,7 +68,7 @@ const RequestInput = () => {
         <VerticalLine />
         <Row>
           <Avatar src={user.profile_picture_url} alt={JSON.stringify(user.user_id)} />
-          <Input>&nbsp;What do you need help with?</Input>
+          <NewRequestModal />
         </Row>
         <Line />
         <Row>

@@ -15,12 +15,12 @@ const url = 'http://localhost:3500';
 
 const App = () => {
   const dispatch = useDispatch();
-  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
-
+  // const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
+  const userId = 37;
   const getTasksByLocation = () => {
     axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
       .then(({ data }) => {
-        if (!data.user_id) { return; }
+        // if (!data.user_id) { return; }
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
@@ -75,7 +75,6 @@ const App = () => {
           <Route path="/helpfulfeed" component={HelpfulFeed} />
           <Route path="/active" component={Active} />
           <Route path="/myactiverequest" component={MyActiveRequest} />
-          <Route path="/login" component={LogIn} />
           {/* <PrivateRoute> */}
           <Route path="/home" component={Home} />
           {/* </PrivateRoute> */}
