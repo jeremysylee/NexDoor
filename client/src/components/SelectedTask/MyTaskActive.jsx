@@ -38,7 +38,7 @@ const MyRequestActive = () => {
   } = task.location;
 
   const clickGoToRequestHandler = () => {
-    history.push('/active');
+    history.push('/myactiverequest');
   };
 
   const clickBackHandler = () => {
