@@ -1,13 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import axios from 'axios';
 
 const Map = () => {
+  const tasks = useSelector((store) => store.tasksReducer.tasks);
+  if (!tasks) {
+    return <></>;
+  }
   const [addresses, setAddresses] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
   const coordinateContainer = [];
   const url = 'http://localhost:3500';
-
   const mapStyles = {
     height: '50vh',
     width: '75vh',
@@ -24,6 +28,11 @@ const Map = () => {
     const coordinate = { lat: Number(formattedCoord[1]), lng: Number(formattedCoord[0]) };
     return coordinate;
   };
+
+  useEffect(() => {
+    setAddresses(tasks);
+    console.log(tasks);
+  }, [tasks]);
 
   // const getCoordinates = async (address) => {
   //   const addressArr = address.split(' ');

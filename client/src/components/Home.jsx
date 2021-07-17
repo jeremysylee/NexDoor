@@ -47,7 +47,7 @@ const Home = () => {
         <Sidebar />
         <MainFeed />
         {!showMap && <SelectedTask />}
-        {showMap && <MapPlaceholder />}
+        {showMap && <Map />}
       </Grid>
     </div>
   );

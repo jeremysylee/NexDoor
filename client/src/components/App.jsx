@@ -9,7 +9,9 @@ import Chat from './Chat/Chat';
 import HelpfulFeed from './HelpFul/HelpfulFeed';
 import LogIn from './LogIn';
 // import LoginButton from './LoginButton';
-import Active from './ActiveTask/Active';
+import Active from './ActiveTask/YouAreHelping/Active';
+import MyActiveRequest from './ActiveTask/MyActive/MyActiveRequest';
+import PrivateRoute from './PrivateRoute';
 
 const url = 'http://localhost:3500';
 
@@ -19,8 +21,8 @@ const App = () => {
 
   const getTasksByLocation = () => {
     axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
-      // .then(({ data }) => console.log(data.allothers));
       .then(({ data }) => {
+        if (!data.user_id) { return; }
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
@@ -70,11 +72,15 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route exact path="/" component={LogIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/helpfulfeed" component={HelpfulFeed} />
           <Route path="/active" component={Active} />
+          <Route path="/myactiverequest" component={MyActiveRequest} />
           <Route path="/login" component={LogIn} />
+          {/* <PrivateRoute> */}
+          <Route path="/home" component={Home} />
+          {/* </PrivateRoute> */}
           {/* <Route path="/Auth" component={Auth} /> */}
         </Switch>
       </BrowserRouter>
