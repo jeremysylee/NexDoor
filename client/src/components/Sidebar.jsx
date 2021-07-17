@@ -24,6 +24,11 @@ const SidebarContainer = styled.div`
   top: 0;
 `;
 
+const ListItemFormatted = styled(ListItemText)`
+  font-size: 8px;
+  background-color: red;
+`;
+
 const Sidebar = () => {
   const history = useHistory();
 
@@ -45,7 +50,7 @@ const Sidebar = () => {
         <ListItemIcon>
           <Dashboard />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemFormatted primary="Home" />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
