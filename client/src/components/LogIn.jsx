@@ -6,6 +6,8 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import currentUser from './AppReducers/currentUserReducer';
 import axios from 'axios';
 
 function Copyright() {
@@ -43,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LogIn = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [login, setLogin] = useState({
     email: '',
     password: '',
@@ -60,6 +63,13 @@ const LogIn = () => {
     history.push('/home');
   };
 
+  const getUserData = (userId) => {
+    axios.get(`http://localhost:3500/api/user/info/${userId}`)
+      .then((response) => {
+        dispatch({ type: 'SET_USER', userData: response.data });
+      });
+  };
+
   const submitLogin = (e) => {
     e.preventDefault();
     console.log('login: ', login);
@@ -69,17 +79,21 @@ const LogIn = () => {
     })
       .then((response) => {
         console.log(response);
-        console.log(response.session)
         if (response.status === 200) {
-          console.log("login successful!");
+          console.log('login successful: ', response.data);
+          getUserData(Number(response.data.user_id));
           // redirect to home page
           handleLogIn();
+          //set response to redux state
         } else {
           console.log('error logging in');
         }
       })
       .catch((err) => console.error(err));
   };
+// get user data from db.getUser
+
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -138,7 +152,7 @@ const LogIn = () => {
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+                "Don't have an account? Sign Up"
               </Link>
             </Grid>
           </Grid>

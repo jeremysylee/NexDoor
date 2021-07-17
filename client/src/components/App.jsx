@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
 import Active from './ActiveTask/Active';
+import PrivateRoute from './PrivateRoute';
 
 const url = 'http://localhost:3500';
 
@@ -48,11 +49,13 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path="/home" component={Home} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/helpfulfeed" component={HelpfulFeed} />
-          <Route path="/active" component={Active} />
           <Route path="/" component={LogIn} />
+          <Route path="/signup" component={SignUp} />
+          <PrivateRoute>
+            <Route path="/home" component={Home} />
+            <Route path="/helpfulfeed" component={HelpfulFeed} />
+            <Route path="/active" component={Active} />
+          </PrivateRoute>
           {/* <Route path="/Auth" component={Auth} /> */}
         </Switch>
       </BrowserRouter>

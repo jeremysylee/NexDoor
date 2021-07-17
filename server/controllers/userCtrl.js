@@ -135,7 +135,7 @@ const userControllers = {
   //   Returns - user object for given ID
   // *************************************************************
   /*
-    GET /api/user/${userId}
+    GET /api/user/info/${userId}
     req.body = none;
     res = {
       "firstname": "Spongebob",
@@ -318,7 +318,7 @@ const userControllers = {
 
     res =
       {
-
+        user_id: 12345,
       }
   */
   // *************************************************************
@@ -331,16 +331,16 @@ const userControllers = {
     ;`;
     db.query(queryStr)
       .then((data) => {
-        const { user_id } = data.rows[0].user_id;
+        const user_id = data.rows[0].user_id;
         //compare passwords
-        console.log(data.rows);
+        console.log(user_id);
         if (!bcrypt.compareSync(password, data.rows[0].password)) {
           res.status(404).send('error: password does not match');
         } else {
           //return session
           req.session.user_Id = user_id;
           // res.session.user_Id = user_id;
-          res.status(200).send('success!');
+          res.status(200).send({user_id});
         }
       })
       .catch((err) => {
