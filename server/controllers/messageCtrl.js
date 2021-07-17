@@ -25,7 +25,13 @@ const messagesControllers = {
   // *************************************************************
   addMessage: (req, res) => {
     const { taskId, userId } = req.params;
-    const { messageBody, date, time } = req.body;
+    const {
+      messageBody,
+      date,
+      time,
+    } = req.body;
+    const { imgUrl } = req.body || null;
+
     const queryStr = `
       INSERT INTO nexdoor.messages
       (
@@ -33,7 +39,8 @@ const messagesControllers = {
         user_id,
         message_body,
         date,
-        time
+        time,
+        photo_url
       )
       VALUES
       (
@@ -41,7 +48,8 @@ const messagesControllers = {
         ${userId},
         '${messageBody}',
         '${date}',
-        '${time}'
+        '${time}',
+        '${imgUrl}'
       )
     ;`;
 

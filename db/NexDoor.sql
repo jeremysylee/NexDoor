@@ -93,7 +93,7 @@ CREATE TABLE nexdoor.messages (
   message_body VARCHAR(500),
   "date" DATE NOT NULL,
   "time" TIME WITHOUT TIME ZONE NOT NULL,
-  photo_id INT,
+  photo_url VARCHAR(255),
   CONSTRAINT messages_pkey PRIMARY KEY (message_id),
   CONSTRAINT fk_messages_task_id FOREIGN KEY (task_id)
     REFERENCES nexdoor.tasks (task_id) MATCH SIMPLE
@@ -101,10 +101,6 @@ CREATE TABLE nexdoor.messages (
     ON DELETE CASCADE,
   CONSTRAINT fk_messages_user_id FOREIGN KEY (user_id)
     REFERENCES nexdoor.users (user_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-  CONSTRAINT fk_messages_photo_id FOREIGN KEY (photo_id)
-    REFERENCES nexdoor.photos (photo_id) MATCH SIMPLE
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )
@@ -128,12 +124,6 @@ CREATE INDEX fki_fk_messages_task_id
 CREATE INDEX fki_fk_messages_user_id
     ON nexdoor.messages USING btree
     (user_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: fki_fk_messages_photo_id
--- DROP INDEX nexdoor.fki_fk_messages_photo_id;
-CREATE INDEX fki_fk_messages_photo_id
-    ON nexdoor.messages USING btree
-    (photo_id ASC NULLS LAST)
     TABLESPACE pg_default;
 --*********************************************************************
 -- PHOTOS TABLE
