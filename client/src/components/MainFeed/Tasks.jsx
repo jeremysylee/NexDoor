@@ -8,8 +8,6 @@ const Tasks = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
-  console.log(tasks);
-
   return (
     <div>
       <SectionCard>
