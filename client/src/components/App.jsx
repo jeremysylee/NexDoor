@@ -17,8 +17,8 @@ const App = () => {
 
   const getTasksByLocation = () => {
     axios.get(`${url}/api/tasks/master/${userId}/5/30/0`)
-      // .then(({ data }) => console.log(data.allothers));
       .then(({ data }) => {
+        if (!data.user_id) { return; }
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
@@ -58,7 +58,7 @@ const App = () => {
   // };
 
   useEffect(() => {
-    // getTasksByLocation();
+    getTasksByLocation();
     // getTasks();
     // getRequests();
     // getMyTasks();

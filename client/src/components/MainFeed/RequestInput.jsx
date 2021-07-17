@@ -60,14 +60,13 @@ const VerticalLine = styled.div`
 
 const RequestInput = () => {
   const user = useSelector((store) => store.currentUserReducer.userData);
-  // waiting for userId data
 
   return (
     <div>
       <InputCard>
         <VerticalLine />
         <Row>
-          <Avatar src={user.profile_picture_url} alt={user.user_id.toString()} />
+          <Avatar src={user.profile_picture_url} alt={JSON.stringify(user.user_id)} />
           <Input>&nbsp;What do you need help with?</Input>
         </Row>
         <Line />
