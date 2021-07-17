@@ -35,32 +35,19 @@ CREATE TABLE nexdoor.address (
   street_address VARCHAR(75) NOT NULL,
   city VARCHAR(50) NOT NULL,
   state VARCHAR(2) NOT NULL,
-  zip_code INT NOT NULL,
+  zipcode INT NOT NULL,
   neighborhood VARCHAR(50),
-  latitude DOUBLE PRECISION NOT NULL,
-  longitude DOUBLE PRECISION NOT NULL,
+  coordinate POINT NOT NULL,
   CONSTRAINT address_pkey PRIMARY KEY (address_id)
 )
--- TABLESPACE pg_default;
--- ALTER TABLE nexdoor.address
---     OWNER to blueboolean;
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.address
+    OWNER to blueboolean;
 -- Index: address_id_idx
 -- DROP INDEX nexdoor.address_id_idx;
 CREATE INDEX address_id_idx
     ON nexdoor.address USING btree
     (address_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: address_lat_idx
--- DROP INDEX nexdoor.address_lat_idx;
-CREATE INDEX address_lat_idx
-    ON nexdoor.address USING btree
-    (latitude ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: address_long_idx
--- DROP INDEX nexdoor.address_long_idx;
-CREATE INDEX address_long_idx
-    ON nexdoor.address USING btree
-    (longitude ASC NULLS LAST)
     TABLESPACE pg_default;
 --*********************************************************************
 -- ANNOUNCEMENTS TABLE
@@ -79,9 +66,9 @@ CREATE TABLE nexdoor.announcements (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )
--- TABLESPACE pg_default;
--- ALTER TABLE nexdoor.announcements
---     OWNER to blueboolean;
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.announcements
+    OWNER to blueboolean;
 -- Index: announcement_id_idx
 -- DROP INDEX nexdoor.announcement_id_idx;
 CREATE INDEX announcement_id_idx
@@ -121,9 +108,9 @@ CREATE TABLE nexdoor.messages (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )
--- TABLESPACE pg_default;
--- ALTER TABLE nexdoor.messages
---     OWNER to blueboolean;
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.messages
+    OWNER to blueboolean;
 -- Index: message_id_idx
 -- DROP INDEX nexdoor.message_id_idx;
 CREATE INDEX message_id_idx
@@ -178,9 +165,9 @@ CREATE TABLE nexdoor.photos (
     ON UPDATE CASCADE
     ON DELETE CASCADE,
 )
--- TABLESPACE pg_default;
--- ALTER TABLE nexdoor.photos
---     OWNER to blueboolean;
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.photos
+    OWNER to blueboolean;
 -- Index: photo_id_idx
 -- DROP INDEX nexdoor.photo_id_idx;
 CREATE INDEX photo_id_idx
@@ -219,17 +206,36 @@ CREATE INDEX fki_fk_photos_announcement_id
 CREATE TABLE nexdoor.sessions (
   session_id SERIAL,
   session_hash VARCHAR(255) NOT NULL,
-  CONSTRAINT sessions_pkey PRIMARY KEY (session_id)
+  user_id INTEGER NOT NULL,
+  expiry_date TIMESTAMP WITH TIME ZONE NOT NULL,
+  CONSTRAINT sessions_pkey PRIMARY KEY (session_id),
+  CONSTRAINT sessions_user_id_fk FOREIGN KEY (user_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 )
--- TABLESPACE pg_default;
--- ALTER TABLE nexdoor.sessions
---     OWNER to blueboolean;
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.sessions
+    OWNER to blueboolean;
 -- Index: session_id_idx
 -- DROP INDEX nexdoor.session_id_idx;
 CREATE INDEX session_id_idx
     ON nexdoor.sessions USING btree
     (session_id ASC NULLS LAST)
     TABLESPACE pg_default;
+-- Index: fki_sessions_user_id_fk
+-- DROP INDEX nexdoor.fki_sessions_user_id_fk;
+CREATE INDEX fki_sessions_user_id_fk
+    ON nexdoor.sessions USING btree
+    (user_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Trigger: sessions_expiry_date_delete_trigger
+-- DROP TRIGGER sessions_expiry_date_delete_trigger ON nexdoor.sessions;
+CREATE TRIGGER sessions_expiry_date_delete_trigger
+    AFTER INSERT
+    ON nexdoor.sessions
+    FOR EACH ROW
+    EXECUTE FUNCTION nexdoor.sessions_expiry_date_delete();
 --*********************************************************************
 -- TASKS TABLE
 --*********************************************************************
@@ -243,12 +249,11 @@ CREATE TABLE nexdoor.tasks (
   physical_labor_required VARCHAR(50),
   status VARCHAR(50) NOT NULL,
   category VARCHAR (50) NOT NULL,
-  start_date DATE,
+  start_date DATE NOT NULL,
   end_date DATE,
   start_time TIME WITHOUT TIME ZONE,
-  date_requested DATE NOT NULL,
-  time_requested TIME WITHOUT TIME ZONE NOT NULL,
   duration INT,
+  timestamp_requested TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   CONSTRAINT tasks_pkey PRIMARY KEY (task_id),
   CONSTRAINT fk_task_requester_id FOREIGN KEY (requester_id)
     REFERENCES nexdoor.users (user_id) MATCH SIMPLE
@@ -263,9 +268,9 @@ CREATE TABLE nexdoor.tasks (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )
--- TABLESPACE pg_default;
--- ALTER TABLE nexdoor.tasks
---     OWNER to blueboolean;
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.tasks
+    OWNER to blueboolean;
 -- Index: task_id_idx
 -- DROP INDEX nexdoor.task_id_idx;
 CREATE INDEX task_id_idx
@@ -298,7 +303,7 @@ CREATE TABLE nexdoor.users (
   firstname VARCHAR(20) NOT NULL,
   lastname VARCHAR(20) NOT NULL,
   password VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
   address_id INT NOT NULL,
   karma INT NOT NULL,
   task_count INT NOT NULL,
@@ -310,9 +315,9 @@ CREATE TABLE nexdoor.users (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 )
--- TABLESPACE pg_default;
--- ALTER TABLE nexdoor.users
---     OWNER to blueboolean;
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.users
+    OWNER to blueboolean;
 -- Index: user_id_idx
 -- DROP INDEX nexdoor.user_id_idx;
 CREATE INDEX user_id_idx
@@ -331,4 +336,23 @@ CREATE INDEX user_avg_rating_idx
     ON nexdoor.users USING btree
     (avg_rating ASC NULLS LAST)
     TABLESPACE pg_default;
+--*********************************************************************
+--TRIGGER FUNCTIONS
+--*********************************************************************
+-- FUNCTION: nexdoor.sessions_expiry_date_delete()
+-- DROP FUNCTION nexdoor.sessions_expiry_date_delete();
+CREATE FUNCTION nexdoor.sessions_expiry_date_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+  DELETE FROM nexdoor.sessions WHERE expiry_date < NOW();
+  RETURN NEW;
+END;
+$BODY$;
+
+ALTER FUNCTION nexdoor.sessions_expiry_date_delete()
+    OWNER TO blueboolean;
 --*********************************************************************

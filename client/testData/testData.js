@@ -1,5 +1,37 @@
-export default {
-  testTasks: [
+export const testTasks = [
+  {
+    task_id: 0,
+    requester_id: 0,
+    helper_id: null,
+    location: {
+      street_address: '',
+      city: '',
+      state: '',
+      zipcode: '',
+    },
+    description: '',
+    car_required: false,
+    status: 'Open',
+    category: '',
+    start_date: '2021-08-13T07:00:00.000Z',
+    start_time: '22:30:13',
+    timestamp_requested: '2021-07-15',
+    duration: 0,
+    requester: {
+      id: 0,
+      firstname: '',
+      lastname: '',
+      address_id: 0,
+      karma: 0,
+      response_count: 0,
+      average_rating: 0,
+      profile_picture_url: '',
+    },
+  },
+];
+
+export const potato = {
+  testTask2: [
     {
       task_id: 1,
       requester_id: 1,
@@ -12,13 +44,13 @@ export default {
       },
       description: 'I need someone to come check on my dogs once a day for the next three days. They are very friendly. Two small poodles, hypoallergenic, about 20 pounds each. Just need somone to make sure their water bowls are filled. Thank you guys!',
       car_required: true,
-      status: false,
+      status: 'Open',
       category: 'sitter',
-      date: '2021-07-13',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '22:30:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
-      user: {
+      requester: {
         id: 1,
         firstname: 'Huge',
         lastname: 'Jackedman',
@@ -26,7 +58,7 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg',
+        profile_picture_url: 'https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg',
       },
     },
     {
@@ -41,13 +73,13 @@ export default {
       },
       description: 'I just have a few questions. Would love a second of your time',
       car_required: false,
-      status: false,
+      status: 'Open',
       category: 'sitter',
-      date: '2021-07-14',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '12:30:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
-      user: {
+      requester: {
         id: 9,
         firstname: 'Jennifer',
         lastname: 'Cho',
@@ -55,7 +87,7 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://media-exp1.licdn.com/dms/image/C5603AQEVw__BKGBOdw/profile-displayphoto-shrink_200_200/0/1551395086203?e=1631750400&v=beta&t=yMuQBb8y5FTMWUZfBUKUFvACe8Mbv5z_8aaCAQxaSH0',
+        profile_picture_url: 'https://media-exp1.licdn.com/dms/image/C5603AQEVw__BKGBOdw/profile-displayphoto-shrink_200_200/0/1551395086203?e=1631750400&v=beta&t=yMuQBb8y5FTMWUZfBUKUFvACe8Mbv5z_8aaCAQxaSH0',
       },
     },
     {
@@ -70,13 +102,13 @@ export default {
       },
       description: 'Need help moving my couch',
       car_required: false,
-      status: false,
+      status: 'Completed',
       category: 'sitter',
-      date: '2021-07-13',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '09:00:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
-      user: {
+      requester: {
         id: 2,
         firstname: 'Sandra',
         lastname: 'Bollox',
@@ -84,13 +116,13 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
+        profile_picture_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
       },
     },
     {
       task_id: 4,
       requester_id: 7,
-      helper_id: null,
+      helper_id: 2,
       address: {
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
@@ -99,13 +131,13 @@ export default {
       },
       description: 'Can I borrow a vacuum? Mine broke',
       car_required: false,
-      status: false,
+      status: 'Pending',
       category: 'sitter',
-      date: '2021-07-23',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '12:00:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
-      user: {
+      requester: {
         id: 3,
         firstname: 'Brie',
         lastname: 'Larson',
@@ -113,7 +145,7 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://www.indiewire.com/wp-content/uploads/2019/03/shutterstock_10139128cg.jpg',
+        profile_picture_url: 'https://www.indiewire.com/wp-content/uploads/2019/03/shutterstock_10139128cg.jpg',
       },
     },
     {
@@ -128,13 +160,13 @@ export default {
       },
       description: 'I need some emergency makeup (dark foundation)',
       car_required: false,
-      status: false,
+      status: 'Pending',
       category: 'sitter',
-      date: '2021-07-16',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '06:30:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'short: < 1 hour',
-      user: {
+      requester: {
         id: 6,
         firstname: 'Kirk',
         lastname: 'Lazarus',
@@ -142,7 +174,7 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://pbs.twimg.com/media/DhVpQ4yWsAA_Qra.jpg',
+        profile_picture_url: 'https://pbs.twimg.com/media/DhVpQ4yWsAA_Qra.jpg',
       },
     },
     {
@@ -157,13 +189,13 @@ export default {
       },
       description: 'Need help moving a couch',
       car_required: false,
-      status: false,
+      status: 'Pending',
       category: 'sitter',
-      date: '2021-07-16',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '06:50:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
-      user: {
+      requester: {
         id: 4,
         firstname: 'Anna',
         lastname: 'Arrendelle',
@@ -171,12 +203,12 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F14%2F2019%2F05%2F15%2F051019-kristen-bell-money-talks-lead.jpg&q=85',
+        profile_picture_url: 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F14%2F2019%2F05%2F15%2F051019-kristen-bell-money-talks-lead.jpg&q=85',
       },
     },
     {
       task_id: 7,
-      requester_id: 4,
+      requester_id: 2,
       helper_id: null,
       address: {
         streetAddress: '727 N Broadway',
@@ -186,13 +218,13 @@ export default {
       },
       description: 'I need friends pls.',
       car_required: false,
-      status: false,
+      status: 'Pending',
       category: 'sitter',
-      date: '2021-07-16',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '11:00:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
-      user: {
+      requester: {
         id: 7,
         firstname: 'Jordan',
         lastname: 'Belfort',
@@ -200,12 +232,12 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://www.biography.com/.image/t_share/MTgwNDU1MTIxMTE1Njg2NzY0/gettyimages-1197345888.jpg',
+        profile_picture_url: 'https://www.biography.com/.image/t_share/MTgwNDU1MTIxMTE1Njg2NzY0/gettyimages-1197345888.jpg',
       },
     },
     {
       task_id: 8,
-      requester_id: 3,
+      requester_id: 2,
       helper_id: null,
       address: {
         streetAddress: '727 N Broadway',
@@ -215,13 +247,13 @@ export default {
       },
       description: 'Need some emergency lemons! Will pay',
       car_required: false,
-      status: false,
+      status: 'Pending',
       category: 'sitter',
-      date: '2021-07-18',
+      start_date: '2021-08-13T07:00:00.000Z',
       time: '01:45:13',
-      date_requested: '2021-07-15',
+      timestamp_requested: '2021-07-15',
       duration: 'Short: < 1 hour',
-      user: {
+      requester: {
         id: 5,
         firstname: 'Benjamin',
         lastname: 'Franklin-Gates',
@@ -229,12 +261,75 @@ export default {
         karma: 5,
         response_count: 24,
         average_rating: 4.7,
-        profile_picture: 'https://api.time.com/wp-content/uploads/2015/07/nicolas-cage1.jpg',
+        profile_picture_url: 'https://api.time.com/wp-content/uploads/2015/07/nicolas-cage1.jpg',
+      },
+    },
+    {
+      task_id: 9,
+      requester_id: 2,
+      helper_id: null,
+      address: {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+      },
+      description: 'I need some forks for a dinner party',
+      car_required: false,
+      status: 'Open',
+      category: 'sitter',
+      start_date: '2021-08-13T07:00:00.000Z',
+      time: '01:45:13',
+      timestamp_requested: '2021-07-15',
+      duration: 'Short: < 1 hour',
+      requester: {
+        id: 2,
+        firstname: 'Sandra',
+        lastname: 'Bollox',
+        address_id: 2,
+        karma: 5,
+        response_count: 24,
+        average_rating: 4.7,
+        profile_picture_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
+      },
+    },
+    {
+      task_id: 10,
+      requester_id: 2,
+      helper_id: null,
+      address: {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+      },
+      description: 'Can someone walk my dog tomorrow?',
+      car_required: false,
+      status: 'Pending',
+      category: 'sitter',
+      start_date: '2021-08-13T07:00:00.000Z',
+      time: '01:45:13',
+      timestamp_requested: '2021-07-15',
+      duration: 'Short: < 1 hour',
+      requester: {
+        id: 2,
+        firstname: 'Sandra',
+        lastname: 'Bollox',
+        address_id: 2,
+        karma: 5,
+        response_count: 24,
+        average_rating: 4.7,
+        profile_picture_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
       },
     },
   ],
 
-  testUsers: [
+
+
+
+
+
+  testrequesters: [
     {
       id: 1,
       firstname: 'Huge',
@@ -243,7 +338,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg',
+      profile_picture_url: 'https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg',
     },
     {
       id: 2,
@@ -253,7 +348,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
+      profile_picture_url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_KU7SGQ9-7BMTsea4Vgs8qwDa_sbnjZ3e-Q&usqp=CAU',
     },
     {
       id: 3,
@@ -263,7 +358,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://www.indiewire.com/wp-content/uploads/2019/03/shutterstock_10139128cg.jpg',
+      profile_picture_url: 'https://www.indiewire.com/wp-content/uploads/2019/03/shutterstock_10139128cg.jpg',
     },
     {
       id: 4,
@@ -273,7 +368,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F14%2F2019%2F05%2F15%2F051019-kristen-bell-money-talks-lead.jpg&q=85',
+      profile_picture_url: 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F14%2F2019%2F05%2F15%2F051019-kristen-bell-money-talks-lead.jpg&q=85',
     },
     {
       id: 5,
@@ -283,7 +378,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://api.time.com/wp-content/uploads/2015/07/nicolas-cage1.jpg',
+      profile_picture_url: 'https://api.time.com/wp-content/uploads/2015/07/nicolas-cage1.jpg',
     },
     {
       id: 6,
@@ -293,7 +388,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://pbs.twimg.com/media/DhVpQ4yWsAA_Qra.jpg',
+      profile_picture_url: 'https://pbs.twimg.com/media/DhVpQ4yWsAA_Qra.jpg',
     },
     {
       id: 7,
@@ -303,7 +398,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://www.biography.com/.image/t_share/MTgwNDU1MTIxMTE1Njg2NzY0/gettyimages-1197345888.jpg',
+      profile_picture_url: 'https://www.biography.com/.image/t_share/MTgwNDU1MTIxMTE1Njg2NzY0/gettyimages-1197345888.jpg',
     },
     {
       id: 8,
@@ -313,7 +408,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY3MDUxMjkzMjI1OTIwMTcz/brad-pitt-attends-the-premiere-of-20th-century-foxs--square.jpg',
+      profile_picture_url: 'https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY3MDUxMjkzMjI1OTIwMTcz/brad-pitt-attends-the-premiere-of-20th-century-foxs--square.jpg',
     },
     {
       id: 9,
@@ -323,7 +418,7 @@ export default {
       karma: 5,
       response_count: 24,
       average_rating: 4.7,
-      profile_picture: 'https://media-exp1.licdn.com/dms/image/C5603AQEVw__BKGBOdw/profile-displayphoto-shrink_200_200/0/1551395086203?e=1631750400&v=beta&t=yMuQBb8y5FTMWUZfBUKUFvACe8Mbv5z_8aaCAQxaSH0',
+      profile_picture_url: 'https://media-exp1.licdn.com/dms/image/C5603AQEVw__BKGBOdw/profile-displayphoto-shrink_200_200/0/1551395086203?e=1631750400&v=beta&t=yMuQBb8y5FTMWUZfBUKUFvACe8Mbv5z_8aaCAQxaSH0',
     },
   ],
 };
