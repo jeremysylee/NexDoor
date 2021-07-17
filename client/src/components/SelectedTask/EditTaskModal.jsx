@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+
 import {
   Button,
   TextField,
@@ -16,49 +18,35 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core/';
-import axios from 'axios';
 
-const Input = styled.button`
-  border-radius: 100px;
-  background-color: #F1F2F5;
-  font-size: 18px;
-  font-weight: 300;
-  border: none;
-  width: 100%;
-  margin-left: 0.5em;
-  padding-top: 4px;
-  text-align: left;
-  color: #5E5E5E;
-  font-family: Roboto;
-  -webkit-transition: 200ms linear;
-  -moz-transition: 200ms linear;
-  -ms-transition: 200ms linear;
-  -o-transition: 200ms linear;
-  transition: 200ms linear;
-  &:hover {
-    background-color: #E7E7E7
-  }
-`;
-
-function NewRequestModal() {
+function EditTaskModal() {
   const [open, setOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
-  const [request, setRequest] = useState({
-    streetAddress: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    neighborhood: '',
-    description: '',
-    category: '',
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    carRequired: false,
-    laborRequired: false,
-    duration: null,
-  });
+  const task = useSelector((store) => store.selectedTaskReducer.task);
+  console.log(task);
+  const [request, setRequest] = useState({});
   // const userId = useSelector((store) => store.currentUserReducer.userId);
+
+  useEffect(() => {
+    setRequest({
+      streetAddress: task.location.street_address,
+      city: task.location.city,
+      state: task.location.state,
+      zipcode: task.location.zipcode,
+      neighborhood: task.location.neighborhood,
+      description: task.description,
+      category: task.category.toLowerCase(),
+      startDate: task.start_date.split('T')[0],
+      endDate: task.end_date.split('T')[0],
+      startTime: task.start_time,
+      carRequired: (task.car_required === 'true'),
+      laborRequired: (task.physical_labor_required === 'true'),
+      duration: task.duration,
+      taskId: task.task_id,
+      addressId: task.location.address_id,
+      userId: task.requester.user_id,
+    });
+  }, [task]);
 
   function handleClickOpen() {
     setOpen(true);
@@ -99,6 +87,9 @@ function NewRequestModal() {
       carRequired: false,
       laborRequired: false,
       duration: null,
+      taskId: null,
+      addressId: null,
+      userId: null,
     });
     setValidationErrors({});
   }
@@ -154,9 +145,9 @@ function NewRequestModal() {
     event.preventDefault();
     const errors = validate(request);
     if (Object.keys(errors).length === 0) {
-      console.log(request);
+      console.log('edited req', request);
       resetReqAndErr();
-      axios.post('http://localhost:3500/api/task/check/35', request)
+      axios.put('http://localhost:3500/api/task/edit/', request)
         .then((response) => {
           console.log(response.data);
           setOpen(false);
@@ -173,11 +164,11 @@ function NewRequestModal() {
 
   return (
     <div>
-
-      <Input onClick={handleClickOpen}>&nbsp;What do you need help with?</Input>
-
+      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+        Edit Request
+      </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Request Help</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Request</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit}>
 
@@ -190,7 +181,6 @@ function NewRequestModal() {
               <Grid item xs={12}>
                 <Typography>LOCATION OF TASK</Typography>
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   id="outlined-helperText"
@@ -313,72 +303,64 @@ function NewRequestModal() {
                 <Typography>WHEN DO YOU NEED HELP?</Typography>
               </Grid>
 
-              <Grid
-                container
-                spacing={3}
-                direction="row"
-                // justifyContent="space-around"
-                alignItems="flex-start"
-              >
-                <Grid item xs={4}>
-                  <TextField
-                    onChange={handleChange}
-                    value={request.startDate}
-                    id="startDate"
-                    name="startDate"
-                    label="Start Date"
-                    type="date"
-                    variant="outlined"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    error={validationErrors.startDate && true}
-                    helperText={(validationErrors.startDate) ? validationErrors.startDate : null}
-                  />
-                </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  onChange={handleChange}
+                  value={request.startDate}
+                  id="startDate"
+                  name="startDate"
+                  label="Start Date"
+                  type="date"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  error={validationErrors.startDate && true}
+                  helperText={(validationErrors.startDate) ? validationErrors.startDate : null}
+                />
+              </Grid>
 
-                <Grid item xs={4}>
-                  <TextField
-                    onChange={handleChange}
-                    value={request.endDate}
-                    id="endDate"
-                    name="endDate"
-                    label="End Date"
-                    type="date"
-                    variant="outlined"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    error={validationErrors.endDate && true}
-                    helperText={(validationErrors.endDate) ? validationErrors.endDate : null}
-                  />
-                </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  onChange={handleChange}
+                  value={request.endDate}
+                  id="endDate"
+                  name="endDate"
+                  label="End Date"
+                  type="date"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  error={validationErrors.endDate && true}
+                  helperText={(validationErrors.endDate) ? validationErrors.endDate : null}
+                />
+              </Grid>
 
-                <Grid item xs={4}>
-                  <TextField
-                    onChange={handleChange}
-                    value={request.startTime}
-                    id="startTime"
-                    name="startTime"
-                    label="Time"
-                    type="time"
-                    variant="outlined"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    // inputProps={{
-                    //   step: 300, // 5 min
-                    // }}
-                    error={validationErrors.startTime && true}
-                    helperText={(validationErrors.startTime) ? validationErrors.startTime : null}
-                  />
-                </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  onChange={handleChange}
+                  value={request.startTime}
+                  id="startTime"
+                  name="startTime"
+                  label="Time"
+                  type="time"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  // inputProps={{
+                  //   step: 300, // 5 min
+                  // }}
+                  error={validationErrors.startTime && true}
+                  helperText={(validationErrors.startTime) ? validationErrors.startTime : null}
+                />
               </Grid>
 
               <Grid item xs={6}>
                 <Button
                   variant="outlined"
-                  color="primary"
+                  color="variant"
                   type="submit"
                   fullWidth
                 >
@@ -394,4 +376,4 @@ function NewRequestModal() {
   );
 }
 
-export default NewRequestModal;
+export default EditTaskModal;
