@@ -33,8 +33,6 @@ const SelectedTask = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
-  console.log(currentUserId);
-
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
     const { days } = DateTime.fromISO(rawDate).diff(dateToday, ['days']).values;
