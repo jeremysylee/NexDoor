@@ -83,11 +83,13 @@ const messagesControllers = {
     const { taskId } = req.params;
     const queryStr = `
       SELECT
+        nexdoor.users.user_id,
         firstname,
         lastname,
         message_body,
         date,
-        time
+        time,
+        profile_picture_url
       FROM
         nexdoor.messages
       INNER JOIN
