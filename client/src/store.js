@@ -1,12 +1,12 @@
-// import {
-//   createStore,
-//   combineReducers,
-//   applyMiddleware,
-//   compose,
-// } from 'redux';
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import {
+  createStore,
+  combineReducers,
+  applyMiddleware,
+  compose,
+} from 'redux';
+// import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-// import thunk from 'redux-thunk';
+import thunk from 'redux-thunk';
 
 import tasksReducer from './components/MainFeed/reducers/tasksReducer';
 import requestsReducer from './components/MainFeed/reducers/requestsReducer';
@@ -20,43 +20,40 @@ import taskCategoryReducer from './components/SelectedTask/reducers/taskCategory
 
 import tasksSliceReducer from './components/MainFeed/tasksSlice';
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// const store = createStore(
-//   combineReducers({
-//     tasksReducer,
-//     selectedTaskReducer,
-//     requestsReducer,
-//     myTasksReducer,
-//     taskDataFormattedReducer,
-//     currentUserReducer,
-//     showMapReducer,
-//     locationReducer,
-//     taskCategoryReducer,
-//     reducer: {
-//       tasks: tasksSliceReducer,
-//     },
-//   }),
-//   composeEnhancers(
-//     applyMiddleware(thunk),
-//   ),
-// );
+const store = createStore(
+  combineReducers({
+    tasksReducer,
+    selectedTaskReducer,
+    requestsReducer,
+    myTasksReducer,
+    taskDataFormattedReducer,
+    currentUserReducer,
+    showMapReducer,
+    locationReducer,
+    taskCategoryReducer,
+  }),
+  composeEnhancers(
+    applyMiddleware(thunk),
+  ),
+);
 
-const reducers = combineReducers({
-  tasksReducer,
-  selectedTaskReducer,
-  requestsReducer,
-  myTasksReducer,
-  taskDataFormattedReducer,
-  currentUserReducer,
-  showMapReducer,
-  locationReducer,
-  taskCategoryReducer,
-  tasks: tasksSliceReducer,
-});
+// const reducers = combineReducers({
+//   tasksReducer,
+//   selectedTaskReducer,
+//   requestsReducer,
+//   myTasksReducer,
+//   taskDataFormattedReducer,
+//   currentUserReducer,
+//   showMapReducer,
+//   locationReducer,
+//   taskCategoryReducer,
+//   tasks: tasksSliceReducer,
+// });
 
-const store = configureStore({
-  reducer: reducers,
-});
+// const store = configureStore({
+//   reducer: reducers,
+// });
 
 export default store;
