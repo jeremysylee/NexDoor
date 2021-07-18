@@ -19,7 +19,12 @@ export default function PrivateRoute({ children, ...rest }) {
       withCredentials: true,
     })
       .then((response) => {
-        dispatch({ type: 'SET_USER', userData: response.data })
+        const userId = response.data.user_id;
+        axios.get(`http://localhost:3500/api/user/info/${userId}`)
+          .then((response2) => {
+            console.log(response2);
+            dispatch({ type: 'SET_USER', userData: response2.data });
+          });
       })
       .catch((err) => {
         console.log(err);

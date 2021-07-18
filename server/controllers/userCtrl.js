@@ -160,6 +160,7 @@ const userControllers = {
 
     const queryStr = `
       SELECT
+        user_id,
         firstname,
         lastname,
         email,
@@ -359,7 +360,7 @@ const userControllers = {
       const user_id = req.session.user_id;
       res.status(200).send({ user_id });
     } else {
-      res.status(418).send("error: I'm a teapot");
+      res.status(418).send("error: user is a teapot");
     }
   },
 

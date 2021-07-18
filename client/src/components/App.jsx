@@ -11,6 +11,7 @@ import Active from './ActiveTask/YouAreHelping/Active';
 import MyActiveRequest from './ActiveTask/MyActive/MyActiveRequest';
 import PrivateRoute from './PrivateRoute';
 
+
 const url = 'http://localhost:3500';
 
 const App = () => {
@@ -76,8 +77,8 @@ const App = () => {
           <Route path="/helpfulfeed" component={HelpfulFeed} />
           <Route path="/active" component={Active} />
           <Route path="/myactiverequest" component={MyActiveRequest} />
-          <PrivateRoute path="/home" component={Home}>
-            <Route path="/home" component={Home} />
+          <PrivateRoute path="/home">
+            <Home />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>
