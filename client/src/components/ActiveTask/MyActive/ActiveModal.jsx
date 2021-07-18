@@ -140,7 +140,7 @@ const ActiveModal = () => {
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                   <Form.Label>
                     Leave kind word for {selectTask.helper.firstname} {selectTask.helper.lastname}
-                    </Form.Label>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     as="textarea"

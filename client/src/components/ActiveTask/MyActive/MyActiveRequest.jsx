@@ -156,8 +156,7 @@ const MyActiveRequest = () => {
         </Grid>
       </Grid>
     </Container>
-  )
-
+  );
 };
 
 export default MyActiveRequest;
