@@ -46,6 +46,7 @@ router
     // GET
     .get('/user/info/:userId', userCtrl.getUser)
     .get('/users/rating/:quantity', userCtrl.getUsersByRating)
+    .get('/users/rangerating/:quantity/:userId/:range', userCtrl.getUsersInRangeByRating)
     // ADD / UPDATE
     .post('/user', userCtrl.addUser)
     // .put('/user/:userId', userCtrl.updateUser)
