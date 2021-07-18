@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import NewRequestModal from './NewRequestModal';
+// import NewRequestModal from './NewRequestModal';
 import MainFeed from './MainFeed/index';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -36,7 +36,7 @@ const Home = () => {
   return (
     <div style={{ backgroundColor: '#f1f2f5' }}>
       <Header />
-      <NewRequestModal />
+      {/* <NewRequestModal /> */}
       <Grid
         container
         direction="row"

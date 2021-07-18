@@ -1218,12 +1218,16 @@ const taskControllers = {
   // *************************************************************
   /*
     PUT /task/close/:taskId/:rating
-    req.body = none
+    req.body =
+      {
+        "review": "Best couch carrying help I have ever received in my life."
+      }
     res = 'Task 17 closed'
   */
   // *************************************************************
   closeTask: (req, res) => {
     const { taskId, rating } = req.params;
+    const { review } = req.body;
     const queryStr1 = `
       UPDATE nexdoor.users
         SET
@@ -1249,13 +1253,41 @@ const taskControllers = {
       SET status='Closed'
       WHERE task_id=${taskId}
     ;`;
+    const queryStr4 = `
+      INSERT INTO nexdoor.reviews (
+        rating,
+        review,
+        requester_id,
+        helper_id
+      )
+      VALUES (
+        ${rating},
+        '${review}',
+        (
+          SELECT requester_id
+          FROM nexdoor.tasks
+          WHERE task_id=${taskId}
+        ),
+        (
+          SELECT helper_id
+          FROM nexdoor.tasks
+          WHERE task_id=${taskId}
+        )
+      )
+    ;`;
     db.query(queryStr1)
       .then(() => {
         db.query(queryStr2)
           .then(() => {
             db.query(queryStr3)
               .then(() => {
-                res.status(200).send(`Task ${taskId} closed`);
+                db.query(queryStr4)
+                  .then(() => {
+                    res.status(200).send(`Task ${taskId} closed`);
+                  })
+                  .catch((err) => {
+                    res.status(400).send(err.stack);
+                  });
               })
               .catch((err) => {
                 res.status(400).send('err updating task status', err.stack);
@@ -2061,3 +2093,6 @@ const taskControllers = {
 };
 
 module.exports = taskControllers;
+
+
+// ADD REVIEWS TABLE

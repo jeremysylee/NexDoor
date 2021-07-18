@@ -7,6 +7,7 @@ import MyRequestUnclaimed from './MyRequestUnclaimed';
 import MyRequestClaimed from './MyRequestClaimed';
 import MyTaskPending from './MyTaskPending';
 import MyRequestActive from './MyRequestActive';
+import MyTaskActive from './MyTaskActive';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
@@ -29,8 +30,9 @@ const SelectedTaskFrame = styled.div`
 
 const SelectedTask = () => {
   const dispatch = useDispatch();
+  const tasks = useSelector((store) => store.tasksReducer.tasks);
   const task = useSelector((store) => store.selectedTaskReducer.task);
-  const currentUserId = useSelector((store) => store.currentUserReducer.userId);
+  const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
@@ -41,7 +43,18 @@ const SelectedTask = () => {
     return dateFormatted;
   };
 
+  const getUpdatedTask = () => {
+    for (let i = 0; i < tasks.length; i += 1) {
+      if (tasks[i].task_id === task.task_id) {
+        dispatch({
+          type: 'SET_TASKS', tasks: tasks[i],
+        });
+      }
+    }
+  };
+
   useEffect(() => {
+    getUpdatedTask();
     dispatch({
       type: 'FORMAT_DATA',
       time: DateTime.fromISO(task.start_time).toFormat('h:mm a'),
@@ -74,11 +87,18 @@ const SelectedTask = () => {
     );
   }
 
-  if (task.status === 'Active') {
+  if (task.status === 'Active' && task.requester.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
         <MyRequestActive />
-        {/* <Active /> */}
+      </SelectedTaskFrame>
+    );
+  }
+
+  if (task.status === 'Active' && task.helper.user_id === currentUserId) {
+    return (
+      <SelectedTaskFrame>
+        <MyTaskActive />
       </SelectedTaskFrame>
     );
   }

@@ -159,6 +159,7 @@ const userControllers = {
 
     const queryStr = `
       SELECT
+        user_id,
         firstname,
         lastname,
         email,
@@ -204,16 +205,24 @@ const userControllers = {
     res =
       [
         {
-            "user_id": 3,
-            "firstname": "andrew",
-            "lastname": "munoz",
-            "password": "testing123",
-            "email": "testing123@gmail.com",
-            "address_id": 1,
-            "karma": 0,
-            "task_count": 0,
-            "avg_rating": 5,
-            "profile_picture_url": "https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/SpongeBob_SquarePants_character.svg/1200px-SpongeBob_SquarePants_character.svg.png"
+          "user_id": 36,
+          "firstname": "Erika",
+          "lastname": "Chumbles",
+          "address_id": 71,
+          "karma": 58,
+          "task_count": 15,
+          "avg_rating": 3,
+          "profile_picture_url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Erika_Eleniak_2011.jpg",
+          "reviews": [
+              {
+                  "review_id": 1,
+                  "rating": 5,
+                  "review": "Best couch carrying help I have ever received in my life.",
+                  "requester_id": 35,
+                  "helper_id": 36
+              },
+              .....
+          ]
         },
         .......
       ]
@@ -222,7 +231,23 @@ const userControllers = {
   getUsersByRating: (req, res) => {
     const { quantity } = req.params || 25;
     const queryStr = `
-      SELECT *
+      SELECT
+        user_id,
+        firstname,
+        lastname,
+        address_id,
+        karma,
+        task_count,
+        avg_rating,
+        profile_picture_url,
+        (
+          SELECT ARRAY_TO_JSON(ARRAY_AGG(reviews))
+          FROM (
+            SELECT *
+            FROM nexdoor.reviews
+            WHERE helper_id=nexdoor.users.user_id
+          ) reviews
+        ) as reviews
       FROM nexdoor.users
       ORDER BY avg_rating
       LIMIT ${quantity}
@@ -236,6 +261,97 @@ const userControllers = {
       });
   },
   // *************************************************************
+
+  // *************************************************************
+  // GET USERS IN RANGE ORDERED BY RATING
+  // *************************************************************
+  //   Needs from front end - max quantity of results, defaults to 10
+  //   Returns - array of user objects, ordered by user's average rating
+  // *************************************************************
+  /*
+    GET /users/rangerating/:quantity/:userId/:range
+      req.body = none
+      res =
+        [
+          {
+            "user_id": 36,
+            "firstname": "Erika",
+            "lastname": "Chumbles",
+            "address_id": 71,
+            "karma": 58,
+            "task_count": 15,
+            "avg_rating": 3,
+            "profile_picture_url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Erika_Eleniak_2011.jpg",
+            "reviews": [
+                {
+                    "review_id": 1,
+                    "rating": 5,
+                    "review": "Best couch carrying help I have ever received in my life.",
+                    "requester_id": 35,
+                    "helper_id": 36
+                },
+                .....
+            ]
+          },
+          .......
+        ]
+  */
+  // *************************************************************
+  getUsersInRangeByRating: (req, res) => {
+    const { userId } = req.params;
+    const { range } = req.params || 1;
+    const { quantity } = req.params || 25;
+    const queryStr = `
+      SELECT
+        user_id,
+        firstname,
+        lastname,
+        address_id,
+        karma,
+        task_count,
+        avg_rating,
+        profile_picture_url,
+        (
+          SELECT ARRAY_TO_JSON(ARRAY_AGG(reviews))
+          FROM (
+            SELECT *
+            FROM nexdoor.reviews
+            WHERE helper_id=nexdoor.users.user_id
+          ) reviews
+        ) as reviews
+      FROM nexdoor.users
+      WHERE
+        (
+          (
+            SELECT coordinate
+            FROM nexdoor.address
+            WHERE address_id=
+            (
+              SELECT address_id
+              FROM nexdoor.users
+              WHERE user_id=${userId}
+            )
+          )
+          <@>
+          (
+            SELECT coordinate
+            FROM nexdoor.address
+            WHERE address_id=nexdoor.users.address_id
+          ) < ${range}
+        )
+      ORDER BY avg_rating
+      LIMIT ${quantity}
+    `;
+    db.query(queryStr)
+      .then((data) => {
+        res.status(200).send(data.rows);
+      })
+      .catch((err) => {
+        res.status(400).send(err.stack);
+      });
+  },
+  // *************************************************************
+
 
   // *************************************************************
   // CHECK FOR EMAIL IN DB
@@ -333,12 +449,12 @@ const userControllers = {
       .then((data) => {
         const user_id = data.rows[0].user_id;
         //compare passwords
-        console.log(user_id);
         if (!bcrypt.compareSync(password, data.rows[0].password)) {
           res.status(404).send('error: password does not match');
         } else {
           //return session
-          req.session.user_Id = user_id;
+          req.session.user_id = user_id;
+          req.session.save();
           // res.session.user_Id = user_id;
           res.status(200).send({user_id});
         }
@@ -350,6 +466,15 @@ const userControllers = {
       });
   },
   // *************************************************************
+  authenticateSession: (req, res) => {
+    if(req.session.user_id) {
+      const user_id = req.session.user_id;
+      res.status(200).send({ user_id });
+    } else {
+      res.status(418).send("error: user is a teapot");
+    }
+  },
+
 };
 
 module.exports = userControllers;
