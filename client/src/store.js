@@ -1,11 +1,12 @@
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-  compose,
-} from 'redux';
+// import {
+//   createStore,
+//   combineReducers,
+//   applyMiddleware,
+//   compose,
+// } from 'redux';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-import thunk from 'redux-thunk';
+// import thunk from 'redux-thunk';
 
 import tasksReducer from './components/MainFeed/reducers/tasksReducer';
 import requestsReducer from './components/MainFeed/reducers/requestsReducer';
@@ -17,23 +18,45 @@ import showMapReducer from './components/AppReducers/showMapReducer';
 import locationReducer from './components/AppReducers/locationReducer';
 import taskCategoryReducer from './components/SelectedTask/reducers/taskCategoryReducer';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import tasksSliceReducer from './components/MainFeed/tasksSlice';
 
-const store = createStore(
-  combineReducers({
-    tasksReducer,
-    selectedTaskReducer,
-    requestsReducer,
-    myTasksReducer,
-    taskDataFormattedReducer,
-    currentUserReducer,
-    showMapReducer,
-    locationReducer,
-    taskCategoryReducer,
-  }),
-  composeEnhancers(
-    applyMiddleware(thunk),
-  ),
-);
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+// const store = createStore(
+//   combineReducers({
+//     tasksReducer,
+//     selectedTaskReducer,
+//     requestsReducer,
+//     myTasksReducer,
+//     taskDataFormattedReducer,
+//     currentUserReducer,
+//     showMapReducer,
+//     locationReducer,
+//     taskCategoryReducer,
+//     reducer: {
+//       tasks: tasksSliceReducer,
+//     },
+//   }),
+//   composeEnhancers(
+//     applyMiddleware(thunk),
+//   ),
+// );
+
+const reducers = combineReducers({
+  tasksReducer,
+  selectedTaskReducer,
+  requestsReducer,
+  myTasksReducer,
+  taskDataFormattedReducer,
+  currentUserReducer,
+  showMapReducer,
+  locationReducer,
+  taskCategoryReducer,
+  tasks: tasksSliceReducer,
+});
+
+const store = configureStore({
+  reducer: reducers,
+});
 
 export default store;

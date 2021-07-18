@@ -10,6 +10,7 @@ import LogIn from './LogIn';
 import Active from './ActiveTask/YouAreHelping/Active';
 import MyActiveRequest from './ActiveTask/MyActive/MyActiveRequest';
 import PrivateRoute from './PrivateRoute';
+import { setTasks } from './MainFeed/tasksSlice';
 
 const url = 'http://localhost:3500';
 
@@ -24,6 +25,7 @@ const App = () => {
     axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
         if (!data.allothers) { return; }
+        dispatch(setTasks({ payload: data.allothers }));
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });

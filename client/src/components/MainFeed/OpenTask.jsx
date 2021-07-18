@@ -14,7 +14,7 @@ import {
   Details,
 } from './styles-MainFeed';
 
-const Task = ({ task }) => {
+const OpenTask = ({ task }) => {
   const dispatch = useDispatch();
   const { day, time } = useFormatDate(task.start_date, task.start_time);
 
@@ -46,7 +46,7 @@ const Task = ({ task }) => {
   );
 };
 
-Task.propTypes = {
+OpenTask.propTypes = {
   task: PropTypes.shape({
     requester: PropTypes.shape({
       firstname: PropTypes.string.isRequired,
@@ -62,4 +62,4 @@ Task.propTypes = {
   }).isRequired,
 };
 
-export default Task;
+export default OpenTask;
