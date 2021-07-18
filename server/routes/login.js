@@ -17,7 +17,6 @@ login.post('/',
       .isEmpty()
       .withMessage('Please enter password'),
   ], (req, res) => {
-    console.log('req: ', req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors);

@@ -69,6 +69,16 @@ const SignUp = () => {
     history.push('/');
   };
 
+  const getUserData = (userId) => {
+    axios.get(`http://localhost:3500/api/user/info/${userId}`)
+      .then((response) => {
+        dispatch({ type: 'SET_USER', userData: response.data });
+      })
+      .then(() => {
+        handleLogIn();
+      });
+  };
+
   const postUserInfo = (e) => {
     e.preventDefault();
     const userInfo = {
@@ -95,11 +105,9 @@ const SignUp = () => {
                 withCredentials: true,
               })
                 .then((res) => {
-                  console.log(res, '<--- after login');
                   if (res.status === 200) {
-                    console.log("login successful!");
                     // redirect to home page
-                    dispatch({ type: 'SET_USER', userData: res.data });
+                    getUserData(Number(res.data.user_id));
                     handleLogIn();
                   } else {
                     console.log('error logging in');

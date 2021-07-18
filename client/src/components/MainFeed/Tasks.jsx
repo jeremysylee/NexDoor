@@ -24,10 +24,3 @@ const Tasks = () => {
 };
 
 export default Tasks;
-
-// {tasks.map((task) => {
-//   if (task.requester.user_id !== userId || task.helper.user_id !== userId) {
-//     return (<Task task={task} key={task.task_id} />);
-//   }
-//   return <></>;
-// })};
