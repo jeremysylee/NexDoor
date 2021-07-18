@@ -19,7 +19,7 @@ import {
   Checkbox,
 } from '@material-ui/core/';
 
-function EditTaskModal() {
+function EditTaskModal({ test }) {
   const [open, setOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
   const task = useSelector((store) => store.selectedTaskReducer.task);
@@ -152,6 +152,7 @@ function EditTaskModal() {
           console.log(response.data);
           setOpen(false);
           resetReqAndErr();
+          test();
         })
         .catch((err) => {
           console.log(err);

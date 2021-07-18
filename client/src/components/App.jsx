@@ -11,7 +11,6 @@ import Active from './ActiveTask/YouAreHelping/Active';
 import MyActiveRequest from './ActiveTask/MyActive/MyActiveRequest';
 import PrivateRoute from './PrivateRoute';
 
-
 const url = 'http://localhost:3500';
 
 const App = () => {
@@ -24,7 +23,6 @@ const App = () => {
     // api/tasks/master/:userId/:range/:count/:offset
     axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
-        // console.log(data);
         if (!data.allothers) { return; }
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
@@ -72,7 +70,7 @@ const App = () => {
       clearInterval(currentInterval);
     }
 
-    const getTimer = setInterval(getTasksByLocation, 1000);
+    const getTimer = setInterval(getTasksByLocation, 100);
     setCurrentInterval(getTimer);
     // getTasks();
     // getRequests();
@@ -83,20 +81,15 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
+          <Route exact path="/" component={LogIn} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/login" component={LogIn} />
-          <PrivateRoute path="/helpfulfeed">
-            <HelpfulFeed />
-          </PrivateRoute>
-          <PrivateRoute path="/active">
-            <Active />
-          </PrivateRoute>
-          <PrivateRoute path="/myactiverequest">
-            <MyActiveRequest />
-          </PrivateRoute>
-          <PrivateRoute exact path="/">
-            <Home />
-          </PrivateRoute>
+          <Route path="/helpfulfeed" component={HelpfulFeed} />
+          <Route path="/active" component={Active} />
+          <Route path="/myactiverequest" component={MyActiveRequest} />
+          {/* <PrivateRoute> */}
+          <Route path="/home" component={Home} />
+          {/* </PrivateRoute> */}
+          {/* <Route path="/Auth" component={Auth} /> */}
         </Switch>
       </BrowserRouter>
     </div>

@@ -44,17 +44,19 @@ const SelectedTask = () => {
   };
 
   const getUpdatedTask = () => {
+    console.log('EVENT TRIGGERED HERE');
     for (let i = 0; i < tasks.length; i += 1) {
       if (tasks[i].task_id === task.task_id) {
+        console.log(tasks[i]);
         dispatch({
-          type: 'SET_TASKS', tasks: tasks[i],
+          type: 'SET_TASK', task: tasks[i],
         });
       }
     }
   };
 
   useEffect(() => {
-    getUpdatedTask();
+    // getUpdatedTask();
     dispatch({
       type: 'FORMAT_DATA',
       time: DateTime.fromISO(task.start_time).toFormat('h:mm a'),
@@ -65,9 +67,8 @@ const SelectedTask = () => {
   if (task.status === 'Open' && task.requester.user_id === currentUserId) {
     return (
       <SelectedTaskFrame>
-        <MyRequestUnclaimed />
+        <MyRequestUnclaimed test={getUpdatedTask} />
       </SelectedTaskFrame>
-
     );
   }
 
