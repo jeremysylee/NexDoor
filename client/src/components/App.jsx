@@ -77,8 +77,12 @@ const App = () => {
           <PrivateRoute path="/helpfulfeed">
             <HelpfulFeed />
           </PrivateRoute>
-          <Route path="/active" component={Active} />
-          <Route path="/myactiverequest" component={MyActiveRequest} />
+          <PrivateRoute path="/active">
+            <Active />
+          </PrivateRoute>
+          <PrivateRoute path="/myactiverequest">
+            <MyActiveRequest />
+          </PrivateRoute>
           <PrivateRoute exact path="/">
             <Home />
           </PrivateRoute>
