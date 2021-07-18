@@ -2,7 +2,7 @@
 const initialState = {
   userData: {
     user_id: 0,
-    profile_picture_url: 'https://cdn.vox-cdn.com/thumbor/fCzD8UK6LfjewKWOCwd6AXel9Xo=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/21967491/CP3xLakers.jpg'
+    profile_picture_url: 'https://cdn.vox-cdn.com/thumbor/fCzD8UK6LfjewKWOCwd6AXel9Xo=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/21967491/CP3xLakers.jpg',
   },
 };
 

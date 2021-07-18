@@ -46,13 +46,15 @@ router
     // GET
     .get('/user/info/:userId', userCtrl.getUser)
     .get('/users/rating/:quantity', userCtrl.getUsersByRating)
+    .get('/users/rangerating/:quantity/:userId/:range', userCtrl.getUsersInRangeByRating)
     // ADD / UPDATE
     .post('/user', userCtrl.addUser)
     // .put('/user/:userId', userCtrl.updateUser)
     // .delete('/user/:userId', userCtrl.deleteUser)
   // LOGIN ----------------------------------------------------------
     .get('/credentials/:userId', userCtrl.getUserCredentials)
-    .get('/email', userCtrl.checkForEmail);
+    .get('/email', userCtrl.checkForEmail)
+    .get('/session', userCtrl.authenticateSession);
 
 // import individual routes
 const login = require('./routes/login');
