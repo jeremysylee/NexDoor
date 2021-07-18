@@ -21,6 +21,10 @@ const HelpfulFeed = () => {
 
   const bestReviews = topReviews.sort((a, b) => b.avg_rating - a.avg_rating);
 
+  const topThree = bestReviews.slice(0, 4);
+  console.log('review list', bestReviews);
+  console.log('TOP 3', topThree);
+
   const placeholder = "NexDoor's Most Helpful";
 
   return (
