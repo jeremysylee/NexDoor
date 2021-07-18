@@ -281,7 +281,7 @@ function NewRequestModal() {
 
                     <MenuItem value="errand">Errand</MenuItem>
                     <MenuItem value="labor">Labor</MenuItem>
-                    <MenuItem value="sitter">Sitter</MenuItem>
+                    <MenuItem value="sitting">Sitting</MenuItem>
                     <MenuItem value="borrow">Borrow</MenuItem>
                     <MenuItem value="favor">Favor</MenuItem>
                     <MenuItem value="other">Other</MenuItem>
@@ -377,7 +377,7 @@ function NewRequestModal() {
 
               <Grid item xs={6}>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="primary"
                   type="submit"
                   fullWidth
