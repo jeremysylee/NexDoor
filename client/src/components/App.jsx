@@ -81,15 +81,20 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={LogIn} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/helpfulfeed" component={HelpfulFeed} />
-          <Route path="/active" component={Active} />
-          <Route path="/myactiverequest" component={MyActiveRequest} />
-          {/* <PrivateRoute> */}
-          <Route path="/home" component={Home} />
-          {/* </PrivateRoute> */}
-          {/* <Route path="/Auth" component={Auth} /> */}
+          <Route path="/login" component={LogIn} />
+          <PrivateRoute path="/helpfulfeed">
+            <HelpfulFeed />
+          </PrivateRoute>
+          <PrivateRoute path="/active">
+            <Active />
+          </PrivateRoute>
+          <PrivateRoute path="/myactiverequest">
+            <MyActiveRequest />
+          </PrivateRoute>
+          <PrivateRoute exact path="/">
+            <Home />
+          </PrivateRoute>
         </Switch>
       </BrowserRouter>
     </div>

@@ -17,7 +17,7 @@ import {
   BackButton,
 } from './styles-SelectedTask';
 
-const MyRequestUnclaimed = ({ test }) => {
+const MyRequestUnclaimed = () => {
   const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
@@ -67,7 +67,7 @@ const MyRequestUnclaimed = ({ test }) => {
           </Col>
         </DetailsContainer>
       </Row>
-      <EditTaskModal test={test} />
+      <EditTaskModal />
     </SelectedTaskContainer>
   );
 };
