@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import {
@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core/';
 
 function EditTaskModal() {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
   const task = useSelector((store) => store.selectedTaskReducer.task);
@@ -140,6 +141,18 @@ function EditTaskModal() {
     return (errors);
   }
 
+  const showMap = () => {
+    dispatch({
+      type: 'SHOW_MAP', toggle: true,
+    });
+  };
+
+  const resetTask = () => {
+    dispatch({
+      type: 'SET_TASK', task,
+    });
+  };
+
   // submit form info with validation check
   function handleSubmit(event) {
     event.preventDefault();
@@ -152,7 +165,9 @@ function EditTaskModal() {
           console.log(response.data);
           setOpen(false);
           resetReqAndErr();
+          // showMap();
         })
+        .then(() => resetTask())
         .catch((err) => {
           console.log(err);
           setOpen(false);
