@@ -108,7 +108,6 @@ const userControllers = {
 
       db.query(queryStr)
         .then((data) => {
-          console.log(data.rows[0])
           res.status(200).send(data.rows[0]);
         })
         .catch((err) => {
@@ -359,12 +358,10 @@ const userControllers = {
       .then((data) => {
         const user_id = data.rows[0].user_id;
         //compare passwords
-        console.log(user_id);
         if (!bcrypt.compareSync(password, data.rows[0].password)) {
           res.status(404).send('error: password does not match');
         } else {
           //return session
-          console.log("user_id:", user_id)
           req.session.user_id = user_id;
           req.session.save();
           // res.session.user_Id = user_id;
@@ -379,7 +376,6 @@ const userControllers = {
   },
   // *************************************************************
   authenticateSession: (req, res) => {
-    console.log(req.session.user_id, "<---------- this is the associated uid");
     if(req.session.user_id) {
       const user_id = req.session.user_id;
       res.status(200).send({ user_id });

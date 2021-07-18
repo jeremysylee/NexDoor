@@ -83,7 +83,6 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
-          {/* <Route exact path="/" component={Home} /> */}
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={LogIn} />
           <PrivateRoute path="/helpfulfeed">

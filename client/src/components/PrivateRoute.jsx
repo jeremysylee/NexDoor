@@ -9,10 +9,6 @@ export default function PrivateRoute({ children, ...rest }) {
   const userData = useSelector((store) => store.currentUserReducer.userData);
   const dispatch = useDispatch();
 
-  function tellMeUser() {
-    console.log('tell me user: ', userData);
-  }
-
   function checkForSession() {
     console.log(document.cookie);
     axios.get('http://localhost:3500/api/session', {
@@ -23,9 +19,7 @@ export default function PrivateRoute({ children, ...rest }) {
         const userId = response.data.user_id;
         axios.get(`http://localhost:3500/api/user/info/${userId}`)
           .then((response2) => {
-            console.log(response2);
             dispatch({ type: 'SET_USER', userData: response2.data });
-            tellMeUser();
             setIsLoaded(true);
           });
       })
