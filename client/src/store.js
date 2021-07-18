@@ -17,6 +17,7 @@ import currentUserReducer from './components/AppReducers/currentUserReducer';
 import showMapReducer from './components/AppReducers/showMapReducer';
 import locationReducer from './components/AppReducers/locationReducer';
 import taskCategoryReducer from './components/SelectedTask/reducers/taskCategoryReducer';
+import addRequestModalReducer from './components/AppReducers/addRequestModalReducer';
 
 import tasksSliceReducer from './components/MainFeed/tasksSlice';
 
@@ -33,6 +34,7 @@ const store = createStore(
     showMapReducer,
     locationReducer,
     taskCategoryReducer,
+    addRequestModalReducer,
   }),
   composeEnhancers(
     applyMiddleware(thunk),

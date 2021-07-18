@@ -391,7 +391,7 @@ const taskControllers = {
         }
       })
       .catch((err) => {
-        res.status(400).send(err.stack);
+        res.status(400).send('error', err.stack);
       });
   },
   // *************************************************************

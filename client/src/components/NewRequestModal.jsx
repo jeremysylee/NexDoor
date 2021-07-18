@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+// import styled from 'styled-components';
 import {
   Button,
   TextField,
@@ -18,30 +19,39 @@ import {
 } from '@material-ui/core/';
 import axios from 'axios';
 
-const Input = styled.button`
-  border-radius: 100px;
-  background-color: #F1F2F5;
-  font-size: 18px;
-  font-weight: 300;
-  border: none;
-  width: 100%;
-  margin-left: 0.5em;
-  padding-top: 4px;
-  text-align: left;
-  color: #5E5E5E;
-  font-family: Roboto;
-  -webkit-transition: 200ms linear;
-  -moz-transition: 200ms linear;
-  -ms-transition: 200ms linear;
-  -o-transition: 200ms linear;
-  transition: 200ms linear;
-  &:hover {
-    background-color: #E7E7E7
-  }
-`;
+// const Input = styled.button`
+//   border-radius: 100px;
+//   background-color: #F1F2F5;
+//   font-size: 18px;
+//   font-weight: 300;
+//   border: none;
+//   width: 100%;
+//   margin-left: 0.5em;
+//   padding-top: 4px;
+//   text-align: left;
+//   color: #5E5E5E;
+//   font-family: Roboto;
+//   -webkit-transition: 200ms linear;
+//   -moz-transition: 200ms linear;
+//   -ms-transition: 200ms linear;
+//   -o-transition: 200ms linear;
+//   transition: 200ms linear;
+//   &:hover {
+//     background-color: #E7E7E7
+//   }
+// `;
 
 function NewRequestModal() {
-  const [open, setOpen] = useState(false);
+  // ***** From Jeremy: I added these handlers so I could style the button on the main page //
+  const dispatch = useDispatch();
+  const open = useSelector((store) => store.addRequestModalReducer.toggle);
+  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
+  const handleClose = () => {
+    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: false });
+  };
+  // ***** Jeremy End **** //
+
+  // const [open, setOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
   const [request, setRequest] = useState({
     streetAddress: '',
@@ -60,13 +70,15 @@ function NewRequestModal() {
   });
   // const userId = useSelector((store) => store.currentUserReducer.userId);
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
+  // ***** Jeremy: Commented out 72 - 78 and replaced with redux handler above.
+  // function handleClickOpen() {
+  //   setOpen(true);
+  // }
 
-  function handleClose() {
-    setOpen(false);
-  }
+  // function handleClose() {
+  //   setOpen(false);
+  // }
+  // ***** Jeremy END ***** //
 
   // updates state for all input changes
   const handleChange = (event) => {
@@ -156,15 +168,17 @@ function NewRequestModal() {
     if (Object.keys(errors).length === 0) {
       console.log(request);
       resetReqAndErr();
-      axios.post('http://localhost:3500/api/task/check/35', request)
+      axios.post(`http://localhost:3500/api/task/check/${Number(userId)}`, request)
         .then((response) => {
           console.log(response.data);
-          setOpen(false);
+          handleClose(); // <-- jeremy
+          // setOpen(false);
           resetReqAndErr();
         })
         .catch((err) => {
           console.log(err);
-          setOpen(false);
+          handleClose(); // <-- jeremy
+          // setOpen(false);
         });
     } else {
       setValidationErrors(errors);
@@ -173,9 +187,7 @@ function NewRequestModal() {
 
   return (
     <div>
-
-      <Input onClick={handleClickOpen}>&nbsp;What do you need help with?</Input>
-
+      {/* <Input onClick={handleClickOpen}>&nbsp;What do you need help with?</Input> */}
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Request Help</DialogTitle>
         <DialogContent>
