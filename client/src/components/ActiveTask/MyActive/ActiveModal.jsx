@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Container, Grid, Avatar } from '@material-ui/core';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import Ratings from 'react-ratings-declarative';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StarIcon from '@material-ui/icons/Star';
@@ -15,17 +17,19 @@ justify-content: center;
 
 const ActiveModal = () => {
   const [show, setShow] = useState(false);
-  const [review, setReview] = useState('');
+  const [newReview, setNewReview] = useState('');
   const [ratings, setRatings] = useState(0);
   const [reviewStar, setReviewStar] = useState('');
 
   const selectTask = useSelector((store) => store.selectedTaskReducer.task);
+  console.log('selected task', selectTask);
+  const history = useHistory();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleReview = (e) => setReview(e.target.value);
+  const handleReview = (e) => setNewReview(e.target.value);
 
-  console.log(review);
+  console.log(newReview);
   const changeRating = (val) => {
     setRatings(val);
 
@@ -40,6 +44,17 @@ const ActiveModal = () => {
     } else if (val === 5) {
       setReviewStar('5 stars - Great')
     }
+  };
+
+  console.log('Rating', ratings);
+
+  const url = 'http://localhost:3500';
+
+  const submitReview = () => {
+    const reviewSubmission = { review: newReview };
+    axios.put(`${url}/api/task/close/${selectTask.task_id}/${ratings}`, reviewSubmission)
+      .then((res) => console.log(res))
+      .then(() => { history.push('/home'); })
   };
 
   return (
@@ -140,6 +155,7 @@ const ActiveModal = () => {
           <div style={{ display: 'flex', justifyContent: 'right', marginRight: '1em' }}>
             <Button
               style={{ borderRadius: '24px', height: '50px', width: '200px', backgroundColor: '#D65454', borderColor: '#D65454' }}
+              onClick={submitReview}
             >
               Submit
             </Button>
