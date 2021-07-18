@@ -5,6 +5,7 @@ import currentUser from './AppReducers/currentUserReducer';
 import axios from 'axios';
 
 export default function PrivateRoute({ children, ...rest }) {
+  const [ isLoaded, setIsLoaded ] = useState(false);
   const userData = useSelector((store) => store.currentUserReducer.userData);
   const dispatch = useDispatch();
 
@@ -24,6 +25,8 @@ export default function PrivateRoute({ children, ...rest }) {
           .then((response2) => {
             console.log(response2);
             dispatch({ type: 'SET_USER', userData: response2.data });
+            tellMeUser();
+            setIsLoaded(true);
           });
       })
       .catch((err) => {
@@ -33,20 +36,23 @@ export default function PrivateRoute({ children, ...rest }) {
 
   useEffect(() => {
     checkForSession();
-    tellMeUser();
   }, []);
 
   return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-      (userData.user_id !== 0) ? (
-        children
-        ) : (
-          <Redirect to='/login' />
-        )
-      }
-    />
+    isLoaded ? (
+      <Route
+        {...rest}
+        render={({ location }) =>
+        (userData.user_id !== 0) ? (
+          children
+          ) : (
+            <Redirect to='/login' />
+          )
+        }
+      />
+    ) : (
+      <div>Loading ... </div>
+    )
   );
 }
 

@@ -74,7 +74,9 @@ const App = () => {
           {/* <Route exact path="/" component={Home} /> */}
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={LogIn} />
-          <Route path="/helpfulfeed" component={HelpfulFeed} />
+          <PrivateRoute path="/helpfulfeed">
+            <HelpfulFeed />
+          </PrivateRoute>
           <Route path="/active" component={Active} />
           <Route path="/myactiverequest" component={MyActiveRequest} />
           <PrivateRoute exact path="/">
