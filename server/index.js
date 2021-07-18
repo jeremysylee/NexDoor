@@ -28,7 +28,7 @@ const redisClient = redis.createClient({
 app.use(session({
   store: new RedisStore({ client: redisClient }),
   secret: process.env.SECRET,
-  resave: false,
+  resave: true, // DO NOT DISABLE OR ELSE SESSIONS WONT BE SAVED WITH USER ID
   saveUninitialized: true,
   cookie: {
     secure: false, // HTTPS only (disable in production)

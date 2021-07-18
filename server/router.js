@@ -52,7 +52,8 @@ router
     // .delete('/user/:userId', userCtrl.deleteUser)
   // LOGIN ----------------------------------------------------------
     .get('/credentials/:userId', userCtrl.getUserCredentials)
-    .get('/email', userCtrl.checkForEmail);
+    .get('/email', userCtrl.checkForEmail)
+    .get('/session', userCtrl.authenticateSession);
 
 // import individual routes
 const login = require('./routes/login');
