@@ -68,7 +68,8 @@ const RequestInput = () => {
         <VerticalLine />
         <Row>
           <Avatar src={user.profile_picture_url} alt={user.firstname} />
-          <Input>&nbsp;What do you need help with?</Input>
+          {/* <Input>&nbsp;What do you need help with?</Input> */}
+          <NewRequestModal />
         </Row>
         <Line />
         <Row>

@@ -12,6 +12,7 @@ import Header from '../../Header';
 import Sidebar from '../../Sidebar';
 import ActiveModal from './ActiveModal';
 import YourHelper from './YourHelper';
+import Chat from '../../Chat/Chat';
 
 const RequestDescription = styled.div`
   width: 660px;
@@ -150,7 +151,7 @@ const MyActiveRequest = () => {
             </Grid>
           </RequestDescription>
           <ChatContainer>
-            Chat
+            <Chat />
           </ChatContainer>
         </Grid>
       </Grid>
