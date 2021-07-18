@@ -76,7 +76,7 @@ const App = () => {
           <Route path="/helpfulfeed" component={HelpfulFeed} />
           <Route path="/active" component={Active} />
           <Route path="/myactiverequest" component={MyActiveRequest} />
-          <PrivateRoute path="/">
+          <PrivateRoute path="/home" component={Home}>
             <Route path="/home" component={Home} />
           </PrivateRoute>
         </Switch>

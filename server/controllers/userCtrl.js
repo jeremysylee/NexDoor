@@ -357,8 +357,7 @@ const userControllers = {
     console.log(req.session.user_id, "<---------- this is the associated uid");
     if(req.session.user_id) {
       const user_id = req.session.user_id;
-      getUser({ params: user_id });
-      res.status(200).send({user_id});
+      res.status(200).send({ user_id });
     } else {
       res.status(418).send("error: I'm a teapot");
     }
