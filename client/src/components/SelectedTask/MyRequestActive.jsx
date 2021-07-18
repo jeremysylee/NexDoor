@@ -54,7 +54,7 @@ const MyRequestActive = () => {
   });
 
   const clickGoToRequestHandler = () => {
-    history.push('/active');
+    history.push('/myactiverequest');
   };
 
   const clickBackHandler = () => {

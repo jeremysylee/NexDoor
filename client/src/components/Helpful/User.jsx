@@ -46,6 +46,7 @@ const User = ({ user }) => {
           <div>
             <CardContent>
               {firstname}
+              &nbsp;
               {lastname}
               <div>
                 <StarIcon style={{ fill: "red" }} />
