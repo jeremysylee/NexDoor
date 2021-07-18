@@ -1,24 +1,17 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import EditTaskModal from './EditTaskModal';
+import { useSelector } from 'react-redux';
 import {
-  SelectedTaskContainer,
-  AvatarLg,
-  Username,
-  UserInfo,
-  StatusText,
+  Row,
   DetailsContainer,
   HeadingSmall,
-  Row,
-  RowSlim,
   Col,
-  BackButton,
+  ColCentered,
+  DetailsContainerTime,
 } from './styles-SelectedTask';
 
-const MyRequestUnclaimed = () => {
-  const dispatch = useDispatch();
+const DetailsSection = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const date = useSelector((store) => store.taskDataFormattedReducer.date);
   const time = useSelector((store) => store.taskDataFormattedReducer.time);
@@ -29,24 +22,8 @@ const MyRequestUnclaimed = () => {
     zipcode,
   } = task.location;
 
-  const clickBackHandler = () => {
-    dispatch({
-      type: 'SHOW_MAP', toggle: true,
-    });
-  };
-
   return (
-    <SelectedTaskContainer>
-      <RowSlim>
-        <BackButton onClick={clickBackHandler}>Back</BackButton>
-      </RowSlim>
-      <AvatarLg
-        style={{ backgroundColor: 'grey' }}
-        alt=""
-      />
-      <Username />
-      <UserInfo />
-      <StatusText>No one has claimed your request yet</StatusText>
+    <ColCentered>
       <DetailsContainer>
         <HeadingSmall>REQUEST DETAILS</HeadingSmall>
         <p>{task.description}</p>
@@ -59,17 +36,16 @@ const MyRequestUnclaimed = () => {
             <span>{`${city} ${state} ${zipcode}`}</span>
           </Col>
         </DetailsContainer>
-        <DetailsContainer>
+        <DetailsContainerTime>
           <HeadingSmall>TIME</HeadingSmall>
           <Col>
             <span>{`${date}`}</span>
             <span>{`${time}`}</span>
           </Col>
-        </DetailsContainer>
+        </DetailsContainerTime>
       </Row>
-      <EditTaskModal />
-    </SelectedTaskContainer>
+    </ColCentered>
   );
 };
 
-export default MyRequestUnclaimed;
+export default DetailsSection;
