@@ -30,10 +30,9 @@ const SelectedTaskFrame = styled.div`
 
 const SelectedTask = () => {
   const dispatch = useDispatch();
+  const tasks = useSelector((store) => store.tasksReducer.tasks);
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
-
-  console.log(currentUserId);
 
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
@@ -44,7 +43,18 @@ const SelectedTask = () => {
     return dateFormatted;
   };
 
+  const getUpdatedTask = () => {
+    for (let i = 0; i < tasks.length; i += 1) {
+      if (tasks[i].task_id === task.task_id) {
+        dispatch({
+          type: 'SET_TASKS', tasks: tasks[i],
+        });
+      }
+    }
+  };
+
   useEffect(() => {
+    getUpdatedTask();
     dispatch({
       type: 'FORMAT_DATA',
       time: DateTime.fromISO(task.start_time).toFormat('h:mm a'),
@@ -81,7 +91,6 @@ const SelectedTask = () => {
     return (
       <SelectedTaskFrame>
         <MyRequestActive />
-        {/* <Active /> */}
       </SelectedTaskFrame>
     );
   }
@@ -90,7 +99,6 @@ const SelectedTask = () => {
     return (
       <SelectedTaskFrame>
         <MyTaskActive />
-        {/* <Active /> */}
       </SelectedTaskFrame>
     );
   }

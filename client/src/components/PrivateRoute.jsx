@@ -25,6 +25,7 @@ export default function PrivateRoute({ children, ...rest }) {
       })
       .catch((err) => {
         console.log(err);
+        setIsLoaded(true);
       })
   };
 
