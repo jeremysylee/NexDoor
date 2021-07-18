@@ -63,6 +63,10 @@ const LogIn = () => {
     history.push('/');
   };
 
+  const signUpPage = () => {
+    history.push('/signup');
+  };
+
   const getUserData = (userId) => {
     axios.get(`http://localhost:3500/api/user/info/${userId}`)
       .then((response) => {
@@ -146,7 +150,7 @@ const LogIn = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link onClick={signUpPage} variant="body2">
                 "Don't have an account? Sign Up"
               </Link>
             </Grid>
