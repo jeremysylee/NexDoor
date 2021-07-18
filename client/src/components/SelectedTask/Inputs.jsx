@@ -63,7 +63,7 @@ export const InputActiveTask = () => {
 
   const clickGoToRequestHandler = () => {
     if (category.role === 'requester') {
-      history.push('/active');
+      history.push('/myactiverequest');
     } else {
       history.push('/active');
     }

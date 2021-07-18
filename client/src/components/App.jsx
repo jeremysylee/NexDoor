@@ -26,6 +26,7 @@ const App = () => {
     // api/tasks/master/:userId/:range/:count/:offset
     axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
+        console.log(data);
         if (!data.allothers) { return; }
         dispatch(setTasks({ payload: data.allothers }));
         dispatch({
