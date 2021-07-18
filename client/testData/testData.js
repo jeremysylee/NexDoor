@@ -8,6 +8,7 @@ export const testTasks = [
       city: '',
       state: '',
       zipcode: '',
+      coordinate: '(-118.2605499,34.0775885)',
     },
     description: '',
     car_required: false,

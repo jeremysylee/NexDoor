@@ -10,6 +10,7 @@ import Header from '../../Header';
 import Sidebar from '../../Sidebar';
 import MarkFinishModal from './MarkFinishModal';
 import YouAreHelping from './YouAreHelping';
+import Chat from '../../Chat/Chat';
 
 const RequestDescription = styled.div`
   width: 660px;
@@ -137,7 +138,7 @@ const Active = () => {
             </Grid>
           </RequestDescription>
           <ChatContainer>
-            Chat
+            <Chat />
           </ChatContainer>
         </Grid>
       </Grid>
