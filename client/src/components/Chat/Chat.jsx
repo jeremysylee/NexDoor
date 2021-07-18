@@ -2,19 +2,22 @@ import React, { useState, useEffect } from 'react';
 import Message from './Message';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { useSelector } from 'react-redux';
 
 const socket = io('http://localhost:3000');
 
 const Chat = () => {
-  let taskId;//= redux;
-  if (!taskId) {
+  const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
+  const taskId = selectedTask.task_id;
+  if (taskId === undefined) {
     return <></>;
   }
   // input -> two user id's
   // get existing chat messages from database
   // display existing chat messages
   //
-  let userId; // from react-redux*********
+  let user = useSelector((store) => store.currentUserReducer.currentUserData); // from react-redux*********
+  let userId = user.user_id;
   const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
   const [currentTask, setCurrentTask] = useState(taskId);
@@ -89,7 +92,7 @@ const Chat = () => {
     setCurrentTask(taskId);
     axios.get(`${url}/api/messages/${taskId}`)
       .then((data) => {
-        setMessages(data);
+        setMessages(data.data);
       });
   }, [taskId]);
 

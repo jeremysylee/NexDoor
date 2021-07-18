@@ -3,7 +3,8 @@ import React from 'react';
 const Message = ({ message, isUser }) => {
   // console.log(message);
   let style;
-  let profilePic = message.firstname[0];
+  // let profilePic = message.firstname[0];//******** uncomment
+  let profilePic = 'm';
   // console.log(profilePic);
   const dateStyle = {
     fontSize: '10px',

@@ -138,7 +138,7 @@ const Active = () => {
             </Grid>
           </RequestDescription>
           <ChatContainer>
-            Chat
+            <Chat />
           </ChatContainer>
         </Grid>
       </Grid>
