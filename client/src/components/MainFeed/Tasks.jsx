@@ -13,12 +13,9 @@ const Tasks = () => {
       <SectionCard>
         <CardHeaders>Others Requesting Help</CardHeaders>
       </SectionCard>
-      {tasks.map((task) => {
-        if (task.status === 'Open' && task.requester.user_id !== userId) {
-          return (<Task task={task} key={task.task_id} />);
-        }
-        return <span key={task.task_id} />;
-      })}
+      {tasks.map((task) => (
+        <Task task={task} key={task.task_id} />
+      ))}
     </div>
   );
 };
