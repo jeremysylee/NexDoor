@@ -5,7 +5,8 @@ import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:3000');
 
-const Chat = ({ taskId }) => {
+const Chat = () => {
+  let taskId;//= redux;
   if (!taskId) {
     return <></>;
   }
@@ -90,7 +91,7 @@ const Chat = ({ taskId }) => {
       .then((data) => {
         setMessages(data);
       });
-  }, []);
+  }, [taskId]);
 
   useEffect(() => {
     // console.log('hi');
