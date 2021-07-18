@@ -60,7 +60,7 @@ const LogIn = () => {
   };
 
   const handleLogIn = () => {
-    history.push('/home');
+    history.push('/');
   };
 
   const getUserData = (userId) => {
@@ -75,14 +75,12 @@ const LogIn = () => {
 
   const submitLogin = (e) => {
     e.preventDefault();
-    console.log('login: ', login);
     axios.post('http://localhost:3500/api/login/', login, {
       headers: { 'content-type': 'application/json' },
       withCredentials: true,
     })
       .then((response) => {
         if (response.status === 200) {
-          console.log('login successful: ', response.data);
           getUserData(Number(response.data.user_id));
           // redirect to home page
         } else {
