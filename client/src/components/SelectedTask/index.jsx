@@ -47,7 +47,7 @@ const SelectedTask = () => {
     for (let i = 0; i < tasks.length; i += 1) {
       if (tasks[i].task_id === task.task_id) {
         dispatch({
-          tasks: tasks[i],
+          type: 'SET_TASKS', tasks: tasks[i],
         });
       }
     }
