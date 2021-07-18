@@ -60,7 +60,7 @@ const LogIn = () => {
   };
 
   const handleLogIn = () => {
-    history.push('/home');
+    history.push('/');
   };
 
   const getUserData = (userId) => {

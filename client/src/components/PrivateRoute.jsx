@@ -43,7 +43,7 @@ export default function PrivateRoute({ children, ...rest }) {
       (userData.user_id !== 0) ? (
         children
         ) : (
-          <Redirect to='/' />
+          <Redirect to='/login' />
         )
       }
     />

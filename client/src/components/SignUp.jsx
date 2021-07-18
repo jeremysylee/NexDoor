@@ -66,7 +66,7 @@ const SignUp = () => {
   };
 
   const handleLogIn = () => {
-    history.push('/home');
+    history.push('/');
   };
 
   const postUserInfo = (e) => {
