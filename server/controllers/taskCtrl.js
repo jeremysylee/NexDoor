@@ -295,7 +295,7 @@ const taskControllers = {
         '${description}',
         ${carRequired},
         ${laborRequired},
-        'Open',ƒ
+        'Open',
         '${category}',
         '${startDate}',
         '${endDate}',

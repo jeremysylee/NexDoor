@@ -46,15 +46,14 @@ const ActiveModal = () => {
     }
   };
 
-  console.log('Rating', ratings);
-
   const url = 'http://localhost:3500';
 
   const submitReview = () => {
     const reviewSubmission = { review: newReview };
     axios.put(`${url}/api/task/close/${selectTask.task_id}/${ratings}`, reviewSubmission)
       .then((res) => console.log(res))
-      .then(() => { history.push('/home'); })
+      .then(() => { history.push('/'); })
+      .catch((err) => { console.error(err); });
   };
 
   return (
@@ -139,12 +138,14 @@ const ActiveModal = () => {
             <div style={{ width: '30vw', fontFamily: 'Roboto' }}>
               <Form>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                  <Form.Label>Leave kind word for {selectTask.helper.firstname} {selectTask.helper.lastname}</Form.Label>
+                  <Form.Label>
+                    Leave kind word for {selectTask.helper.firstname} {selectTask.helper.lastname}
+                    </Form.Label>
                   <Form.Control
                     type="text"
                     as="textarea"
                     rows={3}
-                    placeholder="Name was very friendly and very helpful..."
+                    placeholder={`${selectTask.helper.firstname} was very friendly and very helpful...`}
                     onChange={handleReview}
                   />
                 </Form.Group>

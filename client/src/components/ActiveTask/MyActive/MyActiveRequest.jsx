@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Container, Grid, Avatar } from '@material-ui/core';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import Ratings from 'react-ratings-declarative';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StarIcon from '@material-ui/icons/Star';
@@ -67,10 +69,17 @@ margin-top: 2em;
 margin-left: 2em;
 `;
 
-
 const MyActiveRequest = () => {
+  const history = useHistory();
   const selectTask = useSelector((store) => store.selectedTaskReducer.task);
+  const url = 'http://localhost:3500';
   console.log('SELECTED TASK', selectTask);
+
+  const handleCancelMyTask = () => {
+    axios.delete(`${url}/api/task/${selectTask.task_id}`)
+      .then(() => { history.push('/'); })
+      .catch((err) => { console.error(err); });
+  };
 
   return (
     <Container>
@@ -92,7 +101,9 @@ const MyActiveRequest = () => {
           <YourHelper />
           <ActiveModal />
           <CancelButton>
-            <Button style={{ backgroundColor: '#EEEEEE', borderRadius: '24px', height: '50px', width: '200px', borderColor: '#EEEEEE', color: '#6C6C6C' }} >Cancel Request</Button>
+            <Button
+              onClick={handleCancelMyTask}
+              style={{ backgroundColor: '#EEEEEE', borderRadius: '24px', height: '50px', width: '200px', borderColor: '#EEEEEE', color: '#6C6C6C' }} >Cancel Request</Button>
           </CancelButton>
         </Grid>
         <Grid
