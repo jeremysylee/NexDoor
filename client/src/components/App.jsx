@@ -101,7 +101,6 @@ const App = () => {
           </PrivateRoute>
         </Switch>
       </BrowserRouter>
-      <Chat />
     </div>
   );
 };

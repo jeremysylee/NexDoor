@@ -16,8 +16,9 @@ const Chat = () => {
   // get existing chat messages from database
   // display existing chat messages
   //
-  let user = useSelector((store) => store.currentUserReducer.currentUserData); // from react-redux*********
+  let user = useSelector((store) => store.currentUserReducer.userData); // from react-redux*********
   let userId = user.user_id;
+  console.log('userId: ', userId);
   const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
   const [currentTask, setCurrentTask] = useState(taskId);
@@ -25,7 +26,7 @@ const Chat = () => {
   const [lastName, setLastName] = useState();
   const [messages, setMessages] = useState([]);
 
-  const [currentUser, setCurrentUser] = useState();//set to user id*********
+  const [currentUser, setCurrentUser] = useState(userId);//set to user id*********
 
   const handleChange = (e) => {
     setCurrentMessage(e.target.value);
@@ -60,6 +61,7 @@ const Chat = () => {
     console.log(timeString);
     console.log(dateString);
     const message = {
+      userId,
       firstname: firstName,
       lastname: lastName,
       message_body: currentMessage,
@@ -88,13 +90,13 @@ const Chat = () => {
     // const resultContainer = result.split(' ');
     setFirstName();
     setLastName();
-    setCurrentUser();
+    setCurrentUser(userId);
     setCurrentTask(taskId);
     axios.get(`${url}/api/messages/${taskId}`)
       .then((data) => {
         setMessages(data.data);
       });
-  }, [taskId]);
+  }, [taskId, userId]);
 
   useEffect(() => {
     // console.log('hi');
@@ -135,10 +137,11 @@ const Chat = () => {
         {messages.map((message, idx) => {
           // console.log('current User: ', currentUser);
           // console.log('info: ', message.firstname, ' ', message.lastname);
-          const user = `${message.firstname} ${message.lastname}`;
+          const user_1 = userId;
           // console.log(messages);
           let isUser;
-          if (user === currentUser) {//set user to user id *********
+          console.log(user_1, currentUser);
+          if (user_1 === currentUser) {//set user to user id *********
             isUser = true;
           } else {
             isUser = false;
