@@ -2,6 +2,11 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const path = require('path');
+const io = require('socket.io')(3000, {
+  cors: {
+    origin: '*',
+  },
+});
 const session = require('express-session');
 const router = require('./router');
 require('dotenv').config();
@@ -44,3 +49,15 @@ app.listen(port, () => {
 });
 
 app.use(express.static(path.join(__dirname, '..', 'client/index')));
+
+io.on('connection', (socket) => {
+  console.log('user connected');
+  // socket.on('join', (room) => {
+  //   socket.join(room);
+  // });
+  socket.on('send-message', ({ task, message }) => {
+    console.log(task);
+    socket.broadcast.emit(task, message);
+    // socket.to('room1').emit(message);
+  });
+});
