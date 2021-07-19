@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RequestInput from './RequestInput';
 import OpenTask from './OpenTask';
 import MyRequest from './MyRequest';
@@ -17,30 +18,40 @@ const MainFeed = () => {
   return (
     <div style={{ margin: '1em', maxWidth: '33%', minWidth: '400px' }}>
       <RequestInput />
-      <>
-        <SectionCard>
-          <CardHeaders>People Helping Me</CardHeaders>
-        </SectionCard>
-        {myRequests.map((request) => (
-          <MyRequest request={request} key={request.task_id} />
-        ))}
-      </>
-      <>
-        <SectionCard>
-          <CardHeaders>People I Am Helping</CardHeaders>
-        </SectionCard>
-        {myTasks.map((task) => (
-          <MyTask task={task} key={task.task_id} />
-        ))}
-      </>
-      <>
-        <SectionCard>
-          <CardHeaders>Others Requesting Help</CardHeaders>
-        </SectionCard>
-        {openTasks.map((task) => (
-          <OpenTask task={task} key={task.task_id} />
-        ))}
-      </>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/myrequests">
+            <>
+              <SectionCard>
+                <CardHeaders>People Helping Me</CardHeaders>
+              </SectionCard>
+              {myRequests.map((request) => (
+                <MyRequest request={request} key={request.task_id} />
+              ))}
+            </>
+          </Route>
+          <Route exact path={['/mytasks']}>
+            <>
+              <SectionCard>
+                <CardHeaders>People I Am Helping</CardHeaders>
+              </SectionCard>
+              {myTasks.map((task) => (
+                <MyTask task={task} key={task.task_id} />
+              ))}
+            </>
+          </Route>
+          <Route path={['/', '/Tasks']}>
+            <>
+              <SectionCard>
+                <CardHeaders>Others Requesting Help</CardHeaders>
+              </SectionCard>
+              {openTasks.map((task) => (
+                <OpenTask task={task} key={task.task_id} />
+              ))}
+            </>
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 };

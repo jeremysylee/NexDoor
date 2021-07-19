@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
@@ -32,11 +33,21 @@ const MyListItemText = styled(ListItemText)({
 });
 
 const Sidebar = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const cookie = new Cookies();
 
   const handleHome = () => {
     history.push('/');
+  };
+
+  const handleMyRequests = () => {
+    dispatch({ type: 'SET_PAGE', page: '/myrequests' });
+    history.push('/myrequests');
+  };
+
+  const handleMyTasks = () => {
+    history.push('/mytasks');
   };
 
   const handleHelpfulFeed = () => {
@@ -68,13 +79,13 @@ const Sidebar = () => {
         </ListItemIcon>
         <MyListItemText primary="Home" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={handleMyRequests}>
         <ListItemIcon>
           <MarkunreadMailboxTwoTone />
         </ListItemIcon>
         <ListItemText primary="My Requests" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={handleMyTasks}>
         <ListItemIcon>
           <People />
         </ListItemIcon>

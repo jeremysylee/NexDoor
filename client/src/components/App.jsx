@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Home from './Home';
 import SignUp from './SignUp';
@@ -16,6 +16,7 @@ const url = 'http://localhost:3500';
 
 const App = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const [currentInterval, setCurrentInterval] = useState();
@@ -54,18 +55,18 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Switch>
-          <Route path="/signup" component={SignUp} />
-          <Route path="/login" component={LogIn} />
-          <PrivateRoute path="/helpfulfeed">
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/login" component={LogIn} />
+          <PrivateRoute exact path="/helpfulfeed">
             <HelpfulFeed />
           </PrivateRoute>
-          <PrivateRoute path="/active">
+          <PrivateRoute exact path="/active">
             <Active />
           </PrivateRoute>
-          <PrivateRoute path="/myactiverequest">
+          <PrivateRoute exact path="/myactiverequest">
             <MyActiveRequest />
           </PrivateRoute>
-          <PrivateRoute exact path="/">
+          <PrivateRoute path="/">
             <Home />
           </PrivateRoute>
         </Switch>
