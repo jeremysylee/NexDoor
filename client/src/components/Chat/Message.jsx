@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Container, Grid, Avatar } from '@material-ui/core';
 const Message = ({ message, isUser }) => {
   // console.log(message);
   let style;
@@ -26,18 +26,24 @@ const Message = ({ message, isUser }) => {
 
   if (isUser) {
     style = {
-      marginRight: '10%',
       textAlign: 'right',
-      margin: '10px',
+      margin: '10px 10px',
+      height: '8vh',
+      backgroundColor: '#F2F1F7',
+      borderRadius: '22px',
+      width: 'fit-content',
+      padding: '11px 14px 8px'
     };
 
     return (
+      <Grid container display="flex" justifyContent="flex-end">
       <div style={style}>
         <span style={messageStyle}>{message.message_body}</span>
-        <span style={profilePicStyle}>{profilePic}</span>
+        <div style={profilePicStyle}>{profilePic}</div>
         <div style={dateStyle}>{message.time} {message.date}</div>
         {/* <span>{message.time}</span> */}
       </div>
+      </Grid>
     );
   }
   style = {
@@ -47,7 +53,7 @@ const Message = ({ message, isUser }) => {
   return (
     <div style={style}>
       <span style={profilePicStyle}>{profilePic}</span>
-      <span style={messageStyle}>{message.message_body}</span>
+      <div style={messageStyle}>{message.message_body}</div>
       <div style={dateStyle}>{message.time} {message.date}</div>
       {/* <span>{message.time}</span> */}
     </div>
