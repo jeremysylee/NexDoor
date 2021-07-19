@@ -104,7 +104,10 @@ const messagesControllers = {
         nexdoor.users
         ON nexdoor.users.user_id=nexdoor.messages.user_id
       WHERE
-        task_id=${taskId};
+        task_id=${taskId}
+      ORDER BY
+        date ASC,
+        time ASC;
     `;
     db.query(queryStr)
       .then((data) => {
