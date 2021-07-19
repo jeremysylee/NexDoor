@@ -31,7 +31,7 @@ const Map = () => {
 
   useEffect(() => {
     setAddresses(tasks);
-    console.log(tasks);
+    // console.log(tasks);
   }, [tasks]);
 
   // const getCoordinates = async (address) => {

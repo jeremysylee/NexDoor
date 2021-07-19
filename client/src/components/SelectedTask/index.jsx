@@ -2,12 +2,17 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
-import OpenTask from './OpenTask';
-import MyRequestUnclaimed from './MyRequestUnclaimed';
-import MyRequestClaimed from './MyRequestClaimed';
-import MyTaskPending from './MyTaskPending';
-import MyRequestActive from './MyRequestActive';
-import MyTaskActive from './MyTaskActive';
+
+import { UserProfile, UserProfileBlank } from './UserProfile';
+import DetailsSection from './DetailsSection';
+import { InputOpenTask, InputActiveTask, InputPendingRequest } from './Inputs';
+import EditTaskModal from './EditTaskModal';
+import {
+  SelectedTaskContainer,
+  StatusText,
+  RowSlim,
+  BackButton,
+} from './styles-SelectedTask';
 
 const SelectedTaskFrame = styled.div`
   width: 500px;
@@ -30,9 +35,60 @@ const SelectedTaskFrame = styled.div`
 
 const SelectedTask = () => {
   const dispatch = useDispatch();
-  const tasks = useSelector((store) => store.tasksReducer.tasks);
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
+  const category = useSelector((store) => store.taskCategoryReducer);
+
+  // <-------------------SET CATEGORY-------------------------> //
+  const setCategory = () => {
+    if (task.status === 'Open' && task.requester.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'requester',
+        status: 'unclaimed',
+        statusText: 'No one has claimed your request yet',
+      });
+    }
+    if (task.status === 'Pending' && task.requester.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'requester',
+        status: 'claimed',
+        statusText: `${task.helper.firstname} has claimed your request!`,
+      });
+    }
+    if (task.status === 'Active' && task.requester.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'requester',
+        status: 'active',
+        statusText: 'is helping you with this request!',
+      });
+    }
+    if (task.status === 'Pending' && task.helper.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'helper',
+        status: 'pending',
+        statusText: `${task.requester.firstname} has not accepted your help yet`,
+      });
+    }
+    if (task.status === 'Active' && task.helper.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'helper',
+        status: 'active',
+        statusText: `You are helping ${task.requester.firstname} with this request`,
+      });
+    }
+    return dispatch({
+      type: 'SET_CATEGORY',
+      role: 'helper',
+      status: 'open',
+      statusText: 'is requesting your assistance',
+    });
+  };
+  // <-------------------SET CATEGORY END-------------------------> //
 
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
@@ -43,69 +99,41 @@ const SelectedTask = () => {
     return dateFormatted;
   };
 
-  const getUpdatedTask = () => {
-    for (let i = 0; i < tasks.length; i += 1) {
-      if (tasks[i].task_id === task.task_id) {
-        dispatch({
-          type: 'SET_TASKS', tasks: tasks[i],
-        });
-      }
-    }
+  // EVENT HANDLERS //
+  const clickBackHandler = () => {
+    dispatch({
+      type: 'SHOW_MAP', toggle: true,
+    });
   };
 
+  // LIFECYCLE //
   useEffect(() => {
-    getUpdatedTask();
     dispatch({
       type: 'FORMAT_DATA',
       time: DateTime.fromISO(task.start_time).toFormat('h:mm a'),
       date: getTimeUntil(task.start_date),
     });
-  });
+    setCategory();
+  }, [task]);
 
-  if (task.status === 'Open' && task.requester.user_id === currentUserId) {
-    return (
-      <SelectedTaskFrame>
-        <MyRequestUnclaimed />
-      </SelectedTaskFrame>
-
-    );
-  }
-
-  if (task.status === 'Pending' && task.requester.user_id === currentUserId) {
-    return (
-      <SelectedTaskFrame>
-        <MyRequestClaimed />
-      </SelectedTaskFrame>
-    );
-  }
-
-  if (task.status === 'Pending' && task.helper.user_id === currentUserId) {
-    return (
-      <SelectedTaskFrame>
-        <MyTaskPending />
-      </SelectedTaskFrame>
-    );
-  }
-
-  if (task.status === 'Active' && task.requester.user_id === currentUserId) {
-    return (
-      <SelectedTaskFrame>
-        <MyRequestActive />
-      </SelectedTaskFrame>
-    );
-  }
-
-  if (task.status === 'Active' && task.helper.user_id === currentUserId) {
-    return (
-      <SelectedTaskFrame>
-        <MyTaskActive />
-      </SelectedTaskFrame>
-    );
-  }
-
+  // RENDER //
   return (
     <SelectedTaskFrame>
-      <OpenTask />
+      <SelectedTaskContainer>
+        <RowSlim>
+          <BackButton onClick={clickBackHandler}>Back</BackButton>
+        </RowSlim>
+        {category.role === 'helper' && <UserProfile user={task.requester} />}
+        {task.helper && category.role === 'requester' && <UserProfile user={task.helper} />}
+        {category.status === 'unclaimed' && <UserProfileBlank />}
+        <StatusText>{category.statusText}</StatusText>
+        <DetailsSection />
+        {category.role === 'requester' && category.status === 'claimed' && <InputPendingRequest taskId={task.task_id} />}
+        {category.status === 'active' && <InputActiveTask />}
+        {/* {category.category === 'helperActive' && <InputActiveTask />} */}
+        {category.status === 'open' && <InputOpenTask taskId={task.task_id} />}
+        {category.status === 'unclaimed' && <EditTaskModal />}
+      </SelectedTaskContainer>
     </SelectedTaskFrame>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
 import NewRequestModal from '../NewRequestModal';
@@ -60,7 +60,11 @@ const VerticalLine = styled.div`
 `;
 
 const RequestInput = () => {
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.currentUserReducer.userData);
+  const openModal = () => {
+    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true });
+  };
 
   return (
     <div>
@@ -68,7 +72,7 @@ const RequestInput = () => {
         <VerticalLine />
         <Row>
           <Avatar src={user.profile_picture_url} alt={user.firstname} />
-          {/* <Input>&nbsp;What do you need help with?</Input> */}
+          <Input onClick={openModal}>&nbsp;&nbsp;What do you need help with?</Input>
           <NewRequestModal />
         </Row>
         <Line />

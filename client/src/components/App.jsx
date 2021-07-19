@@ -4,15 +4,13 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import Home from './Home';
 import SignUp from './SignUp';
-import Map from './Map';
-import Chat from './Chat/Chat';
-import HelpfulFeed from './HelpFul/HelpfulFeed';
+import HelpfulFeed from './Helpful/HelpfulFeed';
 import LogIn from './LogIn';
 // import LoginButton from './LoginButton';
 import Active from './ActiveTask/YouAreHelping/Active';
 import MyActiveRequest from './ActiveTask/MyActive/MyActiveRequest';
 import PrivateRoute from './PrivateRoute';
-
+import { setTasks } from './MainFeed/tasksSlice';
 
 const url = 'http://localhost:3500';
 
@@ -26,8 +24,8 @@ const App = () => {
     // api/tasks/master/:userId/:range/:count/:offset
     axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
-        // console.log(data);
         if (!data.allothers) { return; }
+        dispatch(setTasks({ payload: data.allothers }));
         dispatch({
           type: 'SET_TASKS', tasks: data.allothers,
         });
@@ -42,43 +40,14 @@ const App = () => {
       });
   };
 
-  // Deprecated Requests BELOW: All tasks now pulled from master API call.
-
-  // const getTasks = () => {
-  //   setInterval(() => {
-  //     axios.get(`${url}/api/tasks/all/30`)
-  //       .then(({ data }) => dispatch({ type: 'SET_TASKS', tasks: data }));
-  //   }, 500);
-  // };
-
-  // const getRequests = () => {
-  //   setInterval(() => {
-  //     axios.get(`${url}/api/tasks/req/${userId}`)
-  //       .then(({ data }) => dispatch({ type: 'SET_REQUESTS', requests: data }));
-  //   }, 500);
-  // };
-
-  // const getMyTasks = () => {
-  //   axios.get(`${url}/api/tasks/help/${userId}`)
-  //     .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
-
-  //   setInterval(() => {
-  //     axios.get(`${url}/api/tasks/help/${userId}`)
-  //       .then(({ data }) => dispatch({ type: 'SET_MY_TASKS', myTasks: data }));
-  //   }, 500);
-  // };
-
   useEffect(() => {
     getTasksByLocation();
     if (currentInterval) {
       clearInterval(currentInterval);
     }
 
-    const getTimer = setInterval(getTasksByLocation, 1000);
+    const getTimer = setInterval(getTasksByLocation, 100);
     setCurrentInterval(getTimer);
-    // getTasks();
-    // getRequests();
-    // getMyTasks();
   }, [userId]);
 
   return (

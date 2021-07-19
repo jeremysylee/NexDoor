@@ -111,8 +111,13 @@ export const RowSlim = styled(Row)`
 `;
 
 export const Col = styled.div`
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
+`;
+
+export const ColCentered = styled(Col)`
+  align-items: center;
+  width: 100%;
 `;
 
 export const Button = styled.button`
