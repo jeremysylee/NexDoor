@@ -113,20 +113,25 @@ const Chat = () => {
 
   useEffect(() => {
     const elem = document.getElementById('allMessages');
-    elem.scrollTop = elem.scrollHeight;
+    // elem.scrollTop = elem.scrollHeight;
   }, [messages]);
+
+  useEffect(() => {
+    const elem = document.getElementById('allMessages');
+    elem.scrollTop = elem.scrollHeight;
+  }, []);
 
   const chatStyle = {
     position: 'relative',
-    width: '746px',
-    height: '100vh',
+    minWidth: '40%',
+    height: '75vh',
     padding: '5px',
     borderRadius: '20px',
   };
 
   const messageContaierStyle = {
     margin: '10px',
-    height: '89vh',
+    height: '89%',
     overflow: 'auto',
   };
 
@@ -181,7 +186,7 @@ const Chat = () => {
           } else {
             isUser = false;
           }
-          return (<Message key={idx} message={message} isUser={isUser} />);
+          return (<Message key={idx} message={message} user={user} isUser={isUser} />);
         })}
       </div>
       <div style={{ position: 'relative', bottom: '0', right: '0', margin: '5px' }}>

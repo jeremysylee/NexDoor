@@ -87,7 +87,7 @@ export const InputPendingRequest = ({ taskId }) => {
   const clickAcceptHandler = () => {
     axios.put(`${url}/api/task/change/Active/${taskId}`)
       .then((res) => console.log(res))
-      .then(() => { history.push('/active'); });
+      .then(() => { history.push('/myactiverequest'); });
   };
 
   const clickDeclineHandler = () => {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Grid } from '@material-ui/core';
+import { useSelector, useDispatch } from 'react-redux';
+import { Grid, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
-import { Avatar } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 const Col = styled.div`
   display: flex;
@@ -16,10 +16,21 @@ const LogoContainer = styled.div`
   margin-top: 19px;
   margin-bottom: 12px;
   margin-left: 20px;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 const Header = () => {
   const user = useSelector((store) => store.currentUserReducer.userData);
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const onClickLogoHandler = () => {
+    dispatch({ type: 'SET_PAGE', page: '/' });
+    dispatch({ type: 'SHOW_MAP', showMap: true });
+    history.push('/');
+  };
 
   const LogoSvg = () => (
     <svg
@@ -45,7 +56,7 @@ const Header = () => {
       alignItems="flex-start"
       style={{ backgroundColor: 'white' }}
     >
-      <LogoContainer><LogoSvg /></LogoContainer>
+      <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
       <Col>
         <div style={{ fontSize: '12px', marginRight: '10px' }}>{`${user.firstname} | id: ${user.user_id}`}</div>
         <Avatar

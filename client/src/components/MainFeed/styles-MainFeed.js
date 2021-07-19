@@ -109,7 +109,6 @@ export const StatusBadge = styled.div`
 
 export const StatusBadgeTasks = styled(StatusBadge)`
 transform: scale(1) translate(-10%, -118%);
-
 `;
 
 export const Button = styled.button`
@@ -134,6 +133,16 @@ export const Button = styled.button`
 
 export const ButtonDecline = styled(Button)`
   color: grey;
+`;
+
+export const Line = styled.hr`
+  color: #BDBDBD;
+  margin-bottom: 6px;
+  margin-top: 13px;
+`;
+
+export const SectionLine = styled(Line)`
+  margin-top: 20px;
 `;
 
 // export const Effect1 = styled.div``

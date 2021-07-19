@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import RequestInput from './RequestInput';
 import OpenTask from './OpenTask';
 import MyRequest from './MyRequest';
@@ -8,6 +7,7 @@ import MyTask from './MyTask';
 import {
   CardHeaders,
   SectionCard,
+  SectionLine,
 } from './styles-MainFeed';
 
 const MainFeed = () => {
@@ -19,6 +19,30 @@ const MainFeed = () => {
   return (
     <div style={{ margin: '1em', maxWidth: '33%', minWidth: '400px' }}>
       <RequestInput />
+      {page === '/' && (
+        <>
+          <SectionCard>
+            <CardHeaders style={{ color: '#4F9CB8' }}>People Helping Me</CardHeaders>
+          </SectionCard>
+          {myRequests.map((request) => (
+            <MyRequest request={request} key={request.task_id} />
+          ))}
+          <SectionLine />
+          <SectionCard>
+            <CardHeaders>People I Am Helping</CardHeaders>
+          </SectionCard>
+          {myTasks.map((task) => (
+            <MyTask task={task} key={task.task_id} />
+          ))}
+          <SectionLine />
+          <SectionCard>
+            <CardHeaders>Others Requesting Help</CardHeaders>
+          </SectionCard>
+          {openTasks.map((task) => (
+            <OpenTask task={task} key={task.task_id} />
+          ))}
+        </>
+      )}
       {page === '/myrequests' && (
         <>
           <SectionCard>
@@ -39,7 +63,7 @@ const MainFeed = () => {
           ))}
         </>
       )}
-      {page === '/' && (
+      {page === '/tasks' && (
         <>
           <SectionCard>
             <CardHeaders>Others Requesting Help</CardHeaders>

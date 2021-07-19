@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import useFormatDate from './hooks/useFormatDate';
 
 import {
@@ -15,6 +15,29 @@ import {
   Details,
   StatusBadgeTasks,
 } from './styles-MainFeed';
+
+const RowFixed = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+`;
+
+const StatusBadgeTasks2 = styled.div`
+  border-radius: 100px;
+  height: 20px;
+  width: 100px;
+  z-index: 1;
+  background-color: ${(props) => props.theme.statusColor};
+  text-align: center;
+  padding: 1px;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 400;
+  position: absolute;
+  transform: scale(1) translate(0%, -108%);
+  transform-origin: 0% 0%;
+  margin-right: -16px;
+`;
 
 StatusBadgeTasks.defaultProps = {
   theme: {
@@ -82,6 +105,11 @@ const MyTask = ({ task }) => {
 
   return (
     <Card onClick={selectTaskHandler}>
+      <RowFixed>
+        <ThemeProvider theme={theme}>
+          <StatusBadgeTasks2>{status}</StatusBadgeTasks2>
+        </ThemeProvider>
+      </RowFixed>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
           <Avatar src={task.requester.profile_picture_url} alt="profilePHoto" />
@@ -91,9 +119,6 @@ const MyTask = ({ task }) => {
           </CardContent>
         </Row>
         <DetailsCol>
-          <ThemeProvider theme={theme}>
-            <StatusBadgeTasks>{status}</StatusBadgeTasks>
-          </ThemeProvider>
           <Details>{day}</Details>
           <Details>{time}</Details>
         </DetailsCol>

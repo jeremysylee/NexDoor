@@ -39,21 +39,25 @@ const Sidebar = () => {
 
   const handleHome = () => {
     dispatch({ type: 'SET_PAGE', page: '/' });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
     history.push('/');
   };
 
   const handleMyRequests = () => {
     dispatch({ type: 'SET_PAGE', page: '/myrequests' });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
     history.push('/myrequests');
   };
 
   const handleMyTasks = () => {
     dispatch({ type: 'SET_PAGE', page: '/mytasks' });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
     history.push('/mytasks');
   };
 
   const handleOpenTasks = () => {
     dispatch({ type: 'SET_PAGE', page: '/tasks' });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
     history.push('/opentasks');
   };
 
