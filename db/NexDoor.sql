@@ -2,7 +2,7 @@
 -- DATABASE
 --*********************************************************************
 -- Database: postgres
-DROP DATABASE nexdoor;
+-- DROP DATABASE nexdoor;
 CREATE DATABASE nexdoor
     WITH
     OWNER = blueboolean
@@ -49,6 +49,50 @@ CREATE INDEX address_id_idx
     ON nexdoor.address USING btree
     (address_id ASC NULLS LAST)
     TABLESPACE pg_default;
+
+--*********************************************************************
+-- USERS TABLE
+--*********************************************************************
+CREATE TABLE nexdoor.users (
+  user_id SERIAL,
+  firstname VARCHAR(20) NOT NULL,
+  lastname VARCHAR(20) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  address_id INT NOT NULL,
+  karma INT NOT NULL,
+  task_count INT NOT NULL,
+  average_rating INT,
+  profile_picture_url VARCHAR(250),
+  CONSTRAINT users_pkey PRIMARY KEY (user_id),
+  CONSTRAINT fk_users_address_id FOREIGN KEY (address_id)
+    REFERENCES nexdoor.address (address_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.users
+    OWNER to blueboolean;
+-- Index: user_id_idx
+-- DROP INDEX nexdoor.user_id_idx;
+CREATE INDEX user_id_idx
+    ON nexdoor.users USING btree
+    (user_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_fk_users_address_id
+-- DROP INDEX nexdoor.fki_fk_users_address_id;
+CREATE INDEX fki_fk_users_address_id
+    ON nexdoor.users USING btree
+    (address_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: user_avg_rating_idx
+-- DROP INDEX nexdoor.user_avg_rating_idx;
+CREATE INDEX user_avg_rating_idx
+    ON nexdoor.users USING btree
+    (avg_rating ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+
 --*********************************************************************
 -- ANNOUNCEMENTS TABLE
 --*********************************************************************
@@ -81,6 +125,68 @@ CREATE INDEX fki_fk_announcements_user
     ON nexdoor.announcements USING btree
     (user_id ASC NULLS LAST)
     TABLESPACE pg_default;
+
+
+--*********************************************************************
+-- TASKS TABLE
+--*********************************************************************
+CREATE TABLE nexdoor.tasks (
+  task_id SERIAL,
+  requester_id INT NOT NULL,
+  helper_id INT,
+  address_id INT NOT NULL,
+  description VARCHAR(1000) NOT NULL,
+  car_required BOOLEAN,
+  physical_labor_required VARCHAR(50),
+  status VARCHAR(50) NOT NULL,
+  category VARCHAR (50) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE,
+  start_time TIME WITHOUT TIME ZONE,
+  duration INT,
+  timestamp_requested TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  CONSTRAINT tasks_pkey PRIMARY KEY (task_id),
+  CONSTRAINT fk_task_requester_id FOREIGN KEY (requester_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT fk_task_helper_id FOREIGN KEY (helper_id)
+    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT fk_task_address_id FOREIGN KEY (address_id)
+    REFERENCES nexdoor.address (address_id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+)
+TABLESPACE pg_default;
+ALTER TABLE nexdoor.tasks
+    OWNER to blueboolean;
+-- Index: task_id_idx
+-- DROP INDEX nexdoor.task_id_idx;
+CREATE INDEX task_id_idx
+    ON nexdoor.tasks USING btree
+    (task_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_requester_id_fk
+-- DROP INDEX nexdoor.fki_requester_id_fk;
+CREATE INDEX fki_requester_id_fk
+    ON nexdoor.tasks USING btree
+    (requester_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_fk_task_helper_id
+-- DROP INDEX nexdoor.fki_fk_task_helper_id;
+CREATE INDEX fki_fk_task_helper_id
+    ON nexdoor.tasks USING btree
+    (helper_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_fk_task_address_id
+-- DROP INDEX nexdoor.fki_fk_task_address_id;
+CREATE INDEX fki_fk_task_address_id
+    ON nexdoor.tasks USING btree
+    (address_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
 --*********************************************************************
 -- MESSAGES TABLE
 --*********************************************************************
@@ -226,106 +332,8 @@ CREATE TRIGGER sessions_expiry_date_delete_trigger
     ON nexdoor.sessions
     FOR EACH ROW
     EXECUTE FUNCTION nexdoor.sessions_expiry_date_delete();
---*********************************************************************
--- TASKS TABLE
---*********************************************************************
-CREATE TABLE nexdoor.tasks (
-  task_id SERIAL,
-  requester_id INT NOT NULL,
-  helper_id INT,
-  address_id INT NOT NULL,
-  description VARCHAR(1000) NOT NULL,
-  car_required BOOLEAN,
-  physical_labor_required VARCHAR(50),
-  status VARCHAR(50) NOT NULL,
-  category VARCHAR (50) NOT NULL,
-  start_date DATE NOT NULL,
-  end_date DATE,
-  start_time TIME WITHOUT TIME ZONE,
-  duration INT,
-  timestamp_requested TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  CONSTRAINT tasks_pkey PRIMARY KEY (task_id),
-  CONSTRAINT fk_task_requester_id FOREIGN KEY (requester_id)
-    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
-  CONSTRAINT fk_task_helper_id FOREIGN KEY (helper_id)
-    REFERENCES nexdoor.users (user_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
-  CONSTRAINT fk_task_address_id FOREIGN KEY (address_id)
-    REFERENCES nexdoor.address (address_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-)
-TABLESPACE pg_default;
-ALTER TABLE nexdoor.tasks
-    OWNER to blueboolean;
--- Index: task_id_idx
--- DROP INDEX nexdoor.task_id_idx;
-CREATE INDEX task_id_idx
-    ON nexdoor.tasks USING btree
-    (task_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: fki_requester_id_fk
--- DROP INDEX nexdoor.fki_requester_id_fk;
-CREATE INDEX fki_requester_id_fk
-    ON nexdoor.tasks USING btree
-    (requester_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: fki_fk_task_helper_id
--- DROP INDEX nexdoor.fki_fk_task_helper_id;
-CREATE INDEX fki_fk_task_helper_id
-    ON nexdoor.tasks USING btree
-    (helper_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: fki_fk_task_address_id
--- DROP INDEX nexdoor.fki_fk_task_address_id;
-CREATE INDEX fki_fk_task_address_id
-    ON nexdoor.tasks USING btree
-    (address_id ASC NULLS LAST)
-    TABLESPACE pg_default;
---*********************************************************************
--- USERS TABLE
---*********************************************************************
-CREATE TABLE nexdoor.users (
-  user_id SERIAL,
-  firstname VARCHAR(20) NOT NULL,
-  lastname VARCHAR(20) NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  address_id INT NOT NULL,
-  karma INT NOT NULL,
-  task_count INT NOT NULL,
-  average_rating INT,
-  profile_picture_url VARCHAR(250),
-  CONSTRAINT users_pkey PRIMARY KEY (user_id),
-  CONSTRAINT fk_users_address_id FOREIGN KEY (address_id)
-    REFERENCES nexdoor.address (address_id) MATCH SIMPLE
-    ON UPDATE CASCADE
-    ON DELETE CASCADE
-)
-TABLESPACE pg_default;
-ALTER TABLE nexdoor.users
-    OWNER to blueboolean;
--- Index: user_id_idx
--- DROP INDEX nexdoor.user_id_idx;
-CREATE INDEX user_id_idx
-    ON nexdoor.users USING btree
-    (user_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: fki_fk_users_address_id
--- DROP INDEX nexdoor.fki_fk_users_address_id;
-CREATE INDEX fki_fk_users_address_id
-    ON nexdoor.users USING btree
-    (address_id ASC NULLS LAST)
-    TABLESPACE pg_default;
--- Index: user_avg_rating_idx
--- DROP INDEX nexdoor.user_avg_rating_idx;
-CREATE INDEX user_avg_rating_idx
-    ON nexdoor.users USING btree
-    (avg_rating ASC NULLS LAST)
-    TABLESPACE pg_default;
+
+
 --*********************************************************************
 --REVIEWS TABLE
 --*********************************************************************
