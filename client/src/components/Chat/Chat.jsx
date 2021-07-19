@@ -3,6 +3,8 @@ import Message from './Message';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
+import { IconButton } from '@material-ui/core';
+import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 
 const socket = io('http://localhost:3000');
 
@@ -117,17 +119,15 @@ const Chat = () => {
 
   const chatStyle = {
     position: 'relative',
-    width: '600px',
-    height: 'auto',
-    margin: '50px auto',
+    width: '746px',
+    height: '100vh',
     padding: '5px',
-    borderRadius: '20px',
-    boxShadow: '0 8px 16px 0 #BDC9D7',
+    borderRadius: '20px'
   };
 
   const messageContaierStyle = {
     margin: '10px',
-    height: '30vh',
+    height: '89vh',
     overflow: 'auto',
   };
 
@@ -150,8 +150,11 @@ const Chat = () => {
         })}
       </div>
       <div style={{ position: 'relative', bottom: '0', right: '0', margin: '5px' }}>
-        <input className="messageInput" placeholder="Write message here..." onChange={handleChange} />
-        <button onClick={handleSend}>Send</button>
+        <input
+          style={{ width: '45vw', borderRadius: '25px', height: '6vh', borderColor: 'grey' }}
+          className="messageInput" placeholder="Write message here..." onChange={handleChange} />
+        <IconButton onClick={handleSend} > <SendTwoToneIcon /></IconButton>
+        {/* <button onClick={handleSend}>Send</button> */}
       </div>
     </div>
   );
