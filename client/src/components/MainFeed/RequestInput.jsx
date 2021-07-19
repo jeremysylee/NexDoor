@@ -77,8 +77,8 @@ const RequestInput = () => {
         </Row>
         <Line />
         <Row>
-          <ButtonDecline>Schedule for later</ButtonDecline>
-          <Button>Make a request</Button>
+          <ButtonDecline onClick={openModal}>Schedule for later</ButtonDecline>
+          <Button onClick={openModal}>Make a request</Button>
         </Row>
       </InputCard>
     </div>

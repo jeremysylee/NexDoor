@@ -36,10 +36,9 @@ const Home = () => {
   return (
     <div style={{ backgroundColor: '#f1f2f5' }}>
       <Header />
-      {/* <NewRequestModal /> */}
       <Grid
         container
-        fluid
+        // fluid="true"
         direction="row"
         justifyContent="center"
         alignItems="flex-start"

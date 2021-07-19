@@ -8,6 +8,7 @@ import {
   BarChart,
   Layers,
   MarkunreadMailboxTwoTone,
+  Star,
 } from '@material-ui/icons';
 
 import {
@@ -24,6 +25,10 @@ const SidebarContainer = styled.div`
   top: 0;
   max-width: 230;
 `;
+
+const MyListItemText = styled(ListItemText)({
+  color: 'black',
+});
 
 const Sidebar = () => {
   const history = useHistory();
@@ -46,7 +51,7 @@ const Sidebar = () => {
         <ListItemIcon>
           <Dashboard />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <MyListItemText primary="Home" />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
@@ -73,7 +78,10 @@ const Sidebar = () => {
         <ListItemText primary="Active Tasks" />
       </ListItem>
       <ListItem button onClick={handleHelpfulFeed}>
-        <ListItemText primary="NexDoor's Most Helpful" />
+        <ListItemIcon>
+          <Star />
+        </ListItemIcon>
+        <ListItemText primary="Most Helpful" />
       </ListItem>
     </SidebarContainer>
   );
