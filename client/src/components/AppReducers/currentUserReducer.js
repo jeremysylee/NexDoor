@@ -1,4 +1,3 @@
-// temporary user id until we get backend
 const initialState = {
   userData: {
     user_id: 0,

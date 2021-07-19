@@ -17,6 +17,6 @@ const Header = () => {
       <div>{`${user.firstname} ${user.user_id}`}</div>
     </Grid>
   );
-}
+};
 
 export default Header;
