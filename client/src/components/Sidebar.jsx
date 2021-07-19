@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 import {
   Dashboard,
@@ -32,6 +33,7 @@ const MyListItemText = styled(ListItemText)({
 
 const Sidebar = () => {
   const history = useHistory();
+  const cookie = new Cookies();
 
   const handleHome = () => {
     history.push('/');
@@ -43,6 +45,19 @@ const Sidebar = () => {
 
   const handleActive = () => {
     history.push('/myactiverequest');
+  };
+
+  const handleLogOut = () => {
+    logOut();
+    history.push('/login');
+  };
+
+  const logOut = () => {
+    cookie.remove('connect.sid', {
+      path: '/',
+      expires: 'Thu, 01-Jan-70 00:00:01 GMT;',
+      secure: false,
+    });
   };
 
   return (
@@ -82,6 +97,9 @@ const Sidebar = () => {
           <Star />
         </ListItemIcon>
         <ListItemText primary="Most Helpful" />
+      </ListItem>
+      <ListItem button onClick={handleLogOut}>
+        <ListItemText primary="Log Out" />
       </ListItem>
     </SidebarContainer>
   );
