@@ -42,7 +42,7 @@ const HelpfulFeed = () => {
           item xs={5}
         >
           <h1>{placeholder}</h1>
-          <div>
+          {/* <div>
             <div>
 
             </div>
@@ -54,7 +54,7 @@ const HelpfulFeed = () => {
             <div>
 
             </div>
-          </div>
+          </div> */}
           {bestReviews.map((task, index) => (<User user={task} key={index} />))}
         </Grid>
       </Grid>

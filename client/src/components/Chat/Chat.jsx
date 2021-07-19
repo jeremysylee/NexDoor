@@ -35,6 +35,10 @@ const Chat = () => {
     setCurrentMessage(e.target.value);
   };
 
+  const resetInput = () => {
+    setCurrentMessage('');
+  };
+
   const formatTime = (time) => {
     let trail = 'AM';
     let hour = Number(time.substring(0, 2));
@@ -113,13 +117,13 @@ const Chat = () => {
 
   useEffect(() => {
     const elem = document.getElementById('allMessages');
-    // elem.scrollTop = elem.scrollHeight;
+    elem.scrollTop = elem.scrollHeight;
   }, [messages]);
 
-  useEffect(() => {
-    const elem = document.getElementById('allMessages');
-    elem.scrollTop = elem.scrollHeight;
-  }, []);
+  // useEffect(() => {
+  //   const elem = document.getElementById('allMessages');
+  //   elem.scrollTop = elem.scrollHeight;
+  // }, []);
 
   const chatStyle = {
     position: 'relative',
@@ -149,6 +153,7 @@ const Chat = () => {
     console.log(message);
     axios.post(`${url}/api/messages/${taskId}/${userId}`, message)
       .then((res) => console.log(res))
+      .then(() => resetInput())
       .catch((err) => console.log(err));
   };
 
