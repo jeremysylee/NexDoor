@@ -38,6 +38,7 @@ const Sidebar = () => {
   const cookie = new Cookies();
 
   const handleHome = () => {
+    dispatch({ type: 'SET_PAGE', page: '/' });
     history.push('/');
   };
 
@@ -47,7 +48,13 @@ const Sidebar = () => {
   };
 
   const handleMyTasks = () => {
+    dispatch({ type: 'SET_PAGE', page: '/mytasks' });
     history.push('/mytasks');
+  };
+
+  const handleOpenTasks = () => {
+    dispatch({ type: 'SET_PAGE', page: '/tasks' });
+    history.push('/opentasks');
   };
 
   const handleHelpfulFeed = () => {
@@ -89,20 +96,20 @@ const Sidebar = () => {
         <ListItemIcon>
           <People />
         </ListItemIcon>
-        <ListItemText primary="Tasks" />
+        <ListItemText primary="My Tasks" />
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={handleOpenTasks}>
         <ListItemIcon>
           <BarChart />
         </ListItemIcon>
         <ListItemText primary="Open Tasks" />
       </ListItem>
-      <ListItem button onClick={handleActive}>
+      {/* <ListItem button onClick={handleActive}>
         <ListItemIcon>
           <Layers />
         </ListItemIcon>
         <ListItemText primary="Active Tasks" />
-      </ListItem>
+      </ListItem> */}
       <ListItem button onClick={handleHelpfulFeed}>
         <ListItemIcon>
           <Star />
