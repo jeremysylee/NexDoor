@@ -2,8 +2,8 @@
 -- DATABASE
 --*********************************************************************
 -- Database: postgres
--- DROP DATABASE postgres;
-CREATE DATABASE postgres
+DROP DATABASE nexdoor;
+CREATE DATABASE nexdoor
     WITH
     OWNER = blueboolean
     ENCODING = 'UTF8'
@@ -11,7 +11,7 @@ CREATE DATABASE postgres
     LC_CTYPE = 'en_US.UTF-8'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
-COMMENT ON DATABASE postgres
+COMMENT ON DATABASE nexdoor
     IS 'default administrative connection database';
 --*********************************************************************
 -- SCHEMA
