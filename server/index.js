@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan('dev'));
-app.use(cors({ origin: `http://localhost:${process.env.CLIENT_PORT}`, credentials: true}));
+app.use(cors({ origin: `http://localhost:${process.env.CLIENT_PORT}`, credentials: true }));
 
 app.set('trust proxy', 1); // enable if using proxy/load balancer
 const RedisStore = connectRedis(session);

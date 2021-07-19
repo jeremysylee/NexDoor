@@ -123,10 +123,11 @@ const taskControllers = {
     };
     getCoordinates(addressQuery)
       .then((testCoord) => {
-        coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-      })
-      .then(() => {
-        queryDb();
+        coordinate = `point(${testCoord.lng},${testCoord.lat})`
+          .then(() => {
+            queryDb();
+          })
+          .catch((err) => res.status(400).send(err.stack));
       })
       .catch((err) => {
         res.status(400).send('Error getting coordinates', err.stack);
@@ -369,10 +370,11 @@ const taskControllers = {
 
     db.query(queryStr1)
       .then((address) => {
+        console.log(address, '<------ ADDRESS HERE');
         if (address.rows.length > 0) {
           db.query(queryStr2)
             .then(() => {
-              res.send('Added task with old address to db');
+              res.status(200).send('Added task with old address to db');
             })
             .catch((err) => {
               res.status(400).send(err.stack);

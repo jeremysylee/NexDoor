@@ -22,6 +22,7 @@ const SidebarContainer = styled.div`
   height: 100vh;
   position: sticky;
   top: 0;
+  max-width: 230;
 `;
 
 const Sidebar = () => {

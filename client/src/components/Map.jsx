@@ -13,8 +13,9 @@ const Map = () => {
   const coordinateContainer = [];
   const url = 'http://localhost:3500';
   const mapStyles = {
-    height: '50vh',
-    width: '75vh',
+    height: '100%',
+    width: '100%',
+    borderRadius: '10px',
   };
 
   const defaultCenter = {
@@ -79,7 +80,7 @@ const Map = () => {
     >
       <GoogleMap
         mapContainerStyle={mapStyles}
-        zoom={10}
+        zoom={13}
         center={defaultCenter}
       >
         {

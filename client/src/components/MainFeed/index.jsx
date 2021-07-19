@@ -15,7 +15,7 @@ const MainFeed = () => {
   const myRequests = useSelector((store) => store.requestsReducer.requests);
 
   return (
-    <div style={{ margin: '1em', maxWidth: '33%' }}>
+    <div style={{ margin: '1em', maxWidth: '33%', minWidth: '400px' }}>
       <RequestInput />
       <>
         <SectionCard>

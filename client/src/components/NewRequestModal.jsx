@@ -55,17 +55,17 @@ function NewRequestModal() {
   const [validationErrors, setValidationErrors] = useState({});
   const [request, setRequest] = useState({
     streetAddress: '',
-    city: '',
+    carRequired: false,
+    category: '',
+    description: '',
+    endDate: '',
+    startDate: '',
+    startTime: '',
     state: '',
     zipcode: '',
-    neighborhood: '',
-    description: '',
-    category: '',
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    carRequired: false,
+    neighborhood: null,
     laborRequired: false,
+    city: '',
     duration: null,
   });
   // const userId = useSelector((store) => store.currentUserReducer.userId);
@@ -99,17 +99,17 @@ function NewRequestModal() {
   function resetReqAndErr() {
     setRequest({
       streetAddress: '',
-      city: '',
+      carRequired: false,
+      category: '',
+      description: '',
+      endDate: '',
+      startDate: '',
+      startTime: '',
       state: '',
       zipcode: '',
-      neighborhood: '',
-      description: '',
-      category: '',
-      startDate: '',
-      endDate: '',
-      startTime: '',
-      carRequired: false,
+      neighborhood: null,
       laborRequired: false,
+      city: '',
       duration: null,
     });
     setValidationErrors({});
@@ -168,12 +168,12 @@ function NewRequestModal() {
     if (Object.keys(errors).length === 0) {
       console.log(request);
       resetReqAndErr();
-      axios.post(`http://localhost:3500/api/task/check/${Number(userId)}`, request)
+      axios.post(`http://localhost:3500/api/task/check/${userId}`, request)
         .then((response) => {
           console.log(response.data);
           handleClose(); // <-- jeremy
           // setOpen(false);
-          resetReqAndErr();
+          // resetReqAndErr();
         })
         .catch((err) => {
           console.log(err);

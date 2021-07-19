@@ -10,7 +10,7 @@ import Sidebar from './Sidebar';
 import SelectedTask from './SelectedTask';
 import Map from './Map';
 
-const MapPlaceholder = styled.div`
+const MapContainer = styled.div`
   width: 500px;
   height: 500px;
   border-radius: 20px;
@@ -39,6 +39,7 @@ const Home = () => {
       {/* <NewRequestModal /> */}
       <Grid
         container
+        fluid
         direction="row"
         justifyContent="center"
         alignItems="flex-start"
@@ -47,7 +48,7 @@ const Home = () => {
         <Sidebar />
         <MainFeed />
         {!showMap && <SelectedTask />}
-        {showMap && <Map />}
+        {showMap && <MapContainer><Map /></MapContainer>}
       </Grid>
     </div>
   );
