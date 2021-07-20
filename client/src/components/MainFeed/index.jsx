@@ -11,10 +11,12 @@ import {
 } from './styles-MainFeed';
 
 const MainFeed = () => {
-  const openTasks = useSelector((store) => store.tasksReducer.tasks);
-  const myTasks = useSelector((store) => store.myTasksReducer.myTasks);
-  const myRequests = useSelector((store) => store.requestsReducer.requests);
+  const openTasks = useSelector((store) => store.tasksReducer.tasks) || [];
+  const myTasks = useSelector((store) => store.myTasksReducer.myTasks) || [];
+  const myRequests = useSelector((store) => store.requestsReducer.requests) || [];
   const page = useSelector((store) => store.currentPageReducer.page);
+
+  console.log('mainfeed -->', openTasks);
 
   return (
     <div style={{ margin: '1em', maxWidth: '33%', minWidth: '400px' }}>
