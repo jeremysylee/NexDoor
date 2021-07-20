@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
+import { url } from '../../../config';
 
 import PrivateRoute from './PrivateRoute';
 import Home from './Home';
@@ -12,40 +13,28 @@ import { setTasks } from './MainFeed/tasksSlice';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
 
-const url = 'http://localhost:3500';
-
 const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
-
-  const [currentInterval, setCurrentInterval] = useState();
 
   const getTasksByLocation = () => {
     // api/tasks/master/:userId/:range/:count/:offset
     axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
         dispatch(setTasks({ payload: data.allothers }));
-        dispatch({
-          type: 'SET_TASKS', tasks: data.allothers,
-        });
-        dispatch({
-          type: 'SET_REQUESTS', requests: data.requested,
-        });
-        dispatch({
-          type: 'SET_MY_TASKS', myTasks: data.helper,
-        });
+        dispatch({ type: 'SET_TASKS', tasks: data.allothers });
+        dispatch({ type: 'SET_REQUESTS', requests: data.requested });
+        dispatch({ type: 'SET_MY_TASKS', myTasks: data.helper });
       });
   };
 
   useEffect(() => {
     getTasksByLocation();
-    if (currentInterval) {
-      clearInterval(currentInterval);
-    }
-
-    const getTimer = setInterval(getTasksByLocation, 100);
-    setCurrentInterval(getTimer);
-  }, [userId]);
+    const interval = setInterval(() => getTasksByLocation(), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  });
 
   return (
     <div>
