@@ -5,23 +5,13 @@ import { Avatar } from '@material-ui/core';
 import NewRequestModal from '../NewRequestModal';
 
 import {
+  SectionCard,
   Row,
   Button,
   ButtonDecline,
   Line,
+  RowRight,
 } from './styles-MainFeed';
-
-export const InputCard = styled.div`
-  max-width: 100%;
-  margin-top: 1em;
-  padding: 0.75em 1em;
-  border-radius: 10px;
-  background-color: #FFFFFF;
-  overflow: visible;
-  flex: 1;
-  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
-  color: black;
-`;
 
 const Input = styled.button`
   border-radius: 100px;
@@ -56,14 +46,11 @@ const VerticalLine = styled.div`
 
 const FlairContainer = styled.div`
   position: absolute;
-  top: 130px;
+  top: 137px;
   margin-right: 13px;
 `;
 
-const RowFixed = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
+const RowRightFlair = styled(RowRight)`
   border-radius: 100px;
   background-color: #F1F2F5;
   margin-left: 0.5em;
@@ -75,7 +62,7 @@ const RowFixed = styled.div`
   }
 `;
 
-const RequestInput = () => {
+const MakeARequest = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.currentUserReducer.userData);
   const openModal = () => {
@@ -114,14 +101,14 @@ const RequestInput = () => {
 
   return (
     <div>
-      <InputCard>
+      <SectionCard>
         <VerticalLine />
         <Row>
           <Avatar src={user.profile_picture_url} alt={user.firstname} />
-          <RowFixed onClick={openModal}>
+          <RowRightFlair onClick={openModal}>
             <Input>&nbsp;&nbsp;What do you need help with?</Input>
             <FlairContainer onClick={openModal}><FlairSVG /></FlairContainer>
-          </RowFixed>
+          </RowRightFlair>
           <NewRequestModal />
         </Row>
         <Line />
@@ -129,9 +116,9 @@ const RequestInput = () => {
           <ButtonDecline onClick={openModal}>Schedule for later</ButtonDecline>
           <Button onClick={openModal}>Make a request</Button>
         </Row>
-      </InputCard>
+      </SectionCard>
     </div>
   );
 };
 
-export default RequestInput;
+export default MakeARequest;

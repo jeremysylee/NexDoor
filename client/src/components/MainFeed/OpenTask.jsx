@@ -6,12 +6,12 @@ import useFormatDate from './hooks/useFormatDate';
 
 import {
   Card,
-  Row,
   CardContent,
-  Username,
   Description,
-  DetailsCol,
   Details,
+  DetailsCol,
+  Row,
+  Username,
 } from './styles-MainFeed';
 
 const OpenTask = ({ task }) => {

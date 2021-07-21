@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import RequestInput from './RequestInput';
+import MakeARequest from './MakeARequest';
 import OpenTask from './OpenTask';
 import MyRequest from './MyRequest';
 import MyTask from './MyTask';
@@ -18,14 +18,14 @@ const MainFeedContainer = styled.div`
 `;
 
 const MainFeed = () => {
-  const openTasks = useSelector((store) => store.tasksReducer.tasks) || [];
   const myTasks = useSelector((store) => store.myTasksReducer.myTasks) || [];
-  const myRequests = useSelector((store) => store.requestsReducer.requests) || [];
+  const myRequests = useSelector((store) => store.myRequestsReducer.myRequests) || [];
+  const openTasks = useSelector((store) => store.tasksReducer.tasks) || [];
   const page = useSelector((store) => store.currentPageReducer.page);
 
   return (
     <MainFeedContainer>
-      <RequestInput />
+      <MakeARequest />
       {page === '/myrequests' || page === '/' ? (
         <>
           <SectionCard>People Helping Me</SectionCard>

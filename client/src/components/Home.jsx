@@ -7,7 +7,7 @@ import MainFeed from './MainFeed/index';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import SelectedTask from './SelectedTask';
-import Map from './Map';
+// import Map from './Map';
 
 const Body = styled.div`
   background-color: #f1f2f5
@@ -49,8 +49,8 @@ const Home = () => {
           <Sidebar />
           <MainFeed />
           {!showMap && <SelectedTask />}
-          {showMap && <MapContainer><Map /></MapContainer>}
-          {/* {showMap && <MapContainer />} */}
+          {/* {showMap && <MapContainer><Map /></MapContainer>} */}
+          {showMap && <MapContainer />}
         </Grid>
       </Grid>
     </Body>

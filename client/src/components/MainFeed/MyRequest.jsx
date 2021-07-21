@@ -8,13 +8,13 @@ import useFormatDate from './hooks/useFormatDate';
 
 import {
   Card,
-  Row,
   CardContent,
-  Username,
   Description,
-  DetailsCol,
-  Subdetails,
+  Row,
+  RowRight,
   StatusBadge,
+  Subdetails,
+  Username,
 } from './styles-MainFeed';
 
 StatusBadge.defaultProps = {
@@ -27,15 +27,10 @@ const MyRequest = ({ request }) => {
   const dispatch = useDispatch();
   const { day, time } = useFormatDate(request.start_date, request.start_time);
 
-  // ************************************************************* //
-
   // STATUS TRANSLATION //
-
-  /* Status's here are being translated for the current users perspective.
-  A request status that is 'open' will appear as "Unclaimed".
-  Once a helper claims the requesters task, the task status converts to 'Pending' which
-  will appear as "Claimed" to the requester.
-  */
+  /* Status's here are being translated for the current users perspective as a requester.
+  A request status that is 'Open' will appear as "Unclaimed".
+  A request status that is 'Pending' will appear as "Claimed" */
 
   const [status, setStatus] = useState(0);
   const translateStatus = () => {
@@ -44,15 +39,11 @@ const MyRequest = ({ request }) => {
     return request.status;
   };
 
-  // ************************************************************* //
-
   // COLOR THEMING FOR STATUS BADGE //
-
   const [color, setColor] = useState('#f50257');
   const theme = {
     statusColor: color,
   };
-
   const getColor = () => {
     if (status === 'Unclaimed') { setColor('#7E7E7E'); }
     if (status === 'Claimed') { setColor('#e87f4c'); }
@@ -61,25 +52,14 @@ const MyRequest = ({ request }) => {
     if (status === 'Completed') { setColor('#666666'); }
   };
 
-  // ************************************************************* //
-
   useEffect(() => {
-    getColor();
     setStatus(translateStatus());
+    getColor();
   });
 
   const selectTaskHandler = () => {
-    // let showMapToggle = false;
-    // if (request.status === 'Active') {
-    //   history.push('/active');
-    //   showMapToggle = true;
-    // }
-    dispatch({
-      type: 'SET_TASK', task: request,
-    });
-    dispatch({
-      type: 'SHOW_MAP', toggle: false,
-    });
+    dispatch({ type: 'SET_TASK', task: request });
+    dispatch({ type: 'SHOW_MAP', toggle: false });
   };
 
   // ??
@@ -88,6 +68,11 @@ const MyRequest = ({ request }) => {
   }
   return (
     <Card onClick={selectTaskHandler}>
+      <RowRight>
+        <ThemeProvider theme={theme}>
+          <StatusBadge>{status}</StatusBadge>
+        </ThemeProvider>
+      </RowRight>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row style={{ marginBottom: '0.5em' }}>
           {request.status === 'Open' && <Avatar src="" alt="?" />}
@@ -98,11 +83,6 @@ const MyRequest = ({ request }) => {
             <Subdetails>{`${day} ${time}`}</Subdetails>
           </CardContent>
         </Row>
-        <DetailsCol>
-          <ThemeProvider theme={theme}>
-            <StatusBadge>{status}</StatusBadge>
-          </ThemeProvider>
-        </DetailsCol>
       </Row>
       <Description>{`${request.description.substring(0, 60)}...`}</Description>
     </Card>

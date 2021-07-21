@@ -17,12 +17,6 @@ export const SectionCard = styled.div`
   font-weight: 500;
 `;
 
-export const CardHeaders = styled.div`
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 500;
-`;
-
 export const Username = styled.div`
   font-weight: 500;
   font-size: 14px;
@@ -50,6 +44,12 @@ export const Row = styled.div`
   margin-top: 2px;
   display: flex;
   direction: row;
+`;
+
+export const RowRight = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
 `;
 
 export const CardContent = styled.div`
@@ -101,13 +101,10 @@ export const StatusBadge = styled.div`
   font-size: 0.75rem;
   font-weight: 400;
   transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  transform: scale(1) translate(-57%, -118%);
+  position: absolute;
+  transform: scale(1) translate(0%, -108%);
   transform-origin: 0% 0%;
-  box-sizing: border-box;
-`;
-
-export const StatusBadgeTasks = styled(StatusBadge)`
-transform: scale(1) translate(-10%, -118%);
+  margin-right: -16px;
 `;
 
 export const Button = styled.button`

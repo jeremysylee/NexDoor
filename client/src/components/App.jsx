@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
@@ -18,12 +18,12 @@ const App = () => {
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const getTasksByLocation = () => {
-    // api/tasks/master/:userId/:range/:count/:offset
+    // ENDPOINT: api/tasks/master/:userId/:range/:count/:offset
     axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
       .then(({ data }) => {
         dispatch(setTasks({ payload: data.allothers }));
         dispatch({ type: 'SET_TASKS', tasks: data.allothers });
-        dispatch({ type: 'SET_REQUESTS', requests: data.requested });
+        dispatch({ type: 'SET_REQUESTS', myRequests: data.requested });
         dispatch({ type: 'SET_MY_TASKS', myTasks: data.helper });
       });
   };

@@ -9,7 +9,7 @@ import {
 import thunk from 'redux-thunk';
 
 import tasksReducer from './components/MainFeed/reducers/tasksReducer';
-import requestsReducer from './components/MainFeed/reducers/requestsReducer';
+import myRequestsReducer from './components/MainFeed/reducers/myRequestsReducer';
 import myTasksReducer from './components/MainFeed/reducers/myTasksReducer';
 import selectedTaskReducer from './components/SelectedTask/reducers/selectedTaskReducer';
 import taskDataFormattedReducer from './components/SelectedTask/reducers/taskDataFormattedReducer';
@@ -20,7 +20,7 @@ import taskCategoryReducer from './components/SelectedTask/reducers/taskCategory
 import addRequestModalReducer from './components/AppReducers/addRequestModalReducer';
 import currentPageReducer from './components/AppReducers/currentPageReducer';
 
-import tasksSliceReducer from './components/MainFeed/tasksSlice';
+// import tasksSliceReducer from './components/MainFeed/tasksSlice';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -28,7 +28,7 @@ const store = createStore(
   combineReducers({
     tasksReducer,
     selectedTaskReducer,
-    requestsReducer,
+    myRequestsReducer,
     myTasksReducer,
     taskDataFormattedReducer,
     currentUserReducer,
