@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { url } from '../../../../config';
 import {
   LineTop,
   Row,
@@ -15,23 +16,17 @@ import {
   ButtonClaimed,
 } from './styles-SelectedTask';
 
-const url = 'http://localhost:3500';
-
 export const InputOpenTask = ({ taskId }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const clickClaimHandler = () => {
     axios.put(`${url}/api/task/help/${taskId}/${userId}`)
       .then((res) => console.log(res));
-    dispatch({
-      type: 'SHOW_MAP', toggle: true,
-    });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
   };
 
   const clickBackHandler = () => {
-    dispatch({
-      type: 'SHOW_MAP', toggle: true,
-    });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
   };
 
   return (
@@ -56,9 +51,7 @@ export const InputActiveTask = () => {
   const category = useSelector((store) => store.taskCategoryReducer);
 
   const clickBackHandler = () => {
-    dispatch({
-      type: 'SHOW_MAP', toggle: true,
-    });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
   };
 
   const clickGoToRequestHandler = () => {
@@ -93,9 +86,7 @@ export const InputPendingRequest = ({ taskId }) => {
   const clickDeclineHandler = () => {
     axios.put(`${url}/api/task/rmhelp/${taskId}`)
       .then((res) => console.log(res));
-    dispatch({
-      type: 'SHOW_MAP', toggle: true,
-    });
+    dispatch({ type: 'SHOW_MAP', toggle: true });
   };
 
   return (

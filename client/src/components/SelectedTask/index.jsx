@@ -15,7 +15,10 @@ import {
 } from './styles-SelectedTask';
 
 const SelectedTaskFrame = styled.div`
-  width: 500px;
+  // width: 500px;
+  min-width: 440px;
+  max-width: 500px;
+  flex-grow: 1;
   height: 100%;
   background-color: white;
   margin-top: 2em;
@@ -130,7 +133,6 @@ const SelectedTask = () => {
         <DetailsSection />
         {category.role === 'requester' && category.status === 'claimed' && <InputPendingRequest taskId={task.task_id} />}
         {category.status === 'active' && <InputActiveTask />}
-        {/* {category.category === 'helperActive' && <InputActiveTask />} */}
         {category.status === 'open' && <InputOpenTask taskId={task.task_id} />}
         {category.status === 'unclaimed' && <EditTaskModal />}
       </SelectedTaskContainer>

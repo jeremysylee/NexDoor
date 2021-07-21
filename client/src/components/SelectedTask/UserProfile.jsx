@@ -12,8 +12,8 @@ import {
 } from './styles-SelectedTask';
 
 export const UserProfile = ({ user }) => (
-  <ColCentered style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    <Col>
+  <ColCentered>
+    <ColCentered>
       <AvatarLg
         src={user.profile_picture_url}
         alt={user.firstname}
@@ -21,7 +21,7 @@ export const UserProfile = ({ user }) => (
       />
       <AvatarRing />
       <AvatarMiddleRing />
-    </Col>
+    </ColCentered>
     <Username>{`${user.firstname} ${user.lastname}`}</Username>
     <UserInfo>
       <span>{`★ ${user.avg_rating || 0} (${user.task_count})`}</span>

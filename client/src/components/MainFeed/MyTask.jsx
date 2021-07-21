@@ -66,7 +66,7 @@ const MyTask = ({ task }) => {
       </RowRight>
       <Row style={{ justifyContent: 'space-between' }}>
         <Row>
-          <Avatar src={task.requester.profile_picture_url} alt="profilePHoto" />
+          <Avatar src={task.requester.profile_picture_url} alt={task.requester.firstname} />
           <CardContent>
             <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
             <Description>{`${task.description.substring(0, 60)}...`}</Description>

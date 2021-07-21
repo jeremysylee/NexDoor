@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 import {
@@ -19,8 +19,15 @@ import {
   Checkbox,
 } from '@material-ui/core/';
 
+import {
+  LineTop,
+  Row,
+  ColCentered,
+  ButtonDecline,
+  ButtonCancel,
+} from './styles-SelectedTask';
+
 function EditTaskModal() {
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
   const task = useSelector((store) => store.selectedTaskReducer.task);
@@ -164,10 +171,14 @@ function EditTaskModal() {
   }
 
   return (
-    <div>
-      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-        Edit Request
-      </Button>
+    <div style={{ width: '100%' }}>
+      <ColCentered>
+        <LineTop style={{ marginBottom: '5px' }} />
+        <Row>
+          <ButtonCancel onClick={handleClickOpen}>Cancel request</ButtonCancel>
+          <ButtonDecline onClick={handleClickOpen}>Edit request</ButtonDecline>
+        </Row>
+      </ColCentered>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit Request</DialogTitle>
         <DialogContent>

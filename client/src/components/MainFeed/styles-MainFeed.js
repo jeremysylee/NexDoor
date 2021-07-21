@@ -140,5 +140,3 @@ export const Line = styled.hr`
 export const SectionLine = styled(Line)`
   margin-top: 20px;
 `;
-
-// export const Effect1 = styled.div``

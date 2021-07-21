@@ -21,8 +21,6 @@ export const AvatarRing = styled.div`
   background: linear-gradient(297.42deg, #FF8B50 33.07%, #4496B4 78.11%, #61C0CB 88.78%);
   width: 98px;
   height: 98px;
-  top: 36px;
-  left: 201px;
   position: absolute;
   z-index: -1;
 `;
@@ -31,8 +29,6 @@ export const AvatarMiddleRing = styled(AvatarRing)`
   background: white;
   width: 90px;
   height: 90px;
-  top: 40px;
-  left: 205px;
 `;
 
 export const BackButton = styled.button`
@@ -41,6 +37,7 @@ export const BackButton = styled.button`
   background-color: white;
   font-weight: 300;
   font-size: 18px;
+  z-index: 5;
   -webkit-transition: all 100ms ease-out;
   -moz-transition: all 100ms ease-out;
   -ms-transition: all 100ms ease-out;
@@ -54,7 +51,7 @@ export const BackButton = styled.button`
 export const Username = styled.div`
   font-weight: 500;
   font-size: 16px;
-  margin-top: 1em;
+  margin-top: 1.5em;
 `;
 
 export const UserInfo = styled.div`
@@ -118,6 +115,9 @@ flex-direction: column;
 export const ColCentered = styled(Col)`
   align-items: center;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Button = styled.button`
@@ -127,7 +127,7 @@ export const Button = styled.button`
   color: #4496B4;
   border-radius: 10px;
   border: none;
-  font-weight: 400;
+  font-weight: 300;
   font-size: 18px;
   -webkit-transition: all 400ms ease;
   -moz-transition: all 400ms ease;
@@ -152,6 +152,10 @@ export const ButtonClaimed = styled(Button)`
   &:hover {
     background-color: #EF641C;
   }
+`;
+
+export const ButtonCancel = styled(Button)`
+  color: #c50000;
 `;
 
 export const ButtonClaimedDecline = styled(ButtonDecline)`
