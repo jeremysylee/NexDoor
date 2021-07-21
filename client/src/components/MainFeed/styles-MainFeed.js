@@ -9,6 +9,12 @@ export const SectionCard = styled.div`
   flex: 1;
   padding: 1em;
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 500;
 `;
 
 export const CardHeaders = styled.div`
@@ -22,15 +28,8 @@ export const Username = styled.div`
   font-size: 14px;
 `;
 
-export const Card = styled.div`
-  max-width: 100%;
-  margin-top: 1em;
-  padding: 0.75em 1em;
-  border-radius: 10px;
-  background-color: #FFFFFF;
+export const Card = styled(SectionCard)`
   overflow: visible;
-  flex: 1;
-  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
   color: black;
   -webkit-transition: all 150ms ease;
   -moz-transition: all 150ms ease;

@@ -7,7 +7,6 @@ import OpenTask from './OpenTask';
 import MyRequest from './MyRequest';
 import MyTask from './MyTask';
 import {
-  CardHeaders,
   SectionCard,
   SectionLine,
 } from './styles-MainFeed';
@@ -27,60 +26,32 @@ const MainFeed = () => {
   return (
     <MainFeedContainer>
       <RequestInput />
-      {page === '/' && (
+      {page === '/myrequests' || page === '/' ? (
         <>
-          <SectionCard>
-            <CardHeaders style={{ color: '#4F9CB8' }}>People Helping Me</CardHeaders>
-          </SectionCard>
-          {myRequests.map((request) => (
-            <MyRequest request={request} key={request.task_id} />
-          ))}
-          <SectionLine />
-          <SectionCard>
-            <CardHeaders>People I Am Helping</CardHeaders>
-          </SectionCard>
-          {myTasks.map((task) => (
-            <MyTask task={task} key={task.task_id} />
-          ))}
-          <SectionLine />
-          <SectionCard>
-            <CardHeaders>Others Requesting Help</CardHeaders>
-          </SectionCard>
-          {openTasks.map((task) => (
-            <OpenTask task={task} key={task.task_id} />
-          ))}
-        </>
-      )}
-      {page === '/myrequests' && (
-        <>
-          <SectionCard>
-            <CardHeaders>People Helping Me</CardHeaders>
-          </SectionCard>
+          <SectionCard>People Helping Me</SectionCard>
           {myRequests.map((request) => (
             <MyRequest request={request} key={request.task_id} />
           ))}
         </>
-      )}
-      {page === '/mytasks' && (
+      ) : <></>}
+      <SectionLine />
+      {page === '/mytasks' || page === '/' ? (
         <>
-          <SectionCard>
-            <CardHeaders>People I Am Helping</CardHeaders>
-          </SectionCard>
+          <SectionCard>People I Am Helping</SectionCard>
           {myTasks.map((task) => (
             <MyTask task={task} key={task.task_id} />
           ))}
         </>
-      )}
-      {page === '/tasks' && (
+      ) : <></>}
+      <SectionLine />
+      {page === '/tasks' || page === '/' ? (
         <>
-          <SectionCard>
-            <CardHeaders>Others Requesting Help</CardHeaders>
-          </SectionCard>
+          <SectionCard>Others Requesting Help</SectionCard>
           {openTasks.map((task) => (
             <OpenTask task={task} key={task.task_id} />
           ))}
         </>
-      )}
+      ) : <></>}
     </MainFeedContainer>
   );
 };
