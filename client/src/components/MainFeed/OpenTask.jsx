@@ -34,7 +34,7 @@ const OpenTask = ({ task }) => {
           <Avatar src={task.requester.profile_picture_url} alt="profilePhoto" />
           <CardContent>
             <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
-            <Description>{`${task.description.substring(0, 60)}...`}</Description>
+            <Description>{`${task.description}`}</Description>
           </CardContent>
         </Row>
         <DetailsCol>

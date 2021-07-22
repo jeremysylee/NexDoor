@@ -61,6 +61,7 @@ export const Description = styled.div`
   font-size: 14px;
   margin-top: 2px;
   padding-right: 1em;
+  overflow: hidden;
   wrap: wrap;
   max-width: auto;
   font-weight: 300;
@@ -68,7 +69,9 @@ export const Description = styled.div`
 
 export const DetailsCol = styled.div`
   font-family: Roboto;
-  margin-right: 1.5em;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
   text-align: right;
   color: grey;
   flex-wrap: nowrap;
@@ -78,7 +81,6 @@ export const Details = styled.div`
   font-size: 14px;
   font-weight: lighter;
   color: grey;
-  width: 140%;
 `;
 
 export const Subdetails = styled.div`

@@ -28,9 +28,15 @@ const SidebarContainer = styled.div`
   max-width: 230;
 `;
 
-const MyListItemText = styled(ListItemText)({
-  color: 'black',
-});
+const MyListItemText = styled.div`
+  font-size: 14px;
+  color: black;
+  font-weight: 500;
+`;
+
+const MyListItemIcon = styled(ListItemIcon)`
+  color: white;
+`;
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -65,15 +71,6 @@ const Sidebar = () => {
     history.push('/helpfulfeed');
   };
 
-  const handleActive = () => {
-    history.push('/myactiverequest');
-  };
-
-  const handleLogOut = () => {
-    logOut();
-    history.push('/login');
-  };
-
   const logOut = () => {
     cookie.remove('connect.sid', {
       path: '/',
@@ -82,46 +79,45 @@ const Sidebar = () => {
     });
   };
 
+  const handleLogOut = () => {
+    logOut();
+    history.push('/login');
+  };
+
   return (
     <SidebarContainer>
       <ListItem button onClick={handleHome}>
-        <ListItemIcon>
+        <MyListItemIcon>
           <Dashboard />
-        </ListItemIcon>
-        <MyListItemText primary="Home" />
+        </MyListItemIcon>
+        <MyListItemText>Home</MyListItemText>
       </ListItem>
       <ListItem button onClick={handleMyRequests}>
         <ListItemIcon>
           <MarkunreadMailboxTwoTone />
         </ListItemIcon>
-        <ListItemText primary="My Requests" />
+        <MyListItemText>My Requests</MyListItemText>
       </ListItem>
       <ListItem button onClick={handleMyTasks}>
         <ListItemIcon>
           <People />
         </ListItemIcon>
-        <ListItemText primary="My Tasks" />
+        <MyListItemText>My Tasks</MyListItemText>
       </ListItem>
       <ListItem button onClick={handleOpenTasks}>
         <ListItemIcon>
           <BarChart />
         </ListItemIcon>
-        <ListItemText primary="Open Tasks" />
+        <MyListItemText>Open Tasks</MyListItemText>
       </ListItem>
-      {/* <ListItem button onClick={handleActive}>
-        <ListItemIcon>
-          <Layers />
-        </ListItemIcon>
-        <ListItemText primary="Active Tasks" />
-      </ListItem> */}
       <ListItem button onClick={handleHelpfulFeed}>
         <ListItemIcon>
           <Star />
         </ListItemIcon>
-        <ListItemText primary="Most Helpful" />
+        <MyListItemText>Most Helpful</MyListItemText>
       </ListItem>
       <ListItem button onClick={handleLogOut}>
-        <ListItemText primary="Log Out" />
+        <MyListItemText>Log Out</MyListItemText>
       </ListItem>
     </SidebarContainer>
   );
