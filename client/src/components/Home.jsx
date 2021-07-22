@@ -9,9 +9,9 @@ import Sidebar from './Sidebar';
 import SelectedTask from './SelectedTask';
 // import Map from './Map';
 
-const Body = styled.div`
-  background-color: #f1f2f5
-`;
+import {
+  Body,
+} from './styles-App';
 
 const MapContainer = styled.div`
   min-width: 300px;

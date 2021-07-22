@@ -17,17 +17,9 @@ import {
   ListItemIcon,
 } from '@material-ui/core';
 
-const SidebarContainer = styled.div`
-  padding-top: 1.5em;
-  padding-right: 2em;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  max-width: 230;
-  @media(min-width:775px) {
-    display: none;
-  }
-`;
+import {
+  SidebarContainer,
+} from './styles-App';
 
 const MyListItemText = styled.div`
   font-size: 14px;
