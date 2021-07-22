@@ -8,7 +8,6 @@ import {
   Dashboard,
   People,
   BarChart,
-  Layers,
   MarkunreadMailboxTwoTone,
   Star,
 } from '@material-ui/icons';
@@ -16,7 +15,6 @@ import {
 import {
   ListItem,
   ListItemIcon,
-  ListItemText,
 } from '@material-ui/core';
 
 const SidebarContainer = styled.div`
@@ -26,6 +24,9 @@ const SidebarContainer = styled.div`
   position: sticky;
   top: 0;
   max-width: 230;
+  @media(min-width:775px) {
+    display: none;
+  }
 `;
 
 const MyListItemText = styled.div`
