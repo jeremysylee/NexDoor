@@ -5,7 +5,6 @@ import {
   AvatarLg,
   AvatarRing,
   AvatarMiddleRing,
-  Col,
   ColCentered,
   Username,
   UserInfo,

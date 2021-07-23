@@ -144,11 +144,18 @@ export const SectionLine = styled(Line)`
 `;
 
 export const VerticalLineFaded = styled.div`
-  background-color: #c6c6c6;
-  width: 2px;
+  background-color: #d9d9d9;
+  width: 32px;
   max-height: 100%;
   border-radius: 60px;
-  margin: 0px 20px;
+  border: solid;
+  border-color: #F1F2F5;
+  border-width: 15px;
+  margin: 0px 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #e1e1e1;
+  }
 `;
 
 export const SelectedTaskContainer = styled.div`

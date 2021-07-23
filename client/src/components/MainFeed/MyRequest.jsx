@@ -99,7 +99,7 @@ const MyRequest = ({ request }) => {
       </Card>
       {selectedTaskId === request.task_id && (
         <SelectedTaskContainer>
-          <VerticalLineFaded />
+          <VerticalLineFaded onClick={selectTaskHandler} />
           <SelectedTask />
         </SelectedTaskContainer>
       )}

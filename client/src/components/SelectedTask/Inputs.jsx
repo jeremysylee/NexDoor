@@ -8,7 +8,6 @@ import {
   LineTop,
   Row,
   ColCentered,
-  LineBottom,
   ButtonDecline,
   Button,
   ButtonClaimedDecline,
@@ -36,7 +35,6 @@ export const InputOpenTask = ({ taskId }) => {
         <ButtonDecline onClick={clickBackHandler}>Decline</ButtonDecline>
         <Button onClick={clickClaimHandler}>Claim</Button>
       </Row>
-      <LineBottom />
     </ColCentered>
   );
 };

@@ -87,6 +87,7 @@ export const DetailsContainer = styled.div`
 export const DetailsContainerTime = styled(DetailsContainer)`
   margin-left: 15px;
   flex-shrink: 2;
+  min-width: 130px;
 `;
 
 export const HeadingSmall = styled.div`

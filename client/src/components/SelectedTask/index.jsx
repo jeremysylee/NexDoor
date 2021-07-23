@@ -97,7 +97,7 @@ const SelectedTask = () => {
   // EVENT HANDLERS //
   const clickBackHandler = () => {
     dispatch({
-      type: 'SHOW_MAP', toggle: true,
+      type: 'SET_TASK', task: { task_id: 0 },
     });
   };
 

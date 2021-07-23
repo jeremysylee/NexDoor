@@ -54,7 +54,7 @@ const OpenTask = ({ task }) => {
       </Card>
       {selectedTaskId === task.task_id && (
         <SelectedTaskContainer>
-          <VerticalLineFaded />
+          <VerticalLineFaded onClick={selectTaskHandler} />
           <SelectedTask />
         </SelectedTaskContainer>
       )}
