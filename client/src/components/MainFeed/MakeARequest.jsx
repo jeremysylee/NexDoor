@@ -66,7 +66,7 @@ const MakeARequest = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.currentUserReducer.userData);
   const openModal = () => {
-    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true });
+    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'new' });
   };
 
   const FlairSVG = () => (

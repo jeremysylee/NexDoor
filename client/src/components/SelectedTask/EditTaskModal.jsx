@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import {
@@ -28,11 +28,11 @@ import {
 } from './styles-SelectedTask';
 
 function EditTaskModal() {
+  const dispatch = useDispatch();
+  const task = useSelector((store) => store.selectedTaskReducer.task);
+  const [request, setRequest] = useState({});
   const [open, setOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
-  const task = useSelector((store) => store.selectedTaskReducer.task);
-  console.log(task);
-  const [request, setRequest] = useState({});
   // const userId = useSelector((store) => store.currentUserReducer.userId);
 
   useEffect(() => {
@@ -57,7 +57,8 @@ function EditTaskModal() {
   }, [task]);
 
   function handleClickOpen() {
-    setOpen(true);
+    // setOpen(true);
+    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'edit' });
   }
 
   function handleClose() {

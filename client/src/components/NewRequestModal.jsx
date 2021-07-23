@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import styled from 'styled-components';
+import axios from 'axios';
+import { DateTime } from 'luxon';
+import DatePicker from 'react-datepicker';
 import {
   Button,
   TextField,
@@ -17,70 +19,70 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core/';
-import axios from 'axios';
-
-// const Input = styled.button`
-//   border-radius: 100px;
-//   background-color: #F1F2F5;
-//   font-size: 18px;
-//   font-weight: 300;
-//   border: none;
-//   width: 100%;
-//   margin-left: 0.5em;
-//   padding-top: 4px;
-//   text-align: left;
-//   color: #5E5E5E;
-//   font-family: Roboto;
-//   -webkit-transition: 200ms linear;
-//   -moz-transition: 200ms linear;
-//   -ms-transition: 200ms linear;
-//   -o-transition: 200ms linear;
-//   transition: 200ms linear;
-//   &:hover {
-//     background-color: #E7E7E7
-//   }
-// `;
+import config from '../../../config';
 
 function NewRequestModal() {
-  // ***** From Jeremy: I added these handlers so I could style the button on the main page //
   const dispatch = useDispatch();
   const open = useSelector((store) => store.addRequestModalReducer.toggle);
-  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
-  const handleClose = () => {
-    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: false });
-  };
-  // ***** Jeremy End **** //
-
-  // const [open, setOpen] = useState(false);
+  const mode = useSelector((store) => store.addRequestModalReducer.mode);
+  const user = useSelector((store) => store.currentUserReducer.userData);
+  const task = useSelector((store) => store.selectedTaskReducer.task);
   const [validationErrors, setValidationErrors] = useState({});
+
+  const now = DateTime.local();
+  const dateTodayFormatted = DateTime.fromISO(now).toFormat('yyyy-MM-dd');
+  const timeNowFormatted = DateTime.fromISO(now).toFormat('HH:mm');
+  const dateTimeRoundedToNextHour = DateTime.fromISO(now).plus({ hours: 1 }).toFormat('yyyy-MM-dd;HH:00').split(';');
+  const autofillDate = dateTimeRoundedToNextHour[0];
+  const autofillTime = dateTimeRoundedToNextHour[1];
+
   const [request, setRequest] = useState({
     streetAddress: '',
-    carRequired: false,
-    category: '',
-    description: '',
-    endDate: '',
-    startDate: '',
-    startTime: '',
+    city: '',
     state: '',
     zipcode: '',
     neighborhood: null,
+    startDate: '',
+    endDate: '',
+    startTime: '',
+    carRequired: false,
+    category: '',
+    description: '',
     laborRequired: false,
-    city: '',
     duration: null,
   });
-  // const userId = useSelector((store) => store.currentUserReducer.userId);
 
-  // ***** Jeremy: Commented out 72 - 78 and replaced with redux handler above.
-  // function handleClickOpen() {
-  //   setOpen(true);
-  // }
+  // Autofill default data
+  const presetData = () => {
+    let data = user;
+    if (mode === 'edit') {
+      data = task;
+      data.address = data.location;
+    }
+    setRequest({
+      streetAddress: data.address.street_address,
+      city: data.address.city,
+      state: data.address.state,
+      zipcode: data.address.zipcode,
+      neighborhood: data.address.neighborhood,
+      startDate: data.start_date || autofillDate,
+      endDate: data.end_date || autofillDate,
+      startTime: data.start_time || autofillTime,
+      category: data.category || '',
+      carRequired: data.car_required || false,
+      description: data.description || '',
+      laborRequired: data.physical_labor_required || false,
+      duration: data.duration || null,
+      taskId: data.task_id || null,
+    });
+  };
 
-  // function handleClose() {
-  //   setOpen(false);
-  // }
-  // ***** Jeremy END ***** //
+  useEffect(() => {
+    presetData();
+  }, [mode]);
 
-  // updates state for all input changes
+  const handleClose = () => { dispatch({ type: 'TOGGLE_AR_MODAL', toggle: false }); };
+
   const handleChange = (event) => {
     if (event.target.name === 'laborRequired' || event.target.name === 'carRequired') {
       setRequest({
@@ -99,32 +101,25 @@ function NewRequestModal() {
   function resetReqAndErr() {
     setRequest({
       streetAddress: '',
+      city: '',
+      state: '',
+      zipcode: '',
+      startDate: '',
+      endDate: '',
+      startTime: '',
       carRequired: false,
       category: '',
       description: '',
-      endDate: '',
-      startDate: '',
-      startTime: '',
-      state: '',
-      zipcode: '',
       neighborhood: null,
       laborRequired: false,
-      city: '',
       duration: null,
     });
     setValidationErrors({});
   }
 
-  // validate all inputs
+  // Validate all inputs
   function validate(values) {
     const errors = {};
-    // format dates for comparison
-    const d1Split = values.startDate.split('-');
-    const d2Split = values.endDate.split('-');
-    const d1 = new Date(`${d1Split[1]}-${d1Split[2]}-${d1Split[0]}`);
-    const d2 = new Date(`${d2Split[1]}-${d2Split[2]}-${d2Split[0]}`);
-    const currentDate = new Date();
-    const yesterday = new Date(currentDate.getTime() - 24 * 60 * 60 * 1000);
     if (!values.streetAddress) {
       errors.streetAddress = 'Required';
     }
@@ -145,21 +140,48 @@ function NewRequestModal() {
     if (!values.category) {
       errors.category = 'Required';
     }
-    if (!values.startDate) {
-      errors.startDate = 'Required';
-    } else if (d1 <= yesterday) {
-      errors.startDate = 'Invalid Date';
+    if ((values.startDate + values.startTime) < (dateTodayFormatted + timeNowFormatted)) {
+      errors.dateValid = 'Date must be in the future';
     }
     if (!values.endDate) {
       errors.endDate = 'Required';
-    } else if (d1 > d2 || d2 <= yesterday) {
-      errors.endDate = 'Invalid Date';
-    }
-    if (!values.startTime) {
-      errors.startTime = 'Required';
+    } else if (values.startDate > values.endDate) {
+      errors.endDate = 'End date must be after start date';
     }
     return (errors);
   }
+
+  const cleanInputAndClose = () => {
+    handleClose();
+    resetReqAndErr();
+  };
+
+  const postNewRequest = () => {
+    axios.post(`${config.url}/api/task/check/${user.user_id}`, request)
+      .then((response) => {
+        console.log(response.data);
+        cleanInputAndClose();
+      })
+      .catch((err) => {
+        console.log(err);
+        cleanInputAndClose();
+      });
+  };
+
+  // axios.put('http://localhost:3500/api/task/edit/', request)
+
+  const editRequest = () => {
+    axios.put(`http://localhost:3500/api/task/edit/`, request)
+      .then((response) => {
+        console.log(request, '<------');
+        console.log(response.data);
+        cleanInputAndClose();
+      })
+      .catch((err) => {
+        console.log(err);
+        cleanInputAndClose();
+      });
+  };
 
   // submit form info with validation check
   function handleSubmit(event) {
@@ -168,18 +190,11 @@ function NewRequestModal() {
     if (Object.keys(errors).length === 0) {
       console.log(request);
       resetReqAndErr();
-      axios.post(`http://localhost:3500/api/task/check/${userId}`, request)
-        .then((response) => {
-          console.log(response.data);
-          handleClose(); // <-- jeremy
-          // setOpen(false);
-          // resetReqAndErr();
-        })
-        .catch((err) => {
-          console.log(err);
-          handleClose(); // <-- jeremy
-          // setOpen(false);
-        });
+      if (mode === 'new') {
+        postNewRequest();
+      } else {
+        editRequest();
+      }
     } else {
       setValidationErrors(errors);
     }
@@ -187,7 +202,6 @@ function NewRequestModal() {
 
   return (
     <div>
-      {/* <Input onClick={handleClickOpen}>&nbsp;What do you need help with?</Input> */}
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Request Help</DialogTitle>
         <DialogContent>
@@ -344,8 +358,8 @@ function NewRequestModal() {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    error={validationErrors.startDate && true}
-                    helperText={(validationErrors.startDate) ? validationErrors.startDate : null}
+                    error={validationErrors.dateValid && true}
+                    helperText={(validationErrors.dateValid) ? validationErrors.dateValid : null}
                   />
                 </Grid>
 
@@ -378,11 +392,9 @@ function NewRequestModal() {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    // inputProps={{
-                    //   step: 300, // 5 min
-                    // }}
-                    error={validationErrors.startTime && true}
-                    helperText={(validationErrors.startTime) ? validationErrors.startTime : null}
+                    step="900"
+                    error={validationErrors.dateValid && true}
+                    helperText={(validationErrors.dateValid) ? validationErrors.dateValid : null}
                   />
                 </Grid>
               </Grid>

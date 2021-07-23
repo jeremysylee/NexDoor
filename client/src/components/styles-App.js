@@ -11,7 +11,7 @@ export const SidebarContainer = styled.div`
 
 export const Body = styled.div`
   background-color: #f1f2f5;
-  @media (max-width: 1200px) {
+  @media (max-width: 1330px) {
     ${SidebarContainer} { display: none; }
   }
 `;
