@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import useFormatDate from './hooks/useFormatDate';
 import SelectedTask from '../SelectedTask';
 
@@ -17,22 +17,8 @@ import {
   StatusBadge,
   Username,
   VerticalLineFaded,
+  SelectedTaskContainer,
 } from './styles-MainFeed';
-
-const SelectedTaskContainer = styled.div`
-  max-width: 520px;
-  max-height: 800px;
-  display: flex;
-  overflow: hidden;
-  margin-top: 1em;
-  border-radius: 10px;
-  font-family: Roboto;
-  -webkit-transition: 200ms linear;
-  -moz-transition: 200ms linear;
-  -ms-transition: 200ms linear;
-  -o-transition: 200ms linear;
-  transition: 200ms linear;
-`;
 
 StatusBadge.defaultProps = {
   theme: {
@@ -43,7 +29,7 @@ StatusBadge.defaultProps = {
 const MyTask = ({ task }) => {
   const dispatch = useDispatch();
   const { day, time } = useFormatDate(task.start_date, task.start_time);
-  const showMap = useSelector((store) => store.showMapReducer.showMap);
+  const selectedTaskId = useSelector((store) => store.selectedTaskReducer.task.task_id);
 
   // STATUS TRANSLATION //
   /* Status's here are being translated for the current users perspective as a helper.
@@ -71,8 +57,13 @@ const MyTask = ({ task }) => {
   });
 
   const selectTaskHandler = () => {
+    if (selectedTaskId === task.task_id) {
+      return dispatch({
+        type: 'SET_TASK', task: { task_id: 0 },
+      });
+    }
     dispatch({ type: 'SET_TASK', task });
-    dispatch({ type: 'SHOW_MAP', toggle: false });
+    return <></>;
   };
 
   return (
@@ -97,7 +88,7 @@ const MyTask = ({ task }) => {
           </DetailsCol>
         </Row>
       </Card>
-      {!showMap && (
+      {selectedTaskId === task.task_id && (
         <SelectedTaskContainer>
           <VerticalLineFaded />
           <SelectedTask />

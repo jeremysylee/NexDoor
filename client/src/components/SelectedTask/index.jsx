@@ -8,7 +8,6 @@ import DetailsSection from './DetailsSection';
 import { InputOpenTask, InputActiveTask, InputPendingRequest } from './Inputs';
 import EditTaskModal from './EditTaskModal';
 import {
-  SelectedTaskContainer,
   StatusText,
   RowSlim,
   BackButton,
@@ -115,7 +114,6 @@ const SelectedTask = () => {
   // RENDER //
   return (
     <SelectedTaskCard>
-      {/* <SelectedTaskContainer> */}
       <RowSlim>
         <BackButton onClick={clickBackHandler}>Back</BackButton>
       </RowSlim>
@@ -128,7 +126,6 @@ const SelectedTask = () => {
       {category.status === 'active' && <InputActiveTask />}
       {category.status === 'open' && <InputOpenTask taskId={task.task_id} />}
       {category.status === 'unclaimed' && <EditTaskModal />}
-      {/* </SelectedTaskContainer> */}
     </SelectedTaskCard>
   );
 };

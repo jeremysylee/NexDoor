@@ -14,7 +14,7 @@ import myTasksReducer from './components/MainFeed/reducers/myTasksReducer';
 import selectedTaskReducer from './components/SelectedTask/reducers/selectedTaskReducer';
 import taskDataFormattedReducer from './components/SelectedTask/reducers/taskDataFormattedReducer';
 import currentUserReducer from './components/AppReducers/currentUserReducer';
-import showMapReducer from './components/AppReducers/showMapReducer';
+import showSelectedReducer from './components/AppReducers/showSelectedReducer';
 import locationReducer from './components/AppReducers/locationReducer';
 import taskCategoryReducer from './components/SelectedTask/reducers/taskCategoryReducer';
 import addRequestModalReducer from './components/AppReducers/addRequestModalReducer';
@@ -32,7 +32,7 @@ const store = createStore(
     myTasksReducer,
     taskDataFormattedReducer,
     currentUserReducer,
-    showMapReducer,
+    showSelectedReducer,
     locationReducer,
     taskCategoryReducer,
     addRequestModalReducer,

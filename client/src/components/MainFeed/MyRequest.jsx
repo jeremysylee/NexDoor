@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
+
+import SelectedTask from '../SelectedTask';
 
 import useFormatDate from './hooks/useFormatDate';
 
@@ -15,6 +17,8 @@ import {
   StatusBadge,
   Subdetails,
   Username,
+  SelectedTaskContainer,
+  VerticalLineFaded,
 } from './styles-MainFeed';
 
 StatusBadge.defaultProps = {
@@ -25,13 +29,13 @@ StatusBadge.defaultProps = {
 
 const MyRequest = ({ request }) => {
   const dispatch = useDispatch();
+  const selectedTaskId = useSelector((store) => store.selectedTaskReducer.task.task_id);
   const { day, time } = useFormatDate(request.start_date, request.start_time);
 
   // STATUS TRANSLATION //
   /* Status's here are being translated for the current users perspective as a requester.
   A request status that is 'Open' will appear as "Unclaimed".
   A request status that is 'Pending' will appear as "Claimed" */
-
   const [status, setStatus] = useState(0);
   const translateStatus = () => {
     if (request.status === 'Open') { return 'Unclaimed'; }
@@ -58,8 +62,14 @@ const MyRequest = ({ request }) => {
   });
 
   const selectTaskHandler = () => {
+    // clear task if clicking on open task
+    if (selectedTaskId === request.task_id) {
+      return dispatch({
+        type: 'SET_TASK', task: { task_id: 0 },
+      });
+    }
     dispatch({ type: 'SET_TASK', task: request });
-    dispatch({ type: 'SHOW_MAP', toggle: false });
+    return <></>;
   };
 
   // ??
@@ -67,25 +77,33 @@ const MyRequest = ({ request }) => {
     return (<div>hello</div>);
   }
   return (
-    <Card onClick={selectTaskHandler}>
-      <RowRight>
-        <ThemeProvider theme={theme}>
-          <StatusBadge>{status}</StatusBadge>
-        </ThemeProvider>
-      </RowRight>
-      <Row style={{ justifyContent: 'space-between' }}>
-        <Row style={{ marginBottom: '0.5em' }}>
-          {request.status === 'Open' && <Avatar src="" alt="?" />}
-          {request.status !== 'Open' && <Avatar src={request.helper.profile_picture_url} alt={request.helper.firstname} />}
-          <CardContent>
-            {request.status === 'Open' && <Username>No one has claimed your request yet!</Username>}
-            {request.status !== 'Open' && <Username>{`${request.helper.firstname} ${request.helper.lastname} is helping you with this request`}</Username>}
-            <Subdetails>{`${day} ${time}`}</Subdetails>
-          </CardContent>
+    <>
+      <Card onClick={selectTaskHandler}>
+        <RowRight>
+          <ThemeProvider theme={theme}>
+            <StatusBadge>{status}</StatusBadge>
+          </ThemeProvider>
+        </RowRight>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Row style={{ marginBottom: '0.5em' }}>
+            {request.status === 'Open' && <Avatar src="" alt="?" />}
+            {request.status !== 'Open' && <Avatar src={request.helper.profile_picture_url} alt={request.helper.firstname} />}
+            <CardContent>
+              {request.status === 'Open' && <Username>No one has claimed your request yet!</Username>}
+              {request.status !== 'Open' && <Username>{`${request.helper.firstname} ${request.helper.lastname} is helping you with this request`}</Username>}
+              <Subdetails>{`${day} ${time}`}</Subdetails>
+            </CardContent>
+          </Row>
         </Row>
-      </Row>
-      <Description>{`${request.description.substring(0, 60)}...`}</Description>
-    </Card>
+        <Description>{`${request.description.substring(0, 60)}...`}</Description>
+      </Card>
+      {selectedTaskId === request.task_id && (
+        <SelectedTaskContainer>
+          <VerticalLineFaded />
+          <SelectedTask />
+        </SelectedTaskContainer>
+      )}
+    </>
   );
 };
 

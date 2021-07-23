@@ -150,3 +150,18 @@ export const VerticalLineFaded = styled.div`
   border-radius: 60px;
   margin: 0px 20px;
 `;
+
+export const SelectedTaskContainer = styled.div`
+max-width: 520px;
+max-height: 800px;
+display: flex;
+overflow: hidden;
+margin-top: 1em;
+border-radius: 10px;
+font-family: Roboto;
+-webkit-transition: 200ms linear;
+-moz-transition: 200ms linear;
+-ms-transition: 200ms linear;
+-o-transition: 200ms linear;
+transition: 200ms linear;
+`;
