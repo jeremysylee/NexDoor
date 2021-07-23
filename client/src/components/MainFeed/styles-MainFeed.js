@@ -142,3 +142,11 @@ export const Line = styled.hr`
 export const SectionLine = styled(Line)`
   margin-top: 20px;
 `;
+
+export const VerticalLineFaded = styled.div`
+  background-color: #c6c6c6;
+  width: 2px;
+  max-height: 100%;
+  border-radius: 60px;
+  margin: 0px 20px;
+`;

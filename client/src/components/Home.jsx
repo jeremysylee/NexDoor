@@ -48,9 +48,10 @@ const Home = () => {
         >
           <Sidebar />
           <MainFeed />
-          {!showMap && <SelectedTask />}
+          <MapContainer />
+          {/* {!showMap && <SelectedTask />} */}
           {/* {showMap && <MapContainer><Map /></MapContainer>} */}
-          {showMap && <MapContainer />}
+          {/* {showMap && <MapContainer />} */}
         </Grid>
       </Grid>
     </Body>
