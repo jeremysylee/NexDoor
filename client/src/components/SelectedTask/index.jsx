@@ -5,8 +5,12 @@ import { DateTime } from 'luxon';
 
 import { UserProfile, UserProfileBlank } from './UserProfile';
 import DetailsSection from './DetailsSection';
-import { InputOpenTask, InputActiveTask, InputPendingRequest } from './Inputs';
-import EditTaskModal from './EditTaskModal';
+import {
+  InputOpenRequest,
+  InputActiveTask,
+  InputClaimedRequest,
+  InputUnclaimedRequest,
+} from './Inputs';
 import {
   StatusText,
   RowSlim,
@@ -33,6 +37,15 @@ const SelectedTask = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const category = useSelector((store) => store.taskCategoryReducer);
+
+  const getTimeUntil = (rawDate) => {
+    const dateToday = DateTime.local();
+    const { days } = DateTime.fromISO(rawDate).diff(dateToday, ['days']).values;
+    const dateFormatted = DateTime.fromISO(rawDate).toFormat('ccc, LLL dd');
+    if (days <= 1) { return 'Today'; }
+    if (days === 2) { return 'Tomorrow'; }
+    return dateFormatted;
+  };
 
   // <-------------------SET CATEGORY-------------------------> //
   const setCategory = () => {
@@ -85,15 +98,6 @@ const SelectedTask = () => {
   };
   // <-------------------SET CATEGORY END-------------------------> //
 
-  const getTimeUntil = (rawDate) => {
-    const dateToday = DateTime.local();
-    const { days } = DateTime.fromISO(rawDate).diff(dateToday, ['days']).values;
-    const dateFormatted = DateTime.fromISO(rawDate).toFormat('ccc, LLL dd');
-    if (days <= 1) { return 'Today'; }
-    if (days === 2) { return 'Tomorrow'; }
-    return dateFormatted;
-  };
-
   // EVENT HANDLERS //
   const clickBackHandler = () => {
     dispatch({
@@ -118,14 +122,15 @@ const SelectedTask = () => {
         <BackButton onClick={clickBackHandler}>Back</BackButton>
       </RowSlim>
       {category.role === 'helper' && <UserProfile user={task.requester} />}
-      {task.helper && category.role === 'requester' && <UserProfile user={task.helper} />}
+      {category.status === 'claimed' && <UserProfile user={task.helper} />}
+      {/* {task.helper && category.role === 'requester' && <UserProfile user={task.helper} />} */}
       {category.status === 'unclaimed' && <UserProfileBlank />}
       <StatusText>{category.statusText}</StatusText>
       <DetailsSection />
-      {category.role === 'requester' && category.status === 'claimed' && <InputPendingRequest taskId={task.task_id} />}
       {category.status === 'active' && <InputActiveTask />}
-      {category.status === 'open' && <InputOpenTask taskId={task.task_id} />}
-      {category.status === 'unclaimed' && <EditTaskModal />}
+      {category.status === 'claimed' && <InputClaimedRequest taskId={task.task_id} />}
+      {category.status === 'unclaimed' && <InputUnclaimedRequest />}
+      {category.status === 'open' && <InputOpenRequest taskId={task.task_id} />}
     </SelectedTaskCard>
   );
 };

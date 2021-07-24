@@ -13,35 +13,15 @@ import {
   ButtonClaimedDecline,
   ButtonGoToRequest,
   ButtonClaimed,
+  ButtonCancel,
 } from './styles-SelectedTask';
 
-export const InputOpenTask = ({ taskId }) => {
-  const dispatch = useDispatch();
-  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
-  const clickClaimHandler = () => {
-    axios.put(`${url}/api/task/help/${taskId}/${userId}`)
-      .then((res) => console.log(res));
-    dispatch({ type: 'SHOW_MAP', toggle: true });
-  };
-
-  const clickBackHandler = () => {
-    dispatch({ type: 'SHOW_MAP', toggle: true });
-  };
-
-  return (
-    <ColCentered>
-      <LineTop />
-      <Row>
-        <ButtonDecline onClick={clickBackHandler}>Decline</ButtonDecline>
-        <Button onClick={clickClaimHandler}>Claim</Button>
-      </Row>
-    </ColCentered>
-  );
-};
-
-InputOpenTask.propTypes = {
-  taskId: PropTypes.number.isRequired,
-};
+/* TOC
+1: InputActiveTask
+3: InputClaimedRequest
+4. InputUnclaimedRequest
+1: InputOpenRequest
+*/
 
 export const InputActiveTask = () => {
   const dispatch = useDispatch();
@@ -49,7 +29,9 @@ export const InputActiveTask = () => {
   const category = useSelector((store) => store.taskCategoryReducer);
 
   const clickBackHandler = () => {
-    dispatch({ type: 'SHOW_MAP', toggle: true });
+    dispatch({
+      type: 'SET_TASK', task: { task_id: 0 },
+    });
   };
 
   const clickGoToRequestHandler = () => {
@@ -71,7 +53,7 @@ export const InputActiveTask = () => {
   );
 };
 
-export const InputPendingRequest = ({ taskId }) => {
+export const InputClaimedRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -80,13 +62,11 @@ export const InputPendingRequest = ({ taskId }) => {
       .then((res) => console.log(res))
       .then(() => { history.push('/myactiverequest'); });
   };
-
   const clickDeclineHandler = () => {
     axios.put(`${url}/api/task/rmhelp/${taskId}`)
       .then((res) => console.log(res));
     dispatch({ type: 'SHOW_MAP', toggle: true });
   };
-
   return (
     <ColCentered>
       <LineTop style={{ marginBottom: '1px' }} />
@@ -97,7 +77,53 @@ export const InputPendingRequest = ({ taskId }) => {
     </ColCentered>
   );
 };
+InputClaimedRequest.propTypes = {
+  taskId: PropTypes.number.isRequired,
+};
 
-InputPendingRequest.propTypes = {
+export const InputUnclaimedRequest = () => {
+  const dispatch = useDispatch();
+  function handleClickOpen() {
+    // setOpen(true);
+    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'edit' });
+  }
+
+  return (
+    <ColCentered>
+      <LineTop style={{ marginBottom: '5px' }} />
+      <Row>
+        <ButtonCancel onClick={handleClickOpen}>Cancel request</ButtonCancel>
+        <ButtonDecline onClick={handleClickOpen}>Edit request</ButtonDecline>
+      </Row>
+    </ColCentered>
+  );
+};
+
+export const InputOpenRequest = ({ taskId }) => {
+  const dispatch = useDispatch();
+  const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
+  const clickClaimHandler = () => {
+    axios.put(`${url}/api/task/help/${taskId}/${userId}`)
+      .then((res) => console.log(res));
+    dispatch({ type: 'SHOW_MAP', toggle: true });
+  };
+
+  const clickBackHandler = () => {
+    dispatch({
+      type: 'SET_TASK', task: { task_id: 0 },
+    });
+  };
+
+  return (
+    <ColCentered>
+      <LineTop />
+      <Row>
+        <ButtonDecline onClick={clickBackHandler}>Decline</ButtonDecline>
+        <Button onClick={clickClaimHandler}>Claim</Button>
+      </Row>
+    </ColCentered>
+  );
+};
+InputOpenRequest.propTypes = {
   taskId: PropTypes.number.isRequired,
 };
