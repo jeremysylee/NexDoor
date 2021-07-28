@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 
+// Imported Components
 import { UserProfile, UserProfileBlank } from './UserProfile';
 import DetailsSection from './DetailsSection';
 import {
@@ -123,7 +124,7 @@ const SelectedTask = () => {
       </RowSlim>
       {category.role === 'helper' && <UserProfile user={task.requester} />}
       {category.status === 'claimed' && <UserProfile user={task.helper} />}
-      {/* {task.helper && category.role === 'requester' && <UserProfile user={task.helper} />} */}
+      {task.helper && category.role === 'requester' && <UserProfile user={task.helper} />}
       {category.status === 'unclaimed' && <UserProfileBlank />}
       <StatusText>{category.statusText}</StatusText>
       <DetailsSection />

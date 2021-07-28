@@ -2,15 +2,14 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-// import EditTaskModal from './EditTaskModal';
 import {
-  Row,
-  RowCenter,
-  DetailsContainer,
-  HeadingSmall,
   Col,
   ColCentered,
+  DetailsContainer,
   DetailsContainerTime,
+  HeadingSmall,
+  Row,
+  RowCenter,
 } from './styles-SelectedTask';
 
 const DetailsSection = () => {

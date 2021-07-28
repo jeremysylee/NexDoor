@@ -4,23 +4,20 @@ import {
   applyMiddleware,
   compose,
 } from 'redux';
-// import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import thunk from 'redux-thunk';
 
 import tasksReducer from './components/MainFeed/reducers/tasksReducer';
 import myRequestsReducer from './components/MainFeed/reducers/myRequestsReducer';
 import myTasksReducer from './components/MainFeed/reducers/myTasksReducer';
-import selectedTaskReducer from './components/SelectedTask/reducers/selectedTaskReducer';
-import taskDataFormattedReducer from './components/SelectedTask/reducers/taskDataFormattedReducer';
+import selectedTaskReducer from './components/MainFeed/SelectedTask/reducers/selectedTaskReducer';
+import taskDataFormattedReducer from './components/MainFeed/SelectedTask/reducers/taskDataFormattedReducer';
 import currentUserReducer from './components/AppReducers/currentUserReducer';
 import showSelectedReducer from './components/AppReducers/showSelectedReducer';
 import locationReducer from './components/AppReducers/locationReducer';
-import taskCategoryReducer from './components/SelectedTask/reducers/taskCategoryReducer';
+import taskCategoryReducer from './components/MainFeed/SelectedTask/reducers/taskCategoryReducer';
 import addRequestModalReducer from './components/AppReducers/addRequestModalReducer';
 import currentPageReducer from './components/AppReducers/currentPageReducer';
-
-// import tasksSliceReducer from './components/MainFeed/tasksSlice';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -42,22 +39,5 @@ const store = createStore(
     applyMiddleware(thunk),
   ),
 );
-
-// const reducers = combineReducers({
-//   tasksReducer,
-//   selectedTaskReducer,
-//   requestsReducer,
-//   myTasksReducer,
-//   taskDataFormattedReducer,
-//   currentUserReducer,
-//   showMapReducer,
-//   locationReducer,
-//   taskCategoryReducer,
-//   tasks: tasksSliceReducer,
-// });
-
-// const store = configureStore({
-//   reducer: reducers,
-// });
 
 export default store;

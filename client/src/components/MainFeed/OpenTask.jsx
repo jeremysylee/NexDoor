@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import useFormatDate from './hooks/useFormatDate';
-import SelectedTask from '../SelectedTask';
+import SelectedTask from './SelectedTask';
 
 import {
   Card,

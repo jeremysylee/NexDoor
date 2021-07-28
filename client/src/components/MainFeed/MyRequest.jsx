@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
 
-import SelectedTask from '../SelectedTask';
+import SelectedTask from './SelectedTask';
 
 import useFormatDate from './hooks/useFormatDate';
 
@@ -72,10 +72,6 @@ const MyRequest = ({ request }) => {
     return <></>;
   };
 
-  // ??
-  if (request.status === 'open') {
-    return (<div>hello</div>);
-  }
   return (
     <>
       <Card onClick={selectTaskHandler}>

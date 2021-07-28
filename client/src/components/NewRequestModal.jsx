@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import DatePicker from 'react-datepicker';
 import {
   Button,
   TextField,
@@ -19,7 +18,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core/';
-import config from '../../../config';
+import { url } from '../../../config';
 
 function NewRequestModal() {
   const dispatch = useDispatch();
@@ -69,9 +68,9 @@ function NewRequestModal() {
       endDate: data.end_date || autofillDate,
       startTime: data.start_time || autofillTime,
       category: data.category || '',
-      carRequired: data.car_required || false,
       description: data.description || '',
-      laborRequired: data.physical_labor_required || false,
+      carRequired: data.car_required === 'true' || false,
+      laborRequired: data.physical_labor_required === 'true' || false,
       duration: data.duration || null,
       taskId: data.task_id || null,
     });
@@ -157,7 +156,7 @@ function NewRequestModal() {
   };
 
   const postNewRequest = () => {
-    axios.post(`${config.url}/api/task/check/${user.user_id}`, request)
+    axios.post(`${url}/api/task/check/${user.user_id}`, request)
       .then((response) => {
         console.log(response.data);
         cleanInputAndClose();
@@ -168,12 +167,9 @@ function NewRequestModal() {
       });
   };
 
-  // axios.put('http://localhost:3500/api/task/edit/', request)
-
   const editRequest = () => {
-    axios.put(`http://localhost:3500/api/task/edit/`, request)
+    axios.put(`${url}/api/task/edit/`, request)
       .then((response) => {
-        console.log(request, '<------');
         console.log(response.data);
         cleanInputAndClose();
       })

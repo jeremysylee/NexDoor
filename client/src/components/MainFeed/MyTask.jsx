@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
 import useFormatDate from './hooks/useFormatDate';
-import SelectedTask from '../SelectedTask';
+import SelectedTask from './SelectedTask';
 
 import {
   Card,
