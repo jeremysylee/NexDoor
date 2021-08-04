@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+import React, { useState } from 'react';
 import {
   Avatar, Button, CssBaseline, TextField, FormControlLabel,
   Checkbox, Link, Grid, Box, Typography, Container,
@@ -6,19 +8,17 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import currentUser from './AppReducers/currentUserReducer';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="http://www.google.com">
         Nexdoor
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      </Link>
+      &nbsp;2021.
     </Typography>
   );
 }
@@ -46,11 +46,11 @@ const useStyles = makeStyles((theme) => ({
 const LogIn = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const classes = useStyles();
   const [login, setLogin] = useState({
     email: '',
     password: '',
   });
-  const classes = useStyles();
 
   const handleChange = (e) => {
     setLogin({
@@ -61,10 +61,6 @@ const LogIn = () => {
 
   const handleLogIn = () => {
     history.push('/');
-  };
-
-  const signUpPage = () => {
-    history.push('/signup');
   };
 
   const getUserData = (userId) => {
@@ -80,8 +76,8 @@ const LogIn = () => {
   const submitLogin = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3500/api/login/', login, {
-      headers: { 'content-type': 'application/json' },
-      withCredentials: true,
+      // headers: { 'content-type': 'application/json' },
+      // withCredentials: true,
     })
       .then((response) => {
         if (response.status === 200) {
@@ -145,13 +141,14 @@ const LogIn = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              {/* TODO */}
+              <Link href="http://www.google.com" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link onClick={signUpPage} variant="body2">
-                "Don't have an account? Sign Up"
+              <Link onClick={() => history.push('/signup')} variant="body2">
+                Don&apos;t have an account? Sign Up
               </Link>
             </Grid>
           </Grid>

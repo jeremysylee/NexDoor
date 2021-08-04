@@ -1,9 +1,9 @@
 /* eslint-disable indent */
 const router = require('express').Router();
-const announceCtrl = require('./controllers/announceCtrl');
-const messageCtrl = require('./controllers/messageCtrl');
-const taskCtrl = require('./controllers/taskCtrl');
-const userCtrl = require('./controllers/userCtrl');
+const announceCtrl = require('./models/announceCtrl');
+const messageCtrl = require('./models/messageCtrl');
+const taskCtrl = require('./models/taskCtrl');
+const userCtrl = require('./models/userCtrl');
 
 // GET TASK BY TASK ID - May be solveable on front
 // look into S3 for photo storage
@@ -14,11 +14,13 @@ router
     .get('/announce/:quantity', announceCtrl.getAnnouncements)
     // ADD / UPDATE
     .post('/announce/:userId', announceCtrl.addAnnouncement)
+
   // MESSAGES--------------------------------------------------------
     // GET
     .get('/messages/:taskId', messageCtrl.getMessagesByTask)
     // ADD / UPDATE
     .post('/messages/:taskId/:userId', messageCtrl.addMessage)
+
   // TASKS-----------------------------------------------------------
     // GET
     // .get('/taskobj', taskCtrl.getOneTask)
@@ -42,6 +44,7 @@ router
     .post('/task/home/:userId', taskCtrl.addTaskHomeAddress)
     // .put('/task/:taskId', taskCtrl.updateTask)
     .delete('/task/:taskId', taskCtrl.deleteTask)
+
   // USERS----------------------------------------------------------
     // GET
     .get('/user/info/:userId', userCtrl.getUser)
@@ -51,6 +54,7 @@ router
     .post('/user', userCtrl.addUser)
     // .put('/user/:userId', userCtrl.updateUser)
     // .delete('/user/:userId', userCtrl.deleteUser)
+
   // LOGIN ----------------------------------------------------------
     .get('/credentials/:userId', userCtrl.getUserCredentials)
     .get('/email', userCtrl.checkForEmail)

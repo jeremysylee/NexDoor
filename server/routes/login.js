@@ -1,9 +1,8 @@
 const express = require('express');
+const { check, validationResult } = require('express-validator');
+const db = require('../models/userCtrl');
 
 const login = express.Router();
-const { check, validationResult } = require('express-validator');
-const session = require('express-session');
-const db = require('../controllers/userCtrl');
 
 login.post('/',
   [
@@ -26,24 +25,11 @@ login.post('/',
       });
     }
     console.log(req.body);
-    if (!req.session || !req.session.userId) {
-      db.authenticateLogin(req, res);
-      // if authenticated, create a new session
-    } else if (req.session) {
-      // db.authenticateLogin(req, res);
-      // check if (req.session === valid)
-      // if yes, redirect user to home page
-      console.log("success using a session!")
-      res.status(200).send("success using a session!");
-    }
+    return db.authenticateLogin(req, res, (err, user_id) => {
+      if (err) { res.status(400).send('error: password does not match'); }
+      req.params.user_id = user_id;
+      db.getUser(req, res);
+    });
   });
-
-// const redirectLogin = (req, res, next) => {
-//   if (!req.session.userId) {
-//     res.redirect('/login');
-//   } else {
-//     next();
-//   }
-// };
 
 module.exports = login;
