@@ -25,11 +25,12 @@ login.post('/',
       });
     }
     console.log(req.body);
-    return db.authenticateLogin(req, res, (err, user_id) => {
-      if (err) { res.status(400).send('error: password does not match'); }
-      req.params.user_id = user_id;
-      db.getUser(req, res);
-    });
+    return db.authenticateLogin(req, res);
+    // return db.authenticateLogin(req, res, (err, user_id) => {
+    //   if (err) { res.status(400).send('error: password does not match'); }
+    //   req.params.user_id = user_id;
+    //   db.getUser(req, res);
+    // });
   });
 
 module.exports = login;
