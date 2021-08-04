@@ -1983,26 +1983,6 @@ const taskControllers = {
       WHERE street_address='${streetAddress}'
       AND zipcode=${zipcode}
     ;`;
-    const queryStr2 = `
-      UPDATE nexdoor.tasks
-      SET
-        address_id=
-        (
-          SELECT address_id
-          FROM nexdoor.address
-          WHERE street_address='${streetAddress}'
-          AND zipcode=${zipcode}
-        ),
-        description='${description}',
-        car_required=${carRequired},
-        physical_labor_required=${laborRequired},
-        category='${category}',
-        start_date='${startDate}',
-        end_date='${endDate}',
-        start_time='${startTime}',
-        duration=${duration}
-      WHERE task_id=${taskId}
-    ;`;
     const queryDbTwo = () => {
       const queryStr4 = `
         UPDATE nexdoor.tasks
@@ -2062,6 +2042,21 @@ const taskControllers = {
     db.query(queryStr1)
       .then((data) => {
         if (data.rows.length > 0) {
+          const addressId = data.rows[0].address_id;
+          const queryStr2 = `
+            UPDATE nexdoor.tasks
+            SET
+              address_id=${addressId},
+              description='${description}',
+              car_required=${carRequired},
+              physical_labor_required=${laborRequired},
+              category='${category}',
+              start_date='${startDate}',
+              end_date='${endDate}',
+              start_time='${startTime}',
+              duration=${duration}
+            WHERE task_id=${taskId}
+          ;`;
           db.query(queryStr2)
             .then(() => {
               res.status(200).send(`Updated task ${taskId}`);
