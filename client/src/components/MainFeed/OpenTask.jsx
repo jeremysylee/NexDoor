@@ -1,8 +1,9 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import useFormatDate from './hooks/useFormatDate';
+import SelectedTask from './SelectedTask';
 
 import {
   Card,
@@ -12,37 +13,52 @@ import {
   DetailsCol,
   Row,
   Username,
+  SelectedTaskContainer,
+  VerticalLineFaded,
 } from './styles-MainFeed';
 
 const OpenTask = ({ task }) => {
   const dispatch = useDispatch();
+  const selectedTaskId = useSelector((store) => store.selectedTaskReducer.task.task_id);
   const { day, time } = useFormatDate(task.start_date, task.start_time);
 
   const selectTaskHandler = () => {
+    // clear task if clicking on open task
+    if (selectedTaskId === task.task_id) {
+      return dispatch({
+        type: 'SET_TASK', task: { task_id: 0 },
+      });
+    }
     dispatch({
       type: 'SET_TASK', task,
     });
-    dispatch({
-      type: 'SHOW_MAP', toggle: false,
-    });
+    return <></>;
   };
 
   return (
-    <Card onClick={selectTaskHandler}>
-      <Row style={{ justifyContent: 'space-between' }}>
-        <Row>
-          <Avatar src={task.requester.profile_picture_url} alt="profilePhoto" />
-          <CardContent>
-            <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
-            <Description>{`${task.description.substring(0, 60)}...`}</Description>
-          </CardContent>
+    <>
+      <Card onClick={selectTaskHandler}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Row>
+            <Avatar src={task.requester.profile_picture_url} alt="profilePhoto" />
+            <CardContent>
+              <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
+              <Description>{`${task.description}`}</Description>
+            </CardContent>
+          </Row>
+          <DetailsCol>
+            <Details>{day}</Details>
+            <Details>{`${time}`}</Details>
+          </DetailsCol>
         </Row>
-        <DetailsCol>
-          <Details>{day}</Details>
-          <Details>{`${time}`}</Details>
-        </DetailsCol>
-      </Row>
-    </Card>
+      </Card>
+      {selectedTaskId === task.task_id && (
+        <SelectedTaskContainer>
+          <VerticalLineFaded onClick={selectTaskHandler} />
+          <SelectedTask />
+        </SelectedTaskContainer>
+      )}
+    </>
   );
 };
 

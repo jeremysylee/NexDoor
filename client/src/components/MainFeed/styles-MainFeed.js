@@ -61,6 +61,7 @@ export const Description = styled.div`
   font-size: 14px;
   margin-top: 2px;
   padding-right: 1em;
+  overflow: hidden;
   wrap: wrap;
   max-width: auto;
   font-weight: 300;
@@ -68,7 +69,9 @@ export const Description = styled.div`
 
 export const DetailsCol = styled.div`
   font-family: Roboto;
-  margin-right: 1.5em;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
   text-align: right;
   color: grey;
   flex-wrap: nowrap;
@@ -78,7 +81,6 @@ export const Details = styled.div`
   font-size: 14px;
   font-weight: lighter;
   color: grey;
-  width: 140%;
 `;
 
 export const Subdetails = styled.div`
@@ -139,4 +141,34 @@ export const Line = styled.hr`
 
 export const SectionLine = styled(Line)`
   margin-top: 20px;
+`;
+
+export const VerticalLineFaded = styled.div`
+  background-color: #d9d9d9;
+  width: 32px;
+  max-height: 100%;
+  border-radius: 60px;
+  border: solid;
+  border-color: #F1F2F5;
+  border-width: 15px;
+  margin: 0px 10px;
+  &:hover {
+    cursor: pointer;
+    background-color: #e1e1e1;
+  }
+`;
+
+export const SelectedTaskContainer = styled.div`
+max-width: 520px;
+max-height: 800px;
+display: flex;
+overflow: hidden;
+margin-top: 1em;
+border-radius: 10px;
+font-family: Roboto;
+-webkit-transition: 200ms linear;
+-moz-transition: 200ms linear;
+-ms-transition: 200ms linear;
+-o-transition: 200ms linear;
+transition: 200ms linear;
 `;

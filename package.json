@@ -52,6 +52,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
+    "react-datepicker": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-google-maps": "^9.4.5",
     "react-ratings-declarative": "^3.4.1",
@@ -69,6 +70,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
+    "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
     "@hot-loader/react-dom": "^17.0.1",

@@ -1,17 +1,15 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import MainFeed from './MainFeed/index';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import SelectedTask from './SelectedTask';
 // import Map from './Map';
 
-const Body = styled.div`
-  background-color: #f1f2f5
-`;
+import {
+  Body,
+} from './styles-App';
 
 const MapContainer = styled.div`
   min-width: 300px;
@@ -31,8 +29,8 @@ const MapContainer = styled.div`
 `;
 
 const Home = () => {
-  const showMap = useSelector((store) => store.showMapReducer.showMap);
-
+  const placeholder = 'placeholder';
+  console.log(placeholder);
   return (
     <Body>
       <Header />
@@ -48,9 +46,10 @@ const Home = () => {
         >
           <Sidebar />
           <MainFeed />
-          {!showMap && <SelectedTask />}
-          {/* {showMap && <MapContainer><Map /></MapContainer>} */}
-          {showMap && <MapContainer />}
+          <MapContainer />
+          {/* {!showSelected && <SelectedTask />} */}
+          {/* {showSelected && <MapContainer><Map /></MapContainer>} */}
+          {/* {showSelected && <MapContainer />} */}
         </Grid>
       </Grid>
     </Body>

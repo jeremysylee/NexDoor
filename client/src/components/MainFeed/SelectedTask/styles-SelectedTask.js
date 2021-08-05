@@ -2,11 +2,11 @@ import styled from 'styled-components';
 
 export const SelectedTaskContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 3em 2em;
 `;
 
 export const AvatarLg = styled.img`
@@ -14,6 +14,7 @@ export const AvatarLg = styled.img`
   height: 80px;
   object-fit: cover;
   border-radius: 100%;
+  z-index: 3;
 `;
 
 export const AvatarRing = styled.div`
@@ -22,13 +23,14 @@ export const AvatarRing = styled.div`
   width: 98px;
   height: 98px;
   position: absolute;
-  z-index: -1;
+  z-index: 1;
 `;
 
 export const AvatarMiddleRing = styled(AvatarRing)`
   background: white;
   width: 90px;
   height: 90px;
+  z-index: 2;
 `;
 
 export const BackButton = styled.button`
@@ -64,11 +66,12 @@ export const StatusText = styled(Username)`
   font-weight: 200;
   margin-top: 0.5em;
   margin-bottom: 1em;
-  font-size: 24px;
+  font-size: 22px;
+  text-align: center;
 `;
 
 export const DetailsContainer = styled.div`
-  width: 80%;
+  flex-grow: 2;
   height: auto;
   justify-content: flex-start;
   flex-direction: column;
@@ -84,6 +87,7 @@ export const DetailsContainer = styled.div`
 export const DetailsContainerTime = styled(DetailsContainer)`
   margin-left: 15px;
   flex-shrink: 2;
+  min-width: 130px;
 `;
 
 export const HeadingSmall = styled.div`
@@ -98,8 +102,16 @@ export const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 80%;
+  width: 100%;
   margin-top: 1em;
+`;
+
+export const RowCenter = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 1em;
+  width: 100%;
 `;
 
 export const RowSlim = styled(Row)`
@@ -174,7 +186,7 @@ export const LineTop = styled.hr`
   margin-top: 18px;
   border-top: 10px;
   border: 1px solid #b7b7b7;
-  width: 80%;
+  width: 100%;
 `;
 
 export const LineBottom = styled(LineTop)`

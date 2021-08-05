@@ -13,9 +13,8 @@ import {
 
 const MainFeedContainer = styled.div`
   margin: 1em;
-  // flex-shrink: 1;
-  min-width: 400px;
-  max-width: 600px;
+  min-width: 520px;
+  max-width: 520px;
 `;
 
 const MainFeed = () => {

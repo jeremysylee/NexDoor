@@ -2,14 +2,14 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-// import EditTaskModal from './EditTaskModal';
 import {
-  Row,
-  DetailsContainer,
-  HeadingSmall,
   Col,
   ColCentered,
+  DetailsContainer,
   DetailsContainerTime,
+  HeadingSmall,
+  Row,
+  RowCenter,
 } from './styles-SelectedTask';
 
 const DetailsSection = () => {
@@ -25,10 +25,12 @@ const DetailsSection = () => {
 
   return (
     <ColCentered>
-      <DetailsContainer>
-        <HeadingSmall>REQUEST DETAILS</HeadingSmall>
-        <p>{task.description}</p>
-      </DetailsContainer>
+      <RowCenter>
+        <DetailsContainer>
+          <HeadingSmall>REQUEST DETAILS</HeadingSmall>
+          <p>{task.description}</p>
+        </DetailsContainer>
+      </RowCenter>
       <Row>
         <DetailsContainer>
           <HeadingSmall>TASK LOCATION</HeadingSmall>

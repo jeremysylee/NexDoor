@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
 import useFormatDate from './hooks/useFormatDate';
+import SelectedTask from './SelectedTask';
 
 import {
   Card,
@@ -15,6 +16,8 @@ import {
   RowRight,
   StatusBadge,
   Username,
+  VerticalLineFaded,
+  SelectedTaskContainer,
 } from './styles-MainFeed';
 
 StatusBadge.defaultProps = {
@@ -26,6 +29,7 @@ StatusBadge.defaultProps = {
 const MyTask = ({ task }) => {
   const dispatch = useDispatch();
   const { day, time } = useFormatDate(task.start_date, task.start_time);
+  const selectedTaskId = useSelector((store) => store.selectedTaskReducer.task.task_id);
 
   // STATUS TRANSLATION //
   /* Status's here are being translated for the current users perspective as a helper.
@@ -53,31 +57,44 @@ const MyTask = ({ task }) => {
   });
 
   const selectTaskHandler = () => {
+    if (selectedTaskId === task.task_id) {
+      return dispatch({
+        type: 'SET_TASK', task: { task_id: 0 },
+      });
+    }
     dispatch({ type: 'SET_TASK', task });
-    dispatch({ type: 'SHOW_MAP', toggle: false });
+    return <></>;
   };
 
   return (
-    <Card onClick={selectTaskHandler}>
-      <RowRight>
-        <ThemeProvider theme={theme}>
-          <StatusBadge>{status}</StatusBadge>
-        </ThemeProvider>
-      </RowRight>
-      <Row style={{ justifyContent: 'space-between' }}>
-        <Row>
-          <Avatar src={task.requester.profile_picture_url} alt={task.requester.firstname} />
-          <CardContent>
-            <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
-            <Description>{`${task.description.substring(0, 60)}...`}</Description>
-          </CardContent>
+    <>
+      <Card onClick={selectTaskHandler}>
+        <RowRight>
+          <ThemeProvider theme={theme}>
+            <StatusBadge>{status}</StatusBadge>
+          </ThemeProvider>
+        </RowRight>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <Row>
+            <Avatar src={task.requester.profile_picture_url} alt={task.requester.firstname} />
+            <CardContent>
+              <Username>{`${task.requester.firstname} ${task.requester.lastname}`}</Username>
+              <Description>{`${task.description.substring(0, 60)}...`}</Description>
+            </CardContent>
+          </Row>
+          <DetailsCol>
+            <Details>{day}</Details>
+            <Details>{time}</Details>
+          </DetailsCol>
         </Row>
-        <DetailsCol>
-          <Details>{day}</Details>
-          <Details>{time}</Details>
-        </DetailsCol>
-      </Row>
-    </Card>
+      </Card>
+      {selectedTaskId === task.task_id && (
+        <SelectedTaskContainer>
+          <VerticalLineFaded onClick={selectTaskHandler} />
+          <SelectedTask />
+        </SelectedTaskContainer>
+      )}
+    </>
   );
 };
 

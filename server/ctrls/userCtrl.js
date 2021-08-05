@@ -155,6 +155,7 @@ const userControllers = {
   */
   // *************************************************************
   getUser: (req, res) => {
+    console.log('--->', req.params);
     const { userId } = req.params;
 
     const queryStr = `
@@ -438,7 +439,7 @@ const userControllers = {
       }
   */
   // *************************************************************
-  authenticateLogin: (req, res, next) => {
+  authenticateLogin: (req, res, cb) => {
     const { email, password } = req.body;
     const queryStr = `
       SELECT user_id, password
@@ -447,16 +448,18 @@ const userControllers = {
     ;`;
     db.query(queryStr)
       .then((data) => {
-        const user_id = data.rows[0].user_id;
+        const { user_id } = data.rows[0];
         //compare passwords
         if (!bcrypt.compareSync(password, data.rows[0].password)) {
-          res.status(404).send('error: password does not match');
+          // res.status(404).send('error: password does not match');
+          cb('error: password does not match');
         } else {
+          cb(null, user_id);
           //return session
-          req.session.user_id = user_id;
-          req.session.save();
+          // req.session.user_id = user_id;
+          // req.session.save();
           // res.session.user_Id = user_id;
-          res.status(200).send({user_id});
+          // res.status(200).send({ user_id });
         }
       })
       .catch((err) => {

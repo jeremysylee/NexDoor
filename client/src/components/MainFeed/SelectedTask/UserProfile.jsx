@@ -5,7 +5,6 @@ import {
   AvatarLg,
   AvatarRing,
   AvatarMiddleRing,
-  Col,
   ColCentered,
   Username,
   UserInfo,
@@ -44,12 +43,12 @@ UserProfile.propTypes = {
 UserProfile.defaultProps = { user: {} };
 
 export const UserProfileBlank = () => (
-  <Col>
+  <ColCentered>
     <AvatarLg
       style={{ backgroundColor: 'grey' }}
       alt=""
     />
     <Username />
     <UserInfo />
-  </Col>
+  </ColCentered>
 );
