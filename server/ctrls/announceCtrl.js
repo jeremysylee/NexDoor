@@ -1,11 +1,12 @@
 /* eslint-disable spaced-comment */
-const db = require('../../db/index');
+const announcementModels = require('../models/announceModel');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
-- Add an announcement: 10 - 57
-- Get x # of announcements: 59 - 93
+- Add an announcement: 11 - 38
+- Get x # of announcements: 42 - 93
 ________________________________________________________________*/
+
 const announcementControllers = {
   // *************************************************************
   // ADD ANNOUNCEMENT
@@ -30,34 +31,14 @@ const announcementControllers = {
       date,
       time,
     } = req.body;
-
-    const queryStr = `
-      INSERT INTO nexdoor.announcements (
-        user_id,
-        announcement_body,
-        date,
-        time
-      )
-      VALUES (
-        ${userId},
-        '${announcementBody}',
-        '${date}',
-        '${time}'
-      )
-    `;
-
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send('Added announcement to db');
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    announcementModels.addAnnouncement(userId, announcementBody, date, time)
+      .then((success) => res.status(200).send(success))
+      .catch((err) => res.status(400).send(err.stack));
   },
   // *************************************************************
 
   // *************************************************************
-  // ADD ANNOUNCEMENT
+  // GET ANNOUNCEMENT
   // *************************************************************
   /*
     GET /api/announce/:quantity
@@ -77,12 +58,8 @@ const announcementControllers = {
   // *************************************************************
   getAnnouncements: (req, res) => {
     const { quantity } = req.params || 25;
-    const queryStr = `
-      SELECT *
-      FROM nexdoor.announcements
-      LIMIT ${quantity}
-    ;`;
-    db.query(queryStr)
+    console.log('heee');
+    announcementModels.getAnnouncements(quantity)
       .then((data) => {
         res.status(200).send(data.rows);
       })

@@ -111,7 +111,7 @@ const userControllers = {
           res.status(200).send(data.rows[0]);
         })
         .catch((err) => {
-          res.status(400).send(err.stack);
+          res.status(400).send(err);
         });
     };
 
