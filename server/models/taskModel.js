@@ -55,59 +55,65 @@ const taskModels = {
     endDate,
     startTime,
     duration,
-    coordinate,
   }) => {
-    const queryStr = `
-      WITH X AS (
-        INSERT INTO nexdoor.address (
-          street_address,
-          city,
-          state,
-          zipcode,
-          neighborhood,
-          coordinate
-        )
-        VALUES (
-          '${streetAddress}',
-          '${city}',
-          '${state}',
-          ${zipcode},
-          '${neighborhood}',
-          ${coordinate}
-        )
-        RETURNING address_id
-      )
-      INSERT INTO nexdoor.tasks (
-        requester_id,
-        address_id,
-        description,
-        car_required,
-        physical_labor_required,
-        status,
-        category,
-        start_date,
-        end_date,
-        start_time,
-        duration,
-        timestamp_requested
-      )
-      SELECT
-        ${userId},
-        address_id,
-        '${description}',
-        ${carRequired},
-        ${laborRequired},
-        'Open',
-        '${category}',
-        '${startDate}',
-        '${endDate}',
-        '${startTime}',
-        ${duration},
-        (SELECT CURRENT_TIMESTAMP)
-      FROM X;
-    `;
-    db.query(queryStr)
-      .then(() => 'added task to db')
+    getCoordinates()
+      .then((Coord) => {
+        const coordinate = `point(${Coord.lng},${Coord.lat})`;
+        const queryStr = `
+            WITH X AS (
+              INSERT INTO nexdoor.address
+              (
+                street_address,
+                city,
+                state,
+                zipcode,
+                neighborhood,
+                coordinate
+              )
+              VALUES
+              (
+                '${streetAddress}',
+                '${city}',
+                '${state}',
+                ${zipcode},
+                '${neighborhood}',
+                ${coordinate}
+              )
+            RETURNING address_id
+          )
+          INSERT INTO nexdoor.tasks (
+            requester_id,
+            address_id,
+            description,
+            car_required,
+            physical_labor_required,
+            status,
+            category,
+            start_date,
+            end_date,
+            start_time,
+            duration,
+            timestamp_requested
+          )
+          SELECT
+            ${userId},
+            address_id,
+            '${description}',
+            ${carRequired},
+            ${laborRequired},
+            'Open',
+            '${category}',
+            '${startDate}',
+            '${endDate}',
+            '${startTime}',
+            ${duration},
+            (SELECT CURRENT_TIMESTAMP)
+          FROM X;
+        `;
+        db.query(queryStr)
+          .then(() => 'added task with new Address')
+          .catch((err) => err);
+      })
       .catch((err) => err);
   },
   // *************************************************************
@@ -182,6 +188,52 @@ const taskModels = {
       .then(() => 'Added task to db')
       .catch((err) => err);
   },
+
+  addTaskExistingAddress: ({
+    userId,
+    addressId,
+    description,
+    carRequired,
+    laborRequired,
+    category,
+    startDate,
+    endDate,
+    startTime,
+    duration,
+  }) => {
+    const queryStr = `
+    INSERT INTO nexdoor.tasks (
+      requester_id,
+      address_id,
+      description,
+      car_required,
+      physical_labor_required,
+      status,
+      category,
+      start_date,
+      end_date,
+      start_time,
+      duration,
+      timestamp_requested
+    )
+    VALUES (
+      ${userId},
+      ${addressId},
+      '${description}',
+      ${carRequired},
+      ${laborRequired},
+      'Open',
+      '${category}',
+      '${startDate}',
+      '${endDate}',
+      '${startTime}',
+      ${duration},
+      (SELECT CURRENT_TIMESTAMP)
+    )
+  `;
+    db.query(queryStr)
+      .then(() => 'added task with existing address')
+  },
   // *************************************************************
 
   // *************************************************************
@@ -212,156 +264,156 @@ const taskModels = {
   */
   // *************************************************************
 
-  addTaskCheckAddress: (req, res) => {
-    const { userId } = req.params;
-    const {
-      streetAddress,
-      city,
-      state,
-      zipcode,
-      neighborhood,
-      description,
-      carRequired,
-      laborRequired,
-      category,
-      startDate,
-      endDate,
-      startTime,
-      duration,
-    } = req.body;
+  // addTaskCheckAddress: (req, res) => {
+  //   const { userId } = req.params;
+  //   const {
+  //     streetAddress,
+  //     city,
+  //     state,
+  //     zipcode,
+  //     neighborhood,
+  //     description,
+  //     carRequired,
+  //     laborRequired,
+  //     category,
+  //     startDate,
+  //     endDate,
+  //     startTime,
+  //     duration,
+  //   } = req.body;
 
-    const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
-    let coordinate;
+  //   const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
+  //   let coordinate;
 
-    const queryStr1 = `
-      SELECT address_id
-      FROM nexdoor.address
-      WHERE street_address='${streetAddress}'
-      AND zipcode=${zipcode}
-    `;
+  //   const queryStr1 = `
+  //     SELECT address_id
+  //     FROM nexdoor.address
+  //     WHERE street_address='${streetAddress}'
+  //     AND zipcode=${zipcode}
+  //   `;
 
-    const queryDb = () => {
-      const queryStr3 = `
-        WITH X AS (
-          INSERT INTO nexdoor.address
-          (
-            street_address,
-            city,
-            state,
-            zipcode,
-            neighborhood,
-            coordinate
-          )
-          VALUES
-          (
-            '${streetAddress}',
-            '${city}',
-            '${state}',
-            ${zipcode},
-            '${neighborhood}',
-            ${coordinate}
-          )
-        RETURNING address_id
-      )
-      INSERT INTO nexdoor.tasks (
-        requester_id,
-        address_id,
-        description,
-        car_required,
-        physical_labor_required,
-        status,
-        category,
-        start_date,
-        end_date,
-        start_time,
-        duration,
-        timestamp_requested
-      )
-      SELECT
-        ${userId},
-        address_id,
-        '${description}',
-        ${carRequired},
-        ${laborRequired},
-        'Open',
-        '${category}',
-        '${startDate}',
-        '${endDate}',
-        '${startTime}',
-        ${duration},
-        (SELECT CURRENT_TIMESTAMP)
-      FROM X;
-    `;
+  //   const queryDb = () => {
+  //     const queryStr3 = `
+  //       WITH X AS (
+  //         INSERT INTO nexdoor.address
+  //         (
+  //           street_address,
+  //           city,
+  //           state,
+  //           zipcode,
+  //           neighborhood,
+  //           coordinate
+  //         )
+  //         VALUES
+  //         (
+  //           '${streetAddress}',
+  //           '${city}',
+  //           '${state}',
+  //           ${zipcode},
+  //           '${neighborhood}',
+  //           ${coordinate}
+  //         )
+  //       RETURNING address_id
+  //     )
+  //     INSERT INTO nexdoor.tasks (
+  //       requester_id,
+  //       address_id,
+  //       description,
+  //       car_required,
+  //       physical_labor_required,
+  //       status,
+  //       category,
+  //       start_date,
+  //       end_date,
+  //       start_time,
+  //       duration,
+  //       timestamp_requested
+  //     )
+  //     SELECT
+  //       ${userId},
+  //       address_id,
+  //       '${description}',
+  //       ${carRequired},
+  //       ${laborRequired},
+  //       'Open',
+  //       '${category}',
+  //       '${startDate}',
+  //       '${endDate}',
+  //       '${startTime}',
+  //       ${duration},
+  //       (SELECT CURRENT_TIMESTAMP)
+  //     FROM X;
+  //   `;
 
-      db.query(queryStr3)
-        .then(() => {
-          res.send('Added task with new address to db');
-        })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
-    };
+  //     db.query(queryStr3)
+  //       .then(() => {
+  //         res.send('Added task with new address to db');
+  //       })
+  //       .catch((err) => {
+  //         res.status(400).send(err.stack);
+  //       });
+  //   };
 
-    db.query(queryStr1)
-      .then((address) => {
-        if (address.rows.length > 0) {
-          const addressId = address.rows[0].address_id;
-          const queryStr2 = `
-          INSERT INTO nexdoor.tasks (
-            requester_id,
-            address_id,
-            description,
-            car_required,
-            physical_labor_required,
-            status,
-            category,
-            start_date,
-            end_date,
-            start_time,
-            duration,
-            timestamp_requested
-          )
-          VALUES (
-            ${userId},
-            ${addressId},
-            '${description}',
-            ${carRequired},
-            ${laborRequired},
-            'Open',
-            '${category}',
-            '${startDate}',
-            '${endDate}',
-            '${startTime}',
-            ${duration},
-            (SELECT CURRENT_TIMESTAMP)
-          )
-        `;
-          db.query(queryStr2)
-            .then(() => {
-              res.status(200).send('Added task with old address to db');
-            })
-            .catch((err) => {
-              res.status(400).send(err.stack);
-            });
-        } else {
-          getCoordinates(addressQuery)
-            .then((testCoord) => {
-              coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-            })
-            .then(() => {
-              queryDb();
-            })
-            .catch((err) => {
-              res.status(400).send('Error getting coordinates', err.stack);
-            });
-        }
-      })
-      .catch((err) => {
-        res.status(400).send('error', err.stack);
-      });
-  },
+  //   db.query(queryStr1)
+  //     .then((address) => {
+  //       if (address.rows.length > 0) {
+  //         const addressId = address.rows[0].address_id;
+  //          const queryStr2 = `
+  //         INSERT INTO nexdoor.tasks (
+  //           requester_id,
+  //           address_id,
+  //           description,
+  //          car_required,
+  //           physical_labor_required,
+  //           status,
+  //           category,
+  //           start_date,
+  //           end_date,
+  //           start_time,
+  //           duration,
+  //           timestamp_requested
+  //         )
+  //         VALUES (
+  //           ${userId},
+  //           ${addressId},
+  //           '${description}',
+  //           ${carRequired},
+  //           ${laborRequired},
+  //           'Open',
+  //           '${category}',
+  //           '${startDate}',
+  //           '${endDate}',
+  //           '${startTime}',
+  //           ${duration},
+  //           (SELECT CURRENT_TIMESTAMP)
+  //         )
+  //       `;
+  //         db.query(queryStr2)
+  //           .then(() => {
+  //             res.status(200).send('Added task with old address to db');
+  //           })
+  //           .catch((err) => {
+  //             res.status(400).send(err.stack);
+  //           });
+  //       } else {
+  //         getCoordinates(addressQuery)
+  //           .then((testCoord) => {
+  //             coordinate = `point(${testCoord.lng},${testCoord.lat})`;
+  //           })
+  //           .then(() => {
+  //             queryDb();
+  //           })
+  //           .catch((err) => {
+  //             res.status(400).send('Error getting coordinates', err.stack);
+  //           });
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       res.status(400).send('error', err.stack);
+  //     });
+  // },
 
-  checkForAddress: () => {
+  checkForAddress: ({ streetAddress, zipcode }) => {
     const queryStr = `
       SELECT address_id
       FROM nexdoor.address
@@ -370,11 +422,9 @@ const taskModels = {
     `;
     db.query(queryStr)
       .then((address) => address)
+      .catch((err) => err);
   },
 
-  addAddress: () => {
-
-  }
   // *************************************************************
 
   // *************************************************************
