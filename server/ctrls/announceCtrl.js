@@ -11,31 +11,23 @@ const announcementControllers = {
   // *************************************************************
   // ADD ANNOUNCEMENT
   // *************************************************************
-  //   Needs from Front End - UserId (optional), defaults to null
-  //   Returns - String confirmation
-  // *************************************************************
   /*
-    POST api/announce/${userId}
-    req.body = {
-      "announcementBody": "There was a robbery at 123 East Main Street last night",
-      "date": "10/17/2020",
-      "time": "05:25"
-    }
-    res = 'Added announcement to db'
+      POST api/announce/${userId}
+      req:
+        params: UserId (optional), defaults to null
+        req.body = {
+          "announcementBody": "There was a robbery at 123 East Main Street last night",
+          "date": "10/17/2020",
+          "time": "05:25"
+        }
+      res: 'Added announcement to db'
   */
-  // *************************************************************
   addAnnouncement: (req, res) => {
     const { userId } = req.params || null;
-    const {
-      announcementBody,
-      date,
-      time,
-    } = req.body;
-    announcementModels.addAnnouncement(userId, announcementBody, date, time)
+    announcementModels.addAnnouncement(userId, req.body)
       .then((success) => res.status(200).send(success))
       .catch((err) => res.status(400).send(err.stack));
   },
-  // *************************************************************
 
   // *************************************************************
   // GET ANNOUNCEMENT
@@ -55,10 +47,8 @@ const announcementControllers = {
         ....
       ]
   */
-  // *************************************************************
   getAnnouncements: (req, res) => {
     const { quantity } = req.params || 25;
-    console.log('heee');
     announcementModels.getAnnouncements(quantity)
       .then((data) => {
         res.status(200).send(data.rows);
@@ -67,7 +57,6 @@ const announcementControllers = {
         res.status(400).send(err.stack);
       });
   },
-  // *************************************************************
 };
 
 module.exports = announcementControllers;

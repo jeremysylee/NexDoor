@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 const router = require('express').Router();
 const announceCtrl = require('./ctrls/announceCtrl');
-const messageCtrl = require('./models/messageCtrl');
+const messageCtrl = require('./ctrls/messageCtrl');
 const taskCtrl = require('./models/taskCtrl');
 const userCtrl = require('./models/userCtrl');
 

@@ -2,9 +2,9 @@
 const db = require('../../db/index');
 
 const announcementModels = {
-  addAnnouncement: (
+  addAnnouncement: ({
     userId, announcementBody, date, time,
-  ) => {
+  }) => {
     const queryStr = `
       INSERT INTO nexdoor.announcements (
         user_id,
@@ -35,7 +35,6 @@ const announcementModels = {
       .then((data) => data)
       .catch((err) => err);
   },
-  // *************************************************************
 };
 
 module.exports = announcementModels;

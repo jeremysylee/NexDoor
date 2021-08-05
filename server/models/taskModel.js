@@ -15,123 +15,100 @@ TABLE OF CONTENTS
 - Remove helper from a task (and change status to open): 970 - 999
 - Update a task status to active, completed, or closed: 1001 - 1028
 ________________________________________________________________*/
-const taskControllers = {
+const taskModels = {
 // *************************************************************
   // ADD TASK WITH NEW ADDRESS (i.e not the user's home address)
   // *************************************************************
-  //   Needs from Front End - userId, street address, city, state, zipcode, coordinate (from GoogleMaps API), description, car required (optional), labor required (optional), category, start date, end date, start time, duration,
-  //   Returns - String confirmation
-  // *************************************************************
-  // POST api/task/new/:userId
-  /* req.body =
-  {
-    "streetAddress": "111 Random Street",
-    "city": "Los Angeles",
-    "state": "CA",
-    "zipcode": 12345,
-    "neighborhood": "Hollywood",
-    "description": "Hoping to borrow 2 lawnchairs",
-    "carRequired": false,
-    "laborRequired": false,
-    "category": "borrow",
-    "startDate": "08/10/2021",
-    "endDate": "08/21/2021",
-    "startTime": "5:08",
-    "duration": 2
-  }
-  res = 'Added task to db'
-  */
-  // *************************************************************
-  addTaskNewAddress: (req, res) => {
-    const { userId } = req.params;
-    const {
-      streetAddress,
-      city,
-      state,
-      zipcode,
-      neighborhood,
-      description,
-      carRequired,
-      laborRequired,
-      category,
-      startDate,
-      endDate,
-      startTime,
-      duration,
-    } = req.body;
-
-    const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
-    let coordinate;
-
-    const queryDb = () => {
-      const queryStr = `
-        WITH X AS (
-          INSERT INTO nexdoor.address (
-            street_address,
-            city,
-            state,
-            zipcode,
-            neighborhood,
-            coordinate
-          )
-          VALUES (
-            '${streetAddress}',
-            '${city}',
-            '${state}',
-            ${zipcode},
-            '${neighborhood}',
-            ${coordinate}
-          )
-          RETURNING address_id
+  /*
+    POST api/task/new/:userId
+    req:
+      params: userId
+      req.body =
+        {
+          "streetAddress": "111 Random Street",
+          "city": "Los Angeles",
+          "state": "CA",
+          "zipcode": 12345,
+          "neighborhood": "Hollywood",
+          "description": "Hoping to borrow 2 lawnchairs",
+          "carRequired": false,
+          "laborRequired": false,
+          "category": "borrow",
+          "startDate": "08/10/2021",
+          "endDate": "08/21/2021",
+          "startTime": "5:08",
+          "duration": 2
+        }
+    res: 'Added task to db'                                 */
+  addTaskNewAddress: ({
+    userId,
+    streetAddress,
+    city,
+    state,
+    zipcode,
+    neighborhood,
+    description,
+    carRequired,
+    laborRequired,
+    category,
+    startDate,
+    endDate,
+    startTime,
+    duration,
+    coordinate,
+  }) => {
+    const queryStr = `
+      WITH X AS (
+        INSERT INTO nexdoor.address (
+          street_address,
+          city,
+          state,
+          zipcode,
+          neighborhood,
+          coordinate
         )
-        INSERT INTO nexdoor.tasks (
-          requester_id,
-          address_id,
-          description,
-          car_required,
-          physical_labor_required,
-          status,
-          category,
-          start_date,
-          end_date,
-          start_time,
-          duration,
-          timestamp_requested
+        VALUES (
+          '${streetAddress}',
+          '${city}',
+          '${state}',
+          ${zipcode},
+          '${neighborhood}',
+          ${coordinate}
         )
-        SELECT
-          ${userId},
-          address_id,
-          '${description}',
-          ${carRequired},
-          ${laborRequired},
-          'Open',
-          '${category}',
-          '${startDate}',
-          '${endDate}',
-          '${startTime}',
-          ${duration},
-          (SELECT CURRENT_TIMESTAMP)
-        FROM X;
-      `;
-      db.query(queryStr)
-        .then(() => {
-          res.status(200).send('Added task to db');
-        })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
-    };
-    getCoordinates(addressQuery)
-      .then((testCoord) => {
-        coordinate = `point(${testCoord.lng},${testCoord.lat})`
-          .then(() => {
-            queryDb();
-          })
-          .catch((err) => res.status(400).send(err.stack));
-      })
-      .catch((err) => {
-        res.status(400).send('Error getting coordinates', err.stack);
-      });
+        RETURNING address_id
+      )
+      INSERT INTO nexdoor.tasks (
+        requester_id,
+        address_id,
+        description,
+        car_required,
+        physical_labor_required,
+        status,
+        category,
+        start_date,
+        end_date,
+        start_time,
+        duration,
+        timestamp_requested
+      )
+      SELECT
+        ${userId},
+        address_id,
+        '${description}',
+        ${carRequired},
+        ${laborRequired},
+        'Open',
+        '${category}',
+        '${startDate}',
+        '${endDate}',
+        '${startTime}',
+        ${duration},
+        (SELECT CURRENT_TIMESTAMP)
+      FROM X;
+    `;
+    db.query(queryStr)
+      .then(() => 'added task to db')
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -156,20 +133,17 @@ const taskControllers = {
     res = 'Added task to db'
   */
   // *************************************************************
-  addTaskHomeAddress: (req, res) => {
-    const { userId } = req.params;
-
-    const {
-      description,
-      carRequired,
-      laborRequired,
-      category,
-      startDate,
-      endDate,
-      startTime,
-      duration,
-    } = req.body;
-
+  addTaskHomeAddress: ({
+    userId,
+    description,
+    carRequired,
+    laborRequired,
+    category,
+    startDate,
+    endDate,
+    startTime,
+    duration,
+  }) => {
     const queryStr = `
       INSERT INTO nexdoor.tasks (
         requester_id,
@@ -205,12 +179,8 @@ const taskControllers = {
     `;
 
     db.query(queryStr)
-      .then(() => {
-        res.status(200).send('Added task to db');
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+      .then(() => 'Added task to db')
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -390,6 +360,21 @@ const taskControllers = {
         res.status(400).send('error', err.stack);
       });
   },
+
+  checkForAddress: () => {
+    const queryStr = `
+      SELECT address_id
+      FROM nexdoor.address
+      WHERE street_address='${streetAddress}'
+      AND zipcode=${zipcode}
+    `;
+    db.query(queryStr)
+      .then((address) => address)
+  },
+
+  addAddress: () => {
+
+  }
   // *************************************************************
 
   // *************************************************************
@@ -2083,4 +2068,4 @@ const taskControllers = {
   },
 };
 
-module.exports = taskControllers;
+module.exports = taskModels;
