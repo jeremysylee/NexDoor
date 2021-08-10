@@ -42,17 +42,9 @@ const taskControllers = {
     res: 'Added task to db'*/
   addTaskNewAddress: (req, res) => {
     const { userId } = req.params;
-
-    getCoordinates(req.body)
-      .then((Coord) => {
-        const coordinate = `point(${Coord.lng},${Coord.lat})`;
-        taskModel.addTaskNewAddress(userId, req.body, coordinate)
-          .then((success) => res.status(200).send(success))
-          .catch((err) => res.status(400).send(err.stack));
-      })
-      .catch((err) => {
-        res.status(400).send('Error getting coordinates', err.stack);
-      });
+    taskModel.addTaskNewAddress(userId, req.body)
+      .then((success) => res.status(200).send(success))
+      .catch((err) => res.status(400).send(err.stack));
   },
   // *************************************************************
 
@@ -121,14 +113,14 @@ const taskControllers = {
     taskModel.checkForAddress(req.body)
       .then((address) => {
         if (address.rows.length > 0) {
-          const addressId = address.rows[0]
+          const addressId = address.rows[0];
           taskModel.addTaskExistingAddress(req.body, req.params, addressId)
             .then((success) => res.status(200).send(success))
             .catch((err) => res.status(400).send(err));
         } else {
           taskModel.addTaskNewAddress(req.body, req.params)
             .then((success) => res.status(200).send(success))
-            .catch((err) => res.status(400).send(err.stack))
+            .catch((err) => res.status(400).send(err.stack));
         }
       })
       .catch((err) => { res.status(400).send(err.stack); });
@@ -343,23 +335,11 @@ const taskControllers = {
   // *************************************************************
   getTasksInRangeAltAddress: (req, res) => {
     taskModel.getTasksInRangeAltAddress(req.body, req.params)
-        .then((data) => {
-          res.status(200).send(data.rows);
-        })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
-    };
-
-    getCoordinates(addressQuery)
-      .then((testCoord) => {
-        coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-      })
-      .then(() => {
-        queryDb();
+      .then((data) => {
+        res.status(200).send(data.rows);
       })
       .catch((err) => {
-        res.status(400).send('Error getting coordinates', err.stack);
+        res.status(400).send(err.stack);
       });
   },
   // *************************************************************
@@ -416,72 +396,9 @@ const taskControllers = {
   */
   // *************************************************************
   getReqTasksByUser: (req, res) => {
-    const { userId } = req.params;
-    const queryStr = `
-      SELECT
-        task_id,
-        (
-          SELECT ROW_TO_JSON(reqname)
-          FROM (
-            SELECT
-              user_id,
-              firstname,
-              lastname,
-              email,
-              address_id,
-              karma,
-              task_count,
-              avg_rating,
-              profile_picture_url
-            FROM nexdoor.users
-            WHERE user_id=${userId}
-          ) reqname
-        ) as requester,
-        (
-          SELECT ROW_TO_JSON(helpname)
-          FROM (
-            SELECT
-              user_id,
-              firstname,
-              lastname,
-              email,
-              address_id,
-              karma,
-              task_count,
-              avg_rating,
-              profile_picture_url
-            FROM nexdoor.users
-            WHERE user_id=nexdoor.tasks.helper_id
-          ) helpname
-        ) as helper,
-        (
-          SELECT ROW_TO_JSON(loc)
-          FROM (
-            SELECT *
-            FROM nexdoor.address
-            WHERE address_id=nexdoor.tasks.address_id
-          ) loc
-        ) as location,
-        description,
-        car_required,
-        physical_labor_required,
-        status,
-        category,
-        start_date,
-        end_date,
-        start_time,
-        duration,
-        timestamp_requested
-      FROM nexdoor.tasks
-      WHERE requester_id=${userId}
-      ORDER BY
-        start_date,
-        start_time
-    ;`;
-
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows);
+    taskModel.getReqTasksByUser(req.params)
+      .then((tasks) => {
+        res.status(200).send(tasks);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -549,71 +466,9 @@ const taskControllers = {
   */
   // *************************************************************
   getHelpTasksByUser: (req, res) => {
-    const { userId } = req.params;
-    const queryStr = `
-      SELECT
-        task_id,
-        (
-          SELECT ROW_TO_JSON(reqname)
-          FROM (
-            SELECT
-              user_id,
-              firstname,
-              lastname,
-              email,
-              address_id,
-              karma,
-              task_count,
-              avg_rating,
-              profile_picture_url
-            FROM nexdoor.users
-            WHERE user_id=nexdoor.tasks.requester_id
-          ) reqname
-        ) AS requester,
-        (
-          SELECT ROW_TO_JSON(helpname)
-          FROM (
-            SELECT
-              user_id,
-              firstname,
-              lastname,
-              email,
-              address_id,
-              karma,
-              task_count,
-              avg_rating,
-              profile_picture_url
-            FROM nexdoor.users
-            WHERE user_id=nexdoor.tasks.helper_id
-          ) helpname
-        ) AS helper,
-        (
-          SELECT ROW_TO_JSON(loc)
-          FROM (
-            SELECT *
-            FROM nexdoor.address
-            WHERE address_id=nexdoor.tasks.address_id
-          ) loc
-        ) AS location,
-        description,
-        car_required,
-        physical_labor_required,
-        status,
-        category,
-        start_date,
-        end_date,
-        start_time,
-        duration,
-        timestamp_requested
-      FROM nexdoor.tasks
-      WHERE helper_id=${userId}
-      ORDER BY
-        start_date,
-        start_time
-      `;
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows);
+    taskModel.getHelpTasksByUser(req.params)
+      .then((tasks) => {
+        res.status(200).send(tasks);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -634,17 +489,9 @@ const taskControllers = {
   */
   // *************************************************************
   updateHelper: (req, res) => {
-    const { taskId, userId } = req.params;
-    const queryStr = `
-      UPDATE nexdoor.tasks
-      SET
-        helper_id=${userId},
-        status='Pending'
-      WHERE task_id=${taskId}
-    `;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send('Updated helper, status pending');
+    taskModel.updateHelper(req.params)
+      .then((success) => {
+        res.status(200).send(success);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -665,17 +512,9 @@ const taskControllers = {
   */
   // *************************************************************
   removeHelper: (req, res) => {
-    const { taskId } = req.params;
-    const queryStr = `
-      UPDATE nexdoor.tasks
-      SET
-        helper_id=null,
-        status='Open'
-      WHERE task_id=${taskId}
-    ;`;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send('Removed helper, status open');
+    taskModel.removeHelper(req.params)
+      .then((success) => {
+        res.status(200).send(success);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -696,15 +535,9 @@ const taskControllers = {
   */
   // *************************************************************
   changeTaskStatus: (req, res) => {
-    const { status, taskId } = req.params;
-    const queryStr = `
-      UPDATE nexdoor.tasks
-      SET status='${status}'
-      WHERE task_id=${taskId}
-    ;`;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send(`Task ${taskId} status set to ${status}`);
+    taskModel.changeTaskStatus(req.params)
+      .then((success) => {
+        res.status(200).send(success);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -729,80 +562,9 @@ const taskControllers = {
   */
   // *************************************************************
   closeTask: (req, res) => {
-    const { taskId, rating } = req.params;
-    const { review } = req.body;
-    const queryStr1 = `
-      UPDATE nexdoor.users
-        SET
-          task_count=task_count + 1,
-          karma=karma + ${rating}
-        WHERE user_id=(
-          SELECT helper_id
-          FROM nexdoor.tasks
-          WHERE task_id=${taskId}
-        )
-    ;`;
-    const queryStr2 = `
-      UPDATE nexdoor.users
-      SET avg_rating=karma / task_count
-      WHERE user_id=(
-        SELECT helper_id
-        FROM nexdoor.tasks
-        WHERE task_id=${taskId}
-      )
-    ;`;
-    const queryStr3 = `
-      UPDATE nexdoor.tasks
-      SET status='Closed'
-      WHERE task_id=${taskId}
-    ;`;
-    const queryStr4 = `
-      INSERT INTO nexdoor.reviews (
-        rating,
-        review,
-        requester_id,
-        helper_id
-      )
-      VALUES (
-        ${rating},
-        '${review}',
-        (
-          SELECT requester_id
-          FROM nexdoor.tasks
-          WHERE task_id=${taskId}
-        ),
-        (
-          SELECT helper_id
-          FROM nexdoor.tasks
-          WHERE task_id=${taskId}
-        )
-      )
-    ;`;
-    db.query(queryStr1)
-      .then(() => {
-        db.query(queryStr2)
-          .then(() => {
-            db.query(queryStr3)
-              .then(() => {
-                db.query(queryStr4)
-                  .then(() => {
-                    res.status(200).send(`Task ${taskId} closed`);
-                  })
-                  .catch((err) => {
-                    res.status(400).send(err.stack);
-                  });
-              })
-              .catch((err) => {
-                res.status(400).send('err updating task status', err.stack);
-              });
-          })
-          .catch((err) => {
-            res.status(400).send('err updating avg_rating', err.stack);
-          });
-      })
-      .catch((err) => {
-        res.status(400).send('err updating taskcount and karma', err.stack);
-      });
+    taskModel.closeTask(req.params, req.body)
+      .then((success) => res.status(200).send(success))
+      .catch((err) => err);
   },
 
   // *************************************************************
@@ -818,14 +580,9 @@ const taskControllers = {
   */
   // *************************************************************
   deleteTask: (req, res) => {
-    const { taskId } = req.params;
-    const queryStr = `
-      DELETE FROM nexdoor.tasks
-      WHERE task_id=${taskId}
-    ;`;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send(`Deleted task ${taskId} from db`);
+    taskModel.deleteTask(req.params)
+      .then((success) => {
+        res.status(200).send(success);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -894,8 +651,8 @@ const taskControllers = {
   */
   getTasksMasterDefaultAddress: (req, res) => {
     taskModel.getTasksMasterDefaultAddress(req.params)
-      .then((data) => {
-        res.status(200).send(data);
+      .then((task) => {
+        res.status(200).send(task);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -910,8 +667,8 @@ const taskControllers = {
   // *************************************************************
   getTasksMasterAltAddress: (req, res) => {
     taskModel.getTasksMasterAltAddress(req.params, req.body)
-      .then((data) => res.status(200).send(data))
-      .catch((err) => res.status(400).send(err.stack));
+      .then((data) => { res.status(200).send(data); })
+      .catch((err) => { res.status(400).send(err.stack); });
   },
 
   // *************************************************************
@@ -943,8 +700,9 @@ const taskControllers = {
   // *************************************************************
   editTask: (req, res) => {
     taskModel.editTask(req.body)
-      .then((success => res.status(200).send(success))
-      .catch((err) => res.status(400).send(err.stack))
+      .then((success) => { res.status(200).send(success); })
+      .catch((err) => { res.status(400).send(err.stack); });
+  },
 };
 
 module.exports = taskControllers;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1628433562673" clover="3.2.0">
-  <project timestamp="1628433562673" name="All files">
+<coverage generated="1628634268505" clover="3.2.0">
+  <project timestamp="1628634268505" name="All files">
     <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="3" coveredelements="3" complexity="0" loc="3" ncloc="3" packages="1" files="1" classes="1"/>
-    <file name="config.js" path="/Users/jeremylee/HRLA/NexDoor/config.js">
+    <file name="config.js" path="/Users/jeremysylee/hrla/NexDoor/config.js">
       <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>

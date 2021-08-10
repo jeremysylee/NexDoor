@@ -174,8 +174,9 @@ const taskModels = {
       (SELECT CURRENT_TIMESTAMP)
     )
   `;
-    db.query(queryStr)
+    return db.query(queryStr)
       .then(() => 'added task with existing address')
+      .catch((err) => err);
   },
 
   // addTaskCheckAddress: (req, res) => {
@@ -398,7 +399,7 @@ const taskModels = {
   */
   // *************************************************************
   getTasks: ({
-    userId, quantity, offset
+    userId, quantity, offset,
   }) => {
     const queryStr = `
     SELECT ROW_TO_JSON(all)
@@ -540,7 +541,7 @@ const taskModels = {
   */
   // *************************************************************
   getTasksInRange: ({
-    userId, range
+    userId, range,
   }) => {
     const queryStr = `
       SELECT
@@ -776,25 +777,17 @@ const taskModels = {
           start_time
         LIMIT 100;
       ;`;
-      db.query(queryStr)
-        .then((data) => {
-          res.status(200).send(data.rows);
-        })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
+      return db.query(queryStr)
+        .then((data) => data.rows)
+        .catch((err) => err);
     };
 
     getCoordinates(addressQuery)
       .then((testCoord) => {
         coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-      })
-      .then(() => {
         queryDb();
       })
-      .catch((err) => {
-        res.status(400).send('Error getting coordinates', err.stack);
-      });
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -849,8 +842,7 @@ const taskModels = {
       ]
   */
   // *************************************************************
-  getReqTasksByUser: (req, res) => {
-    const { userId } = req.params;
+  getReqTasksByUser: ({ userId }) => {
     const queryStr = `
       SELECT
         task_id,
@@ -913,13 +905,9 @@ const taskModels = {
         start_time
     ;`;
 
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then((data) => data.rows)
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -982,8 +970,7 @@ const taskModels = {
       ]
   */
   // *************************************************************
-  getHelpTasksByUser: (req, res) => {
-    const { userId } = req.params;
+  getHelpTasksByUser: ({ userId }) => {
     const queryStr = `
       SELECT
         task_id,
@@ -1045,13 +1032,9 @@ const taskModels = {
         start_date,
         start_time
       `;
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then((data) => data.rows)
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -1067,8 +1050,10 @@ const taskModels = {
     res = 'Updated helper, status pending'
   */
   // *************************************************************
-  updateHelper: (req, res) => {
-    const { taskId, userId } = req.params;
+  updateHelper: ({
+    taskId,
+    userId,
+  }) => {
     const queryStr = `
       UPDATE nexdoor.tasks
       SET
@@ -1076,13 +1061,9 @@ const taskModels = {
         status='Pending'
       WHERE task_id=${taskId}
     `;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send('Updated helper, status pending');
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then(() => 'Updated helper, status pending')
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -1098,8 +1079,7 @@ const taskModels = {
     res = 'Removed helper, status open
   */
   // *************************************************************
-  removeHelper: (req, res) => {
-    const { taskId } = req.params;
+  removeHelper: ({ taskId }) => {
     const queryStr = `
       UPDATE nexdoor.tasks
       SET
@@ -1107,13 +1087,9 @@ const taskModels = {
         status='Open'
       WHERE task_id=${taskId}
     ;`;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send('Removed helper, status open');
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then(() => 'Removed helper, status open')
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -1129,20 +1105,15 @@ const taskModels = {
     res = 'Task 17 status set to complete'
   */
   // *************************************************************
-  changeTaskStatus: (req, res) => {
-    const { status, taskId } = req.params;
+  changeTaskStatus: ({ status, taskId }) => {
     const queryStr = `
       UPDATE nexdoor.tasks
       SET status='${status}'
       WHERE task_id=${taskId}
     ;`;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send(`Task ${taskId} status set to ${status}`);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then(() => `Task ${taskId} status set to ${status}`)
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -1162,9 +1133,11 @@ const taskModels = {
     res = 'Task 17 closed'
   */
   // *************************************************************
-  closeTask: (req, res) => {
-    const { taskId, rating } = req.params;
-    const { review } = req.body;
+  closeTask: ({
+    taskId,
+    rating,
+    review,
+  }) => {
     const queryStr1 = `
       UPDATE nexdoor.users
         SET
@@ -1212,31 +1185,15 @@ const taskModels = {
         )
       )
     ;`;
-    db.query(queryStr1)
-      .then(() => {
-        db.query(queryStr2)
-          .then(() => {
-            db.query(queryStr3)
-              .then(() => {
-                db.query(queryStr4)
-                  .then(() => {
-                    res.status(200).send(`Task ${taskId} closed`);
-                  })
-                  .catch((err) => {
-                    res.status(400).send(err.stack);
-                  });
-              })
-              .catch((err) => {
-                res.status(400).send('err updating task status', err.stack);
-              });
-          })
-          .catch((err) => {
-            res.status(400).send('err updating avg_rating', err.stack);
-          });
-      })
-      .catch((err) => {
-        res.status(400).send('err updating taskcount and karma', err.stack);
-      });
+    return db.query(queryStr1)
+      .then(() => db.query(queryStr2)
+        .then(() => db.query(queryStr3)
+          .then(() => db.query(queryStr4)
+            .then(() => `Task ${taskId} closed`)
+            .catch((err) => err))
+          .catch((err) => err))
+        .catch((err) => err))
+      .catch((err) => err);
   },
 
   // *************************************************************
@@ -1251,19 +1208,14 @@ const taskModels = {
     res - 'Deleted task 17 from db'
   */
   // *************************************************************
-  deleteTask: (req, res) => {
-    const { taskId } = req.params;
+  deleteTask: ({ taskId }) => {
     const queryStr = `
       DELETE FROM nexdoor.tasks
       WHERE task_id=${taskId}
     ;`;
-    db.query(queryStr)
-      .then(() => {
-        res.status(200).send(`Deleted task ${taskId} from db`);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then(() => `Deleted task ${taskId} from db`)
+      .catch((err) => err);
   },
 
   // *************************************************************
@@ -1330,9 +1282,8 @@ const taskModels = {
     userId,
     range,
     quantity,
-    offset
+    offset,
   }) => {
-
     const queryStr = `
       SELECT
         (
@@ -1608,7 +1559,6 @@ const taskModels = {
     state,
     zipcode,
   }) => {
-
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
 
@@ -1842,23 +1792,17 @@ const taskModels = {
           ) allothers
         ) as allothers
       `;
-      db.query(queryStr)
-        .then((data) => {
-          res.status(200).send(data.rows[0]);
-        })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
+      return db.query(queryStr)
+        .then((data) => data.rows[0])
+        .catch((err) => err);
     };
 
     getCoordinates(addressQuery)
       .then((testCoord) => {
         coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-        queryDb()
+        queryDb();
       })
-      .catch((err) => {
-        res.status(400).send('Error getting coordinates', err.stack);
-      });
+      .catch((err) => err);
   },
 
   // *************************************************************
@@ -1958,15 +1902,11 @@ const taskModels = {
       db.query(queryStr3)
         .then((data2) => {
           newAddId = data2.rows[0].address_id;
-        })
-        .then(() => {
           queryDbTwo();
         })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
+        .catch((err) => err);
     };
-    db.query(queryStr1)
+    return db.query(queryStr1)
       .then((data) => {
         if (data.rows.length > 0) {
           const addressId = data.rows[0].address_id;
@@ -1987,22 +1927,15 @@ const taskModels = {
           return db.query(queryStr2)
             .then(() => `Updated task ${taskId}`)
             .catch((err) => err);
-        } else {
-          getCoordinates(addressQuery)
-            .then((testCoord) => {
-              coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-            })
-            .then(() => {
-              queryDbOne();
-            })
-            .catch((err) => {
-              res.status(400).send(err.stack);
-            });
         }
+        return getCoordinates(addressQuery)
+          .then((testCoord) => {
+            coordinate = `point(${testCoord.lng},${testCoord.lat})`;
+            queryDbOne();
+          })
+          .catch((err) => err);
       })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+      .catch((err) => err);
   },
 };
 
