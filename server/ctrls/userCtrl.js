@@ -259,18 +259,16 @@ const userControllers = {
   */
   // *************************************************************
   authenticateLogin: (req, res) => {
-    const { email, password } = req.body;
-    userModels.authenticateLogin(req, email, password)
-      .then((authentication) => {
-        if (!authentication) {
+    userModels.authenticateLogin(req, req.body)
+      .then((userId) => {
+        if (!userId) {
           res.status(404).send('error: password does not match');
         }
-        res.session.user_id = authentication;
-        userModels.getUser(authentication)
+        userModels.getUser(userId)
           .then((user) => {
             res.status(200).send(user);
           })
-          .catch((err) => res.status(400).send(err));
+          .catch((err) => res.status(400).send(err.stack).session.user_id(userId));
       })
       .catch((err) => {
         res.status(400).send(err.stack);

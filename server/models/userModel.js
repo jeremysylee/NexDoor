@@ -84,7 +84,7 @@ const userControllers = {
           user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
       `;
 
-      db.query(queryStr)
+      return db.query(queryStr)
         .then((data) => data.rows[0])
         .catch((err) => err);
     };
@@ -99,8 +99,8 @@ const userControllers = {
       .catch((err) => err);
   },
 
-  getUser: (params) => {
-    const { userId } = params;
+  getUser: ({ userId }) => {
+    console.log(userId, 'asfeioas.__________------>');
     const queryStr = `
       SELECT
         user_id,
@@ -127,7 +127,7 @@ const userControllers = {
       WHERE user_id=${userId};
     `;
 
-    db.query(queryStr)
+    return db.query(queryStr)
       .then((data) => data.rows[0])
       .catch((err) => err);
   },
@@ -156,7 +156,7 @@ const userControllers = {
       ORDER BY avg_rating
       LIMIT ${quantity}
     `;
-    db.query(queryStr)
+    return db.query(queryStr)
       .then((data) => data.rows)
       .catch((err) => err);
   },
@@ -206,7 +206,7 @@ const userControllers = {
       ORDER BY avg_rating
       LIMIT ${quantity}
     `;
-    db.query(queryStr)
+    return db.query(queryStr)
       .then((data) => data.rows)
       .catch((err) => err);
   },
@@ -220,7 +220,7 @@ const userControllers = {
         LIMIT 1
       )
     `;
-    db.query(queryStr)
+    return db.query(queryStr)
       .then((data) => data.rows[0].exists)
       .catch((err) => err);
   },
@@ -243,7 +243,7 @@ const userControllers = {
       FROM nexdoor.users
       WHERE email='${email}'
     ;`;
-    db.query(queryStr)
+    return db.query(queryStr)
       .then((data) => {
         const { user_id } = data.rows[0];
         //compare passwords
