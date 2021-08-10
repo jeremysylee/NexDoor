@@ -1,6 +1,6 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
-const getCoordinates = require('./coordinates');
+// const getCoordinates = require('./coordinates');
 const taskModel = require('../models/taskModel');
 /*________________________________________________________________
 TABLE OF CONTENTS

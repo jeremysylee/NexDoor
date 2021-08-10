@@ -2,7 +2,7 @@ const express = require('express');
 
 const newuser = express.Router();
 const { check, validationResult } = require('express-validator');
-const db = require('../models/userCtrl');
+const db = require('../ctrls/userCtrl');
 
 newuser.post('/',
   [
@@ -25,7 +25,7 @@ newuser.post('/',
     check('confirm_password')
       .custom((value, { req }) => {
         if (value !== req.body.password) {
-          console.log("passwords don't match")
+          console.log("passwords don't match");
           throw new Error("Passwords don't match");
         } else {
           return true;
