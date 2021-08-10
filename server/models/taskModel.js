@@ -2,44 +2,9 @@
 /* eslint-disable max-len */
 const db = require('../../db/index');
 const getCoordinates = require('./coordinates');
-/*________________________________________________________________
-TABLE OF CONTENTS
-- Add a task with a new address (not user's home): 19 - 135
-- Add a task with a home address: 137 - 214
-- Add a task after checking if the address already exists in db: 216 - 397
-- Get x # of tasks ordered by date/time: 399 - 526
-- Get tasks in mileage range from user's home address: 528 - 680
-- Get requester tasks for a user: 682 - 805
-- Get helper tasks for a user: 807 - 937
-- Update helper on a task (and change status to pending): 939 - 968
-- Remove helper from a task (and change status to open): 970 - 999
-- Update a task status to active, completed, or closed: 1001 - 1028
-________________________________________________________________*/
+
 const taskModels = {
-// *************************************************************
-  // ADD TASK WITH NEW ADDRESS (i.e not the user's home address)
-  // *************************************************************
-  /*
-    POST api/task/new/:userId
-    req:
-      params: userId
-      req.body =
-        {
-          "streetAddress": "111 Random Street",
-          "city": "Los Angeles",
-          "state": "CA",
-          "zipcode": 12345,
-          "neighborhood": "Hollywood",
-          "description": "Hoping to borrow 2 lawnchairs",
-          "carRequired": false,
-          "laborRequired": false,
-          "category": "borrow",
-          "startDate": "08/10/2021",
-          "endDate": "08/21/2021",
-          "startTime": "5:08",
-          "duration": 2
-        }
-    res: 'Added task to db'                                 */
+
   addTaskNewAddress: ({
     userId,
     streetAddress,
@@ -110,35 +75,13 @@ const taskModels = {
             (SELECT CURRENT_TIMESTAMP)
           FROM X;
         `;
-        db.query(queryStr)
+        return db.query(queryStr)
           .then(() => 'added task with new Address')
           .catch((err) => err);
       })
       .catch((err) => err);
   },
-  // *************************************************************
 
-  // *************************************************************
-  // ADD A TASK AT A USER'S HOME ADDRESS
-  // *************************************************************
-  // Needs from Front End - userId, description, car required(optional), labor required(optional), category, start date, end date, start time, duration
-  // *************************************************************
-  /*
-    POST api/task/home/:userId
-    req.body =
-      {
-        "description": "Can somebody help me put up a fence please",
-        "carRequired": false,
-        "laborRequired": true,
-        "category": "labor",
-        "startDate": "05/13/2021",
-        "endDate": "05/13/2021",
-        "startTime": "10:08",
-        "duration": 1
-      }
-    res = 'Added task to db'
-  */
-  // *************************************************************
   addTaskHomeAddress: ({
     userId,
     description,
@@ -184,7 +127,7 @@ const taskModels = {
       );
     `;
 
-    db.query(queryStr)
+    return db.query(queryStr)
       .then(() => 'Added task to db')
       .catch((err) => err);
   },
@@ -234,35 +177,6 @@ const taskModels = {
     db.query(queryStr)
       .then(() => 'added task with existing address')
   },
-  // *************************************************************
-
-  // *************************************************************
-  // ADD TASK AFTER CHECKING FOR EXISTING ADDRESS
-  // *************************************************************
-  //  Needs from Front End - requester user id, street address, city, state, zipcode, neighborhood (optional), description, car required (optional), labor required(optional), category, start date, end date, start time, duration
-  //  Returns - Confirmation string (new address if address wasn't already in the db, old address if it was)
-  // *************************************************************
-  /*
-    POST /api/task/check/:userID (requester)
-    req.body =
-    {
-      "streetAddress": "85 Bronson",
-      "city": "Los Angeles",
-      "state": "CA",
-      "zipcode": 90027,
-      "neighborhood": "Glendale",
-      "description": "help me with my 17 turtles",
-      "carRequired": false,
-      "laborRequired": true,
-      "category": "favor",
-      "startDate": "04/11/2021",
-      "endDate": "04/22/2021",
-      "startTime": "11:00",
-      "duration": 3
-    }
-    res = 'Added task with new address to db'
-  */
-  // *************************************************************
 
   // addTaskCheckAddress: (req, res) => {
   //   const { userId } = req.params;
@@ -420,7 +334,7 @@ const taskModels = {
       WHERE street_address='${streetAddress}'
       AND zipcode=${zipcode}
     `;
-    db.query(queryStr)
+    return db.query(queryStr)
       .then((address) => address)
       .catch((err) => err);
   },
@@ -483,8 +397,9 @@ const taskModels = {
     ]
   */
   // *************************************************************
-  getTasks: (req, res) => {
-    const { userId, quantity, offset } = req.params;
+  getTasks: ({
+    userId, quantity, offset
+  }) => {
     const queryStr = `
     SELECT ROW_TO_JSON(all)
     FROM (
@@ -557,13 +472,9 @@ const taskModels = {
       ) all
     ) as all
     ;`;
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then((data) => data.rows)
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -628,9 +539,9 @@ const taskModels = {
     ]
   */
   // *************************************************************
-  getTasksInRange: (req, res) => {
-    const { userId, range } = req.params;
-
+  getTasksInRange: ({
+    userId, range
+  }) => {
     const queryStr = `
       SELECT
         task_id,
@@ -711,13 +622,9 @@ const taskModels = {
       LIMIT 100;
     `;
 
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then((data) => data.rows)
+      .catch((err) => err);
   },
   // *************************************************************
 
@@ -788,14 +695,13 @@ const taskModels = {
       ]
   */
   // *************************************************************
-  getTasksInRangeAltAddress: (req, res) => {
-    const { range } = req.params;
-    const {
-      streetAddress,
-      city,
-      state,
-      zipcode,
-    } = req.body;
+  getTasksInRangeAltAddress: ({
+    range,
+    streetAddress,
+    city,
+    state,
+    zipcode,
+  }) => {
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
 
@@ -1420,13 +1326,13 @@ const taskModels = {
     "allothers": Same as above (array of task objects)
     }
   */
-  getTasksMasterDefaultAddress: (req, res) => {
-    const {
-      userId,
-      range,
-      quantity,
-      offset,
-    } = req.params;
+  getTasksMasterDefaultAddress: ({
+    userId,
+    range,
+    quantity,
+    offset
+  }) => {
+
     const queryStr = `
       SELECT
         (
@@ -1681,13 +1587,9 @@ const taskModels = {
           ) allothers
         ) as allothers
       ;`;
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows[0]);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    return db.query(queryStr)
+      .then((data) => data.rows[0])
+      .catch((err) => err);
   },
 
   // *************************************************************
@@ -1696,19 +1598,16 @@ const taskModels = {
   // Needs from Front End - userId, range (in miles), quantity, offset (quantity and offset only apply to 'all other tasks'), alternate address info
   // Returns - gigantic tasks object with keys for requested, helper, and all other which all hold arrays of task objects
   // *************************************************************
-  getTasksMasterAltAddress: (req, res) => {
-    const {
-      userId,
-      range,
-      quantity,
-      offset,
-    } = req.params;
-    const {
-      streetAddress,
-      city,
-      state,
-      zipcode,
-    } = req.body;
+  getTasksMasterAltAddress: ({
+    userId,
+    range,
+    quantity,
+    offset,
+    streetAddress,
+    city,
+    state,
+    zipcode,
+  }) => {
 
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
@@ -1955,9 +1854,7 @@ const taskModels = {
     getCoordinates(addressQuery)
       .then((testCoord) => {
         coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-      })
-      .then(() => {
-        queryDb();
+        queryDb()
       })
       .catch((err) => {
         res.status(400).send('Error getting coordinates', err.stack);
@@ -1991,23 +1888,22 @@ const taskModels = {
     }
   */
   // *************************************************************
-  editTask: (req, res) => {
-    const {
-      streetAddress,
-      city,
-      state,
-      zipcode,
-      neighborhood,
-      description,
-      carRequired,
-      laborRequired,
-      category,
-      startDate,
-      endDate,
-      startTime,
-      duration,
-      taskId,
-    } = req.body;
+  editTask: ({
+    streetAddress,
+    city,
+    state,
+    zipcode,
+    neighborhood,
+    description,
+    carRequired,
+    laborRequired,
+    category,
+    startDate,
+    endDate,
+    startTime,
+    duration,
+    taskId,
+  }) => {
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
     let newAddId;
@@ -2033,13 +1929,9 @@ const taskModels = {
           duration=${duration}
         WHERE task_id=${taskId}
       ;`;
-      db.query(queryStr4)
-        .then(() => {
-          res.status(200).send('Task finally updated');
-        })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
+      return db.query(queryStr4)
+        .then(() => 'Task finally updated')
+        .catch((err) => err);
     };
     const queryDbOne = () => {
       const queryStr3 = `
@@ -2092,13 +1984,9 @@ const taskModels = {
               duration=${duration}
             WHERE task_id=${taskId}
           ;`;
-          db.query(queryStr2)
-            .then(() => {
-              res.status(200).send(`Updated task ${taskId}`);
-            })
-            .catch((err) => {
-              res.status(400).send(err.stack);
-            });
+          return db.query(queryStr2)
+            .then(() => `Updated task ${taskId}`)
+            .catch((err) => err);
         } else {
           getCoordinates(addressQuery)
             .then((testCoord) => {

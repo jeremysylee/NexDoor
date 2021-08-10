@@ -2,7 +2,7 @@
 const router = require('express').Router();
 const announceCtrl = require('./ctrls/announceCtrl');
 const messageCtrl = require('./ctrls/messageCtrl');
-const taskCtrl = require('./models/taskCtrl');
+const taskCtrl = require('./models/taskModel');
 const userCtrl = require('./models/userCtrl');
 
 // GET TASK BY TASK ID - May be solveable on front
