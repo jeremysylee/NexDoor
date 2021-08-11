@@ -3,6 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { url } from '../../../config';
 
 export default function PrivateRoute({ children }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -11,7 +12,7 @@ export default function PrivateRoute({ children }) {
 
   function checkForSession() {
     console.log(document.cookie);
-    axios.get('http://localhost:3500/api/session', {
+    axios.get(`${url}/api/session`, {
       headers: { 'content-type': 'application/json' },
       withCredentials: true,
     })
