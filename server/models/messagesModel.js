@@ -5,7 +5,6 @@ const messagesModel = {
   addMessage: ({
     taskId, userId, messageBody, date, time, imgUrl = null,
   }) => {
-    console.log('hello');
     const queryStr = `
       INSERT INTO nexdoor.messages
       (

@@ -63,31 +63,21 @@ const LogIn = () => {
     history.push('/');
   };
 
-  const getUserData = (userId) => {
-    axios.get(`http://localhost:3500/api/user/info/${userId}`)
-      .then((response) => {
-        dispatch({ type: 'SET_USER', userData: response.data });
-      })
-      .then(() => {
-        handleLogIn();
-      });
-  };
-
-  const submitLogin = (e) => {
+  const submitLogin = async (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3500/api/login/', login, {
-      // headers: { 'content-type': 'application/json' },
-      // withCredentials: true,
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          getUserData(Number(response.data.user_id));
-          // redirect to home page
-        } else {
-          console.log('error logging in');
-        }
-      })
-      .catch((err) => console.error(err));
+    try {
+      const response = await axios.post('http://localhost:3500/api/login/', login, {
+        headers: { 'content-type': 'application/json' },
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        console.log(response.data);
+        dispatch({ type: 'SET_USER', userData: response.data });
+        handleLogIn();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

@@ -1,10 +1,8 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
-const bcrypt = require('bcrypt');
-const uuid = require('uuid');
-const session = require('express-session');
-const db = require('../../db/index');
-const getCoordinates = require('./coordinates');
+/* eslint camelcase: 0 */ // --> OFF
+
+const userModels = require('../models/userModel');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -37,93 +35,25 @@ const userControllers = {
         "email": "georgek@gmail.com",
         "imgUrl": "https://uknow.uky.edu/sites/default/files/styles/uknow_story_image/public/externals/e9e2133396fc318d7b991696e8404c58.jpg"
       }
-    res = "User added to db"
+    res.userData = {
+      user_id,
+      firstname,
+      lastname,
+      email,
+      address_id,
+      karma,
+      task_count,
+      avg_rating,
+      profile_picture_url,
+    }
   */
   addUser: (req, res) => {
-    const {
-      streetAddress,
-      city,
-      state,
-      zipcode,
-      firstName,
-      lastName,
-      password,
-      email,
-    } = req.body;
-    const hashPass = bcrypt.hashSync(password, 10);
-
-    const { imgUrl, neighborhood } = req.body || null;
-
-    const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
-    let coordinate;
-
-    const queryDb = () => {
-      const queryStr = `
-        WITH X AS (
-          INSERT INTO nexdoor.address (
-            street_address,
-            city,
-            state,
-            zipcode,
-            neighborhood,
-            coordinate
-          )
-          VALUES (
-            '${streetAddress}',
-            '${city}',
-            '${state}',
-            ${zipcode},
-            '${neighborhood}',
-            ${coordinate}
-          )
-          RETURNING address_id
-        )
-        INSERT INTO nexdoor.users (
-          firstname,
-          lastname,
-          password,
-          email,
-          address_id,
-          karma,
-          task_count,
-          avg_rating,
-          profile_picture_url,
-          acct_created_timestamp
-        )
-        SELECT
-          '${firstName}',
-          '${lastName}',
-          '${hashPass}',
-          '${email}',
-          address_id,
-          0,
-          0,
-          null,
-          '${imgUrl}',
-          (SELECT CURRENT_TIMESTAMP)
-        FROM X
-        RETURNING
-          user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
-      `;
-
-      db.query(queryStr)
-        .then((data) => {
-          res.status(200).send(data.rows[0]);
-        })
-        .catch((err) => {
-          res.status(400).send(err.stack);
-        });
-    };
-
-    getCoordinates(addressQuery)
-      .then((testCoord) => {
-        coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-      })
-      .then(() => {
-        queryDb();
+    userModels.addUser(req.body)
+      .then((userData) => {
+        res.status(200).send(userData);
       })
       .catch((err) => {
-        res.status(400).send('Error getting coordinates', err.stack);
+        res.status(400).send(err.stack);
       });
   },
   // *************************************************************
@@ -155,38 +85,9 @@ const userControllers = {
   */
   // *************************************************************
   getUser: (req, res) => {
-    console.log('--->', req.params);
-    const { userId } = req.params;
-
-    const queryStr = `
-      SELECT
-        user_id,
-        firstname,
-        lastname,
-        email,
-        karma,
-        task_count,
-        avg_rating,
-        profile_picture_url, (
-          SELECT ROW_TO_JSON(add)
-          FROM (
-            SELECT
-              street_address,
-              city,
-              state,
-              zipcode,
-              neighborhood
-            FROM nexdoor.address
-            WHERE address_id=nexdoor.users.address_id
-          ) add
-        ) as address
-      FROM nexdoor.users
-      WHERE user_id=${userId};
-    `;
-
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows[0]);
+    userModels.getUser(req.params)
+      .then((user) => {
+        res.status(200).send(user);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -230,30 +131,7 @@ const userControllers = {
   */
   // *************************************************************
   getUsersByRating: (req, res) => {
-    const { quantity } = req.params || 25;
-    const queryStr = `
-      SELECT
-        user_id,
-        firstname,
-        lastname,
-        address_id,
-        karma,
-        task_count,
-        avg_rating,
-        profile_picture_url,
-        (
-          SELECT ARRAY_TO_JSON(ARRAY_AGG(reviews))
-          FROM (
-            SELECT *
-            FROM nexdoor.reviews
-            WHERE helper_id=nexdoor.users.user_id
-          ) reviews
-        ) as reviews
-      FROM nexdoor.users
-      ORDER BY avg_rating
-      LIMIT ${quantity}
-    `;
-    db.query(queryStr)
+    userModels.getUsersByRating(req.params)
       .then((data) => {
         res.status(200).send(data.rows);
       })
@@ -299,60 +177,15 @@ const userControllers = {
   */
   // *************************************************************
   getUsersInRangeByRating: (req, res) => {
-    const { userId } = req.params;
-    const { range } = req.params || 1;
-    const { quantity } = req.params || 25;
-    const queryStr = `
-      SELECT
-        user_id,
-        firstname,
-        lastname,
-        address_id,
-        karma,
-        task_count,
-        avg_rating,
-        profile_picture_url,
-        (
-          SELECT ARRAY_TO_JSON(ARRAY_AGG(reviews))
-          FROM (
-            SELECT *
-            FROM nexdoor.reviews
-            WHERE helper_id=nexdoor.users.user_id
-          ) reviews
-        ) as reviews
-      FROM nexdoor.users
-      WHERE
-        (
-          (
-            SELECT coordinate
-            FROM nexdoor.address
-            WHERE address_id=
-            (
-              SELECT address_id
-              FROM nexdoor.users
-              WHERE user_id=${userId}
-            )
-          )
-          <@>
-          (
-            SELECT coordinate
-            FROM nexdoor.address
-            WHERE address_id=nexdoor.users.address_id
-          ) < ${range}
-        )
-      ORDER BY avg_rating
-      LIMIT ${quantity}
-    `;
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows);
+    userModels.getUsersInRangeByRating(req.params)
+      .then((users) => {
+        res.status(200).send(users);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
       });
   },
   // *************************************************************
-
 
   // *************************************************************
   // CHECK FOR EMAIL IN DB
@@ -373,17 +206,9 @@ const userControllers = {
   */
   // *************************************************************
   checkForEmail: (req, res) => {
-    const { email } = req.body;
-    const queryStr = `
-      SELECT EXISTS (
-        SELECT true FROM nexdoor.users
-        WHERE email='${email}'
-        LIMIT 1
-      )
-    `;
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows[0].exists);
+    userModels.checkForEmail(req.body)
+      .then((exists) => {
+        res.status(200).send(exists);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -405,15 +230,9 @@ const userControllers = {
   */
   // *************************************************************
   getUserCredentials: (req, res) => {
-    const { userId } = req.params;
-    const queryStr = `
-      SELECT email, password
-      FROM nexdoor.users
-      WHERE user_id=${userId}
-    ;`;
-    db.query(queryStr)
-      .then((data) => {
-        res.status(200).send(data.rows[0]);
+    userModels.getUserCredentials(req.params)
+      .then((credentials) => {
+        res.status(200).send(credentials);
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -439,42 +258,32 @@ const userControllers = {
       }
   */
   // *************************************************************
-  authenticateLogin: (req, res, cb) => {
-    const { email, password } = req.body;
-    const queryStr = `
-      SELECT user_id, password
-      FROM nexdoor.users
-      WHERE email='${email}'
-    ;`;
-    db.query(queryStr)
-      .then((data) => {
-        const { user_id } = data.rows[0];
-        //compare passwords
-        if (!bcrypt.compareSync(password, data.rows[0].password)) {
-          // res.status(404).send('error: password does not match');
-          cb('error: password does not match');
-        } else {
-          cb(null, user_id);
-          //return session
-          // req.session.user_id = user_id;
-          // req.session.save();
-          // res.session.user_Id = user_id;
-          // res.status(200).send({ user_id });
+  authenticateLogin: (req, res) => {
+    userModels.authenticateLogin(req, req.body)
+      .then((userId) => {
+        if (!userId) {
+          res.status(404).send('error: password does not match');
         }
+        const params = { userId };
+        userModels.getUser(params)
+          .then((user) => {
+            req.session.user_id = userId;
+            req.session.save();
+            res.status(200).send(user);
+          })
+          .catch((err) => res.status(400).send(err.stack));
       })
       .catch((err) => {
-        console.log(err);
-        req.session.destroy();
         res.status(400).send(err.stack);
       });
   },
   // *************************************************************
   authenticateSession: (req, res) => {
-    if(req.session.user_id) {
-      const user_id = req.session.user_id;
+    if (req.session.user_id) {
+      const { user_id } = req.session;
       res.status(200).send({ user_id });
     } else {
-      res.status(418).send("error: user is a teapot");
+      res.status(418).send('error: user is a teapot');
     }
   },
 
