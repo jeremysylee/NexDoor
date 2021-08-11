@@ -100,7 +100,6 @@ const userControllers = {
   },
 
   getUser: ({ userId }) => {
-    console.log(userId, 'asfeioas.__________------>');
     const queryStr = `
       SELECT
         user_id,

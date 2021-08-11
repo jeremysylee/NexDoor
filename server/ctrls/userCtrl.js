@@ -264,11 +264,14 @@ const userControllers = {
         if (!userId) {
           res.status(404).send('error: password does not match');
         }
-        userModels.getUser(userId)
+        const params = { userId };
+        userModels.getUser(params)
           .then((user) => {
+            req.session.user_id = userId;
+            req.session.save();
             res.status(200).send(user);
           })
-          .catch((err) => res.status(400).send(err.stack).session.user_id(userId));
+          .catch((err) => res.status(400).send(err.stack));
       })
       .catch((err) => {
         res.status(400).send(err.stack);
@@ -277,7 +280,7 @@ const userControllers = {
   // *************************************************************
   authenticateSession: (req, res) => {
     if (req.session.user_id) {
-      const { user_id } = req.session.user_id;
+      const { user_id } = req.session;
       res.status(200).send({ user_id });
     } else {
       res.status(418).send('error: user is a teapot');
