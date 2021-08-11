@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { url } from '../../../config';
 
 function Copyright() {
   return (
@@ -66,12 +67,11 @@ const LogIn = () => {
   const submitLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3500/api/login/', login, {
+      const response = await axios.post(`${url}/api/login/`, login, {
         headers: { 'content-type': 'application/json' },
         withCredentials: true,
       });
       if (response.status === 200) {
-        console.log(response.data);
         dispatch({ type: 'SET_USER', userData: response.data });
         handleLogIn();
       }

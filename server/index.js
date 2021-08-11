@@ -8,10 +8,10 @@ const io = require('socket.io')(3000, {
   },
 });
 const session = require('express-session');
-const router = require('./router');
 require('dotenv').config();
 const redis = require('redis');
 const connectRedis = require('connect-redis');
+const router = require('./router');
 
 const app = express();
 const port = 3500;

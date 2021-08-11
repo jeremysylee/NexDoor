@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Avatar, Button, CssBaseline, TextField, FormControlLabel,
-  Checkbox, Link, Grid, Box, Typography, Container,
+  Avatar, Button, CssBaseline, TextField,
+  Link, Grid, Box, Typography, Container,
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { url } from '../../../config';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="http://www.google.com">
         Nexdoor
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      </Link>
+      &nbsp;2021.
     </Typography>
   );
 }
@@ -69,16 +71,6 @@ const SignUp = () => {
     history.push('/');
   };
 
-  const getUserData = (userId) => {
-    axios.get(`http://localhost:3500/api/user/info/${userId}`)
-      .then((response) => {
-        dispatch({ type: 'SET_USER', userData: response.data });
-      })
-      .then(() => {
-        handleLogIn();
-      });
-  };
-
   const postUserInfo = (e) => {
     e.preventDefault();
     const userInfo = {
@@ -92,22 +84,21 @@ const SignUp = () => {
       password: info.password,
       confirm_password: info.confirm_password,
     };
-    axios.get('http://localhost:3500/api/email')
+    axios.get(`${url}/api/email`)
       .then((response) => {
         if (response.data === true) {
           throw Error('email already exists!');
-          // console.log('email already exists!');
         } else {
-          axios.post('http://localhost:3500/api/newuser', userInfo)
+          axios.post(`${url}/api/newuser`, userInfo)
             .then(() => {
-              axios.post('http://localhost:3500/api/login/', userInfo, {
+              axios.post(`${url}/api/login/`, userInfo, {
                 headers: { 'content-type': 'application/json' },
                 withCredentials: true,
               })
                 .then((res) => {
                   if (res.status === 200) {
+                    dispatch({ type: 'SET_USER', userData: response.data });
                     // redirect to home page
-                    getUserData(Number(res.data.user_id));
                     handleLogIn();
                   } else {
                     console.log('error logging in');
@@ -117,7 +108,7 @@ const SignUp = () => {
             });
         }
       })
-      .catch((err) => console.error(err, 'error with signup'))
+      .catch((err) => console.error(err, 'error with signup'));
   };
 
   return (
@@ -254,7 +245,7 @@ const SignUp = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link onClick={() => history.push('/login')} variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -266,6 +257,6 @@ const SignUp = () => {
       </Box>
     </Container>
   );
-}
+};
 
 export default SignUp;

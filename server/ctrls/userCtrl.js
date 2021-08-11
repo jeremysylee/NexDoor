@@ -280,8 +280,10 @@ const userControllers = {
   // *************************************************************
   authenticateSession: (req, res) => {
     if (req.session.user_id) {
-      const { user_id } = req.session;
-      res.status(200).send({ user_id });
+      const params = { userId: req.session.user_id };
+      userModels.getUser(params)
+        .then((user) => res.status(200).send(user))
+        .catch((err) => res.status(400).send(err.stack));
     } else {
       res.status(418).send('error: user is a teapot');
     }
