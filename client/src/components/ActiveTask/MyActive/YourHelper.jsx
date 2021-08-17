@@ -56,7 +56,7 @@ const YourHelper = () => {
   const url = 'http://localhost:3500';
 
   const handleCancelMyTask = () => {
-    axios.delete(`${url}/api/task/${selectTask.task_id}`)
+    axios.delete(`${url}/api/tasks/${selectTask.task_id}`)
       .then(() => { history.push('/'); })
       .catch((err) => { console.error(err); });
   };
