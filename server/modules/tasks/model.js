@@ -5,7 +5,7 @@ const getCoordinates = require('../../models/coordinates');
 
 const taskModels = {
 
-  addTaskNewAddress: ({
+  addTaskNewAddress: async ({
     userId,
     streetAddress,
     city,
@@ -21,68 +21,68 @@ const taskModels = {
     startTime,
     duration,
   }) => {
-    getCoordinates()
-      .then((Coord) => {
-        const coordinate = `point(${Coord.lng},${Coord.lat})`;
-        const queryStr = `
-            WITH X AS (
-              INSERT INTO nexdoor.address
-              (
-                street_address,
-                city,
-                state,
-                zipcode,
-                neighborhood,
-                coordinate
-              )
-              VALUES
-              (
-                '${streetAddress}',
-                '${city}',
-                '${state}',
-                ${zipcode},
-                '${neighborhood}',
-                ${coordinate}
-              )
-            RETURNING address_id
-          )
-          INSERT INTO nexdoor.tasks (
-            requester_id,
-            address_id,
-            description,
-            car_required,
-            physical_labor_required,
-            status,
-            category,
-            start_date,
-            end_date,
-            start_time,
-            duration,
-            timestamp_requested
-          )
-          SELECT
-            ${userId},
-            address_id,
-            '${description}',
-            ${carRequired},
-            ${laborRequired},
-            'Open',
-            '${category}',
-            '${startDate}',
-            '${endDate}',
-            '${startTime}',
-            ${duration},
-            (SELECT CURRENT_TIMESTAMP)
-          FROM X;
-        `;
-        return db.query(queryStr)
-          .then(() => 'added task with new Address')
-          .catch((err) => err);
-      })
-      .catch((err) => err);
+    try {
+      const coord = await getCoordinates();
+      const coordinate = `point(${coord.lng},${coord.lat})`;
+      const queryStr = `
+          WITH X AS (
+            INSERT INTO nexdoor.address
+            (
+              street_address,
+              city,
+              state,
+              zipcode,
+              neighborhood,
+              coordinate
+            )
+            VALUES
+            (
+              '${streetAddress}',
+              '${city}',
+              '${state}',
+              ${zipcode},
+              '${neighborhood}',
+              ${coordinate}
+            )
+          RETURNING address_id
+        )
+        INSERT INTO nexdoor.tasks (
+          requester_id,
+          address_id,
+          description,
+          car_required,
+          physical_labor_required,
+          status,
+          category,
+          start_date,
+          end_date,
+          start_time,
+          duration,
+          timestamp_requested
+        )
+        SELECT
+          ${userId},
+          address_id,
+          '${description}',
+          ${carRequired},
+          ${laborRequired},
+          'Open',
+          '${category}',
+          '${startDate}',
+          '${endDate}',
+          '${startTime}',
+          ${duration},
+          (SELECT CURRENT_TIMESTAMP)
+        FROM X;
+      `;
+      await db.query(queryStr);
+      return 'added task with new Address';
+    } catch (err) {
+      return err;
+    }
   },
 
-  addTaskHomeAddress: ({
+  addTaskHomeAddress: async ({
     userId,
     description,
     carRequired,
@@ -93,7 +93,8 @@ const taskModels = {
     startTime,
     duration,
   }) => {
-    const queryStr = `
+    try {
+      const queryStr = `
       INSERT INTO nexdoor.tasks (
         requester_id,
         address_id,
@@ -107,32 +108,33 @@ const taskModels = {
         start_time,
         duration,
         timestamp_requested
-      ) VALUES (
-        ${userId},
-        (
-          SELECT address_id
-          FROM nexdoor.users
-          WHERE user_id=${userId}
-        ),
-        '${description}',
-        ${carRequired},
-        ${laborRequired},
-        'Open',
-        '${category}',
-        '${startDate}',
-        '${endDate}',
-        '${startTime}',
-        ${duration},
-        (SELECT CURRENT_TIMESTAMP)
-      );
-    `;
-
-    return db.query(queryStr)
-      .then(() => 'Added task to db')
-      .catch((err) => err);
+        ) VALUES (
+          ${userId},
+          (
+            SELECT address_id
+            FROM nexdoor.users
+            WHERE user_id=${userId}
+            ),
+            '${description}',
+            ${carRequired},
+            ${laborRequired},
+            'Open',
+            '${category}',
+            '${startDate}',
+            '${endDate}',
+            '${startTime}',
+            ${duration},
+            (SELECT CURRENT_TIMESTAMP)
+            );
+            `;
+      await db.query(queryStr);
+      return 'Added task to db';
+    } catch (err) {
+      return err;
+    }
   },
 
-  addTaskExistingAddress: ({
+  addTaskExistingAddress: async ({
     userId,
     addressId,
     description,
@@ -144,39 +146,42 @@ const taskModels = {
     startTime,
     duration,
   }) => {
-    const queryStr = `
-    INSERT INTO nexdoor.tasks (
-      requester_id,
-      address_id,
-      description,
-      car_required,
-      physical_labor_required,
-      status,
-      category,
-      start_date,
-      end_date,
-      start_time,
-      duration,
-      timestamp_requested
-    )
-    VALUES (
-      ${userId},
-      ${addressId},
-      '${description}',
-      ${carRequired},
-      ${laborRequired},
-      'Open',
-      '${category}',
-      '${startDate}',
-      '${endDate}',
-      '${startTime}',
-      ${duration},
-      (SELECT CURRENT_TIMESTAMP)
-    )
-  `;
-    return db.query(queryStr)
-      .then(() => 'added task with existing address')
-      .catch((err) => err);
+    try {
+      const queryStr = `
+      INSERT INTO nexdoor.tasks (
+        requester_id,
+        address_id,
+        description,
+        car_required,
+        physical_labor_required,
+        status,
+        category,
+        start_date,
+        end_date,
+        start_time,
+        duration,
+        timestamp_requested
+      )
+      VALUES (
+        ${userId},
+        ${addressId},
+        '${description}',
+        ${carRequired},
+        ${laborRequired},
+        'Open',
+        '${category}',
+        '${startDate}',
+        '${endDate}',
+        '${startTime}',
+        ${duration},
+        (SELECT CURRENT_TIMESTAMP)
+      )
+    `;
+      await db.query(queryStr);
+      return 'added task with existing address';
+    } catch (err) {
+      return err;
+    }
   },
 
   // addTaskCheckAddress: (req, res) => {
@@ -328,16 +333,19 @@ const taskModels = {
   //     });
   // },
 
-  checkForAddress: ({ streetAddress, zipcode }) => {
-    const queryStr = `
-      SELECT address_id
-      FROM nexdoor.address
-      WHERE street_address='${streetAddress}'
-      AND zipcode=${zipcode}
-    `;
-    return db.query(queryStr)
-      .then((address) => address)
-      .catch((err) => err);
+  checkForAddress: async ({ streetAddress, zipcode }) => {
+    try {
+      const queryStr = `
+        SELECT address_id
+        FROM nexdoor.address
+        WHERE street_address='${streetAddress}'
+        AND zipcode=${zipcode}
+      `;
+      const address = await db.query(queryStr);
+      return address;
+    } catch (err) {
+      return err;
+    }
   },
 
   // *************************************************************
@@ -398,7 +406,7 @@ const taskModels = {
     ]
   */
   // *************************************************************
-  getTasks: ({
+  getTasks: async ({
     userId, quantity, offset,
   }) => {
     const queryStr = `
@@ -473,9 +481,12 @@ const taskModels = {
       ) all
     ) as all
     ;`;
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 
@@ -540,7 +551,7 @@ const taskModels = {
     ]
   */
   // *************************************************************
-  getTasksInRange: ({
+  getTasksInRange: async ({
     userId, range,
   }) => {
     const queryStr = `
@@ -622,10 +633,12 @@ const taskModels = {
         start_time
       LIMIT 100;
     `;
-
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 
@@ -696,7 +709,7 @@ const taskModels = {
       ]
   */
   // *************************************************************
-  getTasksInRangeAltAddress: ({
+  getTasksInRangeAltAddress: async ({
     range,
     streetAddress,
     city,
@@ -705,8 +718,10 @@ const taskModels = {
   }) => {
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
+    try {
+      const testCoord = await getCoordinates(addressQuery);
+      coordinate = `point(${testCoord.lng},${testCoord.lat})`;
 
-    const queryDb = () => {
       const queryStr = `
         SELECT
           task_id,
@@ -777,17 +792,12 @@ const taskModels = {
           start_time
         LIMIT 100;
       ;`;
-      return db.query(queryStr)
-        .then((data) => data.rows)
-        .catch((err) => err);
-    };
 
-    getCoordinates(addressQuery)
-      .then((testCoord) => {
-        coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-        queryDb();
-      })
-      .catch((err) => err);
+      const data = await db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 
@@ -842,7 +852,7 @@ const taskModels = {
       ]
   */
   // *************************************************************
-  getReqTasksByUser: ({ userId }) => {
+  getReqTasksByUser: async ({ userId }) => {
     const queryStr = `
       SELECT
         task_id,
@@ -904,10 +914,12 @@ const taskModels = {
         start_date,
         start_time
     ;`;
-
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 
@@ -970,7 +982,7 @@ const taskModels = {
       ]
   */
   // *************************************************************
-  getHelpTasksByUser: ({ userId }) => {
+  getHelpTasksByUser: async ({ userId }) => {
     const queryStr = `
       SELECT
         task_id,
@@ -1032,9 +1044,12 @@ const taskModels = {
         start_date,
         start_time
       `;
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 

@@ -155,8 +155,8 @@ const taskControllers = {
       if (address.rows.length > 0) {
         const addressId = address.rows[0];
         try {
-          const addTask = await taskModel.addTaskExistingAddress(userId, task, addressId);
-          res.status(200).send(addTask);
+          const success = await taskModel.addTaskExistingAddress(userId, task, addressId);
+          res.status(200).send(success);
         } catch (err) {
           res.status(400).send(err.stack);
         }
