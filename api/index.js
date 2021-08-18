@@ -14,7 +14,7 @@ const io = require('socket.io')(3000, {
 const redis = require('redis');
 const connectRedis = require('connect-redis');
 
-const { logError, returnError } = require('./errors/errorHandler');
+const { logErrorMiddleware, returnError } = require('./errors/errorHandler');
 
 const router = require('./router');
 
@@ -56,7 +56,7 @@ app.listen(port, () => {
 app.use(express.static(path.join(__dirname, '..', 'client/index')));
 
 // Error handling middleware:
-app.use(logError);
+app.use(logErrorMiddleware);
 app.use(returnError);
 
 io.on('connection', (socket) => {

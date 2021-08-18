@@ -126,13 +126,13 @@ describe('Login API Integration', () => {
 });
 
 describe('Announcements API Integration', () => {
-  test('should get announcements GET(/announce/:quantity)', async () => {
-    const response = await axios.get(`${url}/api/announce/1`);
+  test('should get announcements GET(/announcements/:quantity)', async () => {
+    const response = await axios.get(`${url}/api/announcements/1`);
     expect(response.status).toEqual(200);
   });
 
-  test('should post a new announcement POST(/announce/:userId)', async () => {
-    const response = await axios.post(`${url}/api/announce/1`, {
+  test('should post a new announcement POST(/announcements/:userId)', async () => {
+    const response = await axios.post(`${url}/api/announcements/1`, {
       announcementBody: 'test',
       date: '2021-07-31',
       time: '23:30:00',

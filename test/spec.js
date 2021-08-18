@@ -3,5 +3,3 @@ describe('My Test Suite', () => {
     expect(true).toEqual(true);
   });
 });
-
-
