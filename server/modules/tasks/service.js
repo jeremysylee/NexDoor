@@ -1065,7 +1065,7 @@ const taskModels = {
     res = 'Updated helper, status pending'
   */
   // *************************************************************
-  updateHelper: ({
+  updateHelper: async ({
     taskId,
     userId,
   }) => {
@@ -1076,9 +1076,12 @@ const taskModels = {
         status='Pending'
       WHERE task_id=${taskId}
     `;
-    return db.query(queryStr)
-      .then(() => 'Updated helper, status pending')
-      .catch((err) => err);
+    try {
+      await db.query(queryStr);
+      return 'Updated helper, status pending';
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 
@@ -1094,7 +1097,7 @@ const taskModels = {
     res = 'Removed helper, status open
   */
   // *************************************************************
-  removeHelper: ({ taskId }) => {
+  removeHelper: async ({ taskId }) => {
     const queryStr = `
       UPDATE nexdoor.tasks
       SET
@@ -1102,9 +1105,12 @@ const taskModels = {
         status='Open'
       WHERE task_id=${taskId}
     ;`;
-    return db.query(queryStr)
-      .then(() => 'Removed helper, status open')
-      .catch((err) => err);
+    try {
+      await db.query(queryStr);
+      return 'Removed helper, status open';
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 
@@ -1120,15 +1126,18 @@ const taskModels = {
     res = 'Task 17 status set to complete'
   */
   // *************************************************************
-  changeTaskStatus: ({ status, taskId }) => {
+  changeTaskStatus: async ({ status, taskId }) => {
     const queryStr = `
       UPDATE nexdoor.tasks
       SET status='${status}'
       WHERE task_id=${taskId}
     ;`;
-    return db.query(queryStr)
-      .then(() => `Task ${taskId} status set to ${status}`)
-      .catch((err) => err);
+    try {
+      await db.query(queryStr);
+      return `Task ${taskId} status set to ${status}`;
+    } catch (err) {
+      return err;
+    }
   },
   // *************************************************************
 
@@ -1148,7 +1157,7 @@ const taskModels = {
     res = 'Task 17 closed'
   */
   // *************************************************************
-  closeTask: ({
+  closeTask: async ({
     taskId,
     rating,
     review,
@@ -1200,15 +1209,15 @@ const taskModels = {
         )
       )
     ;`;
-    return db.query(queryStr1)
-      .then(() => db.query(queryStr2)
-        .then(() => db.query(queryStr3)
-          .then(() => db.query(queryStr4)
-            .then(() => `Task ${taskId} closed`)
-            .catch((err) => err))
-          .catch((err) => err))
-        .catch((err) => err))
-      .catch((err) => err);
+    try {
+      await db.query(queryStr1);
+      await db.query(queryStr2);
+      await db.query(queryStr3);
+      await db.query(queryStr4);
+      return `Task ${taskId} closed`;
+    } catch (err) {
+      return err;
+    }
   },
 
   // *************************************************************
@@ -1223,14 +1232,17 @@ const taskModels = {
     res - 'Deleted task 17 from db'
   */
   // *************************************************************
-  deleteTask: ({ taskId }) => {
+  deleteTask: async ({ taskId }) => {
     const queryStr = `
       DELETE FROM nexdoor.tasks
       WHERE task_id=${taskId}
     ;`;
-    return db.query(queryStr)
-      .then(() => `Deleted task ${taskId} from db`)
-      .catch((err) => err);
+    try {
+      await db.query(queryStr);
+      return `Deleted task ${taskId} from db`;
+    } catch (err) {
+      return err;
+    }
   },
 
   // *************************************************************
@@ -1293,7 +1305,7 @@ const taskModels = {
     "allothers": Same as above (array of task objects)
     }
   */
-  getTasksMasterDefaultAddress: ({
+  getTasksMasterDefaultAddress: async ({
     userId,
     range,
     quantity,
@@ -1553,9 +1565,12 @@ const taskModels = {
           ) allothers
         ) as allothers
       ;`;
-    return db.query(queryStr)
-      .then((data) => data.rows[0])
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows[0];
+    } catch (err) {
+      return err;
+    }
   },
 
   // *************************************************************
@@ -1564,7 +1579,7 @@ const taskModels = {
   // Needs from Front End - userId, range (in miles), quantity, offset (quantity and offset only apply to 'all other tasks'), alternate address info
   // Returns - gigantic tasks object with keys for requested, helper, and all other which all hold arrays of task objects
   // *************************************************************
-  getTasksMasterAltAddress: ({
+  getTasksMasterAltAddress: async ({
     userId,
     range,
     quantity,
@@ -1576,14 +1591,158 @@ const taskModels = {
   }) => {
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
-
-    const queryDb = () => {
-      const queryStr = `
-      SELECT
-        (
-          SELECT ARRAY_TO_JSON(ARRAY_AGG(req))
-          FROM (
-            SELECT
+    const queryStr = `
+    SELECT
+      (
+        SELECT ARRAY_TO_JSON(ARRAY_AGG(req))
+        FROM (
+          SELECT
+            task_id,
+            (
+              SELECT ROW_TO_JSON(reqname)
+              FROM (
+                SELECT
+                  user_id,
+                  firstname,
+                  lastname,
+                  email,
+                  address_id,
+                  karma,
+                  task_count,
+                  avg_rating,
+                  profile_picture_url
+                FROM nexdoor.users
+                WHERE user_id=nexdoor.tasks.requester_id
+              ) reqname
+            ) as requester,
+            (
+              SELECT ROW_TO_JSON(helpname)
+              FROM (
+                SELECT
+                  user_id,
+                  firstname,
+                  lastname,
+                  email,
+                  address_id,
+                  karma,
+                  task_count,
+                  avg_rating,
+                  profile_picture_url
+                FROM nexdoor.users
+                WHERE user_id=nexdoor.tasks.helper_id
+              ) helpname
+            ) as helper,
+            (
+              SELECT ROW_TO_JSON(loc)
+              FROM (
+                SELECT *
+                FROM nexdoor.address
+                WHERE address_id=nexdoor.tasks.address_id
+              ) loc
+            ) as location,
+            description,
+            car_required,
+            physical_labor_required,
+            status,
+            category,
+            start_date,
+            end_date,
+            start_time,
+            duration,
+            timestamp_requested
+          FROM nexdoor.tasks
+          WHERE requester_id=${userId} AND ((
+            (
+              SELECT coordinate
+              FROM nexdoor.address
+              WHERE address_id=nexdoor.tasks.address_id
+            )
+            <@>
+            (${coordinate})
+              ) < ${range}
+            )
+          ORDER BY
+            start_date,
+            start_time
+        ) req
+      ) AS requested,
+      (
+        SELECT ARRAY_TO_JSON(ARRAY_AGG(help))
+        FROM (
+          SELECT
+            task_id,
+            (
+              SELECT ROW_TO_JSON(reqname)
+              FROM (
+                SELECT
+                  user_id,
+                  firstname,
+                  lastname,
+                  email,
+                  address_id,
+                  karma,
+                  task_count,
+                  avg_rating,
+                  profile_picture_url
+                FROM nexdoor.users
+                WHERE user_id=nexdoor.tasks.requester_id
+              ) reqname
+            ) AS requester,
+            (
+              SELECT ROW_TO_JSON(helpname)
+              FROM (
+                SELECT
+                  user_id,
+                  firstname,
+                  lastname,
+                  email,
+                  address_id,
+                  karma,
+                  task_count,
+                  avg_rating,
+                  profile_picture_url
+                FROM nexdoor.users
+                WHERE user_id=nexdoor.tasks.helper_id
+              ) helpname
+            ) AS helper,
+            (
+              SELECT ROW_TO_JSON(loc)
+              FROM (
+                SELECT *
+                FROM nexdoor.address
+                WHERE address_id=nexdoor.tasks.address_id
+              ) loc
+            ) AS location,
+            description,
+            car_required,
+            physical_labor_required,
+            status,
+            category,
+            start_date,
+            end_date,
+            start_time,
+            duration,
+            timestamp_requested
+          FROM nexdoor.tasks
+          WHERE helper_id=${userId} AND ((
+            (
+              SELECT coordinate
+              FROM nexdoor.address
+              WHERE address_id=nexdoor.tasks.address_id
+            )
+            <@>
+            (${coordinate})
+              ) < ${range}
+            )
+          ORDER BY
+            start_date,
+            start_time
+        ) help
+      ) as helper,
+      (
+        SELECT array_to_json(array_agg(allothers))
+        FROM (
+          SELECT
               task_id,
               (
                 SELECT ROW_TO_JSON(reqname)
@@ -1602,79 +1761,6 @@ const taskModels = {
                   WHERE user_id=nexdoor.tasks.requester_id
                 ) reqname
               ) as requester,
-              (
-                SELECT ROW_TO_JSON(helpname)
-                FROM (
-                  SELECT
-                    user_id,
-                    firstname,
-                    lastname,
-                    email,
-                    address_id,
-                    karma,
-                    task_count,
-                    avg_rating,
-                    profile_picture_url
-                  FROM nexdoor.users
-                  WHERE user_id=nexdoor.tasks.helper_id
-                ) helpname
-              ) as helper,
-              (
-                SELECT ROW_TO_JSON(loc)
-                FROM (
-                  SELECT *
-                  FROM nexdoor.address
-                  WHERE address_id=nexdoor.tasks.address_id
-                ) loc
-              ) as location,
-              description,
-              car_required,
-              physical_labor_required,
-              status,
-              category,
-              start_date,
-              end_date,
-              start_time,
-              duration,
-              timestamp_requested
-            FROM nexdoor.tasks
-            WHERE requester_id=${userId} AND ((
-              (
-                SELECT coordinate
-                FROM nexdoor.address
-                WHERE address_id=nexdoor.tasks.address_id
-              )
-              <@>
-              (${coordinate})
-                ) < ${range}
-              )
-            ORDER BY
-              start_date,
-              start_time
-          ) req
-        ) AS requested,
-        (
-          SELECT ARRAY_TO_JSON(ARRAY_AGG(help))
-          FROM (
-            SELECT
-              task_id,
-              (
-                SELECT ROW_TO_JSON(reqname)
-                FROM (
-                  SELECT
-                    user_id,
-                    firstname,
-                    lastname,
-                    email,
-                    address_id,
-                    karma,
-                    task_count,
-                    avg_rating,
-                    profile_picture_url
-                  FROM nexdoor.users
-                  WHERE user_id=nexdoor.tasks.requester_id
-                ) reqname
-              ) AS requester,
               (
                 SELECT ROW_TO_JSON(helpname)
                 FROM (
@@ -1711,113 +1797,37 @@ const taskModels = {
               duration,
               timestamp_requested
             FROM nexdoor.tasks
-            WHERE helper_id=${userId} AND ((
+            WHERE
+              (requester_id != ${userId} AND
               (
-                SELECT coordinate
-                FROM nexdoor.address
-                WHERE address_id=nexdoor.tasks.address_id
-              )
-              <@>
-              (${coordinate})
-                ) < ${range}
-              )
+                helper_id != ${userId} OR
+                helper_id IS NULL
+              )) AND ((
+                (
+                  SELECT coordinate
+                  FROM nexdoor.address
+                  WHERE address_id=nexdoor.tasks.address_id
+                )
+                <@>
+                (${coordinate})
+                  ) < ${range}
+                )
             ORDER BY
               start_date,
               start_time
-          ) help
-        ) as helper,
-        (
-          SELECT array_to_json(array_agg(allothers))
-          FROM (
-            SELECT
-                task_id,
-                (
-                  SELECT ROW_TO_JSON(reqname)
-                  FROM (
-                    SELECT
-                      user_id,
-                      firstname,
-                      lastname,
-                      email,
-                      address_id,
-                      karma,
-                      task_count,
-                      avg_rating,
-                      profile_picture_url
-                    FROM nexdoor.users
-                    WHERE user_id=nexdoor.tasks.requester_id
-                  ) reqname
-                ) as requester,
-                (
-                  SELECT ROW_TO_JSON(helpname)
-                  FROM (
-                    SELECT
-                      user_id,
-                      firstname,
-                      lastname,
-                      email,
-                      address_id,
-                      karma,
-                      task_count,
-                      avg_rating,
-                      profile_picture_url
-                    FROM nexdoor.users
-                    WHERE user_id=nexdoor.tasks.helper_id
-                  ) helpname
-                ) AS helper,
-                (
-                  SELECT ROW_TO_JSON(loc)
-                  FROM (
-                    SELECT *
-                    FROM nexdoor.address
-                    WHERE address_id=nexdoor.tasks.address_id
-                  ) loc
-                ) AS location,
-                description,
-                car_required,
-                physical_labor_required,
-                status,
-                category,
-                start_date,
-                end_date,
-                start_time,
-                duration,
-                timestamp_requested
-              FROM nexdoor.tasks
-              WHERE
-                (requester_id != ${userId} AND
-                (
-                  helper_id != ${userId} OR
-                  helper_id IS NULL
-                )) AND ((
-                  (
-                    SELECT coordinate
-                    FROM nexdoor.address
-                    WHERE address_id=nexdoor.tasks.address_id
-                  )
-                  <@>
-                  (${coordinate})
-                    ) < ${range}
-                  )
-              ORDER BY
-                start_date,
-                start_time
-              LIMIT ${quantity}
-              OFFSET ${offset}
-          ) allothers
-        ) as allothers
-      `;
-      return db.query(queryStr)
-        .then((data) => data.rows[0])
-        .catch((err) => err);
-    };
-
-    getCoordinates(addressQuery)
-      .then((testCoord) => {
-        coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-        queryDb();
-      })
-      .catch((err) => err);
+            LIMIT ${quantity}
+            OFFSET ${offset}
+        ) allothers
+      ) as allothers
+    `;
+    try {
+      const testCoord = await getCoordinates(addressQuery);
+      coordinate = `point(${testCoord.lng},${testCoord.lat})`;
+      const data = await db.query(queryStr);
+      return data.rows[0];
+    } catch (err) {
+      return err;
+    }
   },
 
   // *************************************************************
@@ -1847,7 +1857,7 @@ const taskModels = {
     }
   */
   // *************************************************************
-  editTask: ({
+  editTask: async ({
     streetAddress,
     city,
     state,
@@ -1866,6 +1876,7 @@ const taskModels = {
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
     let newAddId;
+    let addressId;
 
     const queryStr1 = `
       SELECT address_id
@@ -1873,84 +1884,75 @@ const taskModels = {
       WHERE street_address='${streetAddress}'
       AND zipcode=${zipcode}
     ;`;
-    const queryDbTwo = () => {
-      const queryStr4 = `
-        UPDATE nexdoor.tasks
-        SET
-          nexdoor.tasks.address_id=${newAddId},
-          description='${description}',
-          car_required=${carRequired},
-          physical_labor_required=${laborRequired},
-          category='${category}',
-          start_date='${startDate}',
-          end_date='${endDate}',
-          start_time='${startTime}',
-          duration=${duration}
-        WHERE task_id=${taskId}
-      ;`;
-      return db.query(queryStr4)
-        .then(() => 'Task finally updated')
-        .catch((err) => err);
-    };
-    const queryDbOne = () => {
-      const queryStr3 = `
-          INSERT INTO nexdoor.address
-          (
-            street_address,
-            city,
-            state,
-            zipcode,
-            neighborhood,
-            coordinate
-          )
-          VALUES
-          (
-            '${streetAddress}',
-            '${city}',
-            '${state}',
-            ${zipcode},
-            '${neighborhood}',
-            ${coordinate}
-          )
-          RETURNING address_id
-      ;`;
-      db.query(queryStr3)
-        .then((data2) => {
-          newAddId = data2.rows[0].address_id;
-          queryDbTwo();
-        })
-        .catch((err) => err);
-    };
-    return db.query(queryStr1)
-      .then((data) => {
-        if (data.rows.length > 0) {
-          const addressId = data.rows[0].address_id;
-          const queryStr2 = `
-            UPDATE nexdoor.tasks
-            SET
-              address_id=${addressId},
-              description='${description}',
-              car_required=${carRequired},
-              physical_labor_required=${laborRequired},
-              category='${category}',
-              start_date='${startDate}',
-              end_date='${endDate}',
-              start_time='${startTime}',
-              duration=${duration}
-            WHERE task_id=${taskId}
-          ;`;
-          return db.query(queryStr2)
-            .then(() => `Updated task ${taskId}`)
-            .catch((err) => err);
-        }
-        return getCoordinates(addressQuery)
-          .then((testCoord) => {
-            coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-            queryDbOne();
-          })
-          .catch((err) => err);
-      })
-      .catch((err) => err);
+
+    const queryStr2 = `
+    UPDATE nexdoor.tasks
+    SET
+      address_id=${addressId},
+      description='${description}',
+      car_required=${carRequired},
+      physical_labor_required=${laborRequired},
+      category='${category}',
+      start_date='${startDate}',
+      end_date='${endDate}',
+      start_time='${startTime}',
+      duration=${duration}
+    WHERE task_id=${taskId}
+  ;`;
+
+    const queryStr3 = `
+        INSERT INTO nexdoor.address
+        (
+          street_address,
+          city,
+          state,
+          zipcode,
+          neighborhood,
+          coordinate
+        )
+        VALUES
+        (
+          '${streetAddress}',
+          '${city}',
+          '${state}',
+          ${zipcode},
+          '${neighborhood}',
+          ${coordinate}
+        )
+        RETURNING address_id
+    ;`;
+
+    const queryStr4 = `
+      UPDATE nexdoor.tasks
+      SET
+        nexdoor.tasks.address_id=${newAddId},
+        description='${description}',
+        car_required=${carRequired},
+        physical_labor_required=${laborRequired},
+        category='${category}',
+        start_date='${startDate}',
+        end_date='${endDate}',
+        start_time='${startTime}',
+        duration=${duration}
+      WHERE task_id=${taskId}
+    ;`;
+
+    try {
+      const data = await db.query(queryStr1);
+      if (data.rows.length > 0) {
+        addressId = data.rows[0].address_id;
+        await db.query(queryStr2);
+        return `Updated task ${taskId}`;
+      }
+      const testCoord = await getCoordinates(addressQuery);
+      coordinate = `point(${testCoord.lng},${testCoord.lat})`;
+      const addressData = await db.query(queryStr3);
+      newAddId = addressData.rows[0].address_id;
+      await db.query(queryStr4);
+      return 'Task finally updated';
+    } catch (err) {
+      return err;
+    }
   },
 };
 

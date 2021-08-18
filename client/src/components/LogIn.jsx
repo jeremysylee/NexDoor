@@ -67,7 +67,7 @@ const LogIn = () => {
   const submitLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${url}/api/login/`, login, {
+      const response = await axios.post(`${url}/api/users/login/`, login, {
         headers: { 'content-type': 'application/json' },
         withCredentials: true,
       });

@@ -1,11 +1,30 @@
-const express = require('express');
-
-const newuser = express.Router();
 const { check, validationResult } = require('express-validator');
-const db = require('../ctrls/userCtrl');
 
-newuser.post('/',
-  [
+const userValidator = {
+  checkEmailAndPassword: [
+    check('email')
+      .not()
+      .isEmpty()
+      .isEmail()
+      .withMessage('A valid email address is required'),
+    check('password')
+      .not()
+      .isEmpty()
+      .withMessage('Please enter password'),
+    (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          success: false,
+          errors: errors.array(),
+        });
+      }
+      console.log('validated');
+      return next();
+    },
+  ],
+
+  newUser: [
     check('firstName')
       .not()
       .isEmpty()
@@ -31,16 +50,18 @@ newuser.post('/',
           return true;
         }
       }),
-  ], (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.log(errors);
-      return res.status(400).json({
-        success: false,
-        errors: errors.array(),
-      });
-    }
-    return db.addUser(req, res);
-  });
+    (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        console.log(errors);
+        return res.status(400).json({
+          success: false,
+          errors: errors.array(),
+        });
+      }
+      return next();
+    },
+  ],
+};
 
-module.exports = newuser;
+module.exports = userValidator;

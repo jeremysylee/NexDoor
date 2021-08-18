@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 /* eslint camelcase: 0 */ // --> OFF
 
-const userModels = require('./model');
+const usersService = require('./service');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -61,7 +61,7 @@ const userControllers = {
       imgUrl: req.body.imgUrl,
     };
     try {
-      const user = await userModels.addUser(userInfo);
+      const user = await usersService.addUser(userInfo);
       res.status(200).send(user);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -98,7 +98,7 @@ const userControllers = {
   getUser: async (req, res) => {
     const { userId } = req.params;
     try {
-      const user = await userModels.getUser(userId);
+      const user = await usersService.getUser(userId);
       res.status(200).send(user);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -144,7 +144,7 @@ const userControllers = {
   getUsersByRating: async (req, res) => {
     const { quantity } = req.params;
     try {
-      const users = await userModels.getUsersByRating(quantity);
+      const users = await usersService.getUsersByRating(quantity);
       res.status(200).send(users);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -190,7 +190,7 @@ const userControllers = {
   getUsersInRangeByRating: async (req, res) => {
     const { userId, range } = req.params;
     try {
-      const users = await userModels.getUsersInRangeByRating(userId, range);
+      const users = await usersService.getUsersInRangeByRating(userId, range);
       res.status(200).send(users);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -219,7 +219,7 @@ const userControllers = {
   checkForEmail: async (req, res) => {
     const { email } = req.body;
     try {
-      const userExists = await userModels.checkForEmail(email);
+      const userExists = await usersService.checkForEmail(email);
       res.status(200).send(userExists);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -243,7 +243,7 @@ const userControllers = {
   getUserCredentials: async (req, res) => {
     const { userId } = req.params;
     try {
-      const credentials = await userModels.getUserCredentials(userId);
+      const credentials = await usersService.getUserCredentials(userId);
       res.status(200).send(credentials);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -270,11 +270,14 @@ const userControllers = {
   */
   // *************************************************************
   authenticateLogin: async (req, res) => {
-    const { email, password } = req.body;
+    const credentials = {
+      email: req.body.email,
+      password: req.body.password,
+    };
     try {
-      const userId = await userModels.authenticateLogin(email, password);
+      const userId = await usersService.authenticateLogin(credentials);
       if (!userId) { res.status(404).send('error: password does not match'); }
-      const user = await userModels.getUser(userId);
+      const user = await usersService.getUser(userId);
       req.session.user_id = userId;
       req.session.save();
       res.status(200).send(user);
@@ -288,7 +291,7 @@ const userControllers = {
     if (req.session.user_id) {
       const params = { userId: req.session.user_id };
       try {
-        const user = await userModels.getUser(params);
+        const user = await usersService.getUser(params);
         res.status(200).send(user);
       } catch (err) {
         res.status(400).send(err.stack);

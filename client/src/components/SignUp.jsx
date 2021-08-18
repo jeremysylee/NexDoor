@@ -89,9 +89,9 @@ const SignUp = () => {
         if (response.data === true) {
           throw Error('email already exists!');
         } else {
-          axios.post(`${url}/api/newuser`, userInfo)
+          axios.post(`${url}/api/users`, userInfo)
             .then(() => {
-              axios.post(`${url}/api/login/`, userInfo, {
+              axios.post(`${url}/api/users/login/`, userInfo, {
                 headers: { 'content-type': 'application/json' },
                 withCredentials: true,
               })

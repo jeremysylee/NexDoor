@@ -12,7 +12,7 @@ export default function PrivateRoute({ children }) {
 
   function checkForSession() {
     console.log(document.cookie);
-    axios.get(`${url}/api/session`, {
+    axios.get(`${url}/api/users/session`, {
       headers: { 'content-type': 'application/json' },
       withCredentials: true,
     })

@@ -2,15 +2,14 @@ const express = require('express');
 
 const user = express.Router();
 
-const userController = require('./controller');
+const usersController = require('./controller');
+const userValidator = require('./userValidator');
 
 user
-  .get('/info/:userId', userController.getUser)
-  .get('/rating/:quantity', userController.getUsersByRating)
-  .get('/rangerating/:quantity/:userId/:range', userController.getUsersInRangeByRating)
-  // ADD / UPDATE
-  .post('/', userController.addUser);
-// .put('/user/:userId', userCtrl.updateUser)
-// .delete('/user/:userId', userCtrl.deleteUser)
-
+  .get('/info/:userId', usersController.getUser)
+  .get('/rating/:quantity', usersController.getUsersByRating)
+  .get('/rangerating/:quantity/:userId/:range', usersController.getUsersInRangeByRating)
+  .get('/session', usersController.authenticateSession)
+  .post('/', userValidator.newUser, usersController.addUser)
+  .post('/login', userValidator.checkEmailAndPassword, usersController.authenticateLogin);
 module.exports = user;

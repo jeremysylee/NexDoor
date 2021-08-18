@@ -17,7 +17,7 @@ TABLE OF CONTENTS
 - Get a users email and password: 270 - 298
 ________________________________________________________________*/
 const userControllers = {
-  addUser: (body) => {
+  addUser: async (body) => {
     const {
       streetAddress,
       city,
@@ -34,72 +34,65 @@ const userControllers = {
 
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
     let coordinate;
-
-    const queryDb = () => {
-      const queryStr = `
-        WITH X AS (
-          INSERT INTO nexdoor.address (
-            street_address,
-            city,
-            state,
-            zipcode,
-            neighborhood,
-            coordinate
-          )
-          VALUES (
-            '${streetAddress}',
-            '${city}',
-            '${state}',
-            ${zipcode},
-            '${neighborhood}',
-            ${coordinate}
-          )
-          RETURNING address_id
+    const queryStr = `
+      WITH X AS (
+        INSERT INTO nexdoor.address (
+          street_address,
+          city,
+          state,
+          zipcode,
+          neighborhood,
+          coordinate
         )
-        INSERT INTO nexdoor.users (
-          firstname,
-          lastname,
-          password,
-          email,
-          address_id,
-          karma,
-          task_count,
-          avg_rating,
-          profile_picture_url,
-          acct_created_timestamp
+        VALUES (
+          '${streetAddress}',
+          '${city}',
+          '${state}',
+          ${zipcode},
+          '${neighborhood}',
+          ${coordinate}
         )
-        SELECT
-          '${firstName}',
-          '${lastName}',
-          '${hashPass}',
-          '${email}',
-          address_id,
-          0,
-          0,
-          null,
-          '${imgUrl}',
-          (SELECT CURRENT_TIMESTAMP)
-        FROM X
-        RETURNING
-          user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
-      `;
+        RETURNING address_id
+      )
+      INSERT INTO nexdoor.users (
+        firstname,
+        lastname,
+        password,
+        email,
+        address_id,
+        karma,
+        task_count,
+        avg_rating,
+        profile_picture_url,
+        acct_created_timestamp
+      )
+      SELECT
+        '${firstName}',
+        '${lastName}',
+        '${hashPass}',
+        '${email}',
+        address_id,
+        0,
+        0,
+        null,
+        '${imgUrl}',
+        (SELECT CURRENT_TIMESTAMP)
+      FROM X
+      RETURNING
+        user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
+    `;
 
-      return db.query(queryStr)
-        .then((data) => data.rows[0])
-        .catch((err) => err);
-    };
-
-    getCoordinates(addressQuery)
-      .then((testCoord) => {
-        coordinate = `point(${testCoord.lng},${testCoord.lat})`;
-      })
-      .then(() => {
-        queryDb();
-      })
-      .catch((err) => err);
+    try {
+      const testCoord = await getCoordinates(addressQuery);
+      coordinate = `point(${testCoord.lng},${testCoord.lat})`;
+      const data = await db.query(queryStr);
+      return data.rows[0];
+    } catch (err) {
+      return err;
+    }
   },
 
-  getUser: ({ userId }) => {
+  getUser: async ({ userId }) => {
     const queryStr = `
       SELECT
         user_id,
@@ -125,13 +118,15 @@ const userControllers = {
       FROM nexdoor.users
       WHERE user_id=${userId};
     `;
-
-    return db.query(queryStr)
-      .then((data) => data.rows[0])
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows[0];
+    } catch (err) {
+      return err;
+    }
   },
 
-  getUsersByRating: (params) => {
+  getUsersByRating: async (params) => {
     const { quantity } = params || 25;
     const queryStr = `
       SELECT
@@ -155,12 +150,15 @@ const userControllers = {
       ORDER BY avg_rating
       LIMIT ${quantity}
     `;
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    try {
+      const data = db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
 
-  getUsersInRangeByRating: (params) => {
+  getUsersInRangeByRating: async (params) => {
     const { userId } = params;
     const { range } = params || 1;
     const { quantity } = params || 25;
@@ -205,12 +203,15 @@ const userControllers = {
       ORDER BY avg_rating
       LIMIT ${quantity}
     `;
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
 
-  checkForEmail: (body) => {
+  checkForEmail: async (body) => {
     const { email } = body;
     const queryStr = `
       SELECT EXISTS (
@@ -219,54 +220,46 @@ const userControllers = {
         LIMIT 1
       )
     `;
-    return db.query(queryStr)
-      .then((data) => data.rows[0].exists)
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows[0];
+    } catch (err) {
+      return err;
+    }
   },
 
-  getUserCredentials: (params) => {
+  getUserCredentials: async (params) => {
     const { userId } = params;
     const queryStr = `
       SELECT email, password
       FROM nexdoor.users
       WHERE user_id=${userId}
     ;`;
-    db.query(queryStr)
-      .then((data) => data.rows[0])
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows[0];
+    } catch (err) {
+      return err;
+    }
   },
 
-  authenticateLogin: ({ email, password }) => {
+  authenticateLogin: async ({ email, password }) => {
     const queryStr = `
       SELECT user_id, password
       FROM nexdoor.users
       WHERE email='${email}'
     ;`;
-    return db.query(queryStr)
-      .then((data) => {
-        const { user_id } = data.rows[0];
-        //compare passwords
-        if (!bcrypt.compareSync(password, data.rows[0].password)) {
-          return false;
-        }
-        return user_id;
-      })
-      .catch((err) => err);
-  },
-
-  authenticateSession: (req, res) => {
-    if (req.session.user_id) {
-      const { user_id } = req.session.user_id;
-      res.status(200).send({ user_id });
-    } else {
-      res.status(418).send('error: user is a teapot');
+    try {
+      const data = await db.query(queryStr);
+      const { user_id } = data.rows[0];
+      if (!bcrypt.compareSync(password, data.rows[0].password)) {
+        return false;
+      }
+      return user_id;
+    } catch (err) {
+      return err;
     }
   },
-
 };
 
 module.exports = userControllers;
-
-// user_id fk field
-// date with timezone - expiry
-// only query for dates that have not already passed

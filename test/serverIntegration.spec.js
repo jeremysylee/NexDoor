@@ -108,12 +108,21 @@ describe('Users API Integration', () => {
 
 describe('Login API Integration', () => {
   test('should log user in (/login)', async () => {
-    const response = await axios.post(`${url}/api/login`, {
+    const response = await axios.post(`${url}/api/users/login`, {
       email: 'tester@nexdoor.com',
       password: 'Nexdoor!23',
     });
     expect(response.status).toEqual(200);
   });
+
+  // test('should fail due to incorrect email formatting', async () => {
+  //   const response = await axios.post(`${url}/api/users/login`, {
+  //     email: 'tester@nexddfsfoor.com',
+  //     password: 'Nexdoor!23',
+  //   });
+  //   console.log(response.status, '<<<----------');
+  //   expect(() => response).toThrowError('error');
+  // });
 });
 
 describe('Announcements API Integration', () => {

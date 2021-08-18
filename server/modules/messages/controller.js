@@ -1,5 +1,5 @@
 /* eslint-disable spaced-comment */
-const messagesModel = require('./model');
+const messagesService = require('./service');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -30,7 +30,7 @@ const messagesControllers = {
       time: req.body.time,
     };
     try {
-      const success = await messagesModel.addMessage(taskId, userId, message);
+      const success = await messagesService.addMessage(taskId, userId, message);
       res.status(200).send(success);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -66,7 +66,7 @@ const messagesControllers = {
   getMessagesByTask: async (req, res) => {
     const { taskId } = req.params;
     try {
-      const messages = await messagesModel.getMessagesByTask(taskId);
+      const messages = await messagesService.getMessagesByTask(taskId);
       res.status(200).send(messages);
     } catch (err) {
       res.status(400).send(err.stack);

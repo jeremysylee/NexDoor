@@ -1,7 +1,7 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
 // const getCoordinates = require('./coordinates');
-const taskModel = require('./model');
+const tasksService = require('./service');
 /*________________________________________________________________
 TABLE OF CONTENTS
 - Add a task with a new address (not user's home): 19 - 135
@@ -56,7 +56,7 @@ const taskControllers = {
       duration: req.body.duration,
     };
     try {
-      const addTask = await taskModel.addTaskNewAddress(userId, task);
+      const addTask = await tasksService.addTaskNewAddress(userId, task);
       res.status(200).send(addTask);
     } catch (err) {
       // throw new Error('error adding new task at new address')
@@ -98,7 +98,7 @@ const taskControllers = {
       duration: req.body.duration,
     };
     try {
-      const addTask = await taskModel.addTaskHomeAddress(userId, task);
+      const addTask = await tasksService.addTaskHomeAddress(userId, task);
       res.status(200).send(addTask);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -151,18 +151,18 @@ const taskControllers = {
       duration: req.body.duration,
     };
     try {
-      const address = await taskModel.checkForAddress(task);
+      const address = await tasksService.checkForAddress(task);
       if (address.rows.length > 0) {
         const addressId = address.rows[0];
         try {
-          const success = await taskModel.addTaskExistingAddress(userId, task, addressId);
+          const success = await tasksService.addTaskExistingAddress(userId, task, addressId);
           res.status(200).send(success);
         } catch (err) {
           res.status(400).send(err.stack);
         }
       } else {
         try {
-          const addTask = await taskModel.addTaskNewAddress(userId, task);
+          const addTask = await tasksService.addTaskNewAddress(userId, task);
           res.status(200).send(addTask);
         } catch (err) {
           res.status(400).send(err.stack);
@@ -233,7 +233,7 @@ const taskControllers = {
   getTasks: async (req, res) => {
     const { userId, quantity, offset } = req.params;
     try {
-      const tasks = await taskModel.getTasks(userId, quantity, offset);
+      const tasks = await tasksService.getTasks(userId, quantity, offset);
       res.status(200).send(tasks);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -305,7 +305,7 @@ const taskControllers = {
   getTasksInRange: async (req, res) => {
     const { userId, range } = req.params;
     try {
-      const tasks = await taskModel.getTasksInRange(userId, range);
+      const tasks = await tasksService.getTasksInRange(userId, range);
       res.status(200).send(tasks);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -390,7 +390,7 @@ const taskControllers = {
       neighborhood: req.body.neighborhood,
     };
     try {
-      const tasks = taskModel.getTasksInRangeAltAddress(range, address);
+      const tasks = tasksService.getTasksInRangeAltAddress(range, address);
       res.status(200).send(tasks);
     } catch (err) {
       res.status(400).send(err);
@@ -452,7 +452,7 @@ const taskControllers = {
   getReqTasksByUser: async (req, res) => {
     const { userId } = req.params;
     try {
-      const tasks = await taskModel.getReqTasksByUser(userId);
+      const tasks = await tasksService.getReqTasksByUser(userId);
       res.status(200).send(tasks);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -522,7 +522,7 @@ const taskControllers = {
   getHelpTasksByUser: async (req, res) => {
     const { userId } = req.params;
     try {
-      const tasks = await taskModel.getHelpTasksByUser(userId);
+      const tasks = await tasksService.getHelpTasksByUser(userId);
       res.status(200).send(tasks);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -545,7 +545,7 @@ const taskControllers = {
   updateHelper: async (req, res) => {
     const { userId } = req.params;
     try {
-      const update = await taskModel.updateHelper(userId);
+      const update = await tasksService.updateHelper(userId);
       res.status(200).send(update);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -568,7 +568,7 @@ const taskControllers = {
   removeHelper: async (req, res) => {
     const { taskId } = req.params;
     try {
-      const success = await taskModel.removeHelper(taskId);
+      const success = await tasksService.removeHelper(taskId);
       res.status(200).send(success);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -591,7 +591,7 @@ const taskControllers = {
   changeTaskStatus: async (req, res) => {
     const { taskId } = req.params;
     try {
-      const success = await taskModel.changeTaskStatus(taskId);
+      const success = await tasksService.changeTaskStatus(taskId);
       res.status(200).send(success);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -619,7 +619,7 @@ const taskControllers = {
     const { rating } = req.params;
     const { review } = req.body;
     try {
-      const success = await taskModel.closeTask(rating, review);
+      const success = await tasksService.closeTask(rating, review);
       res.status(200).send(success);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -641,7 +641,7 @@ const taskControllers = {
   deleteTask: async (req, res) => {
     const { taskId } = req.params;
     try {
-      const success = await taskModel.deleteTask(taskId);
+      const success = await tasksService.deleteTask(taskId);
       res.status(200).send(success);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -709,12 +709,14 @@ const taskControllers = {
     }
   */
   getTasksMasterDefaultAddress: async (req, res) => {
-    const {
-      userId, range,
-      quantity, offset,
-    } = req.params;
+    const params = {
+      userId: req.params.userId,
+      range: req.params.range,
+      quantity: req.params.quantity,
+      offset: req.params.offset,
+    };
     try {
-      const tasks = await taskModel.getTasksMasterDefaultAddress(userId, range, quantity, offset);
+      const tasks = await tasksService.getTasksMasterDefaultAddress(params);
       res.status(200).send(tasks);
     } catch (err) {
       res.status(400).send(err);
@@ -733,7 +735,7 @@ const taskControllers = {
       quantity, offset,
     } = req.params;
     try {
-      const tasks = await taskModel.getTasksMasterAltAddress(userId, range, quantity, offset);
+      const tasks = await tasksService.getTasksMasterAltAddress(userId, range, quantity, offset);
       res.status(200).send(tasks);
     } catch (err) {
       res.status(400).send(err.stack);
@@ -768,7 +770,7 @@ const taskControllers = {
   */
   // *************************************************************
   editTask: (req, res) => {
-    taskModel.editTask(req.body)
+    tasksService.editTask(req.body)
       .then((success) => { res.status(200).send(success); })
       .catch((err) => { res.status(400).send(err.stack); });
   },
