@@ -1,16 +1,21 @@
 const express = require('express');
 const morgan = require('morgan');
-const cors = require('cors');
 const path = require('path');
+const cors = require('cors');
+require('dotenv').config();
+const session = require('express-session');
 const io = require('socket.io')(3000, {
   cors: {
     origin: '*',
   },
 });
-const session = require('express-session');
-require('dotenv').config();
+
+// connect to redis:
 const redis = require('redis');
 const connectRedis = require('connect-redis');
+
+const { logError, returnError } = require('./errors/errorHandler');
+
 const router = require('./router');
 
 const app = express();
@@ -49,6 +54,10 @@ app.listen(port, () => {
 });
 
 app.use(express.static(path.join(__dirname, '..', 'client/index')));
+
+// Error handling middleware:
+app.use(logError);
+app.use(returnError);
 
 io.on('connection', (socket) => {
   console.log('user connected');

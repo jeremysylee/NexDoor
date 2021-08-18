@@ -1,5 +1,5 @@
 /* eslint-disable spaced-comment */
-const messagesModel = require('../models/messagesModel');
+const messagesService = require('./service');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -22,10 +22,19 @@ const messagesControllers = {
     RESPONSE:
       string confirmation: 'Added message to db'                */
 
-  addMessage: (req, res) => {
-    messagesModel.addMessage(req.params, req.body)
-      .then((success) => res.status(200).send(success))
-      .catch((err) => res.status(400).send(err.stack));
+  addMessage: async (req, res, next) => {
+    const { taskId, userId } = req.params;
+    const message = {
+      messageBody: req.body.messageBody,
+      date: req.body.date,
+      time: req.body.time,
+    };
+    try {
+      const success = await messagesService.addMessage(taskId, userId, message);
+      res.status(200).send(success);
+    } catch (err) {
+      next(err);
+    }
   },
 
   // *************************************************************
@@ -54,11 +63,14 @@ const messagesControllers = {
         },
       ]
   */
-  getMessagesByTask: (req, res) => {
+  getMessagesByTask: async (req, res, next) => {
     const { taskId } = req.params;
-    messagesModel.getMessagesByTask(taskId)
-      .then((data) => res.status(200).send(data.rows))
-      .catch((err) => res.status(400).send(err.stack));
+    try {
+      const messages = await messagesService.getMessagesByTask(taskId);
+      res.status(200).send(messages);
+    } catch (err) {
+      next(err);
+    }
   },
 };
 

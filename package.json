@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "parcel": "parcel ./client/static/index.html",
-    "server": "nodemon server/index.js",
+    "server": "nodemon api/index.js",
     "clean": "rm dist/bundle.js",
     "build-dev": "webpack --mode development",
     "build-prod": "webpack --mode production",

@@ -53,40 +53,40 @@ describe('Tasks API Integration', () => {
     expect(response.status).toEqual(200);
   });
 
-  test('ADD TASK: should add a task (/task/check/:userId)', async () => {
-    const response = await axios.post(`${url}/api/task/check/1`, task);
+  test('ADD TASK: should add a task (/tasks/check/:userId)', async () => {
+    const response = await axios.post(`${url}/api/tasks/check/1`, task);
     expect(response.status).toEqual(200);
   });
 
-  test('EDIT TASK: should edit task (/task/edit)', async () => {
-    const response = await axios.put(`${url}/api/task/edit`, editedTask);
+  test('EDIT TASK: should edit task (/tasks/edit)', async () => {
+    const response = await axios.put(`${url}/api/tasks/edit`, editedTask);
     expect(response.status).toEqual(200);
   });
 
-  test('should remove helper from a task (/task/rmhelp/:taskId)', async () => {
-    const response = await axios.put(`${url}/api/task/rmhelp/1`);
+  test('should remove helper from a task (/tasks/rmhelp/:taskId)', async () => {
+    const response = await axios.put(`${url}/api/tasks/rmhelp/1`);
     expect(response.status).toEqual(200);
   });
 
-  test('should ADD helper to a task (/task/help/:taskId/:userId)', async () => {
-    const response = await axios.put(`${url}/api/task/help/1/1`);
+  test('should ADD helper to a task (/tasks/help/:taskId/:userId)', async () => {
+    const response = await axios.put(`${url}/api/tasks/help/1/1`);
     expect(response.status).toEqual(200);
   });
 
-  test('should CLOSE task status (/task/close/:taskId/:rating)', async () => {
-    const response = await axios.put(`${url}/api/task/close/1/5`, { review: 'great' });
+  test('should CLOSE task status (/tasks/close/:taskId/:rating)', async () => {
+    const response = await axios.put(`${url}/api/tasks/close/1/5`, { review: 'great' });
     expect(response.status).toEqual(200);
   });
 
-  test('should CHANGE task status (/task/change/:status/:taskId)', async () => {
-    const response = await axios.put(`${url}/api/task/change/Pending/1`);
+  test('should CHANGE task status (/tasks/change/:status/:taskId)', async () => {
+    const response = await axios.put(`${url}/api/tasks/change/Pending/1`);
     expect(response.status).toEqual(200);
   });
 });
 
 describe('Users API Integration', () => {
-  test('should get user data (/user/info/:userId)', async () => {
-    const response = await axios.get(`${url}/api/user/info/1`);
+  test('should get user data (/users/info/:userId)', async () => {
+    const response = await axios.get(`${url}/api/users/info/1`);
     expect(response.status).toEqual(200);
   });
 
@@ -108,12 +108,21 @@ describe('Users API Integration', () => {
 
 describe('Login API Integration', () => {
   test('should log user in (/login)', async () => {
-    const response = await axios.post(`${url}/api/login`, {
+    const response = await axios.post(`${url}/api/users/login`, {
       email: 'tester@nexdoor.com',
       password: 'Nexdoor!23',
     });
     expect(response.status).toEqual(200);
   });
+
+  // test('should fail due to incorrect email formatting', async () => {
+  //   const response = await axios.post(`${url}/api/users/login`, {
+  //     email: 'tester@nexddfsfoor.com',
+  //     password: 'Nexdoor!23',
+  //   });
+  //   console.log(response.status, '<<<----------');
+  //   expect(() => response).toThrowError('error');
+  // });
 });
 
 describe('Announcements API Integration', () => {

@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 /* eslint camelcase: 0 */ // --> OFF
 
-const userModels = require('../models/userModel');
+const usersService = require('./service');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -47,14 +47,25 @@ const userControllers = {
       profile_picture_url,
     }
   */
-  addUser: (req, res) => {
-    userModels.addUser(req.body)
-      .then((userData) => {
-        res.status(200).send(userData);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+  addUser: async (req, res, next) => {
+    const userInfo = {
+      streetAddress: req.body.streetAddress,
+      city: req.body.city,
+      state: req.body.state,
+      zipcode: req.body.zipcode,
+      neighborhood: req.body.neighborhood,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      password: req.body.password,
+      email: req.body.email,
+      imgUrl: req.body.imgUrl,
+    };
+    try {
+      const user = await usersService.addUser(userInfo);
+      res.status(200).send(user);
+    } catch (err) {
+      next();
+    }
   },
   // *************************************************************
 
@@ -84,14 +95,14 @@ const userControllers = {
       }
   */
   // *************************************************************
-  getUser: (req, res) => {
-    userModels.getUser(req.params)
-      .then((user) => {
-        res.status(200).send(user);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+  getUser: async (req, res, next) => {
+    const { userId } = req.params;
+    try {
+      const user = await usersService.getUser(userId);
+      res.status(200).send(user);
+    } catch (err) {
+      next();
+    }
   },
   // *************************************************************
 
@@ -130,14 +141,14 @@ const userControllers = {
       ]
   */
   // *************************************************************
-  getUsersByRating: (req, res) => {
-    userModels.getUsersByRating(req.params)
-      .then((data) => {
-        res.status(200).send(data.rows);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+  getUsersByRating: async (req, res, next) => {
+    const { quantity } = req.params;
+    try {
+      const users = await usersService.getUsersByRating(quantity);
+      res.status(200).send(users);
+    } catch (err) {
+      next();
+    }
   },
   // *************************************************************
 
@@ -176,14 +187,14 @@ const userControllers = {
         ]
   */
   // *************************************************************
-  getUsersInRangeByRating: (req, res) => {
-    userModels.getUsersInRangeByRating(req.params)
-      .then((users) => {
-        res.status(200).send(users);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+  getUsersInRangeByRating: async (req, res, next) => {
+    const { userId, range } = req.params;
+    try {
+      const users = await usersService.getUsersInRangeByRating(userId, range);
+      res.status(200).send(users);
+    } catch (err) {
+      next();
+    }
   },
   // *************************************************************
 
@@ -205,14 +216,14 @@ const userControllers = {
     res = false
   */
   // *************************************************************
-  checkForEmail: (req, res) => {
-    userModels.checkForEmail(req.body)
-      .then((exists) => {
-        res.status(200).send(exists);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+  checkForEmail: async (req, res, next) => {
+    const { email } = req.body;
+    try {
+      const userExists = await usersService.checkForEmail(email);
+      res.status(200).send(userExists);
+    } catch (err) {
+      next();
+    }
   },
   // *************************************************************
 
@@ -229,14 +240,14 @@ const userControllers = {
       }
   */
   // *************************************************************
-  getUserCredentials: (req, res) => {
-    userModels.getUserCredentials(req.params)
-      .then((credentials) => {
-        res.status(200).send(credentials);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+  getUserCredentials: async (req, res, next) => {
+    const { userId } = req.params;
+    try {
+      const credentials = await usersService.getUserCredentials(userId);
+      res.status(200).send(credentials);
+    } catch (err) {
+      next();
+    }
   },
   // *************************************************************
 
@@ -258,34 +269,35 @@ const userControllers = {
       }
   */
   // *************************************************************
-  authenticateLogin: (req, res) => {
-    userModels.authenticateLogin(req, req.body)
-      .then((userId) => {
-        if (!userId) {
-          res.status(404).send('error: password does not match');
-        }
-        const params = { userId };
-        userModels.getUser(params)
-          .then((user) => {
-            req.session.user_id = userId;
-            req.session.save();
-            res.status(200).send(user);
-          })
-          .catch((err) => res.status(400).send(err.stack));
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+  authenticateLogin: async (req, res, next) => {
+    const credentials = {
+      email: req.body.email,
+      password: req.body.password,
+    };
+    try {
+      const userId = await usersService.authenticateLogin(credentials);
+      if (!userId) { res.status(404).send('error: password does not match'); }
+      const user = await usersService.getUser(userId);
+      req.session.user_id = userId;
+      req.session.save();
+      res.status(200).send(user);
+    } catch (err) {
+      req.session.destroy();
+      next();
+    }
   },
   // *************************************************************
-  authenticateSession: (req, res) => {
+  authenticateSession: async (req, res, next) => {
     if (req.session.user_id) {
       const params = { userId: req.session.user_id };
-      userModels.getUser(params)
-        .then((user) => res.status(200).send(user))
-        .catch((err) => res.status(400).send(err.stack));
+      try {
+        const user = await usersService.getUser(params);
+        res.status(200).send(user);
+      } catch (err) {
+        res.status(400).send(err.stack);
+      }
     } else {
-      res.status(418).send('error: user is a teapot');
+      next();
     }
   },
 

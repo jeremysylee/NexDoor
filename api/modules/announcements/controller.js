@@ -1,5 +1,5 @@
 /* eslint-disable spaced-comment */
-const announcementModels = require('../models/announceModel');
+const announcementsService = require('./service');
 
 /*________________________________________________________________
 TABLE OF CONTENTS
@@ -7,7 +7,7 @@ TABLE OF CONTENTS
 - Get x # of announcements: 42 - 93
 ________________________________________________________________*/
 
-const announcementControllers = {
+const announcementsControllers = {
   // *************************************************************
   // ADD ANNOUNCEMENT
   // *************************************************************
@@ -22,11 +22,21 @@ const announcementControllers = {
         }
       res: 'Added announcement to db'
   */
-  addAnnouncement: (req, res) => {
-    const { userId } = req.params || null;
-    announcementModels.addAnnouncement(userId, req.body)
-      .then((success) => res.status(200).send(success))
-      .catch((err) => res.status(400).send(err.stack));
+  addAnnouncement: async (req, res, next) => {
+    const params = {
+      userId: req.params.userId || null,
+    };
+    const body = {
+      announcementBody: req.body.announcementBody,
+      date: req.body.date,
+      time: req.body.time,
+    };
+    try {
+      const success = await announcementsService.addAnnouncement(params, body);
+      res.status(200).send(success);
+    } catch (err) {
+      next(err);
+    }
   },
 
   // *************************************************************
@@ -47,16 +57,15 @@ const announcementControllers = {
         ....
       ]
   */
-  getAnnouncements: (req, res) => {
+  getAnnouncements: async (req, res, next) => {
     const { quantity } = req.params || 25;
-    announcementModels.getAnnouncements(quantity)
-      .then((data) => {
-        res.status(200).send(data.rows);
-      })
-      .catch((err) => {
-        res.status(400).send(err.stack);
-      });
+    try {
+      const data = await announcementsService.getAnnouncements(quantity);
+      res.status(200).send(data.rows);
+    } catch (err) {
+      next(err);
+    }
   },
 };
 
-module.exports = announcementControllers;
+module.exports = announcementsControllers;
