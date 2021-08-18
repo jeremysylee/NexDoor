@@ -22,7 +22,7 @@ const announcementsControllers = {
         }
       res: 'Added announcement to db'
   */
-  addAnnouncement: async (req, res) => {
+  addAnnouncement: async (req, res, next) => {
     const params = {
       userId: req.params.userId || null,
     };
@@ -35,7 +35,7 @@ const announcementsControllers = {
       const success = await announcementsService.addAnnouncement(params, body);
       res.status(200).send(success);
     } catch (err) {
-      res.status(400).send(err);
+      next(err);
     }
   },
 
@@ -57,13 +57,13 @@ const announcementsControllers = {
         ....
       ]
   */
-  getAnnouncements: async (req, res) => {
+  getAnnouncements: async (req, res, next) => {
     const { quantity } = req.params || 25;
     try {
       const data = await announcementsService.getAnnouncements(quantity);
       res.status(200).send(data.rows);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next(err);
     }
   },
 };

@@ -47,7 +47,7 @@ const userControllers = {
       profile_picture_url,
     }
   */
-  addUser: async (req, res) => {
+  addUser: async (req, res, next) => {
     const userInfo = {
       streetAddress: req.body.streetAddress,
       city: req.body.city,
@@ -64,7 +64,7 @@ const userControllers = {
       const user = await usersService.addUser(userInfo);
       res.status(200).send(user);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next();
     }
   },
   // *************************************************************
@@ -95,13 +95,13 @@ const userControllers = {
       }
   */
   // *************************************************************
-  getUser: async (req, res) => {
+  getUser: async (req, res, next) => {
     const { userId } = req.params;
     try {
       const user = await usersService.getUser(userId);
       res.status(200).send(user);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next();
     }
   },
   // *************************************************************
@@ -141,13 +141,13 @@ const userControllers = {
       ]
   */
   // *************************************************************
-  getUsersByRating: async (req, res) => {
+  getUsersByRating: async (req, res, next) => {
     const { quantity } = req.params;
     try {
       const users = await usersService.getUsersByRating(quantity);
       res.status(200).send(users);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next();
     }
   },
   // *************************************************************
@@ -187,13 +187,13 @@ const userControllers = {
         ]
   */
   // *************************************************************
-  getUsersInRangeByRating: async (req, res) => {
+  getUsersInRangeByRating: async (req, res, next) => {
     const { userId, range } = req.params;
     try {
       const users = await usersService.getUsersInRangeByRating(userId, range);
       res.status(200).send(users);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next();
     }
   },
   // *************************************************************
@@ -216,13 +216,13 @@ const userControllers = {
     res = false
   */
   // *************************************************************
-  checkForEmail: async (req, res) => {
+  checkForEmail: async (req, res, next) => {
     const { email } = req.body;
     try {
       const userExists = await usersService.checkForEmail(email);
       res.status(200).send(userExists);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next();
     }
   },
   // *************************************************************
@@ -240,13 +240,13 @@ const userControllers = {
       }
   */
   // *************************************************************
-  getUserCredentials: async (req, res) => {
+  getUserCredentials: async (req, res, next) => {
     const { userId } = req.params;
     try {
       const credentials = await usersService.getUserCredentials(userId);
       res.status(200).send(credentials);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next();
     }
   },
   // *************************************************************
@@ -269,7 +269,7 @@ const userControllers = {
       }
   */
   // *************************************************************
-  authenticateLogin: async (req, res) => {
+  authenticateLogin: async (req, res, next) => {
     const credentials = {
       email: req.body.email,
       password: req.body.password,
@@ -283,11 +283,11 @@ const userControllers = {
       res.status(200).send(user);
     } catch (err) {
       req.session.destroy();
-      res.status(400).send(err.stack);
+      next();
     }
   },
   // *************************************************************
-  authenticateSession: async (req, res) => {
+  authenticateSession: async (req, res, next) => {
     if (req.session.user_id) {
       const params = { userId: req.session.user_id };
       try {
@@ -297,7 +297,7 @@ const userControllers = {
         res.status(400).send(err.stack);
       }
     } else {
-      res.status(418).send('error: user is a teapot');
+      next();
     }
   },
 

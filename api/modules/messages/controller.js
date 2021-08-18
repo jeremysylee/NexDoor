@@ -22,7 +22,7 @@ const messagesControllers = {
     RESPONSE:
       string confirmation: 'Added message to db'                */
 
-  addMessage: async (req, res) => {
+  addMessage: async (req, res, next) => {
     const { taskId, userId } = req.params;
     const message = {
       messageBody: req.body.messageBody,
@@ -33,7 +33,7 @@ const messagesControllers = {
       const success = await messagesService.addMessage(taskId, userId, message);
       res.status(200).send(success);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next(err);
     }
   },
 
@@ -63,13 +63,13 @@ const messagesControllers = {
         },
       ]
   */
-  getMessagesByTask: async (req, res) => {
+  getMessagesByTask: async (req, res, next) => {
     const { taskId } = req.params;
     try {
       const messages = await messagesService.getMessagesByTask(taskId);
       res.status(200).send(messages);
     } catch (err) {
-      res.status(400).send(err.stack);
+      next(err);
     }
   },
 };
