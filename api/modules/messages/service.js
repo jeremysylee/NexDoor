@@ -2,7 +2,7 @@
 const db = require('../../db/index');
 
 const messagesModel = {
-  addMessage: ({
+  addMessage: async ({
     taskId, userId, messageBody, date, time, imgUrl = null,
   }) => {
     const queryStr = `
@@ -25,10 +25,12 @@ const messagesModel = {
         '${imgUrl}'
       )
     ;`;
-
-    return db.query(queryStr)
-      .then(() => 'Added message to db')
-      .catch((err) => err);
+    try {
+      await db.query(queryStr);
+      return 'Added message to db';
+    } catch (err) {
+      return err;
+    }
   },
 
   getMessagesByTask: (taskId) => {
@@ -53,7 +55,7 @@ const messagesModel = {
         time ASC;
     `;
     return db.query(queryStr)
-      .then((data) => data)
+      .then((data) => data.rows)
       .catch((err) => err);
   },
 };

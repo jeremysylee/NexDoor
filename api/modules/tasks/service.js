@@ -1,7 +1,7 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
-const db = require('../../../db/index');
-const getCoordinates = require('../../models/coordinates');
+const db = require('../../db/index');
+const getCoordinates = require('../coordinates/coordinates');
 
 const taskModels = {
 

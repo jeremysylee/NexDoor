@@ -1,8 +1,8 @@
 /* eslint-disable spaced-comment */
 const db = require('../../db/index');
 
-const announcementModels = {
-  addAnnouncement: ({
+const announcementModel = {
+  addAnnouncement: async ({
     userId, announcementBody, date, time,
   }) => {
     const queryStr = `
@@ -19,22 +19,27 @@ const announcementModels = {
         '${time}'
       )
     `;
-
-    return db.query(queryStr)
-      .then(() => 'Added announcement to db')
-      .catch((err) => err);
+    try {
+      await db.query(queryStr);
+      return 'successfully added announcement';
+    } catch (err) {
+      return err;
+    }
   },
 
-  getAnnouncements: (quantity) => {
+  getAnnouncements: async (quantity) => {
     const queryStr = `
       SELECT *
       FROM nexdoor.announcements
       LIMIT ${quantity}
     ;`;
-    return db.query(queryStr)
-      .then((data) => data)
-      .catch((err) => err);
+    try {
+      const data = await db.query(queryStr);
+      return data.rows;
+    } catch (err) {
+      return err;
+    }
   },
 };
 
-module.exports = announcementModels;
+module.exports = announcementModel;
