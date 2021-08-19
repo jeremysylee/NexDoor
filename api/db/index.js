@@ -7,16 +7,17 @@ const pool = new Pool({
   database: process.env.DB_DB,
   password: process.env.DB_PASS,
   port: 5432,
+  allowExitOnIdle: true,
 });
 
-pool.connect((err) => {
-  if (err) {
-    console.log('err connecting to psql', err.stack);
-  } else {
-    console.log('connected to psql db');
-  }
-});
+// pool.connect((err) => {
+//   if (err) {
+//     console.log('err connecting to psql', err.stack);
+//   }
+// });
 
-module.exports = {
-  query: (text, params, callback) => pool.query(text, params, callback),
-};
+// module.exports = {
+//   query: (text, params, callback) => pool.query(text, params, callback),
+// };
+
+module.exports = pool;

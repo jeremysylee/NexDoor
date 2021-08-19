@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for NexDoor/client/src/components/MainFeed/SelectedTask/index.jsx</title>
+    <title>Code coverage report for NexDoor/test/s.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../../../../prettify.css" />
-    <link rel="stylesheet" href="../../../../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../../../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../../../../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../../../../index.html">All files</a> / <a href="index.html">NexDoor/client/src/components/MainFeed/SelectedTask</a> index.jsx</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">NexDoor/test</a> s.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/139</span>
+                <span class='fraction'>0/142</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/139</span>
+                <span class='fraction'>0/142</span>
             </div>
         
             
@@ -196,7 +196,10 @@
 <a name='L137'></a><a href='#L137'>137</a>
 <a name='L138'></a><a href='#L138'>138</a>
 <a name='L139'></a><a href='#L139'>139</a>
-<a name='L140'></a><a href='#L140'>140</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -335,145 +338,151 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React, { useEffect } from 'react';</span></span></span>
-<span class="cstat-no" title="statement not covered" >import { useSelector, useDispatch } from 'react-redux';</span>
-<span class="cstat-no" title="statement not covered" >import styled from 'styled-components';</span>
-<span class="cstat-no" title="statement not covered" >import { DateTime } from 'luxon';</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >const axios = require('axios');</span></span></span>
+<span class="cstat-no" title="statement not covered" >const { url } = require('../config');</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >// Imported Components</span>
-<span class="cstat-no" title="statement not covered" >import { UserProfile, UserProfileBlank } from './UserProfile';</span>
-<span class="cstat-no" title="statement not covered" >import DetailsSection from './DetailsSection';</span>
-<span class="cstat-no" title="statement not covered" >import {</span>
-<span class="cstat-no" title="statement not covered" >  InputOpenRequest,</span>
-<span class="cstat-no" title="statement not covered" >  InputActiveTask,</span>
-<span class="cstat-no" title="statement not covered" >  InputClaimedRequest,</span>
-<span class="cstat-no" title="statement not covered" >  InputUnclaimedRequest,</span>
-<span class="cstat-no" title="statement not covered" >} from './Inputs';</span>
-<span class="cstat-no" title="statement not covered" >import {</span>
-<span class="cstat-no" title="statement not covered" >  StatusText,</span>
-<span class="cstat-no" title="statement not covered" >  RowSlim,</span>
-<span class="cstat-no" title="statement not covered" >  BackButton,</span>
-<span class="cstat-no" title="statement not covered" >} from './styles-SelectedTask';</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >const SelectedTaskCard = styled.div`</span>
-<span class="cstat-no" title="statement not covered" >  width: 100%;</span>
-<span class="cstat-no" title="statement not covered" >  height: 100%;</span>
-<span class="cstat-no" title="statement not covered" >  padding: 3em 2.5em 1em;</span>
-<span class="cstat-no" title="statement not covered" >  overflow: hidden;</span>
-<span class="cstat-no" title="statement not covered" >  background-color: white;</span>
-<span class="cstat-no" title="statement not covered" >  border-radius: 10px;</span>
-<span class="cstat-no" title="statement not covered" >  font-family: Roboto;</span>
-<span class="cstat-no" title="statement not covered" >  -webkit-transition: 200ms linear;</span>
-<span class="cstat-no" title="statement not covered" >  -moz-transition: 200ms linear;</span>
-<span class="cstat-no" title="statement not covered" >  -ms-transition: 200ms linear;</span>
-<span class="cstat-no" title="statement not covered" >  -o-transition: 200ms linear;</span>
-<span class="cstat-no" title="statement not covered" >  transition: 200ms linear;</span>
-<span class="cstat-no" title="statement not covered" >`;</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >const SelectedTask = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const dispatch = useDispatch();</span>
-<span class="cstat-no" title="statement not covered" >  const task = useSelector((store) =&gt; store.selectedTaskReducer.task);</span>
-<span class="cstat-no" title="statement not covered" >  const currentUserId = useSelector((store) =&gt; store.currentUserReducer.userData.user_id);</span>
-<span class="cstat-no" title="statement not covered" >  const category = useSelector((store) =&gt; store.taskCategoryReducer);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  const getTimeUntil = (rawDate) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const dateToday = DateTime.local();</span>
-<span class="cstat-no" title="statement not covered" >    const { days } = DateTime.fromISO(rawDate).diff(dateToday, ['days']).values;</span>
-<span class="cstat-no" title="statement not covered" >    const dateFormatted = DateTime.fromISO(rawDate).toFormat('ccc, LLL dd');</span>
-<span class="cstat-no" title="statement not covered" >    if (days &lt;= 1) { return 'Today'; }</span>
-<span class="cstat-no" title="statement not covered" >    if (days === 2) { return 'Tomorrow'; }</span>
-<span class="cstat-no" title="statement not covered" >    return dateFormatted;</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  // &lt;-------------------SET CATEGORY-------------------------&gt; //</span>
-<span class="cstat-no" title="statement not covered" >  const setCategory = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (task.status === 'Open' &amp;&amp; task.requester.user_id === currentUserId) {</span>
-<span class="cstat-no" title="statement not covered" >      return dispatch({</span>
-<span class="cstat-no" title="statement not covered" >        type: 'SET_CATEGORY',</span>
-<span class="cstat-no" title="statement not covered" >        role: 'requester',</span>
-<span class="cstat-no" title="statement not covered" >        status: 'unclaimed',</span>
-<span class="cstat-no" title="statement not covered" >        statusText: 'No one has claimed your request yet',</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    if (task.status === 'Pending' &amp;&amp; task.requester.user_id === currentUserId) {</span>
-<span class="cstat-no" title="statement not covered" >      return dispatch({</span>
-<span class="cstat-no" title="statement not covered" >        type: 'SET_CATEGORY',</span>
-<span class="cstat-no" title="statement not covered" >        role: 'requester',</span>
-<span class="cstat-no" title="statement not covered" >        status: 'claimed',</span>
-<span class="cstat-no" title="statement not covered" >        statusText: `${task.helper.firstname} has claimed your request!`,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    if (task.status === 'Active' &amp;&amp; task.requester.user_id === currentUserId) {</span>
-<span class="cstat-no" title="statement not covered" >      return dispatch({</span>
-<span class="cstat-no" title="statement not covered" >        type: 'SET_CATEGORY',</span>
-<span class="cstat-no" title="statement not covered" >        role: 'requester',</span>
-<span class="cstat-no" title="statement not covered" >        status: 'active',</span>
-<span class="cstat-no" title="statement not covered" >        statusText: 'is helping you with this request!',</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    if (task.status === 'Pending' &amp;&amp; task.helper.user_id === currentUserId) {</span>
-<span class="cstat-no" title="statement not covered" >      return dispatch({</span>
-<span class="cstat-no" title="statement not covered" >        type: 'SET_CATEGORY',</span>
-<span class="cstat-no" title="statement not covered" >        role: 'helper',</span>
-<span class="cstat-no" title="statement not covered" >        status: 'pending',</span>
-<span class="cstat-no" title="statement not covered" >        statusText: `${task.requester.firstname} has not accepted your help yet`,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    if (task.status === 'Active' &amp;&amp; task.helper.user_id === currentUserId) {</span>
-<span class="cstat-no" title="statement not covered" >      return dispatch({</span>
-<span class="cstat-no" title="statement not covered" >        type: 'SET_CATEGORY',</span>
-<span class="cstat-no" title="statement not covered" >        role: 'helper',</span>
-<span class="cstat-no" title="statement not covered" >        status: 'active',</span>
-<span class="cstat-no" title="statement not covered" >        statusText: `You are helping ${task.requester.firstname} with this request`,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    return dispatch({</span>
-<span class="cstat-no" title="statement not covered" >      type: 'SET_CATEGORY',</span>
-<span class="cstat-no" title="statement not covered" >      role: 'helper',</span>
-<span class="cstat-no" title="statement not covered" >      status: 'open',</span>
-<span class="cstat-no" title="statement not covered" >      statusText: 'is requesting your assistance',</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" >  // &lt;-------------------SET CATEGORY END-------------------------&gt; //</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  // EVENT HANDLERS //</span>
-<span class="cstat-no" title="statement not covered" >  const clickBackHandler = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    dispatch({</span>
-<span class="cstat-no" title="statement not covered" >      type: 'SET_TASK', task: { task_id: 0 },</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  // LIFECYCLE //</span>
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    dispatch({</span>
-<span class="cstat-no" title="statement not covered" >      type: 'FORMAT_DATA',</span>
-<span class="cstat-no" title="statement not covered" >      time: DateTime.fromISO(task.start_time).toFormat('h:mm a'),</span>
-<span class="cstat-no" title="statement not covered" >      date: getTimeUntil(task.start_date),</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >    setCategory();</span>
-<span class="cstat-no" title="statement not covered" >  }, [task]);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  // RENDER //</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;SelectedTaskCard&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;RowSlim&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;BackButton onClick={clickBackHandler}&gt;Back&lt;/BackButton&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/RowSlim&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {category.role === 'helper' &amp;&amp; &lt;UserProfile user={task.requester} /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      {category.status === 'claimed' &amp;&amp; &lt;UserProfile user={task.helper} /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      {task.helper &amp;&amp; category.role === 'requester' &amp;&amp; &lt;UserProfile user={task.helper} /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      {category.status === 'unclaimed' &amp;&amp; &lt;UserProfileBlank /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;StatusText&gt;{category.statusText}&lt;/StatusText&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;DetailsSection /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {category.status === 'active' &amp;&amp; &lt;InputActiveTask /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      {category.status === 'claimed' &amp;&amp; &lt;InputClaimedRequest taskId={task.task_id} /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      {category.status === 'unclaimed' &amp;&amp; &lt;InputUnclaimedRequest /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >      {category.status === 'open' &amp;&amp; &lt;InputOpenRequest taskId={task.task_id} /&gt;}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/SelectedTaskCard&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >const task = {</span>
+<span class="cstat-no" title="statement not covered" >  streetAddress: '1866 n Vermont Ave',</span>
+<span class="cstat-no" title="statement not covered" >  city: 'Los Angeles',</span>
+<span class="cstat-no" title="statement not covered" >  state: 'CA',</span>
+<span class="cstat-no" title="statement not covered" >  zipcode: 90027,</span>
+<span class="cstat-no" title="statement not covered" >  neighborhood: null,</span>
+<span class="cstat-no" title="statement not covered" >  startDate: '2021-08-01',</span>
+<span class="cstat-no" title="statement not covered" >  endDate: '2021-08-01',</span>
+<span class="cstat-no" title="statement not covered" >  startTime: '23:30:00',</span>
+<span class="cstat-no" title="statement not covered" >  category: 'labor',</span>
+<span class="cstat-no" title="statement not covered" >  carRequired: false,</span>
+<span class="cstat-no" title="statement not covered" >  description: 'test from postman1',</span>
+<span class="cstat-no" title="statement not covered" >  laborRequired: false,</span>
+<span class="cstat-no" title="statement not covered" >  duration: null,</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >export default SelectedTask;</span>
+<span class="cstat-no" title="statement not covered" >const editedTask = {</span>
+<span class="cstat-no" title="statement not covered" >  streetAddress: '1866 n Vermont Ave',</span>
+<span class="cstat-no" title="statement not covered" >  city: 'Los Angeles',</span>
+<span class="cstat-no" title="statement not covered" >  state: 'CA',</span>
+<span class="cstat-no" title="statement not covered" >  zipcode: 90027,</span>
+<span class="cstat-no" title="statement not covered" >  neighborhood: null,</span>
+<span class="cstat-no" title="statement not covered" >  startDate: '2021-08-01',</span>
+<span class="cstat-no" title="statement not covered" >  endDate: '2021-08-01',</span>
+<span class="cstat-no" title="statement not covered" >  startTime: '23:30:00',</span>
+<span class="cstat-no" title="statement not covered" >  category: 'labor',</span>
+<span class="cstat-no" title="statement not covered" >  carRequired: false,</span>
+<span class="cstat-no" title="statement not covered" >  description: 'test from postman1',</span>
+<span class="cstat-no" title="statement not covered" >  laborRequired: false,</span>
+<span class="cstat-no" title="statement not covered" >  duration: null,</span>
+<span class="cstat-no" title="statement not covered" >  taskId: 1,</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >// describe('Messages API Integration', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   test('should get message for task GET(/messages/:taskId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.get(`${url}/api/messages/1`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should post new test message POST(/messages/:taskId/:userId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.post(`${url}/api/messages/1/1`,</span>
+<span class="cstat-no" title="statement not covered" >//       { messagebody: 'test', date: '2021-07-31', time: '17:30:00' });</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" >// });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >// describe('Tasks API Integration', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   test('should get master tasks list GET(/tasks/master/:userId/:range/:quantity/:offset)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.get(`${url}/api/tasks/master/1/100/10/0`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('ADD TASK: should add a task (/tasks/check/:userId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.post(`${url}/api/tasks/check/1`, task);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('EDIT TASK: should edit task (/tasks/edit)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.put(`${url}/api/tasks/edit`, editedTask);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should remove helper from a task (/tasks/rmhelp/:taskId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.put(`${url}/api/tasks/rmhelp/1`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should ADD helper to a task (/tasks/help/:taskId/:userId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.put(`${url}/api/tasks/help/1/1`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should CLOSE task status (/tasks/close/:taskId/:rating)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.put(`${url}/api/tasks/close/1/5`, { review: 'great' });</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should CHANGE task status (/tasks/change/:status/:taskId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.put(`${url}/api/tasks/change/Pending/1`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" >// });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >// describe('Users API Integration', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   test('should get user data (/users/info/:userId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.get(`${url}/api/users/info/1`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should get list of users by rating (/users/rating/:quantity)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.get(`${url}/api/users/rating/10`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should get list of users by rating in range (/users/rangerating/:quantity/:userId/:range)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.get(`${url}/api/users/rangerating/5/1/100`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should get list of users by rating in range (/users/rangerating/:quantity/:userId/:range)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.get(`${url}/api/users/rangerating/5/1/100`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" >// });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >// describe('Login API Integration', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   test('should log user in (/login)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.post(`${url}/api/users/login`, {</span>
+<span class="cstat-no" title="statement not covered" >//       email: 'tester@nexdoor.com',</span>
+<span class="cstat-no" title="statement not covered" >//       password: 'Nexdoor!23',</span>
+<span class="cstat-no" title="statement not covered" >//     });</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   // test('should fail due to incorrect email formatting', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   //   const response = await axios.post(`${url}/api/users/login`, {</span>
+<span class="cstat-no" title="statement not covered" >//   //     email: 'tester@nexddfsfoor.com',</span>
+<span class="cstat-no" title="statement not covered" >//   //     password: 'Nexdoor!23',</span>
+<span class="cstat-no" title="statement not covered" >//   //   });</span>
+<span class="cstat-no" title="statement not covered" >//   //   console.log(response.status, '&lt;&lt;&lt;----------');</span>
+<span class="cstat-no" title="statement not covered" >//   //   expect(() =&gt; response).toThrowError('error');</span>
+<span class="cstat-no" title="statement not covered" >//   // });</span>
+<span class="cstat-no" title="statement not covered" >// });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >// describe('Announcements API Integration', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   test('should get announcements GET(/announcements/:quantity)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.get(`${url}/api/announcements/1`);</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >//   test('should post a new announcement POST(/announcements/:userId)', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     const response = await axios.post(`${url}/api/announcements/1`, {</span>
+<span class="cstat-no" title="statement not covered" >//       announcementBody: 'test',</span>
+<span class="cstat-no" title="statement not covered" >//       date: '2021-07-31',</span>
+<span class="cstat-no" title="statement not covered" >//       time: '23:30:00',</span>
+<span class="cstat-no" title="statement not covered" >//     });</span>
+<span class="cstat-no" title="statement not covered" >//     expect(response.status).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" >// });</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -484,14 +493,14 @@
                 at Thu Aug 19 2021 10:11:23 GMT-1000 (Hawaii-Aleutian Standard Time)
             </div>
         </div>
-        <script src="../../../../../../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../../../../sorter.js"></script>
-        <script src="../../../../../../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

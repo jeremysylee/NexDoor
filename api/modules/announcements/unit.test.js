@@ -1,5 +1,6 @@
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 
+const db = require('../../db');
 const announcementsController = require('./controller');
 const announcementsService = require('./service');
 
@@ -9,10 +10,13 @@ const req = getMockReq();
 describe('Controller: announcements', () => {
   beforeAll(() => {
     jest.mock('./service');
+    // const mockService = require('./service');
+    // mockService.db = db;
   });
 
   afterAll(() => {
     jest.resetAllMocks();
+    db.end();
   });
 
   beforeEach(() => {

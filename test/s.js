@@ -34,18 +34,18 @@ const editedTask = {
   taskId: 1,
 };
 
-describe('Messages API Integration', () => {
-  test('should get message for task GET(/messages/:taskId)', async () => {
-    const response = await axios.get(`${url}/api/messages/1`);
-    expect(response.status).toEqual(200);
-  });
+// describe('Messages API Integration', () => {
+//   test('should get message for task GET(/messages/:taskId)', async () => {
+//     const response = await axios.get(`${url}/api/messages/1`);
+//     expect(response.status).toEqual(200);
+//   });
 
-  test('should post new test message POST(/messages/:taskId/:userId)', async () => {
-    const response = await axios.post(`${url}/api/messages/1/1`,
-      { messagebody: 'test', date: '2021-07-31', time: '17:30:00' });
-    expect(response.status).toEqual(200);
-  });
-});
+//   test('should post new test message POST(/messages/:taskId/:userId)', async () => {
+//     const response = await axios.post(`${url}/api/messages/1/1`,
+//       { messagebody: 'test', date: '2021-07-31', time: '17:30:00' });
+//     expect(response.status).toEqual(200);
+//   });
+// });
 
 // describe('Tasks API Integration', () => {
 //   test('should get master tasks list GET(/tasks/master/:userId/:range/:quantity/:offset)', async () => {
