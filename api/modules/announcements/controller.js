@@ -60,8 +60,8 @@ const announcementsControllers = {
   getAnnouncements: async (req, res, next) => {
     const { quantity } = req.params || 25;
     try {
-      const data = await announcementsService.getAnnouncements(quantity);
-      res.status(200).send(data.rows);
+      const announcements = await announcementsService.getAnnouncements(quantity);
+      res.status(200).send(announcements);
     } catch (err) {
       next(err);
     }
