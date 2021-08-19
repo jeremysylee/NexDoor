@@ -38,23 +38,18 @@ describe('Controller: announcements', () => {
 
 //   })
 // }
+// test('should 200 and return correct value', async () => {
+//   // test
+//   jest.mock('./service');
+//   const mockService = require('./service');
+//   mockService.getAnnouncements(() => jest.fn());
+//   // endtest
 
+//   const req = getMockReq();
+//   req.params.quantity = 25;
 
+//   await announcementsController.getAnnouncements(req, res, next);
 
-
-
-  // test('should 200 and return correct value', async () => {
-  //   // test
-  //   jest.mock('./service');
-  //   const mockService = require('./service');
-  //   mockService.getAnnouncements(() => jest.fn());
-  //   // endtest
-
-  //   const req = getMockReq();
-  //   req.params.quantity = 25;
-
-  //   await announcementsController.getAnnouncements(req, res, next);
-
-  //   expect(res.send).toHaveBeenCalled();
-  //   expect(mockService.getAnnouncements).toHaveBeenCalled();
-  // });
+//   expect(res.send).toHaveBeenCalled();
+//   expect(mockService.getAnnouncements).toHaveBeenCalled();
+// });
