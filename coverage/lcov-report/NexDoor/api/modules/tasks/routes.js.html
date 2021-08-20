@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/22</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -79,50 +79,50 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >const express = require('express');</span></span></span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >const tasks = express.Router();</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >const tasksController = require('./controller');</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >tasks</span>
-<span class="cstat-no" title="statement not covered" >  .get('/master/:userId/:range/:quantity/:offset', tasksController.getTasksMasterDefaultAddress)</span>
-<span class="cstat-no" title="statement not covered" >  .get('/range/:userId/:range', tasksController.getTasksInRange)</span>
-<span class="cstat-no" title="statement not covered" >  .get('/alt/:range', tasksController.getTasksInRangeAltAddress)</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  .put('/help/:taskId/:userId', tasksController.updateHelper)</span>
-<span class="cstat-no" title="statement not covered" >  .put('/rmhelp/:taskId', tasksController.removeHelper)</span>
-<span class="cstat-no" title="statement not covered" >  .put('/change/:status/:taskId', tasksController.changeTaskStatus)</span>
-<span class="cstat-no" title="statement not covered" >  .put('/close/:taskId/:rating', tasksController.closeTask)</span>
-<span class="cstat-no" title="statement not covered" >  .put('/edit', tasksController.editTask)</span>
-<span class="cstat-no" title="statement not covered" >  .post('/check/:userId', tasksController.addTaskCheckAddress)</span>
-<span class="cstat-no" title="statement not covered" >  .post('/new/:userId', tasksController.addTaskNewAddress)</span>
-<span class="cstat-no" title="statement not covered" >  .post('/home/:userId', tasksController.addTaskHomeAddress)</span>
-<span class="cstat-no" title="statement not covered" >  .delete('/:taskId', tasksController.deleteTask);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >module.exports = tasks;</span>
+<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
+&nbsp;
+const tasks = express.Router();
+&nbsp;
+const tasksController = require('./controller');
+&nbsp;
+tasks
+  .get('/master/:userId/:range/:quantity/:offset', tasksController.getTasksMasterDefaultAddress)
+  .get('/range/:userId/:range', tasksController.getTasksInRange)
+  .get('/alt/:range', tasksController.getTasksInRangeAltAddress)
+&nbsp;
+  .put('/help/:taskId/:userId', tasksController.updateHelper)
+  .put('/rmhelp/:taskId', tasksController.removeHelper)
+  .put('/change/:status/:taskId', tasksController.changeTaskStatus)
+  .put('/close/:taskId/:rating', tasksController.closeTask)
+  .put('/edit', tasksController.editTask)
+  .post('/check/:userId', tasksController.addTaskCheckAddress)
+  .post('/new/:userId', tasksController.addTaskNewAddress)
+  .post('/home/:userId', tasksController.addTaskHomeAddress)
+  .delete('/:taskId', tasksController.deleteTask);
+&nbsp;
+module.exports = tasks;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -130,7 +130,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Aug 19 2021 20:10:24 GMT-1000 (Hawaii-Aleutian Standard Time)
+                at Fri Aug 20 2021 10:59:45 GMT-1000 (Hawaii-Aleutian Standard Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

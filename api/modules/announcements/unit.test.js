@@ -22,18 +22,28 @@ describe('Announcements Controller', () => {
 
   describe('Get announcements', () => {
     it('should call the getAnnouncements service', async () => {
+      // Arrange
       const getAnnouncementsSpy = jest.spyOn(announcementsService, 'getAnnouncements');
       req.params.quantity = 25;
+
+      // Act
       await announcementsController.getAnnouncements(req, res, next);
+
+      // Assert
       expect(getAnnouncementsSpy).toBeCalled();
     });
   });
 
   describe('Add announcements', () => {
     it('should call the addAnnouncement service', async () => {
+      // Arrange
       const addAnnouncementSpy = jest.spyOn(announcementsService, 'addAnnouncement');
       req.params.quantity = 25;
+
+      // Act
       await announcementsController.addAnnouncement(req, res, next);
+
+      // Assert
       expect(addAnnouncementSpy).toBeCalled();
     });
   });
@@ -50,6 +60,7 @@ describe('Announcements Service', () => {
     });
 
     it('should query the database function and return an announcements array DTO', async () => {
+      // Arrange
       const querySpy = jest.spyOn(db, 'query').mockImplementation(() => ({
         rows: [{
           announcement_id: 1,
@@ -59,7 +70,11 @@ describe('Announcements Service', () => {
           time: '23:30:00',
         }],
       }));
+
+      // Act
       const announcementsDTO = await announcementsService.getAnnouncements(15);
+
+      // Assert
       expect(querySpy).toBeCalled();
       expect(announcementsDTO.length).toBeGreaterThan(0);
       expect(announcementsDTO[0]).toEqual({
@@ -74,6 +89,7 @@ describe('Announcements Service', () => {
 
   describe('add announcements service', () => {
     it('should query the database function and return a announcement_id DTO', async () => {
+      // Arrange
       const querySpy = jest.spyOn(db, 'query').mockImplementation(() => ({
         rows: [{
           announcement_id: 1,
@@ -85,7 +101,11 @@ describe('Announcements Service', () => {
         date: '2021-07-31T10:00:00.000Z',
         time: '23:30:00',
       };
+
+      // Act
       const announcementsDTO = await announcementsService.addAnnouncement(announcement);
+
+      // Assert
       expect(querySpy).toBeCalled();
       expect(announcementsDTO.length).toBeGreaterThan(0);
       expect(announcementsDTO[0]).toEqual({
