@@ -18,10 +18,11 @@ const announcementModel = {
         '${date}',
         '${time}'
       )
+      RETURNING announcement_id
     `;
     try {
-      await db.query(queryStr);
-      return 'successfully added announcement';
+      const insertedId = await db.query(queryStr);
+      return insertedId.rows;
     } catch (err) {
       return err;
     }

@@ -7,7 +7,7 @@ const announcementsService = require('./service');
 const { res, next, clearMockRes } = getMockRes();
 const req = getMockReq();
 
-describe('Controller: announcements', () => {
+describe('Announcements Controller', () => {
   beforeAll(() => {
     jest.mock('./service');
   });
@@ -20,57 +20,81 @@ describe('Controller: announcements', () => {
     clearMockRes();
   });
 
-  it('should call the corresponding service', async () => {
-    const getAnnouncementsSpy = jest.spyOn(announcementsService, 'getAnnouncements');
-    const addAnnouncementSpy = jest.spyOn(announcementsService, 'addAnnouncement');
-    // const mockAddAnnouncement = jest.fn();
-    // announcementsService.getAnnouncements = mockGetAnnouncements;
-    // announcementsService.addAnnouncement = mockAddAnnouncement;
-    // console.log(mockGetAnnouncements, mockAddAnnouncement);
-    // announcementsService.getAnnouncements = jest.fn();
-    // announcementsService.addAnnouncement = jest.fn();
+  describe('Get announcements', () => {
+    it('should call the getAnnouncements service', async () => {
+      const getAnnouncementsSpy = jest.spyOn(announcementsService, 'getAnnouncements');
+      req.params.quantity = 25;
+      await announcementsController.getAnnouncements(req, res, next);
+      expect(getAnnouncementsSpy).toBeCalled();
+    });
+  });
 
-    req.params.quantity = 25;
-
-    await announcementsController.getAnnouncements(req, res, next);
-    await announcementsController.addAnnouncement(req, res, next);
-
-    expect(getAnnouncementsSpy).toBeCalled();
-    expect(addAnnouncementSpy).toBeCalled();
+  describe('Add announcements', () => {
+    it('should call the addAnnouncement service', async () => {
+      const addAnnouncementSpy = jest.spyOn(announcementsService, 'addAnnouncement');
+      req.params.quantity = 25;
+      await announcementsController.addAnnouncement(req, res, next);
+      expect(addAnnouncementSpy).toBeCalled();
+    });
   });
 });
 
-describe('Service: getAnnouncements', () => {
-  beforeAll(() => {
-    jest.mock('../../db');
-  });
-  it('should query the database function', async () => {
-    const querySpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ announcement_id: 1 }, {}] }));
-    const announcementsDTO = await announcementsService.getAnnouncements(15);
+describe('Announcements Service', () => {
+  describe('getAnnouncements service', () => {
+    beforeAll(() => {
+      jest.mock('../../db');
+    });
 
-    expect(querySpy).toBeCalled();
-    expect(announcementsDTO[0]).toHaveProperty('announcement_id', 'potato', 'user_id', 'message_body', 'date', 'time', 'potato', ' junglejuice');
-    expect(announcementsDTO[0].announcement_id).toEqual(1);
+    afterAll(() => {
+      jest.resetAllMocks();
+    });
+
+    it('should query the database function and return an announcements array DTO', async () => {
+      const querySpy = jest.spyOn(db, 'query').mockImplementation(() => ({
+        rows: [{
+          announcement_id: 1,
+          user_id: 1,
+          message_body: 'hello',
+          date: '2021-07-31T10:00:00.000Z',
+          time: '23:30:00',
+        }],
+      }));
+      const announcementsDTO = await announcementsService.getAnnouncements(15);
+      expect(querySpy).toBeCalled();
+      expect(announcementsDTO.length).toBeGreaterThan(0);
+      expect(announcementsDTO[0]).toEqual({
+        announcement_id: expect.any(Number),
+        user_id: expect.any(Number),
+        message_body: expect.any(String),
+        date: expect.any(String),
+        time: expect.any(String),
+      });
+    });
+  });
+
+  describe('add announcements service', () => {
+    it('should query the database function and return a announcement_id DTO', async () => {
+      const querySpy = jest.spyOn(db, 'query').mockImplementation(() => ({
+        rows: [{
+          announcement_id: 1,
+        }],
+      }));
+      const announcement = {
+        userId: 1,
+        announcementBody: 'test',
+        date: '2021-07-31T10:00:00.000Z',
+        time: '23:30:00',
+      };
+      const announcementsDTO = await announcementsService.addAnnouncement(announcement);
+      expect(querySpy).toBeCalled();
+      expect(announcementsDTO.length).toBeGreaterThan(0);
+      expect(announcementsDTO[0]).toEqual({
+        announcement_id: expect.any(Number),
+      });
+    });
   });
 });
 
 afterAll(() => {
-  jest.resetAllMocks();
   db.end();
 });
-
-// test('should 200 and return correct value', async () => {
-//   // test
-//   jest.mock('./service');
-//   const mockService = require('./service');
-//   mockService.getAnnouncements(() => jest.fn());
-//   // endtest
-
-//   const req = getMockReq();
-//   req.params.quantity = 25;
-
-//   await announcementsController.getAnnouncements(req, res, next);
-
-//   expect(res.send).toHaveBeenCalled();
-//   expect(mockService.getAnnouncements).toHaveBeenCalled();
-// });
