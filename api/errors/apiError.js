@@ -1,7 +1,7 @@
 const httpStatusCodes = require('./httpStatusCodes');
 const BaseError = require('./baseError');
 
-class Api404Error extends BaseError {
+class ApiError extends BaseError {
   constructor(
     name,
     statusCode = httpStatusCodes.NOT_FOUND,
@@ -12,4 +12,4 @@ class Api404Error extends BaseError {
   }
 }
 
-module.exports = Api404Error;
+module.exports = ApiError;
