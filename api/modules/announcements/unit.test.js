@@ -37,7 +37,7 @@ describe('Announcements Controller', () => {
   describe('Add announcements', () => {
     it('should call the addAnnouncement service', async () => {
       // Arrange
-      const addAnnouncementSpy = jest.spyOn(announcementsService, 'addAnnouncement');
+      const addAnnouncementSpy = jest.spyOn(announcementsService, 'addAnnouncement').mockImplementation(() => true);
       req.params.quantity = 25;
 
       // Act
@@ -95,15 +95,15 @@ describe('Announcements Service', () => {
           announcement_id: 1,
         }],
       }));
-      const announcement = {
-        userId: 1,
+      const params = { userId: 1 };
+      const body = {
         announcementBody: 'test',
         date: '2021-07-31T10:00:00.000Z',
         time: '23:30:00',
       };
 
       // Act
-      const announcementsDTO = await announcementsService.addAnnouncement(announcement);
+      const announcementsDTO = await announcementsService.addAnnouncement(params, body);
 
       // Assert
       expect(querySpy).toBeCalled();

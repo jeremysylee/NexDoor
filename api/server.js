@@ -57,5 +57,5 @@ app.use(returnError);
 //   });
 // });
 
-module.exports.app = app;
 module.exports.redisClient = redisClient;
+module.exports.app = app;
