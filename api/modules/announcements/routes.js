@@ -5,7 +5,7 @@ const announcementsController = require('./controller');
 const announcements = express.Router();
 
 announcements
-  .get('/', announcementsController.getAnnouncements)
-  .post('/', announcementsController.addAnnouncement);
+  .get('/:quantity', announcementsController.getAnnouncements)
+  .post('/:userId', announcementsController.addAnnouncement);
 
 module.exports = announcements;

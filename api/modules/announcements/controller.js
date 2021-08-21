@@ -32,8 +32,8 @@ const announcementsControllers = {
       time: req.body.time,
     };
     try {
-      const success = await announcementsService.addAnnouncement(params, body);
-      res.status(200).send(success);
+      const insertedId = await announcementsService.addAnnouncement(params, body);
+      res.status(200).send(insertedId);
     } catch (err) {
       next(err);
     }
@@ -60,8 +60,8 @@ const announcementsControllers = {
   getAnnouncements: async (req, res, next) => {
     const { quantity } = req.params || 25;
     try {
-      const data = await announcementsService.getAnnouncements(quantity);
-      res.status(200).send(data.rows);
+      const announcements = await announcementsService.getAnnouncements(quantity);
+      res.status(200).send(announcements);
     } catch (err) {
       next(err);
     }
