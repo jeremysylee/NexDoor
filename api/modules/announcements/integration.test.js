@@ -9,7 +9,7 @@ describe('Announcements API', () => {
     redisClient.quit();
     db.end();
   });
-  describe('Get Announcements', () => {
+  describe('GET Announcements', () => {
     it('should get announcements and return 200 status when called with the appropriate inputs', async () => {
       // Arrange
 
@@ -22,11 +22,11 @@ describe('Announcements API', () => {
     });
   });
 
-  describe('Post Announcements', () => {
+  describe('POST Announcements', () => {
     it('should add an announcement and return 200 status when called with the appropriate inputs', async () => {
       // Arrange
       const body = {
-        announcementBody: 'test1',
+        announcementBody: 'My house is on fire! Please help!',
         date: '2021-07-31',
         time: '23:30:00',
       };

@@ -88,7 +88,7 @@ describe('Announcements Service', () => {
   });
 
   describe('add announcements service', () => {
-    it('should query the database function and return a announcement_id DTO', async () => {
+    it('should query the database function and return an announcement_id DTO', async () => {
       // Arrange
       const querySpy = jest.spyOn(db, 'query').mockImplementation(() => ({
         rows: [{
@@ -97,7 +97,7 @@ describe('Announcements Service', () => {
       }));
       const params = { userId: 1 };
       const body = {
-        announcementBody: 'test',
+        announcementBody: 'The mayor is coming to town this week',
         date: '2021-07-31T10:00:00.000Z',
         time: '23:30:00',
       };
@@ -107,8 +107,7 @@ describe('Announcements Service', () => {
 
       // Assert
       expect(querySpy).toBeCalled();
-      expect(announcementsDTO.length).toBeGreaterThan(0);
-      expect(announcementsDTO[0]).toEqual({
+      expect(announcementsDTO).toEqual({
         announcement_id: expect.any(Number),
       });
     });

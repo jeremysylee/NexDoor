@@ -6,7 +6,7 @@ const httpStatusCodes = require('../../errors/httpStatusCodes');
 const announcementModel = {
   addAnnouncement: async ({ userId }, { announcementBody, date, time }) => {
     if (!announcementBody || !date || !time) {
-      throw new ApiError('announcement body, date, or time not defined!', httpStatusCodes.BAD_REQUEST);
+      throw new ApiError('Error adding announcement: body and/or date, and/or time not defined!', httpStatusCodes.BAD_REQUEST);
     }
     const queryStr = `
       INSERT INTO nexdoor.announcements (
@@ -24,7 +24,9 @@ const announcementModel = {
       RETURNING announcement_id
     `;
     const insertedId = await db.query(queryStr);
-    return insertedId.rows;
+    const insertedIdDTO = insertedId.rows[0];
+    console.log(insertedId.rows[0]);
+    return insertedIdDTO;
   },
 
   getAnnouncements: async (quantity) => {
@@ -33,9 +35,10 @@ const announcementModel = {
       FROM nexdoor.announcements
       LIMIT ${quantity}
     ;`;
-
     const data = await db.query(queryStr);
-    return data.rows;
+    const announcementsDTO = data.rows;
+    if (!announcementsDTO) { throw new ApiError('No announcements found'); }
+    return announcementsDTO;
   },
 };
 

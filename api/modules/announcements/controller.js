@@ -32,8 +32,8 @@ const announcementsControllers = {
       time: req.body.time,
     };
     try {
-      const success = await announcementsService.addAnnouncement(params, body);
-      res.status(200).send(success);
+      const insertedId = await announcementsService.addAnnouncement(params, body);
+      res.status(200).send(insertedId);
     } catch (err) {
       next(err);
     }
