@@ -20,7 +20,7 @@ describe('Announcements Controller', () => {
     clearMockRes();
   });
 
-  describe('Get announcements', () => {
+  describe('getAnnouncements', () => {
     it('should call the getAnnouncements service', async () => {
       // Arrange
       const getAnnouncementsSpy = jest.spyOn(announcementsService, 'getAnnouncements');
@@ -34,7 +34,7 @@ describe('Announcements Controller', () => {
     });
   });
 
-  describe('Add announcements', () => {
+  describe('addAnnouncements', () => {
     it('should call the addAnnouncement service', async () => {
       // Arrange
       const addAnnouncementSpy = jest.spyOn(announcementsService, 'addAnnouncement').mockImplementation(() => true);
@@ -50,14 +50,9 @@ describe('Announcements Controller', () => {
 });
 
 describe('Announcements Service', () => {
-  describe('getAnnouncements service', () => {
-    beforeAll(() => {
-      jest.mock('../../db');
-    });
-
-    afterAll(() => {
-      jest.resetAllMocks();
-    });
+  describe('getAnnouncements', () => {
+    beforeAll(() => { jest.mock('../../db'); });
+    afterAll(() => { jest.resetAllMocks(); });
 
     it('should query the database function and return an announcements array DTO', async () => {
       // Arrange
@@ -87,7 +82,7 @@ describe('Announcements Service', () => {
     });
   });
 
-  describe('add announcements service', () => {
+  describe('addAnnouncements', () => {
     it('should query the database function and return an announcement_id DTO', async () => {
       // Arrange
       const querySpy = jest.spyOn(db, 'query').mockImplementation(() => ({
