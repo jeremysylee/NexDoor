@@ -2,6 +2,7 @@ const { getMockReq, getMockRes } = require('@jest-mock/express');
 const messagesController = require('./controller');
 const messagesService = require('./service');
 const db = require('../../db');
+const ApiError = require('../../errors/apiError');
 
 const { res, next } = getMockRes();
 const req = getMockReq();
@@ -78,10 +79,15 @@ describe('Messages Service', () => {
       jest.spyOn(db, 'query').mockImplementation(() => ({ messageId: 1 }));
 
       // act
-      const potato = () => { messagesService.addMessage(params, message); };
+      let error;
+      try {
+        await messagesService.addMessage(params, message);
+      } catch (err) {
+        error = err;
+      }
 
       // assert
-      expect(potato).toThrow('MessageBody / date / time is not defined');
+      expect(error).toEqual(new ApiError('MessageBody / date / time is not defined'));
     });
   });
 });
