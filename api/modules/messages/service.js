@@ -1,10 +1,16 @@
 /* eslint-disable spaced-comment */
+/* eslint-disable object-curly-newline*/
 const db = require('../../db/index');
+const ApiError = require('../../errors/apiError');
+const httpStatusCodes = require('../../errors/httpStatusCodes');
 
-const messagesModel = {
-  addMessage: async ({
-    taskId, userId, messageBody, date, time, imgUrl = null,
-  }) => {
+const messagesService = {
+  addMessage: async (
+    { taskId, userId },
+    { messageBody, date, time, imgUrl = null },
+  ) => {
+    if (!taskId || !userId) { throw new ApiError('Task Id / UserId undefined!', httpStatusCodes.BAD_REQUEST); }
+    if (!messageBody || !date || !time) { throw new ApiError('MessageBody / date / time is not defined', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
       INSERT INTO nexdoor.messages
       (
@@ -24,13 +30,12 @@ const messagesModel = {
         '${time}',
         '${imgUrl}'
       )
+      RETURNING message_id
     ;`;
-    try {
-      await db.query(queryStr);
-      return 'Added message to db';
-    } catch (err) {
-      return err;
-    }
+    const messageId = await db.query(queryStr);
+    if (!messageId) { throw new ApiError('Error adding message to the db', httpStatusCodes.INTERNAL_SERVER); }
+    const messageIdDTO = messageId;
+    return messageIdDTO;
   },
 
   getMessagesByTask: (taskId) => {
@@ -60,4 +65,4 @@ const messagesModel = {
   },
 };
 
-module.exports = messagesModel;
+module.exports = messagesService;

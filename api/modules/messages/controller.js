@@ -23,14 +23,18 @@ const messagesControllers = {
       string confirmation: 'Added message to db'                */
 
   addMessage: async (req, res, next) => {
-    const { taskId, userId } = req.params;
+    const params = {
+      taskId: req.params.taskId,
+      userId: req.params.userId,
+    };
     const message = {
       messageBody: req.body.messageBody,
       date: req.body.date,
       time: req.body.time,
     };
+
     try {
-      const success = await messagesService.addMessage(taskId, userId, message);
+      const success = await messagesService.addMessage(params, message);
       res.status(200).send(success);
     } catch (err) {
       next(err);
