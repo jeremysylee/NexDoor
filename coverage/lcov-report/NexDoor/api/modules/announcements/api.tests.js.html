@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for NexDoor/coverage/lcov-report/block-navigation.js</title>
+    <title>Code coverage report for NexDoor/api/modules/announcements/api.tests.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../prettify.css" />
-    <link rel="stylesheet" href="../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../sort-arrow-sprite.png);
+            background-image: url(../../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">NexDoor/coverage/lcov-report</a> block-navigation.js</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">NexDoor/api/modules/announcements</a> api.tests.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/79</span>
+                <span class='fraction'>0/74</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/79</span>
+                <span class='fraction'>0/74</span>
             </div>
         
             
@@ -131,12 +131,7 @@
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
 <a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L75'></a><a href='#L75'>75</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -210,90 +205,80 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >/* eslint-disable */</span></span></span>
-<span class="cstat-no" title="statement not covered" >var jumpToCode = (function init() {</span>
-<span class="cstat-no" title="statement not covered" >    // Classes of code we would like to highlight in the file view</span>
-<span class="cstat-no" title="statement not covered" >    var missingCoverageClasses = ['.cbranch-no', '.cstat-no', '.fstat-no'];</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >const supertest = require('supertest');</span></span></span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // Elements to highlight in the file listing view</span>
-<span class="cstat-no" title="statement not covered" >    var fileListingElements = ['td.pct.low'];</span>
+<span class="cstat-no" title="statement not covered" >const { app, redisClient } = require('../../server');</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // We don't want to select elements that are direct descendants of another match</span>
-<span class="cstat-no" title="statement not covered" >    var notSelector = ':not(' + missingCoverageClasses.join('):not(') + ') &gt; '; // becomes `:not(a):not(b) &gt; `</span>
+<span class="cstat-no" title="statement not covered" >const db = require('../../db');</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // Selecter that finds elements on the page to which we can jump</span>
-<span class="cstat-no" title="statement not covered" >    var selector =</span>
-<span class="cstat-no" title="statement not covered" >        fileListingElements.join(', ') +</span>
-<span class="cstat-no" title="statement not covered" >        ', ' +</span>
-<span class="cstat-no" title="statement not covered" >        notSelector +</span>
-<span class="cstat-no" title="statement not covered" >        missingCoverageClasses.join(', ' + notSelector); // becomes `:not(a):not(b) &gt; a, :not(a):not(b) &gt; b`</span>
+<span class="cstat-no" title="statement not covered" >describe('Announcements API', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  afterAll(async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    redisClient.quit();</span>
+<span class="cstat-no" title="statement not covered" >    db.end();</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    // The NodeList of matching elements</span>
-<span class="cstat-no" title="statement not covered" >    var missingCoverageElements = document.querySelectorAll(selector);</span>
+<span class="cstat-no" title="statement not covered" >  afterEach(() =&gt; jest.restoreAllMocks());</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    var currentIndex;</span>
+<span class="cstat-no" title="statement not covered" >  describe('GET Announcements', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    it('should get announcements and return 200 status when called with the appropriate inputs', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      // Arrange: n/a</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    function toggleClass(index) {</span>
-<span class="cstat-no" title="statement not covered" >        missingCoverageElements</span>
-<span class="cstat-no" title="statement not covered" >            .item(currentIndex)</span>
-<span class="cstat-no" title="statement not covered" >            .classList.remove('highlighted');</span>
-<span class="cstat-no" title="statement not covered" >        missingCoverageElements.item(index).classList.add('highlighted');</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >      // Act</span>
+<span class="cstat-no" title="statement not covered" >      const response = await supertest(app)</span>
+<span class="cstat-no" title="statement not covered" >        .get('/api/announcements/1');</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    function makeCurrent(index) {</span>
-<span class="cstat-no" title="statement not covered" >        toggleClass(index);</span>
-<span class="cstat-no" title="statement not covered" >        currentIndex = index;</span>
-<span class="cstat-no" title="statement not covered" >        missingCoverageElements.item(index).scrollIntoView({</span>
-<span class="cstat-no" title="statement not covered" >            behavior: 'smooth',</span>
-<span class="cstat-no" title="statement not covered" >            block: 'center',</span>
-<span class="cstat-no" title="statement not covered" >            inline: 'center'</span>
-<span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >      // Assert</span>
+<span class="cstat-no" title="statement not covered" >      expect(response.statusCode).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >    });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    function goToPrevious() {</span>
-<span class="cstat-no" title="statement not covered" >        var nextIndex = 0;</span>
-<span class="cstat-no" title="statement not covered" >        if (typeof currentIndex !== 'number' || currentIndex === 0) {</span>
-<span class="cstat-no" title="statement not covered" >            nextIndex = missingCoverageElements.length - 1;</span>
-<span class="cstat-no" title="statement not covered" >        } else if (missingCoverageElements.length &gt; 1) {</span>
-<span class="cstat-no" title="statement not covered" >            nextIndex = currentIndex - 1;</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >    it('should throw an API error (404) when no announcements are found', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      // Arrange:</span>
+<span class="cstat-no" title="statement not covered" >      jest.spyOn(db, 'query').mockImplementation(() =&gt; ({ rows: [] }));</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        makeCurrent(nextIndex);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >      // Act</span>
+<span class="cstat-no" title="statement not covered" >      const response = await supertest(app)</span>
+<span class="cstat-no" title="statement not covered" >        .get('/api/announcements/1');</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    function goToNext() {</span>
-<span class="cstat-no" title="statement not covered" >        var nextIndex = 0;</span>
+<span class="cstat-no" title="statement not covered" >      // Assert</span>
+<span class="cstat-no" title="statement not covered" >      expect(response.statusCode).toEqual(404);</span>
+<span class="cstat-no" title="statement not covered" >    });</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        if (</span>
-<span class="cstat-no" title="statement not covered" >            typeof currentIndex === 'number' &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >            currentIndex &lt; missingCoverageElements.length - 1</span>
-<span class="cstat-no" title="statement not covered" >        ) {</span>
-<span class="cstat-no" title="statement not covered" >            nextIndex = currentIndex + 1;</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
+<span class="cstat-no" title="statement not covered" >  describe('POST Announcements', () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    it('should add an announcement and return 200 status when called with the appropriate inputs', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      // Arrange</span>
+<span class="cstat-no" title="statement not covered" >      const body = {</span>
+<span class="cstat-no" title="statement not covered" >        announcementBody: 'My house is on fire! Please help!',</span>
+<span class="cstat-no" title="statement not covered" >        date: '2021-07-31',</span>
+<span class="cstat-no" title="statement not covered" >        time: '23:30:00',</span>
+<span class="cstat-no" title="statement not covered" >      };</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        makeCurrent(nextIndex);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >      // Act</span>
+<span class="cstat-no" title="statement not covered" >      const res = await supertest(app)</span>
+<span class="cstat-no" title="statement not covered" >        .post('/api/announcements/1')</span>
+<span class="cstat-no" title="statement not covered" >        .send(body);</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    return function jump(event) {</span>
-<span class="cstat-no" title="statement not covered" >        switch (event.which) {</span>
-<span class="cstat-no" title="statement not covered" >            case 78: // n</span>
-<span class="cstat-no" title="statement not covered" >            case 74: // j</span>
-<span class="cstat-no" title="statement not covered" >                goToNext();</span>
-<span class="cstat-no" title="statement not covered" >                break;</span>
-<span class="cstat-no" title="statement not covered" >            case 66: // b</span>
-<span class="cstat-no" title="statement not covered" >            case 75: // k</span>
-<span class="cstat-no" title="statement not covered" >            case 80: // p</span>
-<span class="cstat-no" title="statement not covered" >                goToPrevious();</span>
-<span class="cstat-no" title="statement not covered" >                break;</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >})();</span>
-<span class="cstat-no" title="statement not covered" >window.addEventListener('keydown', jumpToCode);</span>
+<span class="cstat-no" title="statement not covered" >      // Assert</span>
+<span class="cstat-no" title="statement not covered" >      expect(res.statusCode).toEqual(200);</span>
+<span class="cstat-no" title="statement not covered" >    });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    it('should return an API error (400) when called with empty announcement body', async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      // Arrange</span>
+<span class="cstat-no" title="statement not covered" >      const body = {</span>
+<span class="cstat-no" title="statement not covered" >        date: '2021-07-31',</span>
+<span class="cstat-no" title="statement not covered" >        time: '23:30:00',</span>
+<span class="cstat-no" title="statement not covered" >      };</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      // Act</span>
+<span class="cstat-no" title="statement not covered" >      const res = await supertest(app)</span>
+<span class="cstat-no" title="statement not covered" >        .post('/api/announcements/1')</span>
+<span class="cstat-no" title="statement not covered" >        .send(body);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >      // Assert</span>
+<span class="cstat-no" title="statement not covered" >      expect(res.statusCode).toEqual(400);</span>
+<span class="cstat-no" title="statement not covered" >    });</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >});</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -301,17 +286,17 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Aug 21 2021 22:05:03 GMT-1000 (Hawaii-Aleutian Standard Time)
+                at Sat Aug 21 2021 22:04:39 GMT-1000 (Hawaii-Aleutian Standard Time)
             </div>
         </div>
-        <script src="../../../prettify.js"></script>
+        <script src="../../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../sorter.js"></script>
-        <script src="../../../block-navigation.js"></script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
     </body>
 </html>
     

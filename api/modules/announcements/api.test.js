@@ -14,9 +14,7 @@ describe('Announcements API', () => {
 
   describe('GET Announcements', () => {
     it('should get announcements and return 200 status when called with the appropriate inputs', async () => {
-      // Arrange: n/a
-
-      // Act
+      // Arrange + Act
       const response = await supertest(app)
         .get('/api/announcements/1');
 
