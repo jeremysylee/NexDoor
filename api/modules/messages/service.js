@@ -1,10 +1,16 @@
 /* eslint-disable spaced-comment */
+/* eslint-disable object-curly-newline*/
 const db = require('../../db/index');
+const ApiError = require('../../errors/apiError');
+const httpStatusCodes = require('../../errors/httpStatusCodes');
 
-const messagesModel = {
-  addMessage: async ({
-    taskId, userId, messageBody, date, time, imgUrl = null,
-  }) => {
+const messagesService = {
+  addMessage: async (
+    { taskId, userId },
+    { messageBody, date, time, imgUrl = null },
+  ) => {
+    if (!taskId || !userId) { throw new ApiError('Task Id / UserId undefined!', httpStatusCodes.BAD_REQUEST); }
+    if (!messageBody || !date || !time) { throw new ApiError('MessageBody / date / time is not defined', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
       INSERT INTO nexdoor.messages
       (
@@ -24,16 +30,16 @@ const messagesModel = {
         '${time}',
         '${imgUrl}'
       )
+      RETURNING message_id
     ;`;
-    try {
-      await db.query(queryStr);
-      return 'Added message to db';
-    } catch (err) {
-      return err;
-    }
+    const messageId = await db.query(queryStr);
+    if (!messageId) { throw new ApiError('Error adding message to the db', httpStatusCodes.INTERNAL_SERVER); }
+    const messageIdDTO = messageId.rows[0];
+    return messageIdDTO;
   },
 
-  getMessagesByTask: (taskId) => {
+  getMessagesByTask: async (taskId) => {
+    if (!taskId) { throw new ApiError('No task Id defined', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
       SELECT
         nexdoor.users.user_id,
@@ -54,10 +60,11 @@ const messagesModel = {
         date ASC,
         time ASC;
     `;
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    const messages = await db.query(queryStr);
+    if (!messages.rows.length > 0) { throw new ApiError('No messages found', httpStatusCodes.NOT_FOUND); }
+    const messagesDTO = messages.rows;
+    return messagesDTO;
   },
 };
 
-module.exports = messagesModel;
+module.exports = messagesService;
