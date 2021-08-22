@@ -34,11 +34,12 @@ const messagesService = {
     ;`;
     const messageId = await db.query(queryStr);
     if (!messageId) { throw new ApiError('Error adding message to the db', httpStatusCodes.INTERNAL_SERVER); }
-    const messageIdDTO = messageId;
+    const messageIdDTO = messageId.rows[0];
     return messageIdDTO;
   },
 
-  getMessagesByTask: (taskId) => {
+  getMessagesByTask: async (taskId) => {
+    if (!taskId) { throw new ApiError('No task Id defined', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
       SELECT
         nexdoor.users.user_id,
@@ -59,9 +60,10 @@ const messagesService = {
         date ASC,
         time ASC;
     `;
-    return db.query(queryStr)
-      .then((data) => data.rows)
-      .catch((err) => err);
+    const messages = await db.query(queryStr);
+    if (!messages.rows.length > 0) { throw new ApiError('No messages found', httpStatusCodes.NOT_FOUND); }
+    const messagesDTO = messages.rows;
+    return messagesDTO;
   },
 };
 

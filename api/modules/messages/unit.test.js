@@ -56,7 +56,7 @@ describe('Messages Service', () => {
         time: '23:30:00',
         imgUrl: null,
       };
-      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ messageId: 1 }));
+      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ messageId: 1 }] }));
 
       // Act
       const messageId = await messagesService.addMessage(params, message);
@@ -76,10 +76,10 @@ describe('Messages Service', () => {
         date: '2021-07-31',
         time: '23:30:00',
       };
-      jest.spyOn(db, 'query').mockImplementation(() => ({ messageId: 1 }));
+      let error;
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ messageId: 1 }] }));
 
       // act
-      let error;
       try {
         await messagesService.addMessage(params, message);
       } catch (err) {
@@ -88,6 +88,68 @@ describe('Messages Service', () => {
 
       // assert
       expect(error).toEqual(new ApiError('MessageBody / date / time is not defined'));
+    });
+  });
+
+  describe('Get Messages', () => {
+    beforeAll(() => jest.mock('../../db'));
+    afterAll(() => { jest.resetAllMocks(); });
+
+    it('Should query the database and should return a messages array DTO', async () => {
+      // Arrange
+      const responseMessages = [{
+        firstname: 'andrew',
+        lastname: 'munoz',
+        message_body: 'where are you?',
+        date: '2021-06-13T07:00:00.000Z',
+        time: '04:51:00',
+      }];
+      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: responseMessages }));
+
+      // Act
+      const messages = await messagesService.getMessagesByTask(1);
+
+      // Assert
+      expect(dbSpy).toBeCalled();
+      expect(messages[0]).toEqual({
+        firstname: expect.any(String),
+        lastname: expect.any(String),
+        message_body: expect.any(String),
+        date: expect.any(String),
+        time: expect.any(String),
+      });
+    });
+
+    it('Should throw an API error when there are no messages', async () => {
+      // arrange
+      let error;
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+
+      // act
+      try {
+        await messagesService.getMessagesByTask(1);
+      } catch (err) {
+        error = err;
+      }
+
+      // assert
+      expect(error).toEqual(new ApiError('No messages found'));
+    });
+
+    it('Should throw an API error when no taskId parameter is passed in', async () => {
+      // arrange
+      let error;
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+
+      // act
+      try {
+        await messagesService.getMessagesByTask();
+      } catch (err) {
+        error = err;
+      }
+
+      // assert
+      expect(error).toEqual(new ApiError('No task Id defined'));
     });
   });
 });
