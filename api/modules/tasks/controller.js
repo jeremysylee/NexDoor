@@ -707,7 +707,7 @@ const taskControllers = {
     "allothers": Same as above (array of task objects)
     }
   */
-  getTasksMasterDefaultAddress: async (req, res, next) => {
+  getTasksMaster: async (req, res, next) => {
     const params = {
       userId: req.params.userId,
       range: req.params.range,
@@ -715,7 +715,7 @@ const taskControllers = {
       offset: req.params.offset,
     };
     try {
-      const tasks = await tasksService.getTasksMasterDefaultAddress(params);
+      const tasks = await tasksService.getTasksMaster(params);
       res.status(200).send(tasks);
     } catch (err) {
       next(err);

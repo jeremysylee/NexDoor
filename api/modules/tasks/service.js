@@ -1,7 +1,9 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
-const db = require('../../db/index');
+const db = require('../../db');
 const getCoordinates = require('../coordinates/coordinates');
+const ApiError = require('../../errors/apiError');
+const httpStatusCodes = require('../../errors/httpStatusCodes');
 
 const taskModels = {
 
@@ -1305,12 +1307,13 @@ const taskModels = {
     "allothers": Same as above (array of task objects)
     }
   */
-  getTasksMasterDefaultAddress: async ({
+  getTasksMaster: async ({
     userId,
     range,
     quantity,
     offset,
   }) => {
+    if (!userId || !range || !quantity || !offset) { throw new ApiError('Undefined params (userId || range || quantity', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
       SELECT
         (
@@ -1565,12 +1568,8 @@ const taskModels = {
           ) allothers
         ) as allothers
       ;`;
-    try {
-      const data = await db.query(queryStr);
-      return data.rows[0];
-    } catch (err) {
-      return err;
-    }
+    const data = await db.query(queryStr);
+    return data.rows[0];
   },
 
   // *************************************************************

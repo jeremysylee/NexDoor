@@ -5,7 +5,7 @@ const tasks = express.Router();
 const tasksController = require('./controller');
 
 tasks
-  .get('/master/:userId/:range/:quantity/:offset', tasksController.getTasksMasterDefaultAddress)
+  .get('/master/:userId/:range/:quantity/:offset', tasksController.getTasksMaster)
   .get('/range/:userId/:range', tasksController.getTasksInRange)
   .get('/alt/:range', tasksController.getTasksInRangeAltAddress)
 

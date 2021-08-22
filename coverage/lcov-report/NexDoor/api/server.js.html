@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>61/61</span>
+                <span class='fraction'>0/61</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>61/61</span>
+                <span class='fraction'>0/61</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -118,128 +118,128 @@
 <a name='L59'></a><a href='#L59'>59</a>
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require('express');
-const morgan = require('morgan');
-const path = require('path');
-const cors = require('cors');
-require('dotenv').config();
-const session = require('express-session');
-// const io = require('socket.io')(3000, { cors: { origin: '*' } });
-const redis = require('redis');
-const connectRedis = require('connect-redis');
-const { logErrorMiddleware, returnError } = require('./errors/errorHandler');
-const router = require('./router');
-&nbsp;
-const app = express();
-&nbsp;
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
-app.use(cors({ origin: `http://localhost:${process.env.CLIENT_PORT}`, credentials: true }));
-&nbsp;
-app.set('trust proxy', 1); // enable if using proxy/load balancer
-&nbsp;
-const RedisStore = connectRedis(session);
-&nbsp;
-const redisClient = redis.createClient({
-  port: process.env.REDIS_PORT,
-  host: process.env.REDIS_HOST,
-});
-&nbsp;
-app.use(session({
-  store: new RedisStore({ client: redisClient }),
-  secret: process.env.SECRET,
-  resave: true, // DO NOT DISABLE OR ELSE SESSIONS WONT BE SAVED WITH USER ID
-  saveUninitialized: true,
-  cookie: {
-    secure: false, // HTTPS only (disable in production)
-    httpOnly: false, // client can read cookie manually (disable in production)
-    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
-  },
-}));
-&nbsp;
-app.use('/api', router);
-app.use(express.static(path.join(__dirname, '..', 'client/index')));
-&nbsp;
-// Error handling middleware:
-app.use(logErrorMiddleware);
-app.use(returnError);
-&nbsp;
-// io.on('connection', (socket) =&gt; {
-//   console.log('user connected');
-//   // socket.on('join', (room) =&gt; {
-//   //   socket.join(room);
-//   // });
-//   socket.on('send-message', ({ task, message }) =&gt; {
-//     console.log(task);
-//     socket.broadcast.emit(task, message);
-//     // socket.to('room1').emit(message);
-//   });
-// });
-&nbsp;
-module.exports.redisClient = redisClient;
-module.exports.app = app;
+<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >const express = require('express');</span></span></span>
+<span class="cstat-no" title="statement not covered" >const morgan = require('morgan');</span>
+<span class="cstat-no" title="statement not covered" >const path = require('path');</span>
+<span class="cstat-no" title="statement not covered" >const cors = require('cors');</span>
+<span class="cstat-no" title="statement not covered" >require('dotenv').config();</span>
+<span class="cstat-no" title="statement not covered" >const session = require('express-session');</span>
+<span class="cstat-no" title="statement not covered" >// const io = require('socket.io')(3000, { cors: { origin: '*' } });</span>
+<span class="cstat-no" title="statement not covered" >const redis = require('redis');</span>
+<span class="cstat-no" title="statement not covered" >const connectRedis = require('connect-redis');</span>
+<span class="cstat-no" title="statement not covered" >const { logErrorMiddleware, returnError } = require('./errors/errorHandler');</span>
+<span class="cstat-no" title="statement not covered" >const router = require('./router');</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >const app = express();</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >app.use(express.json());</span>
+<span class="cstat-no" title="statement not covered" >app.use(express.urlencoded({ extended: true }));</span>
+<span class="cstat-no" title="statement not covered" >app.use(morgan('dev'));</span>
+<span class="cstat-no" title="statement not covered" >app.use(cors({ origin: `http://localhost:${process.env.CLIENT_PORT}`, credentials: true }));</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >app.set('trust proxy', 1); // enable if using proxy/load balancer</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >const RedisStore = connectRedis(session);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >const redisClient = redis.createClient({</span>
+<span class="cstat-no" title="statement not covered" >  port: process.env.REDIS_PORT,</span>
+<span class="cstat-no" title="statement not covered" >  host: process.env.REDIS_HOST,</span>
+<span class="cstat-no" title="statement not covered" >});</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >app.use(session({</span>
+<span class="cstat-no" title="statement not covered" >  store: new RedisStore({ client: redisClient }),</span>
+<span class="cstat-no" title="statement not covered" >  secret: process.env.SECRET,</span>
+<span class="cstat-no" title="statement not covered" >  resave: true, // DO NOT DISABLE OR ELSE SESSIONS WONT BE SAVED WITH USER ID</span>
+<span class="cstat-no" title="statement not covered" >  saveUninitialized: true,</span>
+<span class="cstat-no" title="statement not covered" >  cookie: {</span>
+<span class="cstat-no" title="statement not covered" >    secure: false, // HTTPS only (disable in production)</span>
+<span class="cstat-no" title="statement not covered" >    httpOnly: false, // client can read cookie manually (disable in production)</span>
+<span class="cstat-no" title="statement not covered" >    maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >}));</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >app.use('/api', router);</span>
+<span class="cstat-no" title="statement not covered" >app.use(express.static(path.join(__dirname, '..', 'client/index')));</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >// Error handling middleware:</span>
+<span class="cstat-no" title="statement not covered" >app.use(logErrorMiddleware);</span>
+<span class="cstat-no" title="statement not covered" >app.use(returnError);</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >// io.on('connection', (socket) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   console.log('user connected');</span>
+<span class="cstat-no" title="statement not covered" >//   // socket.on('join', (room) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//   //   socket.join(room);</span>
+<span class="cstat-no" title="statement not covered" >//   // });</span>
+<span class="cstat-no" title="statement not covered" >//   socket.on('send-message', ({ task, message }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >//     console.log(task);</span>
+<span class="cstat-no" title="statement not covered" >//     socket.broadcast.emit(task, message);</span>
+<span class="cstat-no" title="statement not covered" >//     // socket.to('room1').emit(message);</span>
+<span class="cstat-no" title="statement not covered" >//   });</span>
+<span class="cstat-no" title="statement not covered" >// });</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >module.exports.redisClient = redisClient;</span>
+<span class="cstat-no" title="statement not covered" >module.exports.app = app;</span>
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -247,7 +247,7 @@ module.exports.app = app;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Aug 21 2021 22:05:03 GMT-1000 (Hawaii-Aleutian Standard Time)
+                at Sun Aug 22 2021 09:32:26 GMT-1000 (Hawaii-Aleutian Standard Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
