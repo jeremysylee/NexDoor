@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 // const uuid = require('uuid');
 // const session = require('express-session');
 const db = require('../../db/index');
-const getCoordinates = require('../coordinates/coordinates');
+const getCoordinates = require('../locations/coordinates');
 
 /*________________________________________________________________
 TABLE OF CONTENTS

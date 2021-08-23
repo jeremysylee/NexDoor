@@ -1,7 +1,7 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
 const db = require('../../db');
-const getCoordinates = require('../coordinates/coordinates');
+const getCoordinates = require('../locations/coordinates');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');
 
