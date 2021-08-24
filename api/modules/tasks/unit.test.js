@@ -132,7 +132,6 @@ describe('Tasks Controller', () => {
 
   describe('Update Task Status', () => {
     afterEach(() => jest.restoreAllMocks());
-
     req.params = { status: 'open', taskId: 1 };
 
     it('calls the updateTaskStatus service', async () => {
@@ -161,6 +160,44 @@ describe('Tasks Controller', () => {
 
       // Assert
       expect(updateTaskHelperServiceSpy).toBeCalled();
+    });
+  });
+});
+
+describe('Tasks Service', () => {
+  describe('getTasks', () => {
+    afterEach(() => jest.resetAllMocks());
+    it('queries the db and returns a tasks array DTO', async () => {
+      // Arrange
+      const params = {
+        userId: 1,
+        range: 15,
+        quantity: 20,
+        offset: 0,
+      };
+      const tasksResponseObj = {
+        rows: [{
+          task_id: 1,
+          requester: {},
+          helper: {},
+          address: {},
+          description: 'help me with life',
+        }],
+      };
+      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => tasksResponseObj);
+
+      // Act
+      const tasksDTO = await tasksService.getTasks(params);
+
+      // Assert
+      expect(dbSpy).toBeCalled();
+      expect(tasksDTO[0]).toEqual({
+        task_id: expect.any(Number),
+        requester: expect.any(Object),
+        helper: expect.any(Object),
+        address: expect.any(Object),
+        description: expect.any(String),
+      });
     });
   });
 });
