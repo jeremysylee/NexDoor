@@ -2,6 +2,7 @@
 /* eslint-disable max-len */
 // const getCoordinates = require('./coordinates');
 const tasksService = require('./service');
+const locationsService = require('../locations/service');
 /*________________________________________________________________
 TABLE OF CONTENTS
 - Add a task with a new address (not user's home): 19 - 135
@@ -16,126 +17,10 @@ TABLE OF CONTENTS
 - Update a task status to active, completed, or closed: 1001 - 1028
 ________________________________________________________________*/
 const taskControllers = {
-// *************************************************************
-  // ADD TASK WITH NEW ADDRESS (i.e not the user's home address)
-  // *************************************************************
-  /*
-    POST api/task/new/:userId
-    req:
-      params: userId
-      req.body =
-        {
-          "streetAddress": "111 Random Street",
-          "city": "Los Angeles",
-          "state": "CA",
-          "zipcode": 12345,
-          "neighborhood": "Hollywood",
-          "description": "Hoping to borrow 2 lawnchairs",
-          "carRequired": false,
-          "laborRequired": false,
-          "category": "borrow",
-          "startDate": "08/10/2021",
-          "endDate": "08/21/2021",
-          "startTime": "5:08",
-          "duration": 2
-        }
-    res: 'Added task to db'*/
-  addTaskNewAddress: async (req, res, next) => {
-    const { userId } = req.params;
+  addTask: async (req, res, next) => {
     const task = {
-      streetAddress: req.body.streetAddress,
-      city: req.body.city,
-      state: req.body.state,
-      neighborhood: req.body.neighborhood,
-      description: req.body.description,
-      laborRequired: req.body.laborRequired,
-      category: req.body.category,
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      startTime: req.body.startTime,
-      duration: req.body.duration,
-    };
-    try {
-      const addTask = await tasksService.addTaskNewAddress(userId, task);
-      res.status(200).send(addTask);
-    } catch (err) {
-      next(err);
-    }
-  },
-  // *************************************************************
-
-  // *************************************************************
-  // ADD A TASK AT A USER'S HOME ADDRESS
-  // *************************************************************
-  // Needs from Front End - userId, description, car required(optional), labor required(optional), category, start date, end date, start time, duration
-  // *************************************************************
-  /*
-    POST api/task/home/:userId
-    req.body =
-      {
-        "description": "Can somebody help me put up a fence please",
-        "carRequired": false,
-        "laborRequired": true,
-        "category": "labor",
-        "startDate": "05/13/2021",
-        "endDate": "05/13/2021",
-        "startTime": "10:08",
-        "duration": 1
-      }
-    res = 'Added task to db'
-  */
-  // *************************************************************
-  addTaskHomeAddress: async (req, res, next) => {
-    const { userId } = req.params;
-    const task = {
-      description: req.body.description,
-      laborRequired: req.body.laborRequired,
-      category: req.body.category,
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      startTime: req.body.startTime,
-      duration: req.body.duration,
-    };
-    try {
-      const addTask = await tasksService.addTaskHomeAddress(userId, task);
-      res.status(200).send(addTask);
-    } catch (err) {
-      next(err);
-    }
-  },
-  // *************************************************************
-
-  // *************************************************************
-  // ADD TASK AFTER CHECKING FOR EXISTING ADDRESS
-  // *************************************************************
-  //  Needs from Front End - requester user id, street address, city, state, zipcode, neighborhood (optional), description, car required (optional), labor required(optional), category, start date, end date, start time, duration
-  //  Returns - Confirmation string (new address if address wasn't already in the db, old address if it was)
-  // *************************************************************
-  /*
-    POST /api/task/check/:userID (requester)
-    req.body =
-    {
-      "streetAddress": "85 Bronson",
-      "city": "Los Angeles",
-      "state": "CA",
-      "zipcode": 90027,
-      "neighborhood": "Glendale",
-      "description": "help me with my 17 turtles",
-      "carRequired": false,
-      "laborRequired": true,
-      "category": "favor",
-      "startDate": "04/11/2021",
-      "endDate": "04/22/2021",
-      "startTime": "11:00",
-      "duration": 3
-    }
-    res = 'Added task with new address to db'
-  */
-  // *************************************************************
-
-  addTaskCheckAddress: async (req, res, next) => {
-    const { userId } = req.params;
-    const task = {
+      userId: req.params.userId,
+      addressId: undefined,
       streetAddress: req.body.streetAddress,
       city: req.body.city,
       state: req.body.state,
@@ -148,97 +33,20 @@ const taskControllers = {
       endDate: req.body.endDate,
       startTime: req.body.startTime,
       duration: req.body.duration,
+      carRequired: req.body.carRequired,
     };
     try {
-      const address = await tasksService.checkForAddress(task);
-      if (address.rows.length > 0) {
-        const addressId = address.rows[0];
-        try {
-          const success = await tasksService.addTaskExistingAddress(userId, task, addressId);
-          res.status(200).send(success);
-        } catch (err) {
-          next(err);
-        }
-      } else {
-        try {
-          const addTask = await tasksService.addTaskNewAddress(userId, task);
-          res.status(200).send(addTask);
-        } catch (err) {
-          res.status(400).send(err.stack);
-        }
+      task.addressId = await locationsService.getAddress(task).address_id;
+      if (!task.addressId) {
+        task.addressId = await locationsService.addAddress(task).address_id;
+        await locationsService.addAddress(task).address_id;
       }
+      const taskId = await tasksService.addTask(task);
+      res.status(200).send(taskId);
     } catch (err) {
       next(err);
     }
   },
-  // *************************************************************
-
-  // *************************************************************
-  // GET X # OF TASKS
-  // *************************************************************
-  //   Needs from Front End - none
-  //   Returns - array of task objects, ordered by start date and start time
-  // *************************************************************
-  /*
-    GET /api/tasks/:userId/:quantity/:offset
-    [
-      {
-        "task_id": 12,
-        "requester": {
-            "user_id": 16,
-            "firstname": "Franklin",
-            "lastname": "Doogan",
-            "email": "fdoog@gmail.com",
-            "address_id": 41,
-            "karma": 5,
-            "task_count": 15,
-            "avg_rating": 4,
-            "profile_picture_url": "https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg"
-        },
-        "helper": {
-            "user_id": 17,
-            "firstname": "Jenny",
-            "lastname": "Cho",
-            "email": "questionmaster3000@gmail.com",
-            "address_id": 42,
-            "karma": 64,
-            "task_count": 28,
-            "avg_rating": 5,
-            "profile_picture_url": "https://media-exp1.licdn.com/dms/image/C5603AQEVw__BKGBOdw/profile-displayphoto-shrink_200_200/0/1551395086203?e=1631750400&v=beta&t=yMuQBb8y5FTMWUZfBUKUFvACe8Mbv5z_8aaCAQxaSH0"
-        },
-        "location": {
-            "address_id": 43,
-            "street_address": "8837 Rangely Ave",
-            "city": "West Hollywood",
-            "state": "CA",
-            "zipcode": 90048,
-            "neighborhood": "West Hollywood",
-            "coordinate": "(-118.386255,34.080076)"
-        },
-        "description": "GIVE ME BUTTER NOW",
-        "car_required": null,
-        "physical_labor_required": null,
-        "status": "pending",
-        "category": "borrow",
-        "start_date": "2021-08-13T07:00:00.000Z",
-        "end_date": "2021-08-20T07:00:00.000Z",
-        "start_time": "01:30:00",
-        "duration": 2,
-        "timestamp_requested": "2021-07-14T09:35:09.135Z"
-    },
-    ]
-  */
-  // *************************************************************
-  getTasks: async (req, res, next) => {
-    const { userId, quantity, offset } = req.params;
-    try {
-      const tasks = await tasksService.getTasks(userId, quantity, offset);
-      res.status(200).send(tasks);
-    } catch (err) {
-      next(err);
-    }
-  },
-  // *************************************************************
 
   // *************************************************************
   // GET TASKS IN RANGE
@@ -301,250 +109,14 @@ const taskControllers = {
     ]
   */
   // *************************************************************
-  getTasksInRange: async (req, res, next) => {
-    const { userId, range } = req.params;
-    try {
-      const tasks = await tasksService.getTasksInRange(userId, range);
-      res.status(200).send(tasks);
-    } catch (err) {
-      next(err);
-    }
-  },
-  // *************************************************************
 
-  // *************************************************************
-  // GET TASKS IN RANGE FOR INPUT ADDRESS
-  // *************************************************************
-  // Needs from Front End - userId, range (in miles), street address, city, state, zipcode, neighborhood (optional)
-  // Return - array of tasks objects
-  // Note - does not create a new entry in the address table for the input address
-  // *************************************************************
-  /*
-    GET /api/tasks/alt/:range
-    req.body =
-      {
-        "streetAddress": "1154 Glendale Blvd",
-        "city": "Los Angeles",
-        "state": "CA",
-        "zipcode": 90026,
-        "neighborhood": "Echo Park"
-      }
-    res =
-      [
-        {
-          "task_id": 40,
-          "requester": {
-              "user_id": 43,
-              "firstname": "Adam",
-              "lastname": "Croggins",
-              "email": "acroggins@gmail.com",
-              "address_id": 78,
-              "karma": 0,
-              "task_count": 0,
-              "avg_rating": null,
-              "profile_picture_url": "https://yt3.ggpht.com/ytc/AKedOLS9pqgIqwr8DKFtTl2FrNxCOAa7z7pjvWcAL7Jupw=s900-c-k-c0x00ffffff-no-rj"
-          },
-          "helper": {
-              "user_id": 41,
-              "firstname": "Cheryl",
-              "lastname": "Monstera",
-              "email": "cmonst@gmail.com",
-              "address_id": 76,
-              "karma": 0,
-              "task_count": 0,
-              "avg_rating": null,
-              "profile_picture_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Cheryl_Cole_Cannes_2014.jpg"
-          },
-          "address": {
-              "address_id": 78,
-              "street_address": "1822 Sunset Blvd",
-              "city": "Los Angeles",
-              "state": "CA",
-              "zipcode": 90026,
-              "neighborhood": "Echo Park",
-              "coordinate": "(-118.260108,34.0777287)"
-          },
-          "description": "Looking to trade an old set of golf clubs for an equally prized heirloom",
-          "car_required": true,
-          "physical_labor_required": "false",
-          "status": "Pending",
-          "category": "Favor",
-          "start_date": "2021-02-01T08:00:00.000Z",
-          "end_date": "2021-02-01T08:00:00.000Z",
-          "start_time": "11:00:00",
-          "duration": 1,
-          "timestamp_requested": "2021-07-15T09:42:29.051Z"
-        },
-        ....
-      ]
-  */
-  // *************************************************************
-  getTasksInRangeAltAddress: async (req, res, next) => {
-    const { range } = req.params;
-    const address = {
-      streetAddress: req.body.streetAddress,
-      city: req.body.city,
-      state: req.body.state,
-      zipcode: req.body.zipcode,
-      neighborhood: req.body.neighborhood,
+  updateTaskHelper: async (req, res, next) => {
+    const params = {
+      userId: req.params.userId,
+      taskId: req.params.taskId,
     };
     try {
-      const tasks = tasksService.getTasksInRangeAltAddress(range, address);
-      res.status(200).send(tasks);
-    } catch (err) {
-      next(err);
-    }
-  },
-  // *************************************************************
-
-  // *************************************************************
-  // GET REQUESTED TASKS BY USER ID
-  // *************************************************************
-  // Needs from Front End - userId
-  // Returns - array of task objects where given user is the requester, ordered by date/time
-  // *************************************************************
-  /*
-    GET /api/tasks/req/:userID
-    req.body = none
-    res =
-      [
-        {
-          {
-            "task_id": 10,
-            "requester": {
-              "user_id": 16,
-              "firstname": "Franklin",
-              "lastname": "Doogan",
-              "email": "fdoog@gmail.com",
-              "address_id": 41,
-              "karma": 5,
-              "task_count": 15,
-              "avg_rating": 4,
-              "profile_picture_url": "https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg"
-          },
-          "helper": null,
-          "location": {
-              "address_id": 41,
-              "street_address": "8906 Dorrington Ave",
-              "city": "Los Angeles",
-              "state": "CA",
-              "zipcode": 90048,
-              "neighborhood": "West Hollywood",
-              "coordinate": "(-118.386511,34.079391)"
-          },
-          "description": "Help me with my tiny cats",
-          "car_required": null,
-          "physical_labor_required": null,
-          "status": "open",
-          "category": "sitting",
-          "start_date": "2021-06-21T07:00:00.000Z",
-          "end_date": "2021-06-23T07:00:00.000Z",
-          "start_time": "04:20:00",
-          "duration": 4,
-          "timestamp_requested": "2021-07-14T09:28:58.050Z"
-          },
-        },
-        .....
-      ]
-  */
-  // *************************************************************
-  getReqTasksByUser: async (req, res, next) => {
-    const { userId } = req.params;
-    try {
-      const tasks = await tasksService.getReqTasksByUser(userId);
-      res.status(200).send(tasks);
-    } catch (err) {
-      next(err);
-    }
-  },
-  // *************************************************************
-
-  // *************************************************************
-  // GET HELP TASKS BY USER
-  // *************************************************************
-  // Needs from Front End - userId
-  // Returns - array of task objects where the given user is assigned to be a helper, ordered by date/time
-  // *************************************************************
-  /*
-    GET /api/tasks/help/:userId
-    req.body = none
-    res =
-      [
-        {
-          "task_id": 17,
-          "requester": {
-              "user_id": 16,
-              "firstname": "Franklin",
-              "lastname": "Doogan",
-              "email": "fdoog@gmail.com",
-              "address_id": 41,
-              "karma": 5,
-              "task_count": 15,
-              "avg_rating": 4,
-              "profile_picture_url": "https://www.indiewire.com/wp-content/uploads/2017/06/0000246240.jpg"
-          },
-          "helper": {
-              "user_id": 17,
-              "firstname": "Jenny",
-              "lastname": "Cho",
-              "email": "questionmaster3000@gmail.com",
-              "address_id": 42,
-              "karma": 64,
-              "task_count": 28,
-              "avg_rating": 5,
-              "profile_picture_url": "https://media-exp1.licdn.com/dms/image/C5603AQEVw__BKGBOdw/profile-displayphoto-shrink_200_200/0/1551395086203?e=1631750400&v=beta&t=yMuQBb8y5FTMWUZfBUKUFvACe8Mbv5z_8aaCAQxaSH0"
-          },
-          "location": {
-              "address_id": 48,
-              "street_address": "85 Bronson",
-              "city": "Los Angeles",
-              "state": "CA",
-              "zipcode": 90027,
-              "neighborhood": "Glendale",
-              "coordinate": null
-          },
-          "description": "help me with my 17 turtles",
-          "car_required": false,
-          "physical_labor_required": "true",
-          "status": "active",
-          "category": "favor",
-          "start_date": "2021-04-11T07:00:00.000Z",
-          "end_date": "2021-04-22T07:00:00.000Z",
-          "start_time": "11:00:00",
-          "duration": 3,
-          "timestamp_requested": "2021-07-15T02:57:56.885Z"
-        },
-        ....
-      ]
-  */
-  // *************************************************************
-  getHelpTasksByUser: async (req, res, next) => {
-    const { userId } = req.params;
-    try {
-      const tasks = await tasksService.getHelpTasksByUser(userId);
-      res.status(200).send(tasks);
-    } catch (err) {
-      next(err);
-    }
-  },
-  // *************************************************************
-
-  // *************************************************************
-  // UPDATE TASK HELPER AND STATUS
-  // *************************************************************
-  // Needs from Front End - userId (helper), taskId
-  // Returns - String confirmation
-  // *************************************************************
-  /*
-    PUT /task/help/:taskId/:userId
-    req.body = none
-    res = 'Updated helper, status pending'
-  */
-  // *************************************************************
-  updateHelper: async (req, res, next) => {
-    const { userId } = req.params;
-    try {
-      const update = await tasksService.updateHelper(userId);
+      const update = await tasksService.updateTaskHelper(params);
       res.status(200).send(update);
     } catch (err) {
       next(err);
@@ -587,10 +159,13 @@ const taskControllers = {
     res = 'Task 17 status set to complete'
   */
   // *************************************************************
-  changeTaskStatus: async (req, res, next) => {
-    const { taskId } = req.params;
+  updateTaskStatus: async (req, res, next) => {
+    const params = {
+      taskId: req.params.taskId,
+      status: req.params.status,
+    };
     try {
-      const success = await tasksService.changeTaskStatus(taskId);
+      const success = await tasksService.updateTaskStatus(params);
       res.status(200).send(success);
     } catch (err) {
       next(err);
@@ -707,7 +282,7 @@ const taskControllers = {
     "allothers": Same as above (array of task objects)
     }
   */
-  getTasksMasterDefaultAddress: async (req, res, next) => {
+  getTasks: async (req, res, next) => {
     const params = {
       userId: req.params.userId,
       range: req.params.range,
@@ -715,7 +290,7 @@ const taskControllers = {
       offset: req.params.offset,
     };
     try {
-      const tasks = await tasksService.getTasksMasterDefaultAddress(params);
+      const tasks = await tasksService.getTasks(params);
       res.status(200).send(tasks);
     } catch (err) {
       next(err);
@@ -768,8 +343,9 @@ const taskControllers = {
     }
   */
   // *************************************************************
-  editTask: async (req, res, next) => {
+  updateTask: async (req, res, next) => {
     const task = {
+      addressId: undefined,
       streetAddress: req.body.streetAddress,
       city: req.body.city,
       state: req.body.state,
@@ -786,8 +362,12 @@ const taskControllers = {
       taskId: req.body.taskId,
     };
     try {
-      const success = await tasksService.editTask(task);
-      res.status(200).send(success);
+      task.addressId = await locationsService.getAddress(task).address_id;
+      if (!task.addressId) {
+        task.addressId = await locationsService.addAddress(task).address_id;
+      }
+      const successMessage = await tasksService.updateTask(task);
+      res.status(200).send(successMessage);
     } catch (err) {
       next(err);
     }

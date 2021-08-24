@@ -5,18 +5,14 @@ const tasks = express.Router();
 const tasksController = require('./controller');
 
 tasks
-  .get('/master/:userId/:range/:quantity/:offset', tasksController.getTasksMasterDefaultAddress)
-  .get('/range/:userId/:range', tasksController.getTasksInRange)
-  .get('/alt/:range', tasksController.getTasksInRangeAltAddress)
+  .get('/:userId/:range/:quantity/:offset', tasksController.getTasks)
+  .post('/:userId', tasksController.addTask)
+  .put('/', tasksController.updateTask)
+  .delete('/:taskId', tasksController.deleteTask)
 
-  .put('/help/:taskId/:userId', tasksController.updateHelper)
-  .put('/rmhelp/:taskId', tasksController.removeHelper)
-  .put('/change/:status/:taskId', tasksController.changeTaskStatus)
-  .put('/close/:taskId/:rating', tasksController.closeTask)
-  .put('/edit', tasksController.editTask)
-  .post('/check/:userId', tasksController.addTaskCheckAddress)
-  .post('/new/:userId', tasksController.addTaskNewAddress)
-  .post('/home/:userId', tasksController.addTaskHomeAddress)
-  .delete('/:taskId', tasksController.deleteTask);
+  .put('/status/:status/:taskId', tasksController.updateTaskStatus)
+  .put('/status/close/:taskId/:rating', tasksController.closeTask)
+  .put('/helper/:taskId/:userId', tasksController.updateTaskHelper)
+  .delete('/helper/:taskId', tasksController.removeHelper);
 
 module.exports = tasks;

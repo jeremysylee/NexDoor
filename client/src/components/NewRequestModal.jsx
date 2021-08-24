@@ -156,7 +156,7 @@ function NewRequestModal() {
   };
 
   const postNewRequest = () => {
-    axios.post(`${url}/api/tasks/check/${user.user_id}`, request)
+    axios.post(`${url}/api/tasks/${user.user_id}`, request)
       .then((response) => {
         console.log(response.data);
         cleanInputAndClose();
@@ -168,7 +168,7 @@ function NewRequestModal() {
   };
 
   const editRequest = () => {
-    axios.put(`${url}/api/tasks/edit/`, request)
+    axios.put(`${url}/api/tasks/`, request)
       .then((response) => {
         console.log(response.data);
         cleanInputAndClose();
