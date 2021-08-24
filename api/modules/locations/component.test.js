@@ -34,10 +34,10 @@ describe('Locations component', () => {
 
     it('Returns an address id DTO on success', async () => {
       // Arrange + Act
-      const addressId = await locationsService.addAddress(addressQueryParams);
+      const addressIdDTO = await locationsService.addAddress(addressQueryParams);
 
       // Assert
-      expect(addressId).toEqual({ address_id: expect.any(Number) });
+      expect(addressIdDTO).toEqual({ address_id: expect.any(Number) });
     });
 
     it('throws an API error if called with incorrect coordinates request parameters (coordinates)', async () => {
@@ -65,10 +65,10 @@ describe('Locations component', () => {
       const params = { streetAddress: '727 N Broadway', zipcode: '90012' };
 
       // Act
-      const addressId = await locationsService.getAddress(params);
+      const addressIdDTO = await locationsService.getAddress(params);
 
       // Assert
-      expect(addressId).toEqual({ address_id: expect.any(Number) });
+      expect(addressIdDTO).toEqual({ address_id: expect.any(Number) });
     });
 
     it('queries the db and returns false if no address found', async () => {

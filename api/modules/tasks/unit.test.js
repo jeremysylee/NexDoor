@@ -2,6 +2,7 @@ const { getMockReq, getMockRes } = require('@jest-mock/express');
 
 const tasksController = require('./controller');
 const tasksService = require('./service');
+const locationsService = require('../locations/service');
 const db = require('../../db');
 const ApiError = require('../../errors/apiError');
 
@@ -10,7 +11,6 @@ const { res, next } = getMockRes();
 
 describe('Tasks Controller', () => {
   describe('Get Tasks', () => {
-    // set up mock?**
     afterEach(() => jest.restoreAllMocks());
 
     it('Calls the get tasks service', async () => {
@@ -21,37 +21,116 @@ describe('Tasks Controller', () => {
         quantity: 15,
         offset: 0,
       };
-      const spyGetTasksMaster = jest.spyOn(tasksService, 'getTasksMaster')
+      const getTasksServiceSpy = jest.spyOn(tasksService, 'getTasks')
         .mockImplementation(() => jest.fn());
 
       // Act
-      tasksController.getTasksMaster(req, res, next);
+      tasksController.getTasks(req, res, next);
 
       // Assert
-      expect(spyGetTasksMaster).toBeCalled();
+      expect(getTasksServiceSpy).toBeCalled();
     });
   });
 
   describe('Add Task', () => {
-    // set up mock?**
+    req.params = { userId: 1 };
+    req.body = {
+      streetAddress: '727 N Broadway',
+      city: 'Los Angeles',
+      state: 'CA',
+      zipcode: '90012',
+      neighborhood: undefined,
+      description: 'Can someone watch my dogs for an hour?',
+      laborRequired: true,
+      category: 'sitting',
+      startDate: '2021-08-01',
+      endDate: '2021-07-24',
+      startTime: '22:35:00',
+      duration: null,
+      carRequired: false,
+    };
+
     afterEach(() => jest.restoreAllMocks());
 
-    it('Calls the add tasks service', async () => {
+    it('Calls the get getAddress, addAddress, and addTask service if address does not exist in the db', async () => {
       // Arrange
-      req.params = {
-        userId: 1,
-        range: 15,
-        quantity: 15,
-        offset: 0,
-      };
-      const spyGetTasksMaster = jest.spyOn(tasksService, 'getTasksMaster')
-        .mockImplementation(() => jest.fn());
+      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => (false));
+      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ address_id: 1 }));
+      const addTasksServiceSpy = jest.spyOn(tasksService, 'addTask').mockImplementation(() => ({ task_id: 1 }));
 
       // Act
-      tasksController.getTasksMaster(req, res, next);
+      await tasksController.addTask(req, res, next);
 
       // Assert
-      expect(spyGetTasksMaster).toBeCalled();
+      expect(getAddressSpy).toBeCalled();
+      expect(addAddressSpy).toBeCalled();
+      expect(addTasksServiceSpy).toBeCalled();
+    });
+
+    it('it does not call the addAddress service if address does exist in the db', async () => {
+      // Arrange
+      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ address_id: 1 }));
+      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ address_id: 1 }));
+      const addTasksServiceSpy = jest.spyOn(tasksService, 'addTask').mockImplementation(() => ({ task_id: 1 }));
+
+      // Act
+      await tasksController.addTask(req, res, next);
+
+      // Assert
+      expect(getAddressSpy).toBeCalled();
+      expect(addAddressSpy).not.toBeCalled();
+      expect(addTasksServiceSpy).toBeCalled();
+    });
+  });
+
+  describe('Update Task', () => {
+    afterEach(() => jest.restoreAllMocks());
+    req.params = { userId: 1 };
+    req.body = {
+      streetAddress: '727 N Broadway',
+      city: 'Los Angeles',
+      state: 'CA',
+      zipcode: '90012',
+      neighborhood: undefined,
+      description: 'Can someone watch my dogs for an hour?',
+      laborRequired: true,
+      category: 'sitting',
+      startDate: '2021-08-01',
+      endDate: '2021-07-24',
+      startTime: '22:35:00',
+      duration: null,
+      carRequired: false,
+    };
+
+    it('calls the getAddress, addAddress, and updateTask services if address does not exist in db', async () => {
+      // Arrange
+      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => (false));
+      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ address_id: 1 }));
+      const addTasksServiceSpy = jest.spyOn(tasksService, 'updateTask').mockImplementation(() => ({ task_id: 1 }));
+
+      // Act
+      await tasksController.updateTask(req, res, next);
+
+      // Assert
+      expect(getAddressSpy).toBeCalled();
+      expect(addAddressSpy).toBeCalled();
+      expect(addTasksServiceSpy).toBeCalled();
+    });
+  });
+
+  describe('Delete Task', () => {
+    afterEach(() => jest.restoreAllMocks());
+    req.params = { taskId: 1 };
+
+    it('calls the deleteTask service', async () => {
+      // Arrange
+      const deleteTasksServiceSpy = jest.spyOn(tasksService, 'deleteTask').mockImplementation(() => 'Deleted task 1 from db');
+
+      // Act
+      tasksController.deleteTask(req, res, next);
+
+      // Assert
+      expect(deleteTasksServiceSpy).toBeCalled();
     });
   });
 });

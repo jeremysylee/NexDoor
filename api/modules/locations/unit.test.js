@@ -48,11 +48,11 @@ describe('Locations Service', () => {
       const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ address_id: 1 }] }));
 
       // Act
-      const addressId = await locationsService.addAddress(addressQueryParams);
+      const addressIdDTO = await locationsService.addAddress(addressQueryParams);
 
       // Assert
       expect(dbSpy).toBeCalled();
-      expect(addressId).toEqual({ address_id: 1 });
+      expect(addressIdDTO).toEqual({ address_id: 1 });
     });
 
     it('throws an API error if called with missing request parameters (streetAddress)', async () => {
@@ -81,11 +81,11 @@ describe('Locations Service', () => {
       const params = { streetAddress: '727 N Broadway', zipcode: '90012' };
 
       // Act
-      const addressId = await locationsService.getAddress(params);
+      const addressIdDTO = await locationsService.getAddress(params);
 
       // Assert
       expect(dbSpy).toBeCalled();
-      expect(addressId).toEqual({ address_id: 1 });
+      expect(addressIdDTO).toEqual({ address_id: 1 });
     });
 
     it('queries the db and returns false if no address found', async () => {
@@ -94,11 +94,11 @@ describe('Locations Service', () => {
       const params = { streetAddress: '727 N Broadway', zipcode: '90012' };
 
       // Act
-      const addressId = await locationsService.getAddress(params);
+      const addressIdDTO = await locationsService.getAddress(params);
 
       // Assert
       expect(dbSpy).toBeCalled();
-      expect(addressId).toEqual(false);
+      expect(addressIdDTO).toEqual(false);
     });
   });
 });

@@ -50,7 +50,7 @@ const ActiveModal = () => {
 
   const submitReview = () => {
     const reviewSubmission = { review: newReview };
-    axios.put(`${url}/api/tasks/close/${selectTask.task_id}/${ratings}`, reviewSubmission)
+    axios.put(`${url}/api/tasks/status/close/${selectTask.task_id}/${ratings}`, reviewSubmission)
       .then((res) => console.log(res))
       .then(() => { history.push('/'); })
       .catch((err) => { console.error(err); });

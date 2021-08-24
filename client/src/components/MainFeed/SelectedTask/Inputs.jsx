@@ -58,12 +58,12 @@ export const InputClaimedRequest = ({ taskId }) => {
   const history = useHistory();
 
   const clickAcceptHandler = () => {
-    axios.put(`${url}/api/tasks/change/Active/${taskId}`)
+    axios.put(`${url}/api/tasks/Active/${taskId}`)
       .then((res) => console.log(res))
       .then(() => { history.push('/myactiverequest'); });
   };
   const clickDeclineHandler = () => {
-    axios.put(`${url}/api/tasks/rmhelp/${taskId}`)
+    axios.delete(`${url}/api/tasks/helper/${taskId}`)
       .then((res) => console.log(res));
     dispatch({ type: 'SHOW_MAP', toggle: true });
   };
@@ -103,7 +103,7 @@ export const InputOpenRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const clickClaimHandler = () => {
-    axios.put(`${url}/api/tasks/help/${taskId}/${userId}`)
+    axios.put(`${url}/api/tasks/helper/${taskId}/${userId}`)
       .then((res) => console.log(res));
     dispatch({ type: 'SHOW_MAP', toggle: true });
   };

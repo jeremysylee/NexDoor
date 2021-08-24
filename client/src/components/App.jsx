@@ -17,7 +17,7 @@ const App = () => {
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const getTasksByLocation = () => {
-    axios.get(`${url}/api/tasks/master/${userId}/50/30/0`)
+    axios.get(`${url}/api/tasks/${userId}/50/30/0`)
       .then(({ data }) => {
         dispatch({ type: 'SET_TASKS', tasks: data.allothers });
         dispatch({ type: 'SET_REQUESTS', myRequests: data.requested });
