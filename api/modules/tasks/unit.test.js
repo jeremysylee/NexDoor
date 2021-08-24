@@ -16,13 +16,9 @@ describe('Tasks Controller', () => {
     it('Calls the get tasks service', async () => {
       // Arrange
       req.params = {
-        userId: 1,
-        range: 15,
-        quantity: 15,
-        offset: 0,
+        userId: 1, range: 15, quantity: 15, offset: 0,
       };
-      const getTasksServiceSpy = jest.spyOn(tasksService, 'getTasks')
-        .mockImplementation(() => jest.fn());
+      const getTasksServiceSpy = jest.spyOn(tasksService, 'getTasks').mockImplementation(() => jest.fn());
 
       // Act
       tasksController.getTasks(req, res, next);
@@ -131,6 +127,40 @@ describe('Tasks Controller', () => {
 
       // Assert
       expect(deleteTasksServiceSpy).toBeCalled();
+    });
+  });
+
+  describe('Update Task Status', () => {
+    afterEach(() => jest.restoreAllMocks());
+
+    req.params = { status: 'open', taskId: 1 };
+
+    it('calls the updateTaskStatus service', async () => {
+      // Arrange
+      const updateTaskStatusServiceSpy = jest.spyOn(tasksService, 'updateTaskStatus').mockImplementation(() => 'Status Updated');
+
+      // Act
+      await tasksController.updateTaskStatus(req, res, next);
+
+      // Assert
+      expect(updateTaskStatusServiceSpy).toBeCalled();
+    });
+  });
+
+  describe('Update Helper', () => {
+    afterEach(() => jest.restoreAllMocks());
+
+    req.params = { taskId: 1, userId: 1 };
+
+    it('calls the updateTaskHelper service', async () => {
+      // Arrange
+      const updateTaskHelperServiceSpy = jest.spyOn(tasksService, 'updateTaskHelper').mockImplementation(() => 'Helper updated');
+
+      // Act
+      await tasksController.updateTaskHelper(req, res, next);
+
+      // Assert
+      expect(updateTaskHelperServiceSpy).toBeCalled();
     });
   });
 });

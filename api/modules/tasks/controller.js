@@ -110,10 +110,13 @@ const taskControllers = {
   */
   // *************************************************************
 
-  updateHelper: async (req, res, next) => {
-    const { userId } = req.params;
+  updateTaskHelper: async (req, res, next) => {
+    const params = {
+      userId: req.params.userId,
+      taskId: req.params.taskId,
+    };
     try {
-      const update = await tasksService.updateHelper(userId);
+      const update = await tasksService.updateTaskHelper(params);
       res.status(200).send(update);
     } catch (err) {
       next(err);
@@ -156,10 +159,13 @@ const taskControllers = {
     res = 'Task 17 status set to complete'
   */
   // *************************************************************
-  changeTaskStatus: async (req, res, next) => {
-    const { taskId } = req.params;
+  updateTaskStatus: async (req, res, next) => {
+    const params = {
+      taskId: req.params.taskId,
+      status: req.params.status,
+    };
     try {
-      const success = await tasksService.changeTaskStatus(taskId);
+      const success = await tasksService.updateTaskStatus(params);
       res.status(200).send(success);
     } catch (err) {
       next(err);

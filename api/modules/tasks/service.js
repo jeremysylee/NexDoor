@@ -61,7 +61,7 @@ const tasksService = {
   },
 
   // *************************************************************
-  updateHelper: async ({
+  updateTaskHelper: async ({
     taskId,
     userId,
   }) => {
@@ -122,7 +122,7 @@ const tasksService = {
     res = 'Task 17 status set to complete'
   */
   // *************************************************************
-  changeTaskStatus: async ({ status, taskId }) => {
+  updateTaskStatus: async ({ status, taskId }) => {
     const queryStr = `
       UPDATE nexdoor.tasks
       SET status='${status}'
