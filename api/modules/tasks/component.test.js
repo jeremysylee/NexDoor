@@ -4,6 +4,7 @@ const supertest = require('supertest');
 
 const { app, redisClient } = require('../../server');
 
+const locationsService = require('../locations/service');
 const db = require('../../db');
 
 describe('Tasks API', () => {
@@ -61,7 +62,82 @@ describe('Tasks API', () => {
 
   describe('POST tasks/:userId', () => {
     it('Should add a task and return 200 status when called with the appropriate parameters', async () => {
-      // Arrange + Act
-    })
-  })
+      // Arrange
+      const body = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighborhood: undefined,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ address_id: 1 }));
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/tasks/1')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+    });
+
+    it('Should throw an API error and return 500 status if locationsService is down', async () => {
+      // Arrange
+      const body = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighborhood: undefined,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => (null));
+      jest.spyOn(locationsService, 'addAddress').mockImplementation(() => (null));
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/tasks/1')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(500);
+    });
+  });
+
+  describe('updateTask', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('Should update a task and return a 200 status if called with the proper parameters', async () => {
+      // Arrange
+      const body = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighborhood: undefined,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+    });
+  });
 });

@@ -7,7 +7,7 @@ const tasksController = require('./controller');
 tasks
   .get('/:userId/:range/:quantity/:offset', tasksController.getTasks)
   .post('/:userId', tasksController.addTask)
-  .put('/', tasksController.updateTask)
+  .put('/:taskId', tasksController.updateTask)
   .delete('/:taskId', tasksController.deleteTask)
 
   .put('/status/:status/:taskId', tasksController.updateTaskStatus)

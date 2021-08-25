@@ -276,7 +276,6 @@ const tasksService = {
 
   addTask: async ({
     userId,
-    addressId,
     description,
     carRequired,
     laborRequired,
@@ -285,7 +284,7 @@ const tasksService = {
     endDate,
     startTime,
     duration,
-  }) => {
+  }, addressId) => {
     if (!userId || !description || !category || !startDate) {
       throw new ApiError('Undefined parameters', httpStatusCodes.BAD_REQUEST);
     }
@@ -329,7 +328,6 @@ const tasksService = {
   },
 
   updateTask: async ({
-    addressId,
     description,
     carRequired,
     laborRequired,
@@ -339,7 +337,7 @@ const tasksService = {
     startTime,
     duration,
     taskId,
-  }) => {
+  }, addressId) => {
     if (!description || !taskId || !category || !startDate) {
       throw new ApiError('Error updating task, parameters undefined', httpStatusCodes.BAD_REQUEST);
     }

@@ -244,7 +244,6 @@ describe('Tasks Service', () => {
       // Arrange
       const input = {
         userId: 1,
-        addressId: 1,
         description: 'Can someone watch my dogs for an hour?',
         laborRequired: true,
         category: 'sitting',
@@ -254,10 +253,11 @@ describe('Tasks Service', () => {
         duration: null,
         carRequired: false,
       };
+      const addressId = 1;
       const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ task_id: 1 }] }));
 
       // Act
-      const taskIdDTO = await tasksService.addTask(input);
+      const taskIdDTO = await tasksService.addTask(input, addressId);
 
       // Assert
       expect(dbSpy).toBeCalled();
@@ -268,7 +268,6 @@ describe('Tasks Service', () => {
       // Arrange
       const inputNoUserId = {
         userId: undefined,
-        addressId: 1,
         description: 'Can someone watch my dogs for an hour?',
         laborRequired: true,
         category: 'sitting',
@@ -278,9 +277,10 @@ describe('Tasks Service', () => {
         duration: null,
         carRequired: false,
       };
+      const addressId = 1;
 
       // Act
-      const addTaskService = (() => tasksService.addTask(inputNoUserId));
+      const addTaskService = (() => tasksService.addTask(inputNoUserId, addressId));
 
       // Assert
       await expect(addTaskService).rejects.toThrow(new ApiError('Undefined parameters', httpStatusCodes.BAD_REQUEST));
@@ -290,7 +290,6 @@ describe('Tasks Service', () => {
       // Arrange
       const inputNoAddressId = {
         userId: 1,
-        addressId: undefined,
         description: 'Can someone watch my dogs for an hour?',
         laborRequired: true,
         category: 'sitting',
@@ -313,9 +312,8 @@ describe('Tasks Service', () => {
     afterEach(() => jest.restoreAllMocks());
     it('queries the db and returns a taskId DTO', async () => {
       // Arrange
-      const updateTaskObj = {
+      const task = {
         taskId: 1,
-        addressId: 1,
         description: 'Can someone watch my dogs for an hour?',
         laborRequired: true,
         category: 'sitting',
@@ -325,10 +323,11 @@ describe('Tasks Service', () => {
         duration: null,
         carRequired: false,
       };
+      const addressId = 1;
       jest.spyOn(db, 'query').mockImplementation(() => ({ task_id: 1 }));
 
       // Act
-      const taskIdDTO = await tasksService.updateTask(updateTaskObj);
+      const taskIdDTO = await tasksService.updateTask(task, addressId);
 
       // Assert
       expect(taskIdDTO).toEqual({ task_id: expect.any(Number) });
@@ -336,9 +335,8 @@ describe('Tasks Service', () => {
 
     it('throws an API error if params not passed in correctly when called (description)', async () => {
       // Arrange
-      const updateTaskObjNoDescription = {
+      const taskNoDescription = {
         taskId: 1,
-        addressId: 1,
         description: undefined,
         laborRequired: true,
         category: 'sitting',
@@ -348,9 +346,10 @@ describe('Tasks Service', () => {
         duration: null,
         carRequired: false,
       };
+      const addressId = 1;
 
       // Act
-      const updateTaskService = (() => tasksService.updateTask(updateTaskObjNoDescription));
+      const updateTaskService = (() => tasksService.updateTask(taskNoDescription, addressId));
 
       // Assert
       await expect(updateTaskService).rejects.toThrow(new ApiError('Error updating task, parameters undefined', httpStatusCodes.BAD_REQUEST));

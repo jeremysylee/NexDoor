@@ -23,7 +23,6 @@ const taskControllers = {
   addTask: async (req, res, next) => {
     const task = {
       userId: req.params.userId,
-      addressId: undefined,
       streetAddress: req.body.streetAddress,
       city: req.body.city,
       state: req.body.state,
@@ -39,12 +38,12 @@ const taskControllers = {
       carRequired: req.body.carRequired,
     };
     try {
-      task.addressId = await locationsService.getAddress(task).address_id;
-      if (!task.addressId) {
-        task.addressId = await locationsService.addAddress(task).address_id;
+      let addressIdDTO = await locationsService.getAddress(task);
+      if (!addressIdDTO) {
+        addressIdDTO = await locationsService.addAddress(task);
         await locationsService.addAddress(task).address_id;
       }
-      const taskId = await tasksService.addTask(task);
+      const taskId = await tasksService.addTask(task, addressIdDTO.address_id);
       res.status(200).send(taskId);
     } catch (err) {
       next(err);
@@ -53,7 +52,6 @@ const taskControllers = {
 
   updateTask: async (req, res, next) => {
     const task = {
-      addressId: undefined,
       streetAddress: req.body.streetAddress,
       city: req.body.city,
       state: req.body.state,
@@ -67,14 +65,14 @@ const taskControllers = {
       endDate: req.body.endDate,
       startTime: req.body.startTime,
       duration: req.body.duration,
-      taskId: req.body.taskId,
+      taskId: req.params.taskId,
     };
     try {
-      task.addressId = await locationsService.getAddress(task).address_id;
-      if (!task.addressId) {
-        task.addressId = await locationsService.addAddress(task).address_id;
+      let addressIdDTO = await locationsService.getAddress(task);
+      if (!addressIdDTO) {
+        addressIdDTO = await locationsService.addAddress(task);
       }
-      const taskIdDTO = await tasksService.updateTask(task);
+      const taskIdDTO = await tasksService.updateTask(task, addressIdDTO.address_id);
       res.status(200).send(`Task ${taskIdDTO.task_id} has been updated`);
     } catch (err) {
       next(err);
