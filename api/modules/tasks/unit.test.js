@@ -239,6 +239,7 @@ describe('Tasks Service', () => {
   });
 
   describe('addTasks', () => {
+    afterEach(() => jest.restoreAllMocks());
     it('queries the db and returns an taskId DTO on success', async () => {
       // Arrange
       const input = {
@@ -285,7 +286,7 @@ describe('Tasks Service', () => {
       await expect(addTaskService).rejects.toThrow(new ApiError('Undefined parameters', httpStatusCodes.BAD_REQUEST));
     });
 
-    it('throws an internal API error when called with missing addressId', async () => {
+    it('throws an 500 internal API error when called with missing addressId', async () => {
       // Arrange
       const inputNoAddressId = {
         userId: 1,
@@ -305,6 +306,132 @@ describe('Tasks Service', () => {
 
       // Assert
       await expect(addTaskService).rejects.toThrow(new ApiError('addressId undefined', httpStatusCodes.BAD_REQUEST));
+    });
+  });
+
+  describe('updateTask', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('queries the db and returns a taskId DTO', async () => {
+      // Arrange
+      const updateTaskObj = {
+        taskId: 1,
+        addressId: 1,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+      jest.spyOn(db, 'query').mockImplementation(() => ({ task_id: 1 }));
+
+      // Act
+      const taskIdDTO = await tasksService.updateTask(updateTaskObj);
+
+      // Assert
+      expect(taskIdDTO).toEqual({ task_id: expect.any(Number) });
+    });
+
+    it('throws an API error if params not passed in correctly when called (description)', async () => {
+      // Arrange
+      const updateTaskObjNoDescription = {
+        taskId: 1,
+        addressId: 1,
+        description: undefined,
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+
+      // Act
+      const updateTaskService = (() => tasksService.updateTask(updateTaskObjNoDescription));
+
+      // Assert
+      await expect(updateTaskService).rejects.toThrow(new ApiError('Error updating task, parameters undefined', httpStatusCodes.BAD_REQUEST));
+    });
+
+    it('throws an 500 internal API error when called with missing addressId', async () => {
+      // Arrange
+      const updateTaskObjNoDescription = {
+        taskId: 1,
+        addressId: undefined,
+        description: 'Help sit my dogs!',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+
+      // Act
+      const updateTaskService = (() => tasksService.updateTask(updateTaskObjNoDescription));
+
+      // Assert
+      await expect(updateTaskService).rejects.toThrow(new ApiError('Error updating task, addressId undefined. Check google api', httpStatusCodes.BAD_REQUEST));
+    });
+  });
+
+  describe('deleteTask', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('queries the db and returns a taskId DTO', async () => {
+      // Arrange
+      jest.spyOn(db, 'query').mockImplementation(() => jest.fn());
+
+      // Act
+      const taskIdDTO = await tasksService.deleteTask({ taskId: 1 });
+
+      // Assert
+      expect(taskIdDTO).toEqual({ task_id: 1 });
+    });
+  });
+
+  describe('updateTaskStatus', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('queries the db and returns a taskId DTO', async () => {
+      // Arrange
+      jest.spyOn(db, 'query').mockImplementation(() => jest.fn());
+
+      // Act
+      const taskIdDTO = await await tasksService.updateTaskStatus({ taskId: 1, status: 'open' });
+
+      // Assert
+      expect(taskIdDTO).toEqual({ task_id: 1 });
+    });
+  });
+
+  describe('updateTaskHelper', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('queries the db and returns a taskId DTO', async () => {
+      // Arrange
+      jest.spyOn(db, 'query').mockImplementation(() => jest.fn());
+
+      // Act
+      const taskIdDTO = await tasksService.updateTaskHelper({ taskId: 1, userId: 1 });
+
+      // Assert
+      expect(taskIdDTO).toEqual({ task_id: 1 });
+    });
+  });
+
+  describe('deleteTaskHelper', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('queries the db and returns a taskId DTO', async () => {
+      // Arrange
+      jest.spyOn(db, 'query').mockImplementation(() => jest.fn());
+
+      // Act
+      const taskIdDTO = await tasksService.deleteTaskHelper({ taskId: 1 });
+
+      // Assert
+      expect(taskIdDTO).toEqual({ task_id: 1 });
     });
   });
 });
