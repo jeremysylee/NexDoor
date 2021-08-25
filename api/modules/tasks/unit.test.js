@@ -181,11 +181,15 @@ describe('Tasks Service', () => {
       };
       const tasksResponseObj = {
         rows: [{
-          task_id: 1,
-          requester: {},
+          requested: {
+            task_id: 1,
+            requester: {},
+            helper: {},
+            address: {},
+            description: 'help me with life',
+          },
           helper: {},
-          address: {},
-          description: 'help me with life',
+          allothers: {},
         }],
       };
       const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => tasksResponseObj);
@@ -195,30 +199,13 @@ describe('Tasks Service', () => {
 
       // Assert
       expect(dbSpy).toBeCalled();
-      expect(tasksDTO[0]).toEqual({
+      expect(tasksDTO[0].requested).toEqual({
         task_id: expect.any(Number),
         requester: expect.any(Object),
         helper: expect.any(Object),
         address: expect.any(Object),
         description: expect.any(String),
       });
-    });
-
-    it('throws an API error if no tasks are found', async () => {
-      // Arrange
-      const params = {
-        userId: 1,
-        range: 15,
-        quantity: 20,
-        offset: 0,
-      };
-      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
-
-      // Act
-      const getTasksService = (() => tasksService.getTasks(params));
-
-      // Assert
-      expect(getTasksService).rejects.toThrow(new ApiError('No tasks found', httpStatusCodes.NOT_FOUND));
     });
 
     it('throws an API error if parameters are missing (userId)', async () => {

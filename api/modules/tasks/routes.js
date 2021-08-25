@@ -10,9 +10,9 @@ tasks
   .put('/:taskId', tasksController.updateTask)
   .delete('/:taskId', tasksController.deleteTask)
 
-  .put('/status/:status/:taskId', tasksController.updateTaskStatus)
+  .put('/:taskId/status/:status', tasksController.updateTaskStatus)
   // .put('/status/close/:taskId/:rating', tasksController.closeTask)
-  .put('/helper/:taskId/:userId', tasksController.updateTaskHelper)
-  .delete('/helper/:taskId', tasksController.deleteTaskHelper);
+  .put('/:taskId/helper/:userId', tasksController.updateTaskHelper)
+  .delete('/:taskId/helper', tasksController.deleteTaskHelper);
 
 module.exports = tasks;

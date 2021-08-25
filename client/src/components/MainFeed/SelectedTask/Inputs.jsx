@@ -58,7 +58,7 @@ export const InputClaimedRequest = ({ taskId }) => {
   const history = useHistory();
 
   const clickAcceptHandler = () => {
-    axios.put(`${url}/api/tasks/Active/${taskId}`)
+    axios.put(`${url}/api/tasks/${taskId}/status/Active/`)
       .then((res) => console.log(res))
       .then(() => { history.push('/myactiverequest'); });
   };
@@ -103,7 +103,7 @@ export const InputOpenRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const clickClaimHandler = () => {
-    axios.put(`${url}/api/tasks/helper/${taskId}/${userId}`)
+    axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`)
       .then((res) => console.log(res));
     dispatch({ type: 'SHOW_MAP', toggle: true });
   };

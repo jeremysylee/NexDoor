@@ -58,7 +58,7 @@ const taskControllers = {
       zipcode: req.body.zipcode,
       neighborhood: req.body.neighborhood,
       description: req.body.description,
-      carRequired: req.body.false,
+      carRequired: req.body.carRequired,
       laborRequired: req.body.laborRequired,
       category: req.body.category,
       startDate: req.body.startDate,
@@ -80,7 +80,7 @@ const taskControllers = {
   },
 
   deleteTask: async (req, res, next) => {
-    const { taskId } = req.params;
+    const taskId = { taskId: req.params.taskId };
     try {
       const taskIdDTO = await tasksService.deleteTask(taskId);
       res.status(200).send(`Task ${taskIdDTO.task_id} has been deleted`);
@@ -116,7 +116,7 @@ const taskControllers = {
   },
 
   deleteTaskHelper: async (req, res, next) => {
-    const { taskId } = req.params;
+    const taskId = { taskId: req.params.taskId };
     try {
       const success = await tasksService.deleteTaskHelper(taskId);
       res.status(200).send(success);
