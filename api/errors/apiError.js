@@ -3,12 +3,12 @@ const BaseError = require('./baseError');
 
 class ApiError extends BaseError {
   constructor(
-    name,
+    description,
     statusCode = httpStatusCodes.NOT_FOUND,
     isOperational = true,
-    description = 'Not found',
+    // description = 'Not found',
   ) {
-    super(name, statusCode, isOperational, description);
+    super(description, statusCode, isOperational, description);
   }
 }
 

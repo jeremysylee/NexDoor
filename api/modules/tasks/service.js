@@ -307,7 +307,7 @@ const tasksService = {
     quantity,
     offset,
   }) => {
-    if (!userId || !range || !quantity) { throw new ApiError('Undefined params (userId || range || quantity', httpStatusCodes.BAD_REQUEST); }
+    if (!userId || !range || !quantity) { throw new ApiError('Undefined params (userId || range || quantity)', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
       SELECT
         (
@@ -563,6 +563,7 @@ const tasksService = {
         ) as allothers
       ;`;
     const data = await db.query(queryStr);
+    if (data.rows.length === 0) { throw new ApiError('No tasks found', httpStatusCodes.NOT_FOUND); }
     const tasksDTO = data.rows;
     return tasksDTO;
   },

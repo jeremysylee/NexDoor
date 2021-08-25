@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 const messagesController = require('./controller');
 const messagesService = require('./service');
@@ -76,18 +78,13 @@ describe('Messages Service', () => {
         date: '2021-07-31',
         time: '23:30:00',
       };
-      let error;
       jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ messageId: 1 }] }));
 
       // act
-      try {
-        await messagesService.addMessage(params, message);
-      } catch (err) {
-        error = err;
-      }
+      const addMessageService = messagesService.addMessage(params, message);
 
       // assert
-      expect(error).toEqual(new ApiError('MessageBody / date / time is not defined'));
+      await expect(addMessageService).rejects.toThrow(new ApiError('MessageBody / date / time is not defined'));
     });
   });
 
@@ -122,34 +119,24 @@ describe('Messages Service', () => {
 
     it('Should throw an API error when there are no messages', async () => {
       // arrange
-      let error;
       jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
 
       // act
-      try {
-        await messagesService.getMessagesByTask(1);
-      } catch (err) {
-        error = err;
-      }
+      const getMessagesByTaskService = (() => messagesService.getMessagesByTask(1));
 
       // assert
-      expect(error).toEqual(new ApiError('No messages found'));
+      await expect(getMessagesByTaskService).rejects.toThrow(new ApiError('No messages found'));
     });
 
     it('Should throw an API error when no taskId parameter is passed in', async () => {
       // arrange
-      let error;
       jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
 
       // act
-      try {
-        await messagesService.getMessagesByTask();
-      } catch (err) {
-        error = err;
-      }
+      const getMessagesByTask = (() => messagesService.getMessagesByTask());
 
       // assert
-      expect(error).toEqual(new ApiError('No task Id defined'));
+      await expect(getMessagesByTask).rejects.toThrow(new ApiError('No task Id defined'));
     });
   });
 });

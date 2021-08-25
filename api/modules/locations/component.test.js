@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 const getCoordinates = require('./coordinates');
 const locationsService = require('./service');
 const db = require('../../db');
@@ -23,17 +25,18 @@ describe('Locations component', () => {
   describe('Add new address', () => {
     afterEach(() => jest.restoreAllMocks());
 
-    const addressQueryParams = {
-      streetAddress: '727 N Broadway',
-      city: 'Los Angeles',
-      state: 'CA',
-      zipcode: '90012',
-      neighboorhood: undefined,
-      coordinates: 'point(-118.2400339,34.0614828)',
-    };
-
     it('Returns an address id DTO on success', async () => {
-      // Arrange + Act
+      // Arrange
+      const addressQueryParams = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighboorhood: undefined,
+        coordinates: 'point(-118.2400339,34.0614828)',
+      };
+
+      // Arrange
       const addressIdDTO = await locationsService.addAddress(addressQueryParams);
 
       // Assert
@@ -42,18 +45,20 @@ describe('Locations component', () => {
 
     it('throws an API error if called with incorrect coordinates request parameters (coordinates)', async () => {
       // Arrange
-      addressQueryParams.coordinates = 'these coordinates are wrong';
-      let error;
+      const addressQueryParamsWrongCoord = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighboorhood: undefined,
+        coordinates: 'these coordinates are wrong',
+      };
 
       // Act
-      try {
-        await locationsService.addAddress(addressQueryParams);
-      } catch (err) {
-        error = err;
-      }
+      const addAddressService = (() => locationsService.addAddress(addressQueryParamsWrongCoord));
 
       // Assert
-      expect(error).toEqual(new Error('syntax error at or near "coordinates"'));
+      await expect(addAddressService).rejects.toThrow(new Error('syntax error at or near "coordinates"'));
     });
   });
 

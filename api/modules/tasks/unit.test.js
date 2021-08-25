@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 
 const tasksController = require('./controller');
@@ -5,6 +7,7 @@ const tasksService = require('./service');
 const locationsService = require('../locations/service');
 const db = require('../../db');
 const ApiError = require('../../errors/apiError');
+const httpStatusCodes = require('../../errors/apiError');
 
 const req = getMockReq();
 const { res, next } = getMockRes();
@@ -167,6 +170,7 @@ describe('Tasks Controller', () => {
 describe('Tasks Service', () => {
   describe('getTasks', () => {
     afterEach(() => jest.resetAllMocks());
+
     it('queries the db and returns a tasks array DTO', async () => {
       // Arrange
       const params = {
@@ -198,6 +202,109 @@ describe('Tasks Service', () => {
         address: expect.any(Object),
         description: expect.any(String),
       });
+    });
+
+    it('throws an API error if no tasks are found', async () => {
+      // Arrange
+      const params = {
+        userId: 1,
+        range: 15,
+        quantity: 20,
+        offset: 0,
+      };
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+
+      // Act
+      const getTasksService = (() => tasksService.getTasks(params));
+
+      // Assert
+      expect(getTasksService).rejects.toThrow(new ApiError('No tasks found', httpStatusCodes.NOT_FOUND));
+    });
+
+    it('throws an API error if parameters are missing (userId)', async () => {
+      // Arrange
+      const paramsNoUserId = {
+        userId: undefined,
+        range: 15,
+        quantity: 20,
+        offset: 0,
+      };
+
+      // Act
+      const getTasksService = (() => tasksService.getTasks(paramsNoUserId));
+
+      // Assert
+      await expect(getTasksService).rejects.toThrow(new ApiError('Undefined params (userId || range || quantity)', httpStatusCodes.BAD_REQUEST));
+    });
+  });
+
+  describe('addTasks', () => {
+    it('queries the db and returns an taskId DTO on success', async () => {
+      // Arrange
+      const input = {
+        userId: 1,
+        addressId: 1,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ task_id: 1 }] }));
+
+      // Act
+      const taskIdDTO = await tasksService.addTask(input);
+
+      // Assert
+      expect(dbSpy).toBeCalled();
+      expect(taskIdDTO).toEqual({ task_id: 1 });
+    });
+
+    it('throws an API error when called with missing inputs', async () => {
+      // Arrange
+      const inputNoUserId = {
+        userId: undefined,
+        addressId: 1,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+
+      // Act
+      const addTaskService = (() => tasksService.addTask(inputNoUserId));
+
+      // Assert
+      await expect(addTaskService).rejects.toThrow(new ApiError('Undefined parameters', httpStatusCodes.BAD_REQUEST));
+    });
+
+    it('throws an internal API error when called with missing addressId', async () => {
+      // Arrange
+      const inputNoAddressId = {
+        userId: 1,
+        addressId: undefined,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+
+      // Act
+      const addTaskService = (() => tasksService.addTask(inputNoAddressId));
+
+      // Assert
+      await expect(addTaskService).rejects.toThrow(new ApiError('addressId undefined', httpStatusCodes.BAD_REQUEST));
     });
   });
 });
