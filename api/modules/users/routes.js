@@ -8,7 +8,7 @@ const userValidator = require('./userValidator');
 user
   .get('/:userId', usersController.getUser)
   .post('/', userValidator.newUser, usersController.addUser)
-  .get('/rangerating/:quantity/:userId/:range', usersController.getUsersByRating)
+  .get('/rating/:quantity/:userId/:range', usersController.getUsersByRating)
   .post('/login', userValidator.checkEmailAndPassword, usersController.authenticateLogin)
   .get('/session', usersController.authenticateSession);
 module.exports = user;

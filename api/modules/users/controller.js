@@ -27,7 +27,7 @@ const userControllers = {
       const user = await usersService.addUser(userInfo, addressIdDTO.address_id);
       res.status(200).send(user);
     } catch (err) {
-      next();
+      next(err);
     }
   },
 
@@ -37,7 +37,7 @@ const userControllers = {
       const user = await usersService.getUser(userId);
       res.status(200).send(user);
     } catch (err) {
-      next();
+      next(err);
     }
   },
 
@@ -51,7 +51,8 @@ const userControllers = {
       const users = await usersService.getUsersByRating(params);
       res.status(200).send(users);
     } catch (err) {
-      next();
+      console.log(err);
+      next(err);
     }
   },
 
@@ -68,7 +69,7 @@ const userControllers = {
       res.status(200).send(user);
     } catch (err) {
       req.session.destroy();
-      next();
+      next(err);
     }
   },
 
@@ -79,7 +80,7 @@ const userControllers = {
       const user = await usersService.getUser(userId);
       res.status(200).send(user);
     } catch (err) {
-      next();
+      next(err);
     }
   },
 

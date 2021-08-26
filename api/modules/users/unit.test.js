@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 const bcrypt = require('bcrypt');
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 

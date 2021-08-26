@@ -29,7 +29,6 @@ const userControllers = {
     const hashPass = bcrypt.hashSync(password, 10);
 
     const { imgUrl } = body || null;
-
     const queryStr = `
       INSERT INTO nexdoor.users (
         firstname,
@@ -43,7 +42,7 @@ const userControllers = {
         profile_picture_url,
         acct_created_timestamp
       )
-      SELECT
+      VALUES (
         '${firstName}',
         '${lastName}',
         '${hashPass}',
@@ -54,9 +53,9 @@ const userControllers = {
         null,
         '${imgUrl}',
         (SELECT CURRENT_TIMESTAMP)
-      FROM X
+      )
       RETURNING
-        user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
+          user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
     `;
     const data = await db.query(queryStr);
     const userIdDTO = data.rows[0];
@@ -142,6 +141,7 @@ const userControllers = {
       LIMIT ${quantity}
     `;
     const data = await db.query(queryStr);
+    if (!data.rows[0]) { throw new ApiError('No users found', httpStatusCodes.NOT_FOUND); }
     const usersDTO = data.rows;
     return usersDTO;
   },
@@ -161,6 +161,7 @@ const userControllers = {
     if (!bcrypt.compareSync(password, data.rows[0].password)) {
       throw new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND);
     }
+    console.log(userIdDTO);
     return userIdDTO;
   },
 
