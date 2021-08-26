@@ -2,8 +2,7 @@ process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
 
-const { app, redisClient } = require('../../server');
-
+const { app, redisClient } = require('../../app');
 const locationsService = require('../locations/service');
 const db = require('../../db');
 

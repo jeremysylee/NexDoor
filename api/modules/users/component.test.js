@@ -3,8 +3,7 @@
 const supertest = require('supertest');
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 
-const { app, redisClient } = require('../../server');
-
+const { app, redisClient } = require('../../app');
 const usersController = require('./controller');
 const usersService = require('./service');
 const db = require('../../db');
