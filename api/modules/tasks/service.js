@@ -267,7 +267,7 @@ const tasksService = {
         ) as allothers
       ;`;
     const data = await db.query(queryStr);
-    const tasksDTO = data.rows;
+    const tasksDTO = data.rows[0];
     return tasksDTO;
   },
 

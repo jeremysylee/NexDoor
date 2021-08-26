@@ -66,6 +66,7 @@ const userController = {
       const user = await usersService.getUser(userIdDTO);
       req.session.userId = userIdDTO.userId;
       req.session.save();
+      console.log('session here', req.session, req.session.userId);
       res.status(200).send(user);
     } catch (err) {
       req.session.destroy();

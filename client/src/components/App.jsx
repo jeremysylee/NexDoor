@@ -19,6 +19,7 @@ const App = () => {
   const getTasksByLocation = () => {
     axios.get(`${url}/api/tasks/${userId}/50/30/0`)
       .then(({ data }) => {
+        console.log(data);
         dispatch({ type: 'SET_TASKS', tasks: data.allothers });
         dispatch({ type: 'SET_REQUESTS', myRequests: data.requested });
         dispatch({ type: 'SET_MY_TASKS', myTasks: data.helper });
