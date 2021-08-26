@@ -237,6 +237,26 @@ describe('Users Service', () => {
       // Assert
       expect(userIdDTO).toEqual({ user_id: 1 });
     });
+    it('throws an internal server error if user cannot be added', async () => {
+      // Arrange
+      const user = {
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'notpasword',
+        email: 'jimbotester@tester.com',
+        imgUrl: 'www.google.com',
+      };
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+      jest.mock('bcrypt');
+      jest.spyOn(bcrypt, 'hashSync').mockImplementation(() => jest.fn('testhash'));
+      const addressId = 1;
+
+      // Act
+      const addUserServiceSpy = (() => usersService.addUser(user, addressId));
+
+      // Assert
+      expect(addUserServiceSpy).rejects.toThrow(new ApiError('Error adding user', httpStatusCodes.INTERNAL_SERVER));
+    });
   });
 
   describe('getUser', () => {

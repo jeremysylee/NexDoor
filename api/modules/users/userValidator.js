@@ -21,7 +21,7 @@ const userValidator = {
           errors: errors.array(),
         });
       }
-      console.log('validated');
+      // console.log('validated');
       return next();
     },
   ],
@@ -55,7 +55,7 @@ const userValidator = {
     (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        console.log(errors);
+        // console.log(errors);
         return res.status(400).json({
           success: false,
           errors: errors.array(),

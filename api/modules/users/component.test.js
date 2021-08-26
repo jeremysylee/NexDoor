@@ -6,7 +6,10 @@ const { getMockReq, getMockRes } = require('@jest-mock/express');
 const { app, redisClient } = require('../../server');
 
 const usersController = require('./controller');
+const usersService = require('./service');
 const db = require('../../db');
+const ApiError = require('../../errors/apiError');
+const httpStatusCodes = require('../../errors/httpStatusCodes');
 
 afterAll(() => {
   redisClient.quit();
@@ -102,6 +105,27 @@ describe('Users API', () => {
         confirm_password: 'notA4pa!sword',
         email: `jimbotester${randomizedNums}@tester.com`,
       };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+
+    it('should throw an 400 API error when user is not able to be added to db', async () => {
+      // Arrange
+      const randomizedNums = Math.floor(Math.random() * 987654321);
+      const body = {
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'abdnotA4pa!sword',
+        confirm_password: 'notA4pa!sword',
+        email: `jimbotesterabc${randomizedNums}@tester.com`,
+      };
+      jest.spyOn(db, 'query').mockImplementation({ rows: [] });
 
       // Act
       const response = await supertest(app)
@@ -233,27 +257,20 @@ describe('Users API', () => {
 
   describe('authenticateSession', () => {
     afterEach(() => jest.restoreAllMocks());
-    // it('checks for userId in the session and returns a 200 status with a user DTO', async () => {
-    //   // Arrange
-    //   const req = getMockReq();
-    //   req.session = { userId: 1 };
-    //   const { res, next } = getMockRes();
+    it('checks for userId in the session and if exists calls the getUser service with the acquired userId', async () => {
+      // Arrange
+      const req = getMockReq();
+      req.session = { userId: 1 };
+      const { res, next } = getMockRes();
 
-    //   // Act
-    //   await usersController.authenticateSession(req, res, next);
-
-    //   // Assert
-    //   expect(res).toEqual(200);
-    //   expect(res.statusCode).toEqual(200);
-    // });
-
-    it('returns a 400 api error if no userId is in the session', async () => {
-      // Arrange + Act
-      const response = await supertest(app)
-        .get('/api/users/session');
+      // Act
+      const getUserSpy = jest.spyOn(usersService, 'getUser');
+      await usersController.authenticateSession(req, res, next);
 
       // Assert
-      expect(response.statusCode).toEqual(400);
+      expect(getUserSpy).toHaveBeenLastCalledWith({
+        userId: expect.any(Number),
+      });
     });
   });
 });

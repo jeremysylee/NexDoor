@@ -5,7 +5,7 @@
 const usersService = require('./service');
 const locationsService = require('../locations/service');
 
-const userControllers = {
+const userController = {
   addUser: async (req, res, next) => {
     const userInfo = {
       streetAddress: req.body.streetAddress,
@@ -74,10 +74,6 @@ const userControllers = {
   },
 
   authenticateSession: async (req, res, next) => {
-    console.log('CONTROLLER TRIGGERED');
-    console.log(req);
-    console.log(req.session, 'is session erroring out?');
-    console.log('_________________hi');
     try {
       const sessionUserId = { sessionUserId: req.session.userId || false };
       const userId = await usersService.authenticateSession(sessionUserId);
@@ -90,4 +86,4 @@ const userControllers = {
 
 };
 
-module.exports = userControllers;
+module.exports = userController;
