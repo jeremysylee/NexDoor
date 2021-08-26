@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 const supertest = require('supertest');
 
 const { app, redisClient } = require('../../server');

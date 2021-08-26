@@ -72,7 +72,6 @@ function NewRequestModal() {
       carRequired: data.car_required === 'true' || false,
       laborRequired: data.physical_labor_required === 'true' || false,
       duration: data.duration || null,
-      taskId: data.task_id || null,
     });
   };
 
@@ -168,7 +167,7 @@ function NewRequestModal() {
   };
 
   const editRequest = () => {
-    axios.put(`${url}/api/tasks/`, request)
+    axios.put(`${url}/api/tasks/${task.task_id}`, request)
       .then((response) => {
         console.log(response.data);
         cleanInputAndClose();

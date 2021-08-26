@@ -1,0 +1,161 @@
+// process.env.NODE_ENV = 'test';
+
+const supertest = require('supertest');
+
+const { app, redisClient } = require('../../server');
+
+// const locationsService = require('../locations/service');
+const db = require('../../db');
+
+afterAll(() => {
+  redisClient.quit();
+  db.end();
+});
+
+describe('Users API', () => {
+  describe('GET /api/users/:userId', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('should get users and return 200 status when called with the appropriate inputs', async () => {
+      // Arrange + Act
+      const response = await supertest(app)
+        .get('/api/users/1');
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toMatchObject({
+        user_id: expect.any(Number),
+        firstname: expect.any(String),
+        lastname: expect.any(String),
+        email: expect.any(String),
+        karma: expect.any(Number),
+        avg_rating: expect.any(Number),
+        address: expect.any(Object),
+      });
+    });
+
+    it('should return a 404 status when no user found', async () => {
+      // Arrange + Act
+      const response = await supertest(app)
+        .get('/api/users/999999999999999999');
+
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
+  });
+
+  describe('POST /api/users', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('should add a user and return 200 status when called with appropriate inputs', async () => {
+      // Arrange
+      const randomizedNums = Math.floor(Math.random() * 987654321);
+      const body = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighborhood: undefined,
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'notA4pa!sword',
+        confirm_password: 'notA4pa!sword',
+        email: `jimbotester${randomizedNums}@tester.com`,
+        imgUrl: 'www.google.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+    });
+
+    it('should throw an API error and respond with a 404 when password does not meet requirements', async () => {
+      // Arrange
+      const randomizedNums = Math.floor(Math.random() * 987654321);
+      const body = {
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'aaaaa',
+        confirm_password: 'notA4pa!sword',
+        email: `jimbotester${randomizedNums}@tester.com`,
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+
+    it('should throw an API error and respond with a 404 when passwords do not match', async () => {
+      // Arrange
+      const randomizedNums = Math.floor(Math.random() * 987654321);
+      const body = {
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'abdnotA4pa!sword',
+        confirm_password: 'notA4pa!sword',
+        email: `jimbotester${randomizedNums}@tester.com`,
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+  });
+
+  describe('GET api/users/rating/:quantity/:userId/:range', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('Gets users array and returns a 200 status when called with appropriate inputs', async () => {
+      // Arrange + Act
+      const response = await supertest(app)
+        .get('/api/users/rating/10/10/10');
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+      expect(response.body[0]).toMatchObject({
+        user_id: expect.any(Number),
+        firstname: expect.any(String),
+        lastname: expect.any(String),
+        address_id: expect.any(Number),
+      });
+    });
+
+    it('throws an API error and returns a 404 when no tasks are found', async () => {
+      // Arrange + Act
+      const response = await supertest(app)
+        .get('/api/users/rating/0/10/10');
+
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
+  });
+
+  describe('POST api/users/login', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('returns a 200 status and a userId DTO', async () => {
+      // Arrange
+      const body = {
+        password: 'notA4pa!sword',
+        email: 'jimbotester@tester.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toEqual({ userId: expect.any(Number) });
+    });
+  });
+});

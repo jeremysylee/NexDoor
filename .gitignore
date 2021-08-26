@@ -5,3 +5,4 @@ package-lock.json
 bundle.js
 .cache
 dist
+coverage

@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test';
+
 const axios = require('axios');
 const getCoordinates = require('./coordinates');
 const locationsService = require('./service');
@@ -32,19 +34,18 @@ describe('Coordinates Helper Function', () => {
 });
 
 describe('Locations Service', () => {
-  const addressQueryParams = {
-    streetAddress: '727 N Broadway',
-    city: 'Los Angeles',
-    state: 'CA',
-    zipcode: '90012',
-    neighboorhood: undefined,
-    coordinates: 'point(-118.2400339,34.0614828)',
-  };
-
   describe('Add new address', () => {
     afterEach(() => jest.restoreAllMocks());
     it('queries the db and returns an address id DTO on success', async () => {
       // Arrange
+      const addressQueryParams = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighboorhood: undefined,
+        coordinates: 'point(-118.2400339,34.0614828)',
+      };
       const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ address_id: 1 }] }));
 
       // Act
@@ -57,18 +58,20 @@ describe('Locations Service', () => {
 
     it('throws an API error if called with missing request parameters (streetAddress)', async () => {
       // Arrange
-      addressQueryParams.streetAddress = undefined;
-      let error;
+      const addressQueryParams = {
+        streetAddress: undefined,
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighboorhood: undefined,
+        coordinates: 'point(-118.2400339,34.0614828)',
+      };
 
       // Act
-      try {
-        await locationsService.addAddress(addressQueryParams);
-      } catch (err) {
-        error = err;
-      }
+      const addAddress = (() => locationsService.addAddress(addressQueryParams));
 
       // Assert
-      expect(error).toEqual(new ApiError('Undefined address / coordinates!', httpStatusCodes.BAD_REQUEST));
+      await expect(addAddress).rejects.toThrow(new ApiError('Undefined address / coordinates!', httpStatusCodes.BAD_REQUEST));
     });
   });
 

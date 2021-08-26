@@ -1,7 +1,9 @@
 const BaseError = require('./baseError');
 
 const logError = (err) => {
-  console.error(err);
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(err);
+  }
 };
 
 const logErrorMiddleware = (err, req, res, next) => {
