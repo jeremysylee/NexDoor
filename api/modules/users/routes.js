@@ -6,10 +6,9 @@ const usersController = require('./controller');
 const userValidator = require('./userValidator');
 
 user
-  .get('/info/:userId', usersController.getUser)
-  .get('/rating/:quantity', usersController.getUsersByRating)
-  .get('/rangerating/:quantity/:userId/:range', usersController.getUsersInRangeByRating)
-  .get('/session', usersController.authenticateSession)
+  .get('/:userId', usersController.getUser)
   .post('/', userValidator.newUser, usersController.addUser)
-  .post('/login', userValidator.checkEmailAndPassword, usersController.authenticateLogin);
+  .get('/rangerating/:quantity/:userId/:range', usersController.getUsersByRating)
+  .post('/login', userValidator.checkEmailAndPassword, usersController.authenticateLogin)
+  .get('/session', usersController.authenticateSession);
 module.exports = user;

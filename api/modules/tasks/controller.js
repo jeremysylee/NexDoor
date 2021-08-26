@@ -41,7 +41,6 @@ const taskControllers = {
       let addressIdDTO = await locationsService.getAddress(task);
       if (!addressIdDTO) {
         addressIdDTO = await locationsService.addAddress(task);
-        await locationsService.addAddress(task).address_id;
       }
       const taskId = await tasksService.addTask(task, addressIdDTO.address_id);
       res.status(200).send(taskId);

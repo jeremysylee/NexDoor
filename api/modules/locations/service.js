@@ -1,3 +1,4 @@
+const getCoordinates = require('./coordinates');
 const db = require('../../db');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');
@@ -38,7 +39,12 @@ const locationService = {
     return addressIdDTO;
   },
 
-  getAddress: async ({ streetAddress, zipcode }) => {
+  getAddress: async (body) => {
+    const {
+      streetAddress,
+      zipcode,
+    } = body;
+
     const queryStr = `
       SELECT address_id
       FROM nexdoor.address
