@@ -1,6 +1,4 @@
 const { check, validationResult } = require('express-validator');
-const ApiError = require('../../errors/apiError');
-const httpStatusCodes = require('../../errors/httpStatusCodes');
 
 const userValidator = {
   checkEmailAndPassword: [
@@ -55,7 +53,7 @@ const userValidator = {
     (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        console.log(errors);
+        // console.log(errors);
         return res.status(400).json({
           success: false,
           errors: errors.array(),

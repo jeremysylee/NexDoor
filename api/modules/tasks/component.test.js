@@ -2,8 +2,7 @@ process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
 
-const { app, redisClient } = require('../../server');
-
+const { app, redisClient } = require('../../app');
 const locationsService = require('../locations/service');
 const db = require('../../db');
 
@@ -16,7 +15,7 @@ describe('Tasks API', () => {
   });
 
   describe('GET tasks/:userId/:range/:quantity/:offset', () => {
-    it('should get tasks and return 200 status when called with the approrpiate inputs', async () => {
+    it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
         .get('/api/tasks/1/15/10/0');
@@ -47,9 +46,9 @@ describe('Tasks API', () => {
         .get('/api/tasks/1/15/10/0');
 
       // Assert
-      expect(response.body[0].requested[0]).toMatchObject(expectedObjectShape);
-      expect(response.body[0].helper[0]).toMatchObject(expectedObjectShape);
-      expect(response.body[0].allothers[0]).toMatchObject(expectedObjectShape);
+      expect(response.body.requested[0]).toMatchObject(expectedObjectShape);
+      expect(response.body.helper[0]).toMatchObject(expectedObjectShape);
+      expect(response.body.allothers[0]).toMatchObject(expectedObjectShape);
     });
   });
 

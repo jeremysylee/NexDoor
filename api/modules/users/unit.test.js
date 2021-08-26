@@ -141,8 +141,8 @@ describe('Users Controller', () => {
         email: 'testaker@tester.com',
         password: 'notpassword',
       };
-      const returnedUserId = 1;
-      jest.spyOn(usersService, 'authenticateLogin').mockImplementation(() => returnedUserId);
+      const returnedUserIdDTO = { userId: 1 };
+      jest.spyOn(usersService, 'authenticateLogin').mockImplementation(() => returnedUserIdDTO);
       jest.spyOn(usersService, 'getUser').mockImplementation(() => {});
       req.session = {
         destroy: jest.fn(),
@@ -152,7 +152,7 @@ describe('Users Controller', () => {
       await usersController.authenticateLogin(req, res, next);
 
       // Assert
-      expect(req.session.user_id).toEqual(1);
+      expect(req.session.userId).toEqual(1);
     });
 
     it('destroys the session if unable to authenticate login', async () => {
@@ -183,7 +183,7 @@ describe('Users Controller', () => {
     it('calls the authenticateSession service and the getUser Service if session exists', async () => {
       // Arrange
       const req = getMockReq();
-      req.session = { user_id: 1 };
+      req.session = { userId: 1 };
       const authenticateSessionServiceSpy = jest.spyOn(usersService, 'authenticateSession')
         .mockImplementation(() => ({ userId: 1 }));
       const getUserServiceSpy = jest.spyOn(usersService, 'getUser').mockImplementation({});
@@ -236,6 +236,26 @@ describe('Users Service', () => {
 
       // Assert
       expect(userIdDTO).toEqual({ user_id: 1 });
+    });
+    it('throws an internal server error if user cannot be added', async () => {
+      // Arrange
+      const user = {
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'notpasword',
+        email: 'jimbotester@tester.com',
+        imgUrl: 'www.google.com',
+      };
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+      jest.mock('bcrypt');
+      jest.spyOn(bcrypt, 'hashSync').mockImplementation(() => jest.fn('testhash'));
+      const addressId = 1;
+
+      // Act
+      const addUserServiceSpy = (() => usersService.addUser(user, addressId));
+
+      // Assert
+      expect(addUserServiceSpy).rejects.toThrow(new ApiError('Error adding user', httpStatusCodes.INTERNAL_SERVER));
     });
   });
 
@@ -312,7 +332,7 @@ describe('Users Service', () => {
       const userIdDTO = await usersService.authenticateLogin(credentials);
 
       // Assert
-      expect(userIdDTO).toEqual({ user_id: 1 });
+      expect(userIdDTO).toEqual({ userId: 1 });
     });
 
     it('queries the db and throws API error if user email not found in db', async () => {
@@ -348,7 +368,7 @@ describe('Users Service', () => {
   });
 
   describe('authenticateSession', () => {
-    it('checks if there is a user_id in the session object and returns a userId DTO', async () => {
+    it('checks if there is a user_id in the session object and returns a user DTO', async () => {
       // Arrange
       const sessionUserIdObj = { sessionUserId: 1 };
 

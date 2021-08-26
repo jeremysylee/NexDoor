@@ -18,7 +18,7 @@ TABLE OF CONTENTS
 - Check if email already exists in db: 233 - 268
 - Get a users email and password: 270 - 298
 ________________________________________________________________*/
-const userControllers = {
+const usersService = {
   addUser: async (body, address_id) => {
     const {
       firstName,
@@ -58,6 +58,7 @@ const userControllers = {
           user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
     `;
     const data = await db.query(queryStr);
+    if (!data.rows[0]) { throw new ApiError('Error adding user', httpStatusCodes.INTERNAL_SERVER); }
     const userIdDTO = data.rows[0];
     return userIdDTO;
   },
@@ -152,16 +153,14 @@ const userControllers = {
       FROM nexdoor.users
       WHERE email='${email}'
     ;`;
-
     const data = await db.query(queryStr);
     if (!data.rows[0]) {
       throw new ApiError('No user found with this email address', httpStatusCodes.NOT_FOUND);
     }
-    const userIdDTO = data.rows[0];
+    const userIdDTO = { userId: data.rows[0].user_id };
     if (!bcrypt.compareSync(password, data.rows[0].password)) {
       throw new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND);
     }
-    console.log(userIdDTO);
     return userIdDTO;
   },
 
@@ -174,4 +173,4 @@ const userControllers = {
   },
 };
 
-module.exports = userControllers;
+module.exports = usersService;

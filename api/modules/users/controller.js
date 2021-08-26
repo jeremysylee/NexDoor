@@ -5,7 +5,7 @@
 const usersService = require('./service');
 const locationsService = require('../locations/service');
 
-const userControllers = {
+const userController = {
   addUser: async (req, res, next) => {
     const userInfo = {
       streetAddress: req.body.streetAddress,
@@ -62,10 +62,11 @@ const userControllers = {
       password: req.body.password,
     };
     try {
-      const userId = await usersService.authenticateLogin(credentials);
-      const user = await usersService.getUser(userId);
-      req.session.user_id = userId;
+      const userIdDTO = await usersService.authenticateLogin(credentials);
+      const user = await usersService.getUser(userIdDTO);
+      req.session.userId = userIdDTO.userId;
       req.session.save();
+      console.log('session here', req.session, req.session.userId);
       res.status(200).send(user);
     } catch (err) {
       req.session.destroy();
@@ -74,8 +75,8 @@ const userControllers = {
   },
 
   authenticateSession: async (req, res, next) => {
-    const sessionUserId = { sessionUserId: req.session.user_id };
     try {
+      const sessionUserId = { sessionUserId: req.session.userId || false };
       const userId = await usersService.authenticateSession(sessionUserId);
       const user = await usersService.getUser(userId);
       res.status(200).send(user);
@@ -86,4 +87,4 @@ const userControllers = {
 
 };
 
-module.exports = userControllers;
+module.exports = userController;

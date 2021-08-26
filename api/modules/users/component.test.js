@@ -1,10 +1,11 @@
 // process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
+const { getMockReq, getMockRes } = require('@jest-mock/express');
 
-const { app, redisClient } = require('../../server');
-
-// const locationsService = require('../locations/service');
+const { app, redisClient } = require('../../app');
+const usersController = require('./controller');
+const usersService = require('./service');
 const db = require('../../db');
 
 afterAll(() => {
@@ -110,6 +111,27 @@ describe('Users API', () => {
       // Assert
       expect(response.statusCode).toEqual(400);
     });
+
+    it('should throw an 400 API error when user is not able to be added to db', async () => {
+      // Arrange
+      const randomizedNums = Math.floor(Math.random() * 987654321);
+      const body = {
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'abdnotA4pa!sword',
+        confirm_password: 'notA4pa!sword',
+        email: `jimbotesterabc${randomizedNums}@tester.com`,
+      };
+      jest.spyOn(db, 'query').mockImplementation({ rows: [] });
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
   });
 
   describe('GET api/users/rating/:quantity/:userId/:range', () => {
@@ -141,7 +163,7 @@ describe('Users API', () => {
 
   describe('POST api/users/login', () => {
     afterEach(() => jest.restoreAllMocks());
-    it('returns a 200 status and a userId DTO', async () => {
+    it('returns a 200 status and a user DTO', async () => {
       // Arrange
       const body = {
         password: 'notA4pa!sword',
@@ -155,7 +177,97 @@ describe('Users API', () => {
 
       // Assert
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toEqual({ userId: expect.any(Number) });
+      expect(response.body).toMatchObject({
+        user_id: expect.any(Number),
+        firstname: expect.any(String),
+        lastname: expect.any(String),
+        email: expect.any(String),
+        karma: expect.any(Number),
+        address: expect.any(Object),
+      });
+    });
+
+    it('throws an 404 error when the credentials are incorrect (wrong password)', async () => {
+      // Arrange
+      const body = {
+        password: 'thewrongA4pa!sword',
+        email: 'jimbotester@tester.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
+
+    it('throws an 400 error when no password is provided', async () => {
+      // Arrange
+      const body = {
+        password: undefined,
+        email: 'jimbotester@tester.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+
+    it('throws an 400 error when no email is provided', async () => {
+      // Arrange
+      const body = {
+        password: 'thewrongA4pa!sword',
+        email: undefined,
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+
+    it('throws an 400 error when email provided is not an email', async () => {
+      // Arrange
+      const body = {
+        password: 'thewrongA4pa!sword',
+        email: 'amazon.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+  });
+
+  describe('authenticateSession', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('checks for userId in the session and if exists calls the getUser service with the acquired userId', async () => {
+      // Arrange
+      const req = getMockReq();
+      req.session = { userId: 1 };
+      const { res, next } = getMockRes();
+
+      // Act
+      const getUserSpy = jest.spyOn(usersService, 'getUser');
+      await usersController.authenticateSession(req, res, next);
+
+      // Assert
+      expect(getUserSpy).toHaveBeenLastCalledWith({
+        userId: expect.any(Number),
+      });
     });
   });
 });

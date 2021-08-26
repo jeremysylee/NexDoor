@@ -10,5 +10,5 @@ user
   .post('/', userValidator.newUser, usersController.addUser)
   .get('/rating/:quantity/:userId/:range', usersController.getUsersByRating)
   .post('/login', userValidator.checkEmailAndPassword, usersController.authenticateLogin)
-  .get('/session', usersController.authenticateSession);
+  .get('/:userId/session', usersController.authenticateSession);
 module.exports = user;

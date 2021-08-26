@@ -1,4 +1,3 @@
-const getCoordinates = require('./coordinates');
 const db = require('../../db');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');

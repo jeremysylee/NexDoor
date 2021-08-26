@@ -199,7 +199,7 @@ describe('Tasks Service', () => {
 
       // Assert
       expect(dbSpy).toBeCalled();
-      expect(tasksDTO[0].requested).toEqual({
+      expect(tasksDTO.requested).toEqual({
         task_id: expect.any(Number),
         requester: expect.any(Object),
         helper: expect.any(Object),
