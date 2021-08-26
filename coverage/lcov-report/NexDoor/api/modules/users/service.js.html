@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.14% </span>
+                <span class="strong">97.16% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>163/175</span>
+                <span class='fraction'>171/176</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.56% </span>
+                <span class="strong">63.64% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/18</span>
+                <span class='fraction'>14/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.14% </span>
+                <span class="strong">97.16% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>163/175</span>
+                <span class='fraction'>171/176</span>
             </div>
         
             
@@ -232,7 +232,8 @@
 <a name='L173'></a><a href='#L173'>173</a>
 <a name='L174'></a><a href='#L174'>174</a>
 <a name='L175'></a><a href='#L175'>175</a>
-<a name='L176'></a><a href='#L176'>176</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -381,28 +382,29 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -561,23 +563,24 @@ const userControllers = {
       FROM nexdoor.users
       WHERE email='${email}'
     ;`;
-    try {
-      const data = await db.query(queryStr);
-      const { user_id } = data.rows[0];
-      if (!bcrypt.compareSync(password, data.rows[0].password)) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >        throw new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      return user_id;</span>
-    } catch (err) {
-      return err;
-    }
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >  },</span></span>
 &nbsp;
-  authenticateSession: <span class="fstat-no" title="function not covered" >async ({ sessionUserId }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!sessionUserId) {</span>
-<span class="cstat-no" title="statement not covered" >      throw new ApiError('No session found', httpStatusCodes.NOT_FOUND);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    return { userId: sessionUserId };</span>
+    const data = await db.query(queryStr);
+    if (!data.rows[0]) {
+      throw new ApiError('No user found with this email address', httpStatusCodes.NOT_FOUND);
+    }
+    const userIdDTO = data.rows[0];
+    if (!bcrypt.compareSync(password, data.rows[0].password)) {
+      throw new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND);
+    }
+<span class="branch-0 cbranch-no" title="branch not covered" >    return userIdDTO;</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+&nbsp;
+  authenticateSession: async ({ sessionUserId }) =&gt; {
+    if (!sessionUserId) {
+      throw new ApiError('No session found', httpStatusCodes.NOT_FOUND);
+    }
+    const userIdDTO = { userId: sessionUserId };
+<span class="branch-0 cbranch-no" title="branch not covered" >    return userIdDTO;</span>
 <span class="cstat-no" title="statement not covered" >  },</span>
 };
 &nbsp;
@@ -589,7 +592,7 @@ module.exports = userControllers;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Aug 25 2021 14:56:37 GMT-1000 (Hawaii-Aleutian Standard Time)
+                at Wed Aug 25 2021 15:33:31 GMT-1000 (Hawaii-Aleutian Standard Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>

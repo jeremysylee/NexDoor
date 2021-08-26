@@ -313,13 +313,28 @@ describe('Users Service', () => {
       expect(userIdDTO).toEqual({ user_id: 1 });
     });
 
+    it('queries the db and throws API error if user email not found in db', async () => {
+      // Arrange
+      const credentials = {
+        email: 'nonexistingemail@tester.com',
+        password: 'wrongPassword',
+      };
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+
+      // Act
+      const authenticateLoginService = (() => usersService.authenticateLogin(credentials));
+
+      // Assert
+      await expect(authenticateLoginService).rejects.toThrow(new ApiError('No user found with this email address', httpStatusCodes.NOT_FOUND));
+    });
+
     it('queries the db and throws API error if passwords do not match', async () => {
       // Arrange
       const credentials = {
         email: 'tester@tester.com',
         password: 'wrongPassword',
       };
-      jest.spyOn(db, 'query').mockImplementation(() => ({ user_id: 1 }));
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ user_id: 1 }] }));
       jest.spyOn(bcrypt, 'compareSync').mockImplementation(() => false);
 
       // Act
@@ -327,6 +342,30 @@ describe('Users Service', () => {
 
       // Assert
       await expect(authenticateLoginService).rejects.toThrow(new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND));
+    });
+  });
+
+  describe('authenticateSession', () => {
+    it('checks if there is a user_id in the session object and returns a userId DTO', async () => {
+      // Arrange
+      const sessionUserIdObj = { sessionUserId: 1 };
+
+      // Act
+      const userIdDTO = await usersService.authenticateSession(sessionUserIdObj);
+
+      // Assert
+      expect(userIdDTO).toEqual({ userId: 1 });
+    });
+
+    it('throws an API error when there is no user_id in the session object', async () => {
+      // Arrange
+      const sessionUserId = { sessionUserId: undefined };
+
+      // Act
+      const authenticateSession = (() => usersService.authenticateSession(sessionUserId));
+
+      // Assert
+      await expect(authenticateSession).rejects.toThrow(new ApiError('No session found', httpStatusCodes.NOT_FOUND));
     });
   });
 });

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1629939397530" clover="3.2.0">
-  <project timestamp="1629939397530" name="All files">
-    <metrics statements="13178" coveredstatements="1430" conditionals="243" coveredconditionals="146" methods="107" coveredmethods="39" elements="13528" coveredelements="1615" complexity="0" loc="13178" ncloc="13178" packages="27" files="83" classes="83"/>
+<coverage generated="1629941612235" clover="3.2.0">
+  <project timestamp="1629941612235" name="All files">
+    <metrics statements="13179" coveredstatements="1438" conditionals="247" coveredconditionals="150" methods="107" coveredmethods="40" elements="13533" coveredelements="1628" complexity="0" loc="13179" ncloc="13179" packages="27" files="83" classes="83"/>
     <package name="NexDoor">
       <metrics statements="280" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name=".eslintrc.js" path="/Users/jeremysylee/hrla/NexDoor/.eslintrc.js">
@@ -452,13 +452,13 @@
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="6" count="20" type="stmt"/>
-        <line num="7" count="20" type="stmt"/>
-        <line num="8" count="20" type="stmt"/>
-        <line num="9" count="20" type="stmt"/>
-        <line num="10" count="20" type="stmt"/>
-        <line num="11" count="20" type="stmt"/>
-        <line num="12" count="20" type="stmt"/>
+        <line num="6" count="25" type="stmt"/>
+        <line num="7" count="25" type="stmt"/>
+        <line num="8" count="25" type="stmt"/>
+        <line num="9" count="25" type="stmt"/>
+        <line num="10" count="25" type="stmt"/>
+        <line num="11" count="25" type="stmt"/>
+        <line num="12" count="25" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
         <line num="15" count="1" type="stmt"/>
@@ -467,13 +467,13 @@
         <metrics statements="12" coveredstatements="12" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="3" count="20" type="stmt"/>
-        <line num="4" count="20" type="stmt"/>
-        <line num="5" count="20" type="stmt"/>
-        <line num="6" count="20" type="stmt"/>
-        <line num="7" count="20" type="stmt"/>
-        <line num="8" count="20" type="stmt"/>
-        <line num="9" count="20" type="stmt"/>
+        <line num="3" count="25" type="stmt"/>
+        <line num="4" count="25" type="stmt"/>
+        <line num="5" count="25" type="stmt"/>
+        <line num="6" count="25" type="stmt"/>
+        <line num="7" count="25" type="stmt"/>
+        <line num="8" count="25" type="stmt"/>
+        <line num="9" count="25" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
@@ -1586,7 +1586,7 @@
       </file>
     </package>
     <package name="NexDoor.api.modules.users">
-      <metrics statements="344" coveredstatements="298" conditionals="41" coveredconditionals="29" methods="13" coveredmethods="9"/>
+      <metrics statements="345" coveredstatements="306" conditionals="45" coveredconditionals="33" methods="13" coveredmethods="10"/>
       <file name="controller.js" path="/Users/jeremysylee/hrla/NexDoor/api/modules/users/controller.js">
         <metrics statements="88" coveredstatements="81" conditionals="23" coveredconditionals="19" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
@@ -1696,7 +1696,7 @@
         <line num="14" count="1" type="stmt"/>
       </file>
       <file name="service.js" path="/Users/jeremysylee/hrla/NexDoor/api/modules/users/service.js">
-        <metrics statements="175" coveredstatements="163" conditionals="18" coveredconditionals="10" methods="5" coveredmethods="4"/>
+        <metrics statements="176" coveredstatements="171" conditionals="22" coveredconditionals="14" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1846,32 +1846,33 @@
         <line num="147" count="0" type="stmt"/>
         <line num="148" count="1" type="stmt"/>
         <line num="149" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="150" count="4" type="stmt"/>
-        <line num="151" count="4" type="stmt"/>
-        <line num="152" count="4" type="stmt"/>
-        <line num="153" count="4" type="stmt"/>
-        <line num="154" count="4" type="stmt"/>
-        <line num="155" count="4" type="stmt"/>
-        <line num="156" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="157" count="2" type="stmt"/>
-        <line num="158" count="4" type="cond" truecount="0" falsecount="1"/>
-        <line num="159" count="0" type="stmt"/>
-        <line num="160" count="0" type="stmt"/>
-        <line num="161" count="0" type="stmt"/>
-        <line num="162" count="4" type="cond" truecount="1" falsecount="0"/>
-        <line num="163" count="2" type="stmt"/>
-        <line num="164" count="2" type="stmt"/>
-        <line num="165" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="150" count="6" type="stmt"/>
+        <line num="151" count="6" type="stmt"/>
+        <line num="152" count="6" type="stmt"/>
+        <line num="153" count="6" type="stmt"/>
+        <line num="154" count="6" type="stmt"/>
+        <line num="155" count="6" type="stmt"/>
+        <line num="156" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="157" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="158" count="1" type="stmt"/>
+        <line num="159" count="1" type="stmt"/>
+        <line num="160" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="161" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="162" count="1" type="stmt"/>
+        <line num="163" count="1" type="stmt"/>
+        <line num="164" count="6" type="cond" truecount="0" falsecount="1"/>
+        <line num="165" count="0" type="stmt"/>
         <line num="166" count="1" type="stmt"/>
-        <line num="167" count="1" type="stmt"/>
-        <line num="168" count="0" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
-        <line num="170" count="0" type="stmt"/>
-        <line num="171" count="0" type="stmt"/>
-        <line num="172" count="0" type="stmt"/>
-        <line num="173" count="1" type="stmt"/>
+        <line num="167" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="168" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="169" count="1" type="stmt"/>
+        <line num="170" count="1" type="stmt"/>
+        <line num="171" count="1" type="stmt"/>
+        <line num="172" count="2" type="cond" truecount="0" falsecount="1"/>
+        <line num="173" count="0" type="stmt"/>
         <line num="174" count="1" type="stmt"/>
         <line num="175" count="1" type="stmt"/>
+        <line num="176" count="1" type="stmt"/>
       </file>
       <file name="userValidator.js" path="/Users/jeremysylee/hrla/NexDoor/api/modules/users/userValidator.js">
         <metrics statements="67" coveredstatements="40" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>

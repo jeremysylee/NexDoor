@@ -154,7 +154,10 @@ const userControllers = {
     ;`;
 
     const data = await db.query(queryStr);
-    const userIdDTO = { userId: data.rows[0] };
+    if (!data.rows[0]) {
+      throw new ApiError('No user found with this email address', httpStatusCodes.NOT_FOUND);
+    }
+    const userIdDTO = data.rows[0];
     if (!bcrypt.compareSync(password, data.rows[0].password)) {
       throw new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND);
     }
@@ -165,7 +168,8 @@ const userControllers = {
     if (!sessionUserId) {
       throw new ApiError('No session found', httpStatusCodes.NOT_FOUND);
     }
-    return { userId: sessionUserId };
+    const userIdDTO = { userId: sessionUserId };
+    return userIdDTO;
   },
 };
 
