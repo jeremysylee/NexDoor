@@ -1,6 +1,4 @@
 const { check, validationResult } = require('express-validator');
-const ApiError = require('../../errors/apiError');
-const httpStatusCodes = require('../../errors/httpStatusCodes');
 
 const userValidator = {
   checkEmailAndPassword: [
@@ -21,7 +19,7 @@ const userValidator = {
           errors: errors.array(),
         });
       }
-      // console.log('validated');
+      console.log('validated');
       return next();
     },
   ],

@@ -8,8 +8,6 @@ const { app, redisClient } = require('../../server');
 const usersController = require('./controller');
 const usersService = require('./service');
 const db = require('../../db');
-const ApiError = require('../../errors/apiError');
-const httpStatusCodes = require('../../errors/httpStatusCodes');
 
 afterAll(() => {
   redisClient.quit();
