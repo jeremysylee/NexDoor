@@ -152,21 +152,21 @@ const userControllers = {
       FROM nexdoor.users
       WHERE email='${email}'
     ;`;
-
     const data = await db.query(queryStr);
     if (!data.rows[0]) {
       throw new ApiError('No user found with this email address', httpStatusCodes.NOT_FOUND);
     }
-    const userIdDTO = data.rows[0];
+    const userIdDTO = { userId: data.rows[0].user_id };
     if (!bcrypt.compareSync(password, data.rows[0].password)) {
       throw new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND);
     }
-    console.log(userIdDTO);
     return userIdDTO;
   },
 
   authenticateSession: async ({ sessionUserId }) => {
+    console.log(sessionUserId, 'inside the service');
     if (!sessionUserId) {
+      console.log("triggered");
       throw new ApiError('No session found', httpStatusCodes.NOT_FOUND);
     }
     const userIdDTO = { userId: sessionUserId };

@@ -1,10 +1,11 @@
 // process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
+const { getMockReq, getMockRes } = require('@jest-mock/express');
 
 const { app, redisClient } = require('../../server');
 
-// const locationsService = require('../locations/service');
+const usersController = require('./controller');
 const db = require('../../db');
 
 afterAll(() => {
@@ -141,7 +142,7 @@ describe('Users API', () => {
 
   describe('POST api/users/login', () => {
     afterEach(() => jest.restoreAllMocks());
-    it('returns a 200 status and a userId DTO', async () => {
+    it('returns a 200 status and a user DTO', async () => {
       // Arrange
       const body = {
         password: 'notA4pa!sword',
@@ -155,7 +156,104 @@ describe('Users API', () => {
 
       // Assert
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toEqual({ userId: expect.any(Number) });
+      expect(response.body).toMatchObject({
+        user_id: expect.any(Number),
+        firstname: expect.any(String),
+        lastname: expect.any(String),
+        email: expect.any(String),
+        karma: expect.any(Number),
+        address: expect.any(Object),
+      });
+    });
+
+    it('throws an 404 error when the credentials are incorrect (wrong password)', async () => {
+      // Arrange
+      const body = {
+        password: 'thewrongA4pa!sword',
+        email: 'jimbotester@tester.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
+
+    it('throws an 400 error when no password is provided', async () => {
+      // Arrange
+      const body = {
+        password: undefined,
+        email: 'jimbotester@tester.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+
+    it('throws an 400 error when no email is provided', async () => {
+      // Arrange
+      const body = {
+        password: 'thewrongA4pa!sword',
+        email: undefined,
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+
+    it('throws an 400 error when email provided is not an email', async () => {
+      // Arrange
+      const body = {
+        password: 'thewrongA4pa!sword',
+        email: 'amazon.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
+    });
+  });
+
+  describe('authenticateSession', () => {
+    afterEach(() => jest.restoreAllMocks());
+    // it('checks for userId in the session and returns a 200 status with a user DTO', async () => {
+    //   // Arrange
+    //   const req = getMockReq();
+    //   req.session = { userId: 1 };
+    //   const { res, next } = getMockRes();
+
+    //   // Act
+    //   await usersController.authenticateSession(req, res, next);
+
+    //   // Assert
+    //   expect(res).toEqual(200);
+    //   expect(res.statusCode).toEqual(200);
+    // });
+
+    it('returns a 400 api error if no userId is in the session', async () => {
+      // Arrange + Act
+      const response = await supertest(app)
+        .get('/api/users/session');
+
+      // Assert
+      expect(response.statusCode).toEqual(400);
     });
   });
 });

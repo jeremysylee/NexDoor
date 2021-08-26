@@ -62,9 +62,9 @@ const userControllers = {
       password: req.body.password,
     };
     try {
-      const userId = await usersService.authenticateLogin(credentials);
-      const user = await usersService.getUser(userId);
-      req.session.user_id = userId;
+      const userIdDTO = await usersService.authenticateLogin(credentials);
+      const user = await usersService.getUser(userIdDTO);
+      req.session.userId = userIdDTO.userId;
       req.session.save();
       res.status(200).send(user);
     } catch (err) {
@@ -74,8 +74,12 @@ const userControllers = {
   },
 
   authenticateSession: async (req, res, next) => {
-    const sessionUserId = { sessionUserId: req.session.user_id };
+    console.log('CONTROLLER TRIGGERED');
+    console.log(req);
+    console.log(req.session, 'is session erroring out?');
+    console.log('_________________hi');
     try {
+      const sessionUserId = { sessionUserId: req.session.userId || false };
       const userId = await usersService.authenticateSession(sessionUserId);
       const user = await usersService.getUser(userId);
       res.status(200).send(user);
