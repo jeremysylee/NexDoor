@@ -19,12 +19,16 @@ const userController = {
       email: req.body.email,
       imgUrl: req.body.imgUrl,
     };
+
     try {
-      let addressIdDTO = await locationsService.getAddress(userInfo);
-      if (!addressIdDTO) {
-        addressIdDTO = await locationsService.addAddress(userInfo);
+      let addressIdDTO = { addressId: userInfo.addressId || false };
+      if (!addressIdDTO.addressId) {
+        addressIdDTO = await locationsService.getAddress(userInfo);
+        if (!addressIdDTO.addressId) {
+          addressIdDTO = await locationsService.addAddress(userInfo);
+        }
       }
-      const user = await usersService.addUser(userInfo, addressIdDTO.address_id);
+      const user = await usersService.addUser(userInfo, addressIdDTO.addressId);
       res.status(200).send(user);
     } catch (err) {
       next(err);

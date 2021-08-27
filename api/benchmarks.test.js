@@ -98,6 +98,7 @@ describe('POST tasks/:userId', () => {
   it('Should add a task and return 200 status when called with the appropriate parameters', async () => {
     // Arrange
     const body = {
+      addressId: 1,
       streetAddress: '727 N Broadway',
       city: 'Los Angeles',
       state: 'CA',
@@ -130,6 +131,7 @@ describe('PUT /:taskId', () => {
   it('Should update a task and return a 200 status if called with the proper parameters with existing address', async () => {
     // Arrange
     const body = {
+      addressId: 1,
       streetAddress: '727 N Broadway',
       city: 'Los Angeles',
       state: 'CA',
@@ -238,6 +240,7 @@ describe('POST /api/users', () => {
     // Arrange
     const randomizedNums = Math.floor(Math.random() * 987654321);
     const body = {
+      addressId: 1,
       streetAddress: '727 N Broadway',
       city: 'Los Angeles',
       state: 'CA',
