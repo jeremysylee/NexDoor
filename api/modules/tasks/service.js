@@ -13,6 +13,7 @@ const tasksService = {
   }) => {
     if (!userId || !range || !quantity) { throw new ApiError('Undefined params (userId || range || quantity)', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
+    EXPLAIN
       SELECT
         (
           SELECT ARRAY_TO_JSON(ARRAY_AGG(req))
@@ -266,7 +267,8 @@ const tasksService = {
           ) allothers
         ) as allothers
       ;`;
-    const data = await db.query(queryStr);
+      const data = await db.query(queryStr);
+      console.log(data)
     const tasksDTO = data.rows[0];
     return tasksDTO;
   },

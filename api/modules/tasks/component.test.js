@@ -159,8 +159,8 @@ describe('Tasks API', () => {
     afterEach(() => jest.restoreAllMocks());
     it('Should update a task status and return a 200 status if called with the proper parameters', async () => {
       // Arrange
-      const statusArr = ['Active, Open, Pending'];
-      const randomIndex = Math.floor(Math.random() * 3 + 1);
+      const statusArr = ['Active', 'Open', 'Pending'];
+      const randomIndex = Math.floor(Math.random() * 2 + 1);
 
       // Act
       const response = await supertest(app)

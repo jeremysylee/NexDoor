@@ -13,7 +13,7 @@ describe('Messages API', () => {
 
   afterEach(() => jest.restoreAllMocks());
 
-  describe('GET Messages', () => {
+  describe('GET /api/messages/:taskId', () => {
     it('should get messages and return a 200 status when called with appropriate inputs', async () => {
       // Arrange: n/a
       const expectedObject = {
@@ -54,7 +54,7 @@ describe('Messages API', () => {
     });
   });
 
-  describe('POST Messages', () => {
+  describe('POST api/messages/:taskId/:userId', () => {
     it('should post a new message and return a 200 status when called with the appropriate inputs', async () => {
       // Arrange
       const message = {

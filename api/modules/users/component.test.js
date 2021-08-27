@@ -139,7 +139,7 @@ describe('Users API', () => {
     it('Gets users array and returns a 200 status when called with appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
-        .get('/api/users/rating/10/10/10');
+        .get('/api/users/rating/10/1/100');
 
       // Assert
       expect(response.statusCode).toEqual(200);
