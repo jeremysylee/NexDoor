@@ -29,6 +29,7 @@ const userController = {
       const user = await usersService.addUser(userInfo, addressIdDTO.addressId);
       res.status(200).send(user);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   },

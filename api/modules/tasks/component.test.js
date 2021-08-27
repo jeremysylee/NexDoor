@@ -52,10 +52,11 @@ describe('Tasks API', () => {
     });
   });
 
-  describe('POST tasks/:userId', () => {
+  describe('POST /api/tasks/:userId', () => {
     it('Should add a task and return 200 status when called with the appropriate parameters', async () => {
       // Arrange
       const body = {
+        addressId: undefined,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',

@@ -58,7 +58,7 @@ const announcementsControllers = {
       ]
   */
   getAnnouncements: async (req, res, next) => {
-    const { quantity } = req.params || 25;
+    const { quantity } = req.params;
     try {
       const announcements = await announcementsService.getAnnouncements(quantity);
       res.status(200).send(announcements);

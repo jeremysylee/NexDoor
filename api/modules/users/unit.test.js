@@ -73,6 +73,35 @@ describe('Users Controller', () => {
       expect(addAddressSpy).toBeCalled();
       expect(addUserServiceSpy).toBeCalled();
     });
+
+    it('sends error to middleware if error thrown', async () => {
+      // Arrange
+      const req = getMockReq();
+      req.params = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighborhood: undefined,
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'notpasword',
+        email: 'jimbotester@tester.com',
+        imgUrl: 'www.google.com',
+      };
+      jest.spyOn(usersService, 'addUser')
+        .mockImplementation(() => ({ user_id: 1 }));
+      jest.spyOn(locationsService, 'getAddress')
+        .mockImplementation(() => false);
+      jest.spyOn(locationsService, 'addAddress')
+        .mockImplementation(() => { throw new ApiError('Error adding user', httpStatusCodes.INTERNAL_SERVER); });
+
+      // Act
+      await usersController.addUser(req, res, next);
+
+      // Assert
+      expect(next).toBeCalled();
+    });
   });
 
   describe('getUser', () => {
@@ -194,6 +223,21 @@ describe('Users Controller', () => {
       // Assert
       expect(authenticateSessionServiceSpy).toBeCalled();
       expect(getUserServiceSpy).toBeCalled();
+    });
+
+    it('assigns false to req.sesion.userId if no session exists', async () => {
+      // Arrange
+      const req = getMockReq();
+      req.session = { userId: undefined };
+      const authenticateSessionServiceSpy = jest.spyOn(usersService, 'authenticateSession')
+        .mockImplementation(() => ({ userId: 1 }));
+      jest.spyOn(usersService, 'getUser').mockImplementation({});
+
+      // Act
+      await usersController.authenticateSession(req, res, next);
+
+      // Assert
+      expect(authenticateSessionServiceSpy).toHaveBeenLastCalledWith({ sessionUserId: false });
     });
   });
 
