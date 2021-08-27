@@ -1,18 +1,20 @@
+-- exported from pgadmin, does not run with js execution time. run with pgadmin
+
 --*********************************************************************
 -- DATABASE
 --*********************************************************************
 -- Database: postgres
 -- DROP DATABASE postgres;
-CREATE DATABASE postgres
-    WITH
-    OWNER = blueboolean
-    ENCODING = 'UTF8'
-    LC_COLLATE = 'en_US.UTF-8'
-    LC_CTYPE = 'en_US.UTF-8'
-    TABLESPACE = pg_default
-    CONNECTION LIMIT = -1;
-COMMENT ON DATABASE postgres
-    IS 'default administrative connection database';
+-- CREATE DATABASE nexdoorTesting
+--     WITH
+--     OWNER = blueboolean
+--     ENCODING = 'UTF8'
+--     LC_COLLATE = 'en_US.UTF-8'
+--     LC_CTYPE = 'en_US.UTF-8'
+--     TABLESPACE = pg_default
+--     CONNECTION LIMIT = -1;
+-- COMMENT ON DATABASE nexdoorTesting
+--     IS 'default administrative connection database';
 --*********************************************************************
 -- SCHEMA
 --*********************************************************************
@@ -89,7 +91,7 @@ CREATE INDEX fki_fk_users_address_id
 -- DROP INDEX nexdoor.user_avg_rating_idx;
 CREATE INDEX user_avg_rating_idx
     ON nexdoor.users USING btree
-    (avg_rating ASC NULLS LAST)
+    (average_rating ASC NULLS LAST)
     TABLESPACE pg_default;
 --*********************************************************************
 -- ANNOUNCEMENTS TABLE
@@ -292,7 +294,7 @@ CREATE TABLE nexdoor.photos (
   CONSTRAINT fk_photos_announcement_id FOREIGN KEY (announcement_id)
     REFERENCES nexdoor.announcements (announcement_id) MATCH SIMPLE
     ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    ON DELETE CASCADE
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.photos

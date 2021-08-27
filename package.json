@@ -47,6 +47,7 @@
     "material-ui": "^0.20.2",
     "mkcert": "^1.4.0",
     "morgan": "^1.10.0",
+    "newrelic": "^8.2.0",
     "nodemon": "^2.0.12",
     "pg": "^8.6.0",
     "popper.js": "^1.16.1",

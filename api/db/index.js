@@ -13,7 +13,7 @@ require('dotenv').config();
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
-  database: 'nexdoor',
+  database: 'nexdoorsdc',
   password: 'b00l3an!',
   port: 5432,
   allowExitOnIdle: true,
