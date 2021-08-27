@@ -55,7 +55,7 @@ const usersService = {
         (SELECT CURRENT_TIMESTAMP)
       )
       RETURNING
-          user_id, firstname, lastname, email, address_id, karma, task_count, avg_rating, profile_picture_url
+          user_id, firstname, lastname, email, address_id, karma, task_count, average_rating, profile_picture_url
     `;
     const data = await db.query(queryStr);
     if (!data.rows[0]) { throw new ApiError('Error adding user', httpStatusCodes.INTERNAL_SERVER); }
@@ -72,7 +72,7 @@ const usersService = {
         email,
         karma,
         task_count,
-        avg_rating,
+        average_rating,
         profile_picture_url, (
           SELECT ROW_TO_JSON(add)
           FROM (
@@ -108,7 +108,7 @@ const usersService = {
         address_id,
         karma,
         task_count,
-        avg_rating,
+        average_rating,
         profile_picture_url,
         (
           SELECT ARRAY_TO_JSON(ARRAY_AGG(reviews))
@@ -138,7 +138,7 @@ const usersService = {
             WHERE address_id=nexdoor.users.address_id
           ) < ${range}
         )
-      ORDER BY avg_rating
+      ORDER BY average_rating
       LIMIT ${quantity}
     `;
     const data = await db.query(queryStr);

@@ -30,7 +30,7 @@ const tasksService = {
                     address_id,
                     karma,
                     task_count,
-                    avg_rating,
+                    average_rating,
                     profile_picture_url
                   FROM nexdoor.users
                   WHERE user_id=nexdoor.tasks.requester_id
@@ -47,7 +47,7 @@ const tasksService = {
                     address_id,
                     karma,
                     task_count,
-                    avg_rating,
+                    average_rating,
                     profile_picture_url
                   FROM nexdoor.users
                   WHERE user_id=nexdoor.tasks.helper_id
@@ -112,7 +112,7 @@ const tasksService = {
                     address_id,
                     karma,
                     task_count,
-                    avg_rating,
+                    average_rating,
                     profile_picture_url
                   FROM nexdoor.users
                   WHERE user_id=nexdoor.tasks.requester_id
@@ -129,7 +129,7 @@ const tasksService = {
                     address_id,
                     karma,
                     task_count,
-                    avg_rating,
+                    average_rating,
                     profile_picture_url
                   FROM nexdoor.users
                   WHERE user_id=nexdoor.tasks.helper_id
@@ -193,7 +193,7 @@ const tasksService = {
                       address_id,
                       karma,
                       task_count,
-                      avg_rating,
+                      average_rating,
                       profile_picture_url
                     FROM nexdoor.users
                     WHERE user_id=nexdoor.tasks.requester_id
@@ -210,7 +210,7 @@ const tasksService = {
                       address_id,
                       karma,
                       task_count,
-                      avg_rating,
+                      average_rating,
                       profile_picture_url
                     FROM nexdoor.users
                     WHERE user_id=nexdoor.tasks.helper_id
@@ -426,7 +426,7 @@ const tasksService = {
   //   ;`;
   //   const queryStr2 = `
   //     UPDATE nexdoor.users
-  //     SET avg_rating=karma / task_count
+  //     SET average_rating=karma / task_count
   //     WHERE user_id=(
   //       SELECT helper_id
   //       FROM nexdoor.tasks

@@ -18,7 +18,7 @@ describe('Tasks API', () => {
     it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
-        .get('/api/tasks/1/15/10/0');
+        .get('/api/tasks/1/1500/10/0');
 
       // Assert
       expect(response.statusCode).toEqual(200);
@@ -43,7 +43,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .get('/api/tasks/1/15/10/0');
+        .get('/api/tasks/1/1500/10/0');
 
       // Assert
       expect(response.body.requested[0]).toMatchObject(expectedObjectShape);
