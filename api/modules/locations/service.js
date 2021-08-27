@@ -51,8 +51,9 @@ const locationService = {
       AND zipcode=${zipcode}
     `;
     const data = await db.query(queryStr);
+    if (!data.rows[0]) { return false; }
     const addressIdDTO = { addressId: data.rows[0].address_id };
-    return addressIdDTO || false;
+    return addressIdDTO;
   },
 };
 

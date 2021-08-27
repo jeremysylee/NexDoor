@@ -341,6 +341,7 @@ const tasksService = {
     if (!addressId) {
       throw new ApiError('Error updating task, addressId undefined. Check google api', httpStatusCodes.INTERNAL_SERVER);
     }
+
     const queryStr = `
     UPDATE nexdoor.tasks
     SET

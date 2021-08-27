@@ -43,7 +43,7 @@ const taskControllers = {
       let addressIdDTO = { addressId: task.addressId || false };
       if (!addressIdDTO.addressId) {
         addressIdDTO = await locationsService.getAddress(task);
-        if (!addressIdDTO.addressId) {
+        if (!addressIdDTO) {
           addressIdDTO = await locationsService.addAddress(task);
         }
       }
@@ -77,7 +77,7 @@ const taskControllers = {
       let addressIdDTO = { addressId: task.addressId || false };
       if (!addressIdDTO.addressId) {
         addressIdDTO = await locationsService.getAddress(task);
-        if (!addressIdDTO.addressId) {
+        if (!addressIdDTO) {
           addressIdDTO = await locationsService.addAddress(task);
         }
       }

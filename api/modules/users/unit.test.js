@@ -30,10 +30,10 @@ describe('Users Controller', () => {
         email: 'jimbotester@tester.com',
         imgUrl: 'www.google.com',
       };
+      const getAddressSpy = jest.spyOn(locationsService, 'getAddress')
+        .mockImplementation(() => ({ addressId: 1 }));
       const addUserServiceSpy = jest.spyOn(usersService, 'addUser')
         .mockImplementation(() => ({ user_id: 1 }));
-      const getAddressSpy = jest.spyOn(locationsService, 'getAddress')
-        .mockImplementation(() => ({ address_id: 1 }));
 
       // Act
       await usersController.addUser(req, res, next);
