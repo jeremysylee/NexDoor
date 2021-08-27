@@ -340,4 +340,4 @@ const seed = async () => {
   await seedMessages();
 };
 
-// seed();
+seed();
