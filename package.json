@@ -41,7 +41,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "express-validator": "^6.12.0",
-    "faker": "^5.5.3",
     "formik": "^2.2.9",
     "jquery": "^3.6.0",
     "luxon": "^2.0.1",

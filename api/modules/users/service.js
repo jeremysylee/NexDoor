@@ -38,7 +38,7 @@ const usersService = {
         address_id,
         karma,
         task_count,
-        avg_rating,
+        average_rating,
         profile_picture_url,
         acct_created_timestamp
       )
