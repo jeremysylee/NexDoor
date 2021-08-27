@@ -21,13 +21,11 @@ const userController = {
     };
 
     try {
-      let addressIdDTO = { addressId: userInfo.addressId || false };
+      let addressIdDTO = await locationsService.getAddress(userInfo);
       if (!addressIdDTO.addressId) {
-        addressIdDTO = await locationsService.getAddress(userInfo);
-        if (!addressIdDTO.addressId) {
-          addressIdDTO = await locationsService.addAddress(userInfo);
-        }
+        addressIdDTO = await locationsService.addAddress(userInfo);
       }
+
       const user = await usersService.addUser(userInfo, addressIdDTO.addressId);
       res.status(200).send(user);
     } catch (err) {
@@ -68,8 +66,10 @@ const userController = {
     try {
       const userIdDTO = await usersService.authenticateLogin(credentials);
       const user = await usersService.getUser(userIdDTO);
+
       req.session.userId = userIdDTO.userId;
       req.session.save();
+
       res.status(200).send(user);
     } catch (err) {
       req.session.destroy();

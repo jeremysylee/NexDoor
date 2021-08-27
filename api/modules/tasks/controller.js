@@ -48,7 +48,6 @@ const taskControllers = {
         }
       }
       const taskId = await tasksService.addTask(task, addressIdDTO.addressId);
-      console.log(taskId, '<><><><><><>');
       res.status(200).send(taskId);
     } catch (err) {
       console.log(err);
