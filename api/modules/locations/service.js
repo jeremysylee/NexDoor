@@ -34,7 +34,7 @@ const locationService = {
       RETURNING address_id
     `;
     const data = await db.query(queryStr);
-    const addressIdDTO = data.rows[0];
+    const addressIdDTO = { addressId: data.rows[0].address_id };
     return addressIdDTO;
   },
 
@@ -50,9 +50,10 @@ const locationService = {
       WHERE street_address='${streetAddress}'
       AND zipcode=${zipcode}
     `;
-    const address = await db.query(queryStr);
-    const addressIdDTO = address.rows[0];
-    return addressIdDTO || false;
+    const data = await db.query(queryStr);
+    if (!data.rows[0]) { return false; }
+    const addressIdDTO = { addressId: data.rows[0].address_id };
+    return addressIdDTO;
   },
 };
 

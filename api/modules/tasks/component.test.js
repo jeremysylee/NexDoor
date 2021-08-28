@@ -52,10 +52,11 @@ describe('Tasks API', () => {
     });
   });
 
-  describe('POST tasks/:userId', () => {
+  describe('POST /api/tasks/:userId', () => {
     it('Should add a task and return 200 status when called with the appropriate parameters', async () => {
       // Arrange
       const body = {
+        addressId: undefined,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',
@@ -70,7 +71,32 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ address_id: 1 }));
+      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/tasks/1')
+        .send(body);
+      testTaskIdToDelete = response.body.task_id;
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+    });
+
+    it('Should add a task and return 200 status when called an addressId instead of an address', async () => {
+      // Arrange
+      const body = {
+        addressId: 1,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
 
       // Act
       const response = await supertest(app)
@@ -131,7 +157,31 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ address_id: 1 }));
+      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+
+      // Act
+      const response = await supertest(app)
+        .put('/api/tasks/1')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+    });
+
+    it('Should update a task and return a 200 status if called an addressID instead of an address', async () => {
+      // Arrange
+      const body = {
+        addressId: 1,
+        description: 'Can someone watch my dogs for an hour?',
+        laborRequired: true,
+        category: 'sitting',
+        startDate: '2021-08-01',
+        endDate: '2021-07-24',
+        startTime: '22:35:00',
+        duration: null,
+        carRequired: false,
+      };
+      // jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
 
       // Act
       const response = await supertest(app)
@@ -159,8 +209,8 @@ describe('Tasks API', () => {
     afterEach(() => jest.restoreAllMocks());
     it('Should update a task status and return a 200 status if called with the proper parameters', async () => {
       // Arrange
-      const statusArr = ['Active, Open, Pending'];
-      const randomIndex = Math.floor(Math.random() * 3 + 1);
+      const statusArr = ['Active', 'Open', 'Pending'];
+      const randomIndex = Math.floor(Math.random() * 2 + 1);
 
       // Act
       const response = await supertest(app)

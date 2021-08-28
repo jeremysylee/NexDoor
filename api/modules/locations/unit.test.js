@@ -53,7 +53,7 @@ describe('Locations Service', () => {
 
       // Assert
       expect(dbSpy).toBeCalled();
-      expect(addressIdDTO).toEqual({ address_id: 1 });
+      expect(addressIdDTO).toEqual({ addressId: 1 });
     });
 
     it('throws an API error if called with missing request parameters (streetAddress)', async () => {
@@ -88,7 +88,7 @@ describe('Locations Service', () => {
 
       // Assert
       expect(dbSpy).toBeCalled();
-      expect(addressIdDTO).toEqual({ address_id: 1 });
+      expect(addressIdDTO).toEqual({ addressId: 1 });
     });
 
     it('queries the db and returns false if no address found', async () => {

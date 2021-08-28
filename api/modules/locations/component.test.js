@@ -40,7 +40,7 @@ describe('Locations component', () => {
       const addressIdDTO = await locationsService.addAddress(addressQueryParams);
 
       // Assert
-      expect(addressIdDTO).toEqual({ address_id: expect.any(Number) });
+      expect(addressIdDTO).toEqual({ addressId: expect.any(Number) });
     });
 
     it('throws an API error if called with incorrect coordinates request parameters (coordinates)', async () => {
@@ -73,7 +73,7 @@ describe('Locations component', () => {
       const addressIdDTO = await locationsService.getAddress(params);
 
       // Assert
-      expect(addressIdDTO).toEqual({ address_id: expect.any(Number) });
+      expect(addressIdDTO).toEqual({ addressId: expect.any(Number) });
     });
 
     it('queries the db and returns false if no address found', async () => {

@@ -51,6 +51,21 @@ CREATE INDEX address_id_idx
     ON nexdoor.address USING btree
     (address_id ASC NULLS LAST)
     TABLESPACE pg_default;
+
+CREATE INDEX unique_address_idx
+    ON nexdoor.address USING btree
+    (address_id ASC NULLS LAST, zipcode)
+    TABLESPACE pg_default;
+
+CREATE INDEX street_address_idx
+    ON nexdoor.address USING btree
+    (address_id ASC NULLS LAST, zipcode)
+    TABLESPACE pg_default;
+    
+CREATE INDEX zipcode_idx
+    ON nexdoor.address USING btree
+    (address_id ASC NULLS LAST, zipcode)
+    TABLESPACE pg_default;
 --*********************************************************************
 -- USERS TABLE
 --*********************************************************************
@@ -156,6 +171,27 @@ CREATE INDEX fki_sessions_user_id_fk
     ON nexdoor.sessions USING btree
     (user_id ASC NULLS LAST)
     TABLESPACE pg_default;
+
+--*********************************************************************
+--TRIGGER FUNCTIONS
+--*********************************************************************
+-- FUNCTION: nexdoor.sessions_expiry_date_delete()
+-- DROP FUNCTION nexdoor.sessions_expiry_date_delete();
+CREATE FUNCTION nexdoor.sessions_expiry_date_delete()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+  DELETE FROM nexdoor.sessions WHERE expiry_date < NOW();
+  RETURN NEW;
+END;
+$BODY$;
+
+ALTER FUNCTION nexdoor.sessions_expiry_date_delete()
+    OWNER TO blueboolean;
+--*********************************************************************
 -- Trigger: sessions_expiry_date_delete_trigger
 -- DROP TRIGGER sessions_expiry_date_delete_trigger ON nexdoor.sessions;
 CREATE TRIGGER sessions_expiry_date_delete_trigger
@@ -221,6 +257,11 @@ CREATE INDEX fki_fk_task_helper_id
 CREATE INDEX fki_fk_task_address_id
     ON nexdoor.tasks USING btree
     (address_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+CREATE INDEX start_date_time_idx
+	ON nexdoor.tasks USING btree
+    (start_date ASC NULLS LAST, start_time ASC NULLS LAST)
     TABLESPACE pg_default;
 --*********************************************************************
 -- MESSAGES TABLE
@@ -369,23 +410,4 @@ CREATE INDEX fki_fk_reviews_helper_id
     ON nexdoor.reviews USING btree
     (helper_id ASC NULLS LAST)
     TABLESPACE pg_default;
---*********************************************************************
---TRIGGER FUNCTIONS
---*********************************************************************
--- FUNCTION: nexdoor.sessions_expiry_date_delete()
--- DROP FUNCTION nexdoor.sessions_expiry_date_delete();
-CREATE FUNCTION nexdoor.sessions_expiry_date_delete()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$
-BEGIN
-  DELETE FROM nexdoor.sessions WHERE expiry_date < NOW();
-  RETURN NEW;
-END;
-$BODY$;
 
-ALTER FUNCTION nexdoor.sessions_expiry_date_delete()
-    OWNER TO blueboolean;
---*********************************************************************

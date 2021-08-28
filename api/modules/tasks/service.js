@@ -92,8 +92,8 @@ const tasksService = {
                 ) < ${range}
               )
             ORDER BY
-              start_date,
-              start_time
+              start_date ASC NULLS LAST,
+              start_time ASC NULLS LAST
           ) req
         ) AS requested,
         (
@@ -173,8 +173,8 @@ const tasksService = {
                 ) < ${range}
               )
             ORDER BY
-              start_date,
-              start_time
+              start_date ASC NULLS LAST,
+              start_time ASC NULLS LAST
           ) help
         ) as helper,
         (
@@ -259,8 +259,8 @@ const tasksService = {
                     ) < ${range}
                   )
               ORDER BY
-                start_date,
-                start_time
+                start_date ASC NULLS LAST,
+                start_time ASC NULLS LAST
               LIMIT ${quantity}
               OFFSET ${offset}
           ) allothers
@@ -341,6 +341,7 @@ const tasksService = {
     if (!addressId) {
       throw new ApiError('Error updating task, addressId undefined. Check google api', httpStatusCodes.INTERNAL_SERVER);
     }
+
     const queryStr = `
     UPDATE nexdoor.tasks
     SET

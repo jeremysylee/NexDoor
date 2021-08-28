@@ -16,6 +16,7 @@ const taskControllers = {
       const tasks = await tasksService.getTasks(params);
       res.status(200).send(tasks);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   },
@@ -23,6 +24,7 @@ const taskControllers = {
   addTask: async (req, res, next) => {
     const task = {
       userId: req.params.userId,
+      addressId: req.body.addressId,
       streetAddress: req.body.streetAddress,
       city: req.body.city,
       state: req.body.state,
@@ -38,19 +40,24 @@ const taskControllers = {
       carRequired: req.body.carRequired,
     };
     try {
-      let addressIdDTO = await locationsService.getAddress(task);
-      if (!addressIdDTO) {
-        addressIdDTO = await locationsService.addAddress(task);
+      let addressIdDTO = { addressId: task.addressId || false };
+      if (!addressIdDTO.addressId) {
+        addressIdDTO = await locationsService.getAddress(task);
+        if (!addressIdDTO) {
+          addressIdDTO = await locationsService.addAddress(task);
+        }
       }
-      const taskId = await tasksService.addTask(task, addressIdDTO.address_id);
+      const taskId = await tasksService.addTask(task, addressIdDTO.addressId);
       res.status(200).send(taskId);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   },
 
   updateTask: async (req, res, next) => {
     const task = {
+      addressId: req.body.addressId,
       streetAddress: req.body.streetAddress,
       city: req.body.city,
       state: req.body.state,
@@ -67,13 +74,17 @@ const taskControllers = {
       taskId: req.params.taskId,
     };
     try {
-      let addressIdDTO = await locationsService.getAddress(task);
-      if (!addressIdDTO) {
-        addressIdDTO = await locationsService.addAddress(task);
+      let addressIdDTO = { addressId: task.addressId || false };
+      if (!addressIdDTO.addressId) {
+        addressIdDTO = await locationsService.getAddress(task);
+        if (!addressIdDTO) {
+          addressIdDTO = await locationsService.addAddress(task);
+        }
       }
-      const taskIdDTO = await tasksService.updateTask(task, addressIdDTO.address_id);
+      const taskIdDTO = await tasksService.updateTask(task, addressIdDTO.addressId);
       res.status(200).send(`Task ${taskIdDTO.task_id} has been updated`);
     } catch (err) {
+      console.log(err);
       next(err);
     }
   },

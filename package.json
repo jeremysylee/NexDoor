@@ -10,7 +10,8 @@
     "build-dev": "webpack --mode development",
     "build-prod": "webpack --mode production",
     "start": "webpack serve --hot --mode development --history-api-fallback",
-    "test": "jest"
+    "test": "jest",
+    "benchmark": "jest -i /api/benchmarks.test.js"
   },
   "repository": {
     "type": "git",

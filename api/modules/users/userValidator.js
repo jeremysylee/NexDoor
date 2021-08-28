@@ -19,7 +19,7 @@ const userValidator = {
           errors: errors.array(),
         });
       }
-      console.log('validated');
+      // console.log('validated');
       return next();
     },
   ],
