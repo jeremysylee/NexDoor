@@ -14,7 +14,7 @@ describe('Announcements API', () => {
 
   afterEach(() => jest.restoreAllMocks());
 
-  describe('GET Announcements', () => {
+  describe('GET api/announcements/:quantity', () => {
     it('should get announcements and return 200 status when called with the appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
@@ -37,7 +37,7 @@ describe('Announcements API', () => {
     });
   });
 
-  describe('POST Announcements', () => {
+  describe('POST api/announcements', () => {
     it('should add an announcement and return 200 status when called with the appropriate inputs', async () => {
       // Arrange
       const body = {

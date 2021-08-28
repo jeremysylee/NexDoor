@@ -6,6 +6,9 @@ const { app, redisClient } = require('./app');
 
 const db = require('./db');
 
+const lastTenPercentRandomizer = () => Math.floor(Math.random() * 100000 + 900000);
+// const lastTenPercentRandomizer = () => 1;
+
 afterAll(async () => {
   redisClient.quit();
   db.end();
@@ -21,7 +24,7 @@ describe('BENCHMARK TESTING', () => {
       it('should get announcements and return 200 status when called with the appropriate inputs', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .get('/api/announcements/1');
+          .get('/api/announcements/10');
 
         // Assert
         expect(response.statusCode).toEqual(200);
@@ -39,7 +42,7 @@ describe('BENCHMARK TESTING', () => {
 
         // Act
         const res = await supertest(app)
-          .post('/api/announcements/1')
+          .post(`/api/announcements/${lastTenPercentRandomizer()}`)
           .send(body);
 
         // Assert
@@ -56,7 +59,7 @@ describe('BENCHMARK TESTING', () => {
       it('should get messages and return a 200 status when called with appropriate inputs', async () => {
         // Arrage + Act
         const response = await supertest(app)
-          .get('/api/messages/1');
+          .get(`/api/messages/${lastTenPercentRandomizer()}`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
@@ -75,7 +78,7 @@ describe('BENCHMARK TESTING', () => {
 
         // Act
         const response = await supertest(app)
-          .post('/api/messages/1/1')
+          .post(`/api/messages/${lastTenPercentRandomizer()}/${lastTenPercentRandomizer()}`)
           .send(message);
 
         // Assert
@@ -92,7 +95,7 @@ describe('BENCHMARK TESTING', () => {
       it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .get('/api/tasks/1/1500/10/0');
+          .get(`/api/tasks/${lastTenPercentRandomizer()}/1500/10/0`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
@@ -122,7 +125,7 @@ describe('BENCHMARK TESTING', () => {
 
         // Act
         const response = await supertest(app)
-          .post('/api/tasks/1')
+          .post(`/api/tasks/${lastTenPercentRandomizer()}`)
           .send(body);
         testTaskIdToDelete = response.body.task_id;
 
@@ -155,7 +158,7 @@ describe('BENCHMARK TESTING', () => {
 
         // Act
         const response = await supertest(app)
-          .put('/api/tasks/1')
+          .put(`/api/tasks/${lastTenPercentRandomizer()}`)
           .send(body);
 
         // Assert
@@ -184,7 +187,7 @@ describe('BENCHMARK TESTING', () => {
 
         // Act
         const response = await supertest(app)
-          .put(`/api/tasks/1/status/${statusArr[randomIndex]}`);
+          .put(`/api/tasks/${lastTenPercentRandomizer()}/status/${statusArr[randomIndex]}`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
@@ -196,7 +199,7 @@ describe('BENCHMARK TESTING', () => {
       it('Should update a task helper to the current user and return a 200 status if called with the proper params', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .put('/api/tasks/1/helper/1');
+          .put(`/api/tasks/${lastTenPercentRandomizer()}/helper/${lastTenPercentRandomizer()}`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
@@ -208,7 +211,7 @@ describe('BENCHMARK TESTING', () => {
       it('Should delete the task helper and return a 200 status if called with the proper params', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .delete('/api/tasks/1/helper');
+          .delete(`/api/tasks/${lastTenPercentRandomizer()}/helper`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
@@ -225,7 +228,7 @@ describe('BENCHMARK TESTING', () => {
       it('should get users and return 200 status when called with the appropriate inputs', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .get('/api/users/1');
+          .get(`/api/users/${lastTenPercentRandomizer()}`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
@@ -276,7 +279,7 @@ describe('BENCHMARK TESTING', () => {
       it('Gets users array and returns a 200 status when called with appropriate inputs', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .get('/api/users/rating/10/1/100');
+          .get(`/api/users/rating/10/${lastTenPercentRandomizer()}/100`);
 
         // Assert
         expect(response.statusCode).toEqual(200);

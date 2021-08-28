@@ -56,10 +56,12 @@ CREATE INDEX unique_address_idx
     ON nexdoor.address USING btree
     (address_id ASC NULLS LAST, zipcode)
     TABLESPACE pg_default;
+
 CREATE INDEX street_address_idx
     ON nexdoor.address USING btree
     (address_id ASC NULLS LAST, zipcode)
     TABLESPACE pg_default;
+    
 CREATE INDEX zipcode_idx
     ON nexdoor.address USING btree
     (address_id ASC NULLS LAST, zipcode)

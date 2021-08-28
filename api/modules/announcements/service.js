@@ -30,7 +30,6 @@ const announcementModel = {
 
   getAnnouncements: async (quantity) => {
     const queryStr = `
-      EXPLAIN ANALYZE
       SELECT *
       FROM nexdoor.announcements
       LIMIT ${quantity}
