@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1630121761940" clover="3.2.0">
-  <project timestamp="1630121761941" name="All files">
+<coverage generated="1630190108377" clover="3.2.0">
+  <project timestamp="1630190108377" name="All files">
     <metrics statements="1868" coveredstatements="276" conditionals="734" coveredconditionals="50" methods="759" coveredmethods="34" elements="3361" coveredelements="360" complexity="0" loc="1868" ncloc="1868" packages="28" files="85" classes="85"/>
     <package name="NexDoor">
       <metrics statements="11" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="0" coveredmethods="0"/>
