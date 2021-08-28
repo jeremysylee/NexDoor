@@ -29,7 +29,7 @@ describe('Users API', () => {
         lastname: expect.any(String),
         email: expect.any(String),
         karma: expect.any(Number),
-        avg_rating: expect.any(Number),
+        average_rating: expect.any(Number),
         address: expect.any(Object),
       });
     });
