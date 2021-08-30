@@ -6,3 +6,4 @@ bundle.js
 .cache
 dist
 coverage
+data
