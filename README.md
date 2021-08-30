@@ -1,4 +1,8 @@
-# Nexdoor
+
+
+# Nexdoor 
+<a href="https://github.com/jeremysylee/NexDoor"> <img src="https://user-images.githubusercontent.com/74673975/131412411-a4a65e3e-4ec9-4549-b994-0ab56e157f0d.png" width="200" /> </a> <div />
+
 Nexdoor is a hyperlocal neighborhood assistance social networking platform. See local neighbors on the app who are requesting help and offer to assist or submit a help request of your own. 
 
 ## Features
