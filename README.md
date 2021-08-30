@@ -23,10 +23,10 @@ To install and use Nexdoor, you'll need these prerequisites
 3. Rename `.env example` file to `.env`
 4. Populate `.env` with corresponding credentials
 5. Boot Redis database
-7. Run script `npm run server`
-8. Run script `npm start`
-9. Open your browser to `http://localhost:8080`
-10. Create a new account
+6. Run script `npm run server`
+7. Run script `npm start`
+8. Open your browser to `http://localhost:8080`
+9. Create a new account
 
 ## Contributors
 * @raphaelspies
