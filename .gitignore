@@ -7,3 +7,4 @@ bundle.js
 dist
 coverage
 data
+newrelic_agent.log
