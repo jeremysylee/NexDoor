@@ -37,7 +37,7 @@ Front End:
   * Postgres
   * Redis
 
-## Contributors
+# Contributors
 * @raphaelspies
 * @ajmunoz411
 * @jimmyG37
