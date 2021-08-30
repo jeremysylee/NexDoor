@@ -28,6 +28,15 @@ To install and use Nexdoor, you'll need these prerequisites
 8. Open your browser to `http://localhost:8080`
 9. Create a new account
 
+# Technologies
+Front End: 
+  * React
+  * Redux
+  * Styled-components
+  * Express
+  * Postgres
+  * Redis
+
 ## Contributors
 * @raphaelspies
 * @ajmunoz411
