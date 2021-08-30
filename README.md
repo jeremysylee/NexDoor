@@ -7,14 +7,14 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. See 
 * Submit requests for assistance for local neighbors to see.
 
 ## Setup & Installation
-1. Fork repository and clone to machine.
-2. From your root directory, run `npm install` to install dependencies.
-3. Rename `.env example` file to `.env`.
-4. Populate `.env` with corresponding credentials. 
+1. Fork repository and clone to machine
+2. From your root directory, run `npm install` to install dependencies
+3. Rename `.env example` file to `.env`
+4. Populate `.env` with corresponding credentials
 5. Boot Redis database
-7. Run script `npm run server`.
-8. Run script `npm start`.
-9. Open your browser to `http://localhost:8080`.
+7. Run script `npm run server`
+8. Run script `npm start`
+9. Open your browser to `http://localhost:8080`
 10. Create a new account
 
 ## Contributors
