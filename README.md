@@ -17,7 +17,7 @@ To install and use Nexdoor, you'll need these prerequisites
 1. PostgreSQL
 2. Redis
 
-## Setup & Installation
+### Setup & Installation
 1. Fork repository and clone to machine
 2. From your root directory, run `npm install` to install dependencies
 3. Rename `.env example` file to `.env`
