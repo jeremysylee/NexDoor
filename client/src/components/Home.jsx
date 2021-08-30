@@ -28,32 +28,28 @@ const MapContainer = styled.div`
   transition: 200ms linear;
 `;
 
-const Home = () => {
-  const placeholder = 'placeholder';
-  console.log(placeholder);
-  return (
-    <Body>
-      <Header />
+const Home = () => (
+  <Body>
+    <Header />
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="flex-start"
+    >
       <Grid
         container
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-start"
+        style={{ width: '90%' }}
       >
-        <Grid
-          container
-          style={{ width: '90%' }}
-        >
-          <Sidebar />
-          <MainFeed />
-          <MapContainer />
-          {/* {!showSelected && <SelectedTask />} */}
-          {/* {showSelected && <MapContainer><Map /></MapContainer>} */}
-          {/* {showSelected && <MapContainer />} */}
-        </Grid>
+        <Sidebar />
+        <MainFeed />
+        <MapContainer />
+        {/* {!showSelected && <SelectedTask />} */}
+        {/* {showSelected && <MapContainer><Map /></MapContainer>} */}
+        {/* {showSelected && <MapContainer />} */}
       </Grid>
-    </Body>
-  );
-};
+    </Grid>
+  </Body>
+);
 
 export default Home;
