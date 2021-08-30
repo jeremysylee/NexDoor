@@ -10,6 +10,13 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. See 
 * Claim requests and connect to the requesting neighbor via chat. 
 * Submit requests for assistance for local neighbors to see.
 
+# Getting Started
+
+### Prerequisites
+To install and use Nexdoor, you'll need these prerequisites
+1. PostgreSQL
+2. Redis
+
 ## Setup & Installation
 1. Fork repository and clone to machine
 2. From your root directory, run `npm install` to install dependencies
