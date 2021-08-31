@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import {
-  MakeARequestTile, OpenTaskTile, MyRequestTile, MyTaskTile,
-} from './tiles';
+  MakeRequestTile, OpenTaskTile, MyRequestTile, MyTaskTile,
+} from './Tile';
 import {
   SectionCard,
   SectionLine,
-} from './styles-MainFeed';
+} from './Feed.styles';
 
 const MainFeedContainer = styled.div`
   margin: 1em;
@@ -24,7 +24,7 @@ const MainFeed = () => {
 
   return (
     <MainFeedContainer>
-      <MakeARequestTile />
+      <MakeRequestTile />
       {page === '/myrequests' || page === '/' ? (
         <>
           <SectionCard>People Helping Me</SectionCard>

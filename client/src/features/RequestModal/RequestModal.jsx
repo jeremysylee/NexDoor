@@ -18,7 +18,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@material-ui/core/';
-import { url } from '../../../config';
+import { url } from '../../../../config';
 
 function NewRequestModal() {
   const dispatch = useDispatch();

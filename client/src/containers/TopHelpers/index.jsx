@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Grid, Avatar } from '@material-ui/core';
 import axios from 'axios';
-import Header from '../Header';
-import Sidebar from '../Sidebar';
+import Header from '../../common/Header';
+import Sidebar from '../../common/Sidebar';
 import User from './User';
 
-const HelpfulFeed = () => {
+const TopHelpers = () => {
   const [topReviews, setTopReviews] = useState([{profile_picture_url: ''}, {profile_picture_url: ''}, {profile_picture_url: ''}]);
 
   const url = 'http://localhost:3500';
@@ -62,4 +62,4 @@ const HelpfulFeed = () => {
   );
 };
 
-export default HelpfulFeed;
+export default TopHelpers;

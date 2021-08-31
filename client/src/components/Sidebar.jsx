@@ -19,7 +19,7 @@ import {
 
 import {
   SidebarContainer,
-} from './styles-App';
+} from './App.styles';
 
 const MyListItemText = styled.div`
   font-size: 14px;

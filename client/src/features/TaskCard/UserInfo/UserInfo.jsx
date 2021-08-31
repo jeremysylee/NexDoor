@@ -8,7 +8,7 @@ import {
   ColCentered,
   Username,
   UserInfoSt,
-} from '../styles-TaskCard';
+} from '../TaskCard.styles';
 
 export const UserInfo = ({ user }) => (
   <ColCentered>

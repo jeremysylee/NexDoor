@@ -2,14 +2,14 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
-import MainFeed from './MainFeed/index';
-import Header from './Header';
-import Sidebar from './Sidebar';
+import Header from '../../components/Header';
+import MainFeed from '../../features/Task/Feed';
+import Sidebar from '../../components/Sidebar';
 // import Map from './Map';
 
 import {
   Body,
-} from './App.styles';
+} from '../../components/App.styles';
 
 const MapContainer = styled.div`
   min-width: 300px;

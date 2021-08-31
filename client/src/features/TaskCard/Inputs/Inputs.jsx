@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import { url } from '../../../../config';
+import { url } from '../../../../../config';
 import {
   LineTop,
   Row,
@@ -14,7 +14,7 @@ import {
   ButtonGoToRequest,
   ButtonClaimed,
   ButtonCancel,
-} from '../styles-TaskCard';
+} from '../TaskCard.styles';
 
 /* TOC
 1: InputActiveTask

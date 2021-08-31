@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
-import { url } from '../../../config';
+import { url } from '../../config';
 
-import PrivateRoute from './PrivateRoute';
-import Home from './Home';
-import HelpfulFeed from './Helpful/HelpfulFeed';
-import Active from './ActiveTask/YouAreHelping/Active';
-import MyActiveRequest from './ActiveTask/MyActive/MyActiveRequest';
-import Login from '../accounts/Login';
-import Signup from '../accounts/Signup';
+import PrivateRoute from './components/PrivateRoute';
+import Home from './containers/Home/Home';
+import HelpfulFeed from './containers/TopHelpers/HelpfulFeed';
+import Active from './containers/ActiveTask/YouAreHelping/Active';
+import MyActiveRequest from './containers/ActiveTask/MyActive/MyActiveRequest';
+import Login from './features/Login';
+import Signup from './features/Signup';
 
 const App = () => {
   const dispatch = useDispatch();
