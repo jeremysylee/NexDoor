@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
-import useFormatDate from '../hooks/useFormatDate';
-import SelectedTask from '../taskCard/TaskCard';
+import useFormatDate from '../../hooks/useFormatDate';
+import SelectedTask from '../../../TaskCard/TaskCard';
 
 import {
   Card,
@@ -18,7 +18,7 @@ import {
   Username,
   VerticalLineFaded,
   SelectedTaskContainer,
-} from '../styles-Feed';
+} from '../../Feed.styles';
 
 StatusBadge.defaultProps = {
   theme: {

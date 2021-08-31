@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
-import RequestModal from '../../RequestModal';
+import RequestModal from '../../../RequestModal/RequestModal';
 
 import {
   SectionCard,
@@ -11,7 +11,7 @@ import {
   ButtonDecline,
   Line,
   RowRight,
-} from '../styles-Feed';
+} from '../../Feed.styles';
 
 const Input = styled.button`
   border-radius: 100px;
@@ -62,7 +62,7 @@ const RowRightFlair = styled(RowRight)`
   }
 `;
 
-const MakeARequest = () => {
+const MakeRequestTile = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.currentUserReducer.userData);
   const openModal = () => {
@@ -121,4 +121,4 @@ const MakeARequest = () => {
   );
 };
 
-export default MakeARequest;
+export default MakeRequestTile;

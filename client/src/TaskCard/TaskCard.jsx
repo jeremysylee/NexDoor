@@ -4,19 +4,19 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 
 // Imported Components
-import { UserInfo, UserInfoBlank } from './userInfo/UserInfo';
-import DetailsSection from './details/Details';
+import { UserInfo, UserInfoBlank } from './UserInfo/UserInfo';
+import DetailsSection from './Details/Details';
 import {
   InputOpenRequest,
   InputActiveTask,
   InputClaimedRequest,
   InputUnclaimedRequest,
-} from './inputs/Inputs';
+} from './Inputs/Inputs';
 import {
   StatusText,
   RowSlim,
   BackButton,
-} from './styles-TaskCard';
+} from './TaskCard.styles';
 
 const SelectedTaskCard = styled.div`
   width: 100%;

@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
-import useFormatDate from './hooks/useFormatDate';
-import SelectedTask from './SelectedTask';
+import useFormatDate from '../../hooks/useFormatDate';
+import SelectedTask from '../../../TaskCard/TaskCard';
 
 import {
   Card,
@@ -15,7 +15,7 @@ import {
   Username,
   SelectedTaskContainer,
   VerticalLineFaded,
-} from './styles-MainFeed';
+} from '../../Feed.styles';
 
 const OpenTask = ({ task }) => {
   const dispatch = useDispatch();

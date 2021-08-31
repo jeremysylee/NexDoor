@@ -2,10 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import MakeARequest from './MakeARequest';
-import OpenTask from './OpenTask';
-import MyRequest from './MyRequest';
-import MyTask from './MyTask';
+import {
+  MakeARequestTile, OpenTaskTile, MyRequestTile, MyTaskTile,
+} from './tiles';
 import {
   SectionCard,
   SectionLine,
@@ -25,12 +24,12 @@ const MainFeed = () => {
 
   return (
     <MainFeedContainer>
-      <MakeARequest />
+      <MakeARequestTile />
       {page === '/myrequests' || page === '/' ? (
         <>
           <SectionCard>People Helping Me</SectionCard>
           {myRequests.map((request) => (
-            <MyRequest request={request} key={request.task_id} />
+            <MyRequestTile request={request} key={request.task_id} />
           ))}
         </>
       ) : <></>}
@@ -39,7 +38,7 @@ const MainFeed = () => {
         <>
           <SectionCard>People I Am Helping</SectionCard>
           {myTasks.map((task) => (
-            <MyTask task={task} key={task.task_id} />
+            <MyTaskTile task={task} key={task.task_id} />
           ))}
         </>
       ) : <></>}
@@ -48,7 +47,7 @@ const MainFeed = () => {
         <>
           <SectionCard>Others Requesting Help</SectionCard>
           {openTasks.map((task) => (
-            <OpenTask task={task} key={task.task_id} />
+            <OpenTaskTile task={task} key={task.task_id} />
           ))}
         </>
       ) : <></>}

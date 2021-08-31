@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { url } from '../../../config';
 
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './Auth/PrivateRoute';
 import Home from './Home';
 import HelpfulFeed from './Helpful/HelpfulFeed';
 import Active from './ActiveTask/YouAreHelping/Active';

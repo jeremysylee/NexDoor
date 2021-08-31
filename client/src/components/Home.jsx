@@ -9,7 +9,7 @@ import Sidebar from './Sidebar';
 
 import {
   Body,
-} from './styles-App';
+} from './App.styles';
 
 const MapContainer = styled.div`
   min-width: 300px;
