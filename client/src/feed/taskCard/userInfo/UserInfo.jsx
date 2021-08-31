@@ -7,10 +7,10 @@ import {
   AvatarMiddleRing,
   ColCentered,
   Username,
-  UserInfo,
-} from './styles-SelectedTask';
+  UserInfoSt,
+} from '../styles-TaskCard';
 
-export const UserProfile = ({ user }) => (
+export const UserInfo = ({ user }) => (
   <ColCentered>
     <ColCentered>
       <AvatarLg
@@ -22,15 +22,15 @@ export const UserProfile = ({ user }) => (
       <AvatarMiddleRing />
     </ColCentered>
     <Username>{`${user.firstname} ${user.lastname}`}</Username>
-    <UserInfo>
+    <UserInfoSt>
       <span>{`★ ${user.avg_rating || 0} (${user.task_count})`}</span>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <span>1.2 miles away</span>
-    </UserInfo>
+    </UserInfoSt>
   </ColCentered>
 );
 
-UserProfile.propTypes = {
+UserInfo.propTypes = {
   user: PropTypes.shape({
     firstname: PropTypes.string,
     lastname: PropTypes.string,
@@ -40,15 +40,15 @@ UserProfile.propTypes = {
   }),
 };
 
-UserProfile.defaultProps = { user: {} };
+UserInfo.defaultProps = { user: {} };
 
-export const UserProfileBlank = () => (
+export const UserInfoBlank = () => (
   <ColCentered>
     <AvatarLg
       style={{ backgroundColor: 'grey' }}
       alt=""
     />
     <Username />
-    <UserInfo />
+    <UserInfoSt />
   </ColCentered>
 );

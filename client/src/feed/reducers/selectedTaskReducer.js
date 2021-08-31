@@ -1,4 +1,4 @@
-import { testTasks } from '../../../../../testData/testData';
+import { testTasks } from '../../components/defaultTask';
 
 const initialState = { task: testTasks[0] };
 

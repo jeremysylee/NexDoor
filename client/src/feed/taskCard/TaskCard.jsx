@@ -4,19 +4,19 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 
 // Imported Components
-import { UserProfile, UserProfileBlank } from './UserProfile';
-import DetailsSection from './DetailsSection';
+import { UserInfo, UserInfoBlank } from './userInfo/UserInfo';
+import DetailsSection from './details/Details';
 import {
   InputOpenRequest,
   InputActiveTask,
   InputClaimedRequest,
   InputUnclaimedRequest,
-} from './Inputs';
+} from './inputs/Inputs';
 import {
   StatusText,
   RowSlim,
   BackButton,
-} from './styles-SelectedTask';
+} from './styles-TaskCard';
 
 const SelectedTaskCard = styled.div`
   width: 100%;
@@ -122,10 +122,10 @@ const SelectedTask = () => {
       <RowSlim>
         <BackButton onClick={clickBackHandler}>Back</BackButton>
       </RowSlim>
-      {category.role === 'helper' && <UserProfile user={task.requester} />}
-      {category.status === 'claimed' && <UserProfile user={task.helper} />}
-      {task.helper && category.role === 'requester' && <UserProfile user={task.helper} />}
-      {category.status === 'unclaimed' && <UserProfileBlank />}
+      {category.role === 'helper' && <UserInfo user={task.requester} />}
+      {category.status === 'claimed' && <UserInfo user={task.helper} />}
+      {task.helper && category.role === 'requester' && <UserInfo user={task.helper} />}
+      {category.status === 'unclaimed' && <UserInfoBlank />}
       <StatusText>{category.statusText}</StatusText>
       <DetailsSection />
       {category.status === 'active' && <InputActiveTask />}

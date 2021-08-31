@@ -14,7 +14,7 @@ import {
   ButtonGoToRequest,
   ButtonClaimed,
   ButtonCancel,
-} from './styles-SelectedTask';
+} from '../styles-TaskCard';
 
 /* TOC
 1: InputActiveTask

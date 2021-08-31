@@ -56,7 +56,7 @@ export const Username = styled.div`
   margin-top: 1.5em;
 `;
 
-export const UserInfo = styled.div`
+export const UserInfoSt = styled.div`
   font-weight: 400;
   font-size: 12px;
   margin-top: 0;

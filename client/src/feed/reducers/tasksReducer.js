@@ -1,4 +1,4 @@
-import { testTasks } from '../../../../testData/testData';
+import { testTasks } from '../../../testData/testData';
 
 const initialState = { tasks: testTasks };
 
