@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
 import useFormatDate from '../../hooks/useFormatDate';
-import SelectedTask from '../../../TaskCard/TaskCard';
+import SelectedRequest from '../../SelectedRequestCard';
 
 import {
   Card,
@@ -18,7 +18,7 @@ import {
   Username,
   VerticalLineFaded,
   SelectedTaskContainer,
-} from '../../Feed.styles';
+} from '../../RequestFeed.styles';
 
 StatusBadge.defaultProps = {
   theme: {
@@ -91,7 +91,7 @@ const MyTask = ({ task }) => {
       {selectedTaskId === task.task_id && (
         <SelectedTaskContainer>
           <VerticalLineFaded onClick={selectTaskHandler} />
-          <SelectedTask />
+          <SelectedRequest />
         </SelectedTaskContainer>
       )}
     </>

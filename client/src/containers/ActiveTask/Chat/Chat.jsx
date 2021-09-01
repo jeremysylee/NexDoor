@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Message from './Message';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import { IconButton } from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import { DateTime } from 'luxon';
+import Message from './Message';
 
 const socket = io('http://localhost:3000');
 
@@ -19,8 +19,8 @@ const Chat = () => {
   // get existing chat messages from database
   // display existing chat messages
   //
-  let user = useSelector((store) => store.currentUserReducer.userData); // from react-redux*********
-  let userId = user.user_id;
+  const user = useSelector((store) => store.currentUserReducer.userData);
+  const userId = user.user_id;
   // console.log('userId: ', userId);
   const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
@@ -29,7 +29,7 @@ const Chat = () => {
   const [lastName, setLastName] = useState();
   const [messages, setMessages] = useState([]);
 
-  const [currentUser, setCurrentUser] = useState(userId);//set to user id*********
+  // const [currentUser, setCurrentUser] = useState(userId);//set to user id*********
 
   const handleChange = (e) => {
     setCurrentMessage(e.target.value);

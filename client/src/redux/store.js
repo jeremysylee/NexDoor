@@ -7,7 +7,7 @@ import {
 
 import thunk from 'redux-thunk';
 
-// import tasksReducer from './components/MainFeed/reducers/tasksReducer';
+/* import tasksReducer from './components/MainFeed/reducers/tasksReducer';
 // import myRequestsReducer from './components/MainFeed/reducers/myRequestsReducer';
 // import myTasksReducer from './components/MainFeed/reducers/myTasksReducer';
 // import selectedTaskReducer from './components/MainFeed/SelectedTask/reducers/selectedTaskReducer';
@@ -17,7 +17,7 @@ import thunk from 'redux-thunk';
 // import locationReducer from './components/AppReducers/locationReducer';
 // import taskCategoryReducer from './components/MainFeed/SelectedTask/reducers/taskCategoryReducer';
 // import addRequestModalReducer from './components/AppReducers/addRequestModalReducer';
-// import currentPageReducer from './components/AppReducers/currentPageReducer';
+// import currentPageReducer from './components/AppReducers/currentPageReducer'; */
 import tasksReducer from './reducers/tasksReducer';
 import myRequestsReducer from './reducers/myRequestsReducer';
 import myTasksReducer from './reducers/myTasksReducer';

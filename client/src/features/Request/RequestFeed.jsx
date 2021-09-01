@@ -16,7 +16,7 @@ const MainFeedContainer = styled.div`
   max-width: 520px;
 `;
 
-const MainFeed = () => {
+const RequestFeed = () => {
   const myTasks = useSelector((store) => store.myTasksReducer.myTasks) || [];
   const myRequests = useSelector((store) => store.myRequestsReducer.myRequests) || [];
   const openTasks = useSelector((store) => store.tasksReducer.tasks) || [];
@@ -55,4 +55,4 @@ const MainFeed = () => {
   );
 };
 
-export default MainFeed;
+export default RequestFeed;

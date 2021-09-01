@@ -10,7 +10,7 @@ import {
   HeadingSmall,
   Row,
   RowCenter,
-} from '../TaskCard.styles';
+} from './TaskCard.styles';
 
 const DetailsSection = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
