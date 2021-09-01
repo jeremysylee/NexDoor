@@ -20,8 +20,8 @@ export const AvatarLg = styled.img`
 export const AvatarRing = styled.div`
   border-radius: 100px;
   background: linear-gradient(297.42deg, #FF8B50 33.07%, #4496B4 78.11%, #61C0CB 88.78%);
-  width: 98px;
-  height: 98px;
+  width: 96px;
+  height: 96px;
   position: absolute;
   z-index: 1;
 `;
@@ -53,19 +53,18 @@ export const BackButton = styled.button`
 export const Username = styled.div`
   font-weight: 500;
   font-size: 16px;
-  margin-top: 1.5em;
+  margin-top: 0.9em;
 `;
 
 export const UserInfoSt = styled.div`
   font-weight: 400;
   font-size: 12px;
-  margin-top: 0;
 `;
 
 export const StatusText = styled(Username)`
   font-weight: 200;
-  margin-top: 0.5em;
-  margin-bottom: 1em;
+  margin-top: 0.8em;
+  margin-bottom: 0.7em;
   font-size: 22px;
   text-align: center;
 `;
@@ -81,7 +80,7 @@ export const DetailsContainer = styled.div`
   border-radius: 10px;
   padding: 1em 2em;
   box-shadow: inset 4px 4px 4px #E8E8E8, inset -2px -2px 4px #F4F4F4;
-  background-color: white;
+  background-color: #FBFBFB;
 `;
 
 export const DetailsContainerTime = styled(DetailsContainer)`
@@ -91,9 +90,9 @@ export const DetailsContainerTime = styled(DetailsContainer)`
 `;
 
 export const HeadingSmall = styled.div`
-  font-weight: 400;
-  font-size: 14px;
-  color: black;
+  font-weight: 300;
+  font-size: 12px;
+  color: #696969;
   margin-bottom: 7px;
   margin-top: 5px;
 `;
@@ -191,4 +190,9 @@ export const LineTop = styled.hr`
 
 export const LineBottom = styled(LineTop)`
   margin-top: 5px;
+`;
+
+export const Star = styled.span`
+  color: #EAAF80;
+  font-size: 16px;
 `;

@@ -8,6 +8,7 @@ import {
   ColCentered,
   Username,
   UserInfoSt,
+  Star,
 } from './TaskCard.styles';
 
 export const UserInfo = ({ user }) => (
@@ -23,9 +24,15 @@ export const UserInfo = ({ user }) => (
     </ColCentered>
     <Username>{`${user.firstname} ${user.lastname}`}</Username>
     <UserInfoSt>
-      <span>{`★ ${user.avg_rating || 0} (${user.task_count})`}</span>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <span>1.2 miles away</span>
+      <Star> ★ </Star>
+      <b>{`${user.average_rating || 0}`}</b>
+      <span>
+        &nbsp;
+        {`(${user.task_count})`}
+      </span>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b>1.2</b>
+      <span> miles away</span>
     </UserInfoSt>
   </ColCentered>
 );
@@ -34,7 +41,7 @@ UserInfo.propTypes = {
   user: PropTypes.shape({
     firstname: PropTypes.string,
     lastname: PropTypes.string,
-    avg_rating: PropTypes.number,
+    average_rating: PropTypes.number,
     task_count: PropTypes.number,
     profile_picture_url: PropTypes.string,
   }),
