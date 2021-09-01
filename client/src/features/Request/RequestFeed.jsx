@@ -4,11 +4,11 @@ import styled from 'styled-components';
 
 import {
   MakeRequestTile, OpenTaskTile, MyRequestTile, MyTaskTile,
-} from './Tile';
+} from './RequestTile';
 import {
   SectionCard,
   SectionLine,
-} from './Feed.styles';
+} from './RequestFeed.styles';
 
 const MainFeedContainer = styled.div`
   margin: 1em;

@@ -6,11 +6,11 @@ import { url } from '../../config';
 
 import PrivateRoute from './components/PrivateRoute';
 import Home from './containers/Home/Home';
-import HelpfulFeed from './containers/TopHelpers/HelpfulFeed';
-import Active from './containers/ActiveTask/YouAreHelping/Active';
-import MyActiveRequest from './containers/ActiveTask/MyActive/MyActiveRequest';
-import Login from './features/Login';
-import Signup from './features/Signup';
+import TopHelpers from './containers/TopHelpers/TopHelpers';
+import Request from './containers/Request/YouAreHelping/Active';
+import MyActiveRequest from './containers/Request/MyActive/MyActiveRequest';
+import Login from './features/Accounts/Login';
+import Signup from './features/Accounts/Signup';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,6 @@ const App = () => {
   const getTasksByLocation = () => {
     axios.get(`${url}/api/tasks/${userId}/50/30/0`)
       .then(({ data }) => {
-        console.log(data);
         dispatch({ type: 'SET_TASKS', tasks: data.allothers });
         dispatch({ type: 'SET_REQUESTS', myRequests: data.requested });
         dispatch({ type: 'SET_MY_TASKS', myTasks: data.helper });
@@ -39,11 +38,11 @@ const App = () => {
       <Switch>
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/Login" component={Login} />
-        <PrivateRoute exact path="/helpfulfeed">
-          <HelpfulFeed />
+        <PrivateRoute exact path="/TopHelpers">
+          <TopHelpers />
         </PrivateRoute>
         <PrivateRoute exact path="/active">
-          <Active />
+          <Request />
         </PrivateRoute>
         <PrivateRoute exact path="/myactiverequest">
           <MyActiveRequest />

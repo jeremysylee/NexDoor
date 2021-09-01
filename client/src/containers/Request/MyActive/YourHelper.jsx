@@ -9,7 +9,6 @@ import StarIcon from '@material-ui/icons/Star';
 import styled from 'styled-components';
 import ActiveModal from './ActiveModal';
 
-
 const YouAreHelpingContainer = styled.div`
 width: 250px;
 height: 100%;

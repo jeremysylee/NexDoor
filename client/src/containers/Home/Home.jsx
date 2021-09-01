@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
 import Header from '../../components/Header';
-import MainFeed from '../../features/Task/Feed';
+import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
 // import Map from './Map';
 
@@ -12,6 +12,8 @@ import {
 } from '../../components/App.styles';
 
 const MapContainer = styled.div`
+  position: sticky;
+  top: 20;
   min-width: 300px;
   height: 500px;
   border-radius: 20px;
@@ -42,7 +44,7 @@ const Home = () => (
         style={{ width: '90%' }}
       >
         <Sidebar />
-        <MainFeed />
+        <RequestFeed />
         <MapContainer />
         {/* {!showSelected && <SelectedTask />} */}
         {/* {showSelected && <MapContainer><Map /></MapContainer>} */}

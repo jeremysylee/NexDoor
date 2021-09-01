@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Grid, Avatar } from '@material-ui/core';
 import axios from 'axios';
-import Header from '../../common/Header';
-import Sidebar from '../../common/Sidebar';
+import Header from '../../components/Header';
+import Sidebar from '../../components/Sidebar';
 import User from './User';
 
 const TopHelpers = () => {
