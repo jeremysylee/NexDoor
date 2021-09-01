@@ -105,6 +105,10 @@ export const Row = styled.div`
   margin-top: 1em;
 `;
 
+export const ButtonRow = styled(Row)`
+  margin-top: 0.5em;
+`;
+
 export const RowCenter = styled.div`
   display: flex;
   flex-direction: row;
@@ -115,7 +119,7 @@ export const RowCenter = styled.div`
 
 export const RowSlim = styled(Row)`
   margin-top: -1em;
-  margin-bottom: -1em;
+  margin-bottom: 1em;
 `;
 
 export const Col = styled.div`

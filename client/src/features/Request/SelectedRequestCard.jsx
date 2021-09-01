@@ -130,6 +130,7 @@ const SelectedTask = () => {
       <DetailsSection />
       {category.status === 'active' && <InputActiveTask />}
       {category.status === 'claimed' && <InputClaimedRequest taskId={task.task_id} />}
+      {category.status === 'pending' && <div style={{ height: '1em' }} />}
       {category.status === 'unclaimed' && <InputUnclaimedRequest taskId={task.task_id} />}
       {category.status === 'open' && <InputOpenRequest taskId={task.task_id} />}
     </SelectedTaskCard>

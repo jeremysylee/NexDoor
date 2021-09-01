@@ -14,6 +14,7 @@ import {
   ButtonGoToRequest,
   ButtonClaimed,
   ButtonCancel,
+  ButtonRow,
 } from './TaskCard.styles';
 
 /* TOC
@@ -97,11 +98,11 @@ export const InputUnclaimedRequest = ({ taskId }) => {
 
   return (
     <ColCentered>
-      <LineTop style={{ marginBottom: '5px' }} />
-      <Row>
+      <LineTop style={{ marginBottom: '1px' }} />
+      <ButtonRow>
         <ButtonCancel onClick={clickDeclineHandler}>Cancel request</ButtonCancel>
         <ButtonDecline onClick={handleClickOpen}>Edit request</ButtonDecline>
-      </Row>
+      </ButtonRow>
     </ColCentered>
   );
 };
