@@ -1,6 +1,3 @@
-
-
-
 // const archived = {
 //   checkForEmail: async (body) => {
 //     const { email } = body;

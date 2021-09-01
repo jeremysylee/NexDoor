@@ -6,3 +6,5 @@ bundle.js
 .cache
 dist
 coverage
+data
+newrelic_agent.log
