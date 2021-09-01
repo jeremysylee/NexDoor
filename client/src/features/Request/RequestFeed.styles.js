@@ -159,11 +159,14 @@ export const VerticalLineFaded = styled.div`
 `;
 
 export const SelectedTaskContainer = styled.div`
+position: sticky;
+top: 20;
+flex-grow: 3;
 max-width: 520px;
-max-height: 800px;
+height: 100%;
 display: flex;
 overflow: hidden;
-margin-top: 1em;
+margin-top: 2em;
 border-radius: 10px;
 font-family: Roboto;
 -webkit-transition: 200ms linear;

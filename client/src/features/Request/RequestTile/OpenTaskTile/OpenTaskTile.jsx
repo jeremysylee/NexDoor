@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import useFormatDate from '../../hooks/useFormatDate';
-import SelectedTask from '../../SelectedRequestCard';
 
 import {
   Card,
@@ -13,8 +12,6 @@ import {
   DetailsCol,
   Row,
   Username,
-  SelectedTaskContainer,
-  VerticalLineFaded,
 } from '../../RequestFeed.styles';
 
 const OpenTask = ({ task }) => {
@@ -52,12 +49,6 @@ const OpenTask = ({ task }) => {
           </DetailsCol>
         </Row>
       </Card>
-      {selectedTaskId === task.task_id && (
-        <SelectedTaskContainer>
-          <VerticalLineFaded onClick={selectTaskHandler} />
-          <SelectedTask />
-        </SelectedTaskContainer>
-      )}
     </>
   );
 };

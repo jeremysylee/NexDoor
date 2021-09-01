@@ -81,22 +81,33 @@ InputClaimedRequest.propTypes = {
   taskId: PropTypes.number.isRequired,
 };
 
-export const InputUnclaimedRequest = () => {
+export const InputUnclaimedRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   function handleClickOpen() {
     // setOpen(true);
     dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'edit' });
   }
 
+  const clickDeclineHandler = () => {
+    axios.delete(`${url}/api/tasks/${taskId}`)
+      .then((res) => console.log(res));
+    dispatch({ type: 'SHOW_MAP', toggle: true });
+    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
+  };
+
   return (
     <ColCentered>
       <LineTop style={{ marginBottom: '5px' }} />
       <Row>
-        <ButtonCancel onClick={handleClickOpen}>Cancel request</ButtonCancel>
+        <ButtonCancel onClick={clickDeclineHandler}>Cancel request</ButtonCancel>
         <ButtonDecline onClick={handleClickOpen}>Edit request</ButtonDecline>
       </Row>
     </ColCentered>
   );
+};
+
+InputUnclaimedRequest.propTypes = {
+  taskId: PropTypes.number.isRequired,
 };
 
 export const InputOpenRequest = ({ taskId }) => {

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
 import useFormatDate from '../../hooks/useFormatDate';
-import SelectedRequest from '../../SelectedRequestCard';
 
 import {
   Card,
@@ -16,8 +15,6 @@ import {
   RowRight,
   StatusBadge,
   Username,
-  VerticalLineFaded,
-  SelectedTaskContainer,
 } from '../../RequestFeed.styles';
 
 StatusBadge.defaultProps = {
@@ -88,12 +85,6 @@ const MyTask = ({ task }) => {
           </DetailsCol>
         </Row>
       </Card>
-      {selectedTaskId === task.task_id && (
-        <SelectedTaskContainer>
-          <VerticalLineFaded onClick={selectTaskHandler} />
-          <SelectedRequest />
-        </SelectedTaskContainer>
-      )}
     </>
   );
 };

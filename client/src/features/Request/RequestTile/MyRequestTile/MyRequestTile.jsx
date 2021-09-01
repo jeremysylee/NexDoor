@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
 
-import SelectedRequest from '../../SelectedRequestCard';
-
 import useFormatDate from '../../hooks/useFormatDate';
 
 import {
@@ -17,8 +15,6 @@ import {
   StatusBadge,
   Subdetails,
   Username,
-  SelectedTaskContainer,
-  VerticalLineFaded,
 } from '../../RequestFeed.styles';
 
 StatusBadge.defaultProps = {
@@ -93,12 +89,6 @@ const MyRequest = ({ request }) => {
         </Row>
         <Description>{`${request.description.substring(0, 60)}...`}</Description>
       </Card>
-      {selectedTaskId === request.task_id && (
-        <SelectedTaskContainer>
-          <VerticalLineFaded onClick={selectTaskHandler} />
-          <SelectedRequest />
-        </SelectedTaskContainer>
-      )}
     </>
   );
 };
