@@ -58,10 +58,10 @@ export const InputClaimedRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const clickAcceptHandler = () => {
-    axios.put(`${url}/api/tasks/${taskId}/status/Active/`)
-      .then((res) => console.log(res))
-      .then(() => { history.push('/myactiverequest'); });
+  const clickAcceptHandler = async () => {
+    const res = await axios.put(`${url}/api/tasks/${taskId}/status/Active/`);
+    console.log(res);
+    history.push('/myactiverequest');
   };
   const clickDeclineHandler = () => {
     axios.delete(`${url}/api/tasks/helper/${taskId}`)
@@ -89,9 +89,9 @@ export const InputUnclaimedRequest = ({ taskId }) => {
     dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'edit' });
   }
 
-  const clickDeclineHandler = () => {
-    axios.delete(`${url}/api/tasks/${taskId}`)
-      .then((res) => console.log(res));
+  const clickDeclineHandler = async () => {
+    const res = await axios.delete(`${url}/api/tasks/${taskId}`);
+    console.log(res);
     dispatch({ type: 'SHOW_MAP', toggle: true });
     dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
   };
@@ -114,10 +114,11 @@ InputUnclaimedRequest.propTypes = {
 export const InputOpenRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
-  const clickClaimHandler = () => {
-    axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`)
-      .then((res) => console.log(res));
+  const clickClaimHandler = async () => {
+    const res = await axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`);
+    console.log(res);
     dispatch({ type: 'SHOW_MAP', toggle: true });
+    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
   };
 
   const clickBackHandler = () => {

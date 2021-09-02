@@ -71,7 +71,7 @@ const SignUp = () => {
     history.push('/');
   };
 
-  const postUserInfo = async (e) => {
+  const signupHandler = async (e) => {
     e.preventDefault();
     const userInfo = {
       streetAddress: info.streetAddress,
@@ -109,7 +109,7 @@ const SignUp = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={postUserInfo} noValidate>
+        <form className={classes.form} onSubmit={signupHandler} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
