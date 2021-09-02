@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
@@ -25,7 +25,6 @@ StatusBadge.defaultProps = {
 
 const MyRequest = ({ request }) => {
   const dispatch = useDispatch();
-  const selectedTaskId = useSelector((store) => store.selectedTaskReducer.task.task_id);
   const { day, time } = useFormatDate(request.start_date, request.start_time);
 
   // STATUS TRANSLATION //
@@ -58,12 +57,6 @@ const MyRequest = ({ request }) => {
   });
 
   const selectTaskHandler = () => {
-    // clear task if clicking on open task
-    if (selectedTaskId === request.task_id) {
-      return dispatch({
-        type: 'SET_TASK', task: { task_id: 0 },
-      });
-    }
     dispatch({ type: 'SET_TASK', task: request });
     return <></>;
   };
