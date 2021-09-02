@@ -71,7 +71,7 @@ const SignUp = () => {
     history.push('/');
   };
 
-  const postUserInfo = (e) => {
+  const postUserInfo = async (e) => {
     e.preventDefault();
     const userInfo = {
       streetAddress: info.streetAddress,
@@ -83,32 +83,20 @@ const SignUp = () => {
       email: info.email,
       password: info.password,
       confirm_password: info.confirm_password,
+      neighborhoood: null,
+      imgUrl: null,
     };
-    axios.get(`${url}/api/email`)
-      .then((response) => {
-        if (response.data === true) {
-          throw Error('email already exists!');
-        } else {
-          axios.post(`${url}/api/users`, userInfo)
-            .then(() => {
-              axios.post(`${url}/api/users/login/`, userInfo, {
-                headers: { 'content-type': 'application/json' },
-                withCredentials: true,
-              })
-                .then((res) => {
-                  if (res.status === 200) {
-                    dispatch({ type: 'SET_USER', userData: response.data });
-                    // redirect to home page
-                    handleLogIn();
-                  } else {
-                    console.log('error logging in');
-                  }
-                })
-                .catch((err) => console.error(err));
-            });
-        }
-      })
-      .catch((err) => console.error(err, 'error with signup'));
+    try {
+      await axios.post(`${url}/api/users`, userInfo);
+      const res = await axios.post(`${url}/api/users/login/`, userInfo, {
+        headers: { 'content-type': 'application/json' },
+        withCredentials: true,
+      });
+      dispatch({ type: 'SET_USER', userData: res.data });
+      handleLogIn();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
