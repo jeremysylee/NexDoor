@@ -25,10 +25,10 @@ const usersService = {
       lastName,
       password,
       email,
+      imgUrl,
     } = body;
     const hashPass = bcrypt.hashSync(password, 10);
 
-    const { imgUrl } = body || null;
     const queryStr = `
       INSERT INTO nexdoor.users (
         firstname,
@@ -96,9 +96,11 @@ const usersService = {
   },
 
   getUsersByRating: async (params) => {
-    const { userId } = params;
-    const { range } = params || 1;
-    const { quantity } = params || 25;
+    const {
+      userId,
+      range,
+      quantity,
+    } = params;
 
     const queryStr = `
       SELECT
@@ -171,7 +173,6 @@ const usersService = {
     const data = await db.query(queryStr);
     if (!data.rows[0]) {
       return false;
-      // throw new ApiError('This email address does not exist', httpStatusCodes.NOT_FOUND);
     }
     const userCredentialsDTO = { userId: data.rows[0].user_id, password: data.rows[0].password };
     return userCredentialsDTO;

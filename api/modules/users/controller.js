@@ -48,9 +48,9 @@ const userController = {
 
   getUsersByRating: async (req, res, next) => {
     const params = {
-      quantity: req.params.quantity,
+      quantity: req.params.quantity || 25,
       userId: req.params.userId,
-      range: req.params.range,
+      range: req.params.range || 1,
     };
     try {
       const users = await usersService.getUsersByRating(params);

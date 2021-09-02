@@ -182,7 +182,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      // jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      const getAddresOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd');
 
       // Act
       const response = await supertest(app)
@@ -190,6 +190,7 @@ describe('Tasks API', () => {
         .send(body);
 
       // Assert
+      expect(getAddresOrAddSpy).not.toBeCalled();
       expect(response.statusCode).toEqual(200);
     });
   });
