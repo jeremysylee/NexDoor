@@ -268,6 +268,9 @@ const tasksService = {
       ;`;
     const data = await db.query(queryStr);
     const tasksDTO = data.rows[0];
+    if (!tasksDTO.requested && !tasksDTO.helper && !tasksDTO.allothers) {
+      throw new ApiError('No tasks found!', httpStatusCodes.NOT_FOUND);
+    }
     return tasksDTO;
   },
 

@@ -16,7 +16,6 @@ const taskControllers = {
       const tasks = await tasksService.getTasks(params);
       res.status(200).send(tasks);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },
@@ -49,7 +48,6 @@ const taskControllers = {
       const taskId = await tasksService.addTask(task, addressIdDTO.addressId);
       res.status(200).send(taskId);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },
@@ -80,7 +78,6 @@ const taskControllers = {
       const taskIdDTO = await tasksService.updateTask(task, addressIdDTO.addressId);
       res.status(200).send(`Task ${taskIdDTO.task_id} has been updated`);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },

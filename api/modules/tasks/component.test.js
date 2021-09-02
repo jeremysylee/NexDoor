@@ -50,6 +50,14 @@ describe('Tasks API', () => {
       expect(response.body.helper[0]).toMatchObject(expectedObjectShape);
       expect(response.body.allothers[0]).toMatchObject(expectedObjectShape);
     });
+
+    it('should get return a 404 status wheno tasks are found', async () => {
+      // Act + Arrange
+      const response = await supertest(app)
+        .get('/api/tasks/999999999992342342/0/10/0');
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
   });
 
   describe('POST /api/tasks/:userId', () => {
