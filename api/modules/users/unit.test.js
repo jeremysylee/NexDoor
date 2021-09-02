@@ -33,7 +33,7 @@ describe('Users Controller', () => {
       };
       const checkForEmailSpy = jest.spyOn(usersService, 'checkForEmail')
         .mockImplementation(() => false);
-      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddresOrAdd')
+      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd')
         .mockImplementation(() => ({ addressId: 1 }));
       const addUserServiceSpy = jest.spyOn(usersService, 'addUser')
         .mockImplementation(() => ({ user_id: 1 }));
@@ -487,10 +487,10 @@ describe('Users Service', () => {
       jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
 
       // Act
-      const checkForEmailFn = (() => usersService.checkForEmail(credentials));
+      const emailExists = await usersService.checkForEmail(credentials);
 
       // Assert
-      await expect(checkForEmailFn).toEqual(false);
+      expect(emailExists).toEqual(false);
     });
   });
 });

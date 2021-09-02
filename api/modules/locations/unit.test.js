@@ -36,6 +36,7 @@ describe('Coordinates Helper Function', () => {
 
 describe('Locations Controller', () => {
   describe('getAddressOrAdd', () => {
+    afterEach(() => jest.restoreAllMocks());
     it('calls the get address service, then the coordinates helper function, then the add address if address is not in database', async () => {
       // Arrange
       const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => false);
@@ -87,7 +88,7 @@ describe('Locations Service', () => {
     afterEach(() => jest.restoreAllMocks());
     it('queries the db and returns an address id DTO on success', async () => {
       // Arrange
-      const addressQueryParams = {
+      const address = {
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',
@@ -95,10 +96,10 @@ describe('Locations Service', () => {
         neighboorhood: undefined,
       };
       const coordinates = 'point(-118.2400339,34.0614828)';
-      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ addressId: 1 }] }));
+      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ address_id: 1 }] }));
 
       // Act
-      const addressIdDTO = await locationsService.addAddress(addressQueryParams, coordinates);
+      const addressIdDTO = await locationsService.addAddress(address, coordinates);
 
       // Assert
       expect(dbSpy).toBeCalled();
@@ -113,11 +114,11 @@ describe('Locations Service', () => {
         state: 'CA',
         zipcode: '90012',
         neighboorhood: undefined,
-        coordinates: 'point(-118.2400339,34.0614828)',
       };
+      const coordinates = 'point(-118.2400339,34.0614828)';
 
       // Act
-      const addAddress = (() => locationsService.addAddress(addressQueryParams));
+      const addAddress = (() => locationsService.addAddress(addressQueryParams, coordinates));
 
       // Assert
       await expect(addAddress).rejects.toThrow(new ApiError('Undefined address / coordinates!', httpStatusCodes.BAD_REQUEST));

@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test';
 
-const getCoordinates = require('./coordinates');
+const coordinatesHelpers = require('./coordinates');
 const locationsService = require('./service');
 const locationsController = require('./controller');
 const db = require('../../db');
@@ -15,7 +15,7 @@ describe('Coordinates API', () => {
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
 
     // Act
-    const coordinates = await getCoordinates(addressQuery);
+    const coordinates = await coordinatesHelpers.getCoordinates(addressQuery);
 
     // Assert
     expect(coordinates).toEqual('point(-118.2400339,34.0614828)');
