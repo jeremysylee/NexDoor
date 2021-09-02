@@ -95,7 +95,7 @@ describe('Locations Service', () => {
         neighboorhood: undefined,
       };
       const coordinates = 'point(-118.2400339,34.0614828)';
-      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ address_id: 1 }] }));
+      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ addressId: 1 }] }));
 
       // Act
       const addressIdDTO = await locationsService.addAddress(addressQueryParams, coordinates);
