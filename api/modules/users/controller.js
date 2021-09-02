@@ -88,7 +88,6 @@ const userController = {
       next(err);
     }
   },
-
 };
 
 module.exports = userController;

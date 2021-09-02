@@ -270,4 +270,22 @@ describe('Users API', () => {
       });
     });
   });
+
+  describe('GET /api/users/email', () => {
+    afterEach(() => jest.restoreAllMocks());
+    it('checks for email and if exists returns a 200 status with the email', async () => {
+      // Arrange
+      const body = {
+        email: 'jimbotester@tester.com',
+      };
+
+      // Act
+      const response = await supertest(app)
+        .get('/api/users/email')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+    });
+  });
 });

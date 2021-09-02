@@ -171,6 +171,17 @@ const usersService = {
     const userIdDTO = { userId: sessionUserId };
     return userIdDTO;
   },
+
+  getEmail: async ({ email }) => {
+    const queryStr = `
+      SELECT email
+      FROM nexdoor.users
+      WHERE email=${email}
+    `;
+    const data = db.query(queryStr);
+    const emailDTO = data.rows[0];
+    return emailDTO;
+  },
 };
 
 module.exports = usersService;
