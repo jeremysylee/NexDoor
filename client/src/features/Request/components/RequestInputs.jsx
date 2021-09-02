@@ -147,4 +147,9 @@ export const InputOpenRequest = ({ taskId, task }) => {
 };
 InputOpenRequest.propTypes = {
   taskId: PropTypes.number.isRequired,
+  task: PropTypes.shape({
+    requester: PropTypes.shape({
+      firstname: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
 };
