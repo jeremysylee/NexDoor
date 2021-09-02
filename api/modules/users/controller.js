@@ -36,8 +36,9 @@ const userController = {
 
   getUser: async (req, res, next) => {
     const userId = { userId: req.params.userId };
+    const email = { email: req.body.email };
     try {
-      const user = await usersService.getUser(userId);
+      const user = await usersService.getUser(userId, email);
       res.status(200).send(user);
     } catch (err) {
       next(err);
