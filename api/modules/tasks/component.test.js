@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const supertest = require('supertest');
 
 const { app, redisClient } = require('../../app');
-const locationsService = require('../locations/service');
+const locationsController = require('../locations/controller');
 const db = require('../../db');
 
 let testTaskIdToDelete;
@@ -71,7 +71,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => ({ addressId: 1 }));
 
       // Act
       const response = await supertest(app)
@@ -96,7 +96,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      const getAddressorAdd = jest.spyOn(locationsController, 'getAddressOrAdd');
 
       // Act
       const response = await supertest(app)
@@ -105,6 +105,7 @@ describe('Tasks API', () => {
       testTaskIdToDelete = response.body.task_id;
 
       // Assert
+      expect(getAddressorAdd).not.toBeCalled();
       expect(response.statusCode).toEqual(200);
     });
 
@@ -125,8 +126,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => (null));
-      jest.spyOn(locationsService, 'addAddress').mockImplementation(() => (null));
+      jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => (null));
 
       // Act
       const response = await supertest(app)
@@ -143,6 +143,7 @@ describe('Tasks API', () => {
     it('Should update a task and return a 200 status if called with the proper parameters with existing address', async () => {
       // Arrange
       const body = {
+        addressId: undefined,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',
@@ -157,7 +158,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => ({ addressId: 1 }));
 
       // Act
       const response = await supertest(app)
