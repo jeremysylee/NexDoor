@@ -8,6 +8,8 @@ const usersController = require('./controller');
 const usersService = require('./service');
 const db = require('../../db');
 
+const randomizedNums = () => Math.floor(Math.random() * 987654321);
+
 afterAll(() => {
   redisClient.quit();
   db.end();
@@ -48,7 +50,6 @@ describe('Users API', () => {
     afterEach(() => jest.restoreAllMocks());
     it('should add a user and return 200 status when called with appropriate inputs', async () => {
       // Arrange
-      const randomizedNums = Math.floor(Math.random() * 987654321);
       const body = {
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
@@ -59,7 +60,7 @@ describe('Users API', () => {
         lastName: 'Testaker',
         password: 'notA4pa!sword',
         confirm_password: 'notA4pa!sword',
-        email: `jimbotester${randomizedNums}@tester.com`,
+        email: `jimbotester${randomizedNums()}@tester.com`,
         imgUrl: 'www.google.com',
       };
 
@@ -74,13 +75,12 @@ describe('Users API', () => {
 
     it('should throw an API error and respond with a 404 when password does not meet requirements', async () => {
       // Arrange
-      const randomizedNums = Math.floor(Math.random() * 987654321);
       const body = {
         firstName: 'Jimbo',
         lastName: 'Testaker',
         password: 'aaaaa',
         confirm_password: 'notA4pa!sword',
-        email: `jimbotester${randomizedNums}@tester.com`,
+        email: `jimbotester${randomizedNums()}@tester.com`,
       };
 
       // Act
@@ -94,13 +94,12 @@ describe('Users API', () => {
 
     it('should throw an API error and respond with a 404 when passwords do not match', async () => {
       // Arrange
-      const randomizedNums = Math.floor(Math.random() * 987654321);
       const body = {
         firstName: 'Jimbo',
         lastName: 'Testaker',
         password: 'abdnotA4pa!sword',
         confirm_password: 'notA4pa!sword',
-        email: `jimbotester${randomizedNums}@tester.com`,
+        email: `jimbotester${randomizedNums()}@tester.com`,
       };
 
       // Act
@@ -114,13 +113,12 @@ describe('Users API', () => {
 
     it('should throw an 400 API error when user is not able to be added to db', async () => {
       // Arrange
-      const randomizedNums = Math.floor(Math.random() * 987654321);
       const body = {
         firstName: 'Jimbo',
         lastName: 'Testaker',
         password: 'abdnotA4pa!sword',
         confirm_password: 'notA4pa!sword',
-        email: `jimbotesterabc${randomizedNums}@tester.com`,
+        email: `jimbotesterabc${randomizedNums()}@tester.com`,
       };
       jest.spyOn(db, 'query').mockImplementation({ rows: [] });
 

@@ -9,13 +9,14 @@ const usersController = require('./controller');
 const usersService = require('./service');
 const db = require('../../db');
 const locationsService = require('../locations/service');
+const locationsController = require('../locations/controller');
 
 const { res, next } = getMockRes();
 
 describe('Users Controller', () => {
   describe('addUser', () => {
     afterEach(() => jest.restoreAllMocks());
-    it('calls the getAddress service then the addUser service when address exists', async () => {
+    it('calls get email service, calls the getAddress service then the addUser service when address exists', async () => {
       // Arrange
       const req = getMockReq();
       req.params = {
@@ -30,8 +31,9 @@ describe('Users Controller', () => {
         email: 'jimbotester@tester.com',
         imgUrl: 'www.google.com',
       };
-      jest.spyOn(usersService, 'checkForEmail').mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
-      const getAddressSpy = jest.spyOn(locationsService, 'getAddress')
+      const checkForEmailSpy = jest.spyOn(usersService, 'checkForEmail')
+        .mockImplementation(() => false);
+      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddresOrAdd')
         .mockImplementation(() => ({ addressId: 1 }));
       const addUserServiceSpy = jest.spyOn(usersService, 'addUser')
         .mockImplementation(() => ({ user_id: 1 }));
@@ -40,7 +42,8 @@ describe('Users Controller', () => {
       await usersController.addUser(req, res, next);
 
       // Assert
-      expect(getAddressSpy).toBeCalled();
+      expect(checkForEmailSpy).toBeCalled();
+      expect(getAddressOrAddSpy).toBeCalled();
       expect(addUserServiceSpy).toBeCalled();
     });
 
@@ -59,21 +62,51 @@ describe('Users Controller', () => {
         email: 'jimbotester@tester.com',
         imgUrl: 'www.google.com',
       };
-      jest.spyOn(usersService, 'checkForEmail').mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
+      const checkForEmailSpy = jest.spyOn(usersService, 'checkForEmail')
+        .mockImplementation(() => false);
+      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd')
+        .mockImplementation(() => false);
       const addUserServiceSpy = jest.spyOn(usersService, 'addUser')
         .mockImplementation(() => ({ user_id: 1 }));
-      const getAddressSpy = jest.spyOn(locationsService, 'getAddress')
-        .mockImplementation(() => false);
-      const addAddressSpy = jest.spyOn(locationsService, 'addAddress')
-        .mockImplementation(() => ({ address_id: 1 }));
 
       // Act
       await usersController.addUser(req, res, next);
 
       // Assert
-      expect(getAddressSpy).toBeCalled();
-      expect(addAddressSpy).toBeCalled();
+      expect(checkForEmailSpy).toBeCalled();
+      expect(getAddressOrAddSpy).toBeCalled();
       expect(addUserServiceSpy).toBeCalled();
+    });
+
+    it('throws an error and does not getAddressOrAdd or addUser if email already exists', async () => {
+      // Arrange
+      const req = getMockReq();
+      req.params = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighborhood: undefined,
+        firstName: 'Jimbo',
+        lastName: 'Testaker',
+        password: 'notpasword',
+        email: 'jimbotester@tester.com',
+        imgUrl: 'www.google.com',
+      };
+      const checkForEmailSpy = jest.spyOn(usersService, 'checkForEmail')
+        .mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
+      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd')
+        .mockImplementation(() => false);
+      const addUserServiceSpy = jest.spyOn(usersService, 'addUser')
+        .mockImplementation(() => ({ user_id: 1 }));
+
+      // Act
+      await usersController.addUser(req, res, next);
+
+      // Assert
+      expect(checkForEmailSpy).toBeCalled();
+      expect(getAddressOrAddSpy).not.toBeCalled();
+      expect(addUserServiceSpy).not.toBeCalled();
     });
 
     it('sends error to middleware if error thrown', async () => {
@@ -92,7 +125,7 @@ describe('Users Controller', () => {
         imgUrl: 'www.google.com',
       };
       jest.spyOn(usersService, 'checkForEmail')
-        .mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
+        .mockImplementation(() => false);
       jest.spyOn(usersService, 'addUser')
         .mockImplementation(() => ({ user_id: 1 }));
       jest.spyOn(locationsService, 'getAddress')
@@ -309,6 +342,7 @@ describe('Users Service', () => {
       // Assert
       expect(userIdDTO).toEqual({ user_id: 1 });
     });
+
     it('throws an internal server error if user cannot be added', async () => {
       // Arrange
       const user = {

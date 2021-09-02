@@ -3,7 +3,7 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 const usersService = require('./service');
-const locationsService = require('../locations/service');
+const locationsController = require('../locations/controller');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');
 
@@ -26,10 +26,7 @@ const userController = {
         throw new ApiError('This email address already exists', httpStatusCodes.NOT_FOUND);
       }
 
-      let addressIdDTO = await locationsService.getAddress(userInfo);
-      if (!addressIdDTO.addressId) {
-        addressIdDTO = await locationsService.addAddress(userInfo);
-      }
+      const addressIdDTO = await locationsController.getAddressOrAdd(userInfo);
 
       const user = await usersService.addUser(userInfo, addressIdDTO.addressId);
       res.status(200).send(user);
