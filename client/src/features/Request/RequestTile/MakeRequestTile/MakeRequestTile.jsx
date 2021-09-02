@@ -112,7 +112,7 @@ const MakeRequestTile = () => {
           <RequestModal />
         </Row>
         <Line />
-        <Row>
+        <Row style={{ marginBottom: '-7px' }}>
           <ButtonDecline onClick={openModal}>Schedule for later</ButtonDecline>
           <Button onClick={openModal}>Make a request</Button>
         </Row>

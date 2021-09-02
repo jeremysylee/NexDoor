@@ -200,3 +200,8 @@ export const Star = styled.span`
   color: #EAAF80;
   font-size: 16px;
 `;
+
+export const LocationPinContainer = styled.div`
+  margin-right: 5px;
+  margin-top: 2px;
+`;

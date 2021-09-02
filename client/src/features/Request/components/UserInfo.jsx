@@ -11,6 +11,8 @@ import {
   Star,
 } from './TaskCard.styles';
 
+import sadAlienImg from '../../../static/sadAlien.png';
+
 export const UserInfo = ({ user }) => (
   <ColCentered>
     <ColCentered>
@@ -52,7 +54,13 @@ UserInfo.defaultProps = { user: {} };
 export const UserInfoBlank = () => (
   <ColCentered>
     <AvatarLg
-      style={{ backgroundColor: 'grey' }}
+      src={sadAlienImg}
+      style={{
+        width: '150px',
+        height: '150px',
+        marginBottom: '-2em',
+        marginTop: '-2em',
+      }}
       alt=""
     />
     <Username />

@@ -55,7 +55,7 @@ const SelectedTask = () => {
         type: 'SET_CATEGORY',
         role: 'requester',
         status: 'unclaimed',
-        statusText: 'No one has claimed your request yet',
+        statusText: 'No one has claimed your request yet...',
       });
     }
     if (task.status === 'Pending' && task.requester.user_id === currentUserId) {
