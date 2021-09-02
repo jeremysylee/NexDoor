@@ -27,7 +27,7 @@ export const UserInfo = ({ user }) => (
     <Username>{`${user.firstname} ${user.lastname}`}</Username>
     <UserInfoSt>
       <Star> ★ </Star>
-      <b>{`${user.average_rating || 0}`}</b>
+      <b>{`${user.average_rating.toFixed(1) || 0}`}</b>
       <span>
         &nbsp;
         {`(${user.task_count})`}
