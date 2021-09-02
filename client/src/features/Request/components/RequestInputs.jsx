@@ -111,14 +111,22 @@ InputUnclaimedRequest.propTypes = {
   taskId: PropTypes.number.isRequired,
 };
 
-export const InputOpenRequest = ({ taskId }) => {
+export const InputOpenRequest = ({ taskId, task }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const clickClaimHandler = async () => {
     const res = await axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`);
     console.log(res);
     dispatch({ type: 'SHOW_MAP', toggle: true });
-    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
+    const newTask = task;
+    newTask.status = 'Claimed';
+    dispatch({ type: 'SET_TASK', task: newTask });
+    dispatch({
+      type: 'SET_CATEGORY',
+      role: 'helper',
+      status: 'pending',
+      statusText: `${task.requester.firstname} has not accepted your help yet`,
+    });
   };
 
   const clickBackHandler = () => {

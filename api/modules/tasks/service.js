@@ -181,49 +181,49 @@ const tasksService = {
           SELECT array_to_json(array_agg(allothers))
           FROM (
             SELECT
-                task_id,
-                (
-                  SELECT ROW_TO_JSON(reqname)
-                  FROM (
-                    SELECT
-                      user_id,
-                      firstname,
-                      lastname,
-                      email,
-                      address_id,
-                      karma,
-                      task_count,
-                      average_rating,
-                      profile_picture_url
-                    FROM nexdoor.users
-                    WHERE user_id=nexdoor.tasks.requester_id
-                  ) reqname
-                ) as requester,
-                (
-                  SELECT ROW_TO_JSON(helpname)
-                  FROM (
-                    SELECT
-                      user_id,
-                      firstname,
-                      lastname,
-                      email,
-                      address_id,
-                      karma,
-                      task_count,
-                      average_rating,
-                      profile_picture_url
-                    FROM nexdoor.users
-                    WHERE user_id=nexdoor.tasks.helper_id
-                  ) helpname
-                ) AS helper,
-                (
-                  SELECT ROW_TO_JSON(loc)
-                  FROM (
-                    SELECT *
-                    FROM nexdoor.address
-                    WHERE address_id=nexdoor.tasks.address_id
-                  ) loc
-                ) AS location,
+              task_id,
+              (
+                SELECT ROW_TO_JSON(reqname)
+                FROM (
+                  SELECT
+                    user_id,
+                    firstname,
+                    lastname,
+                    email,
+                    address_id,
+                    karma,
+                    task_count,
+                    average_rating,
+                    profile_picture_url
+                  FROM nexdoor.users
+                  WHERE user_id=nexdoor.tasks.requester_id
+                ) reqname
+              ) as requester,
+              (
+                SELECT ROW_TO_JSON(helpname)
+                FROM (
+                  SELECT
+                    user_id,
+                    firstname,
+                    lastname,
+                    email,
+                    address_id,
+                    karma,
+                    task_count,
+                    average_rating,
+                    profile_picture_url
+                  FROM nexdoor.users
+                  WHERE user_id=nexdoor.tasks.helper_id
+                ) helpname
+              ) AS helper,
+              (
+                SELECT ROW_TO_JSON(loc)
+                FROM (
+                  SELECT *
+                  FROM nexdoor.address
+                  WHERE address_id=nexdoor.tasks.address_id
+                ) loc
+              ) AS location,
                 description,
                 car_required,
                 physical_labor_required,
@@ -234,30 +234,35 @@ const tasksService = {
                 start_time,
                 duration,
                 timestamp_requested
-              FROM nexdoor.tasks
-              WHERE
-                (requester_id != ${userId} AND
+                FROM nexdoor.tasks
+                WHERE (
+                  requester_id != ${userId}
+                  AND (
+                    helper_id != ${userId} OR
+                    helper_id IS NULL
+                  )
+                  AND (
+                    status = 'Open'
+                  )
+                )
+              AND (
                 (
-                  helper_id != ${userId} OR
-                  helper_id IS NULL
-                )) AND (
-                  (
-                    SELECT coordinate
-                    FROM nexdoor.address
-                    WHERE address_id=nexdoor.tasks.address_id
-                  )
-                  <@>
-                  (
-                    SELECT coordinate
-                    FROM nexdoor.address
-                    WHERE address_id=
-                      (
-                        SELECT address_id
-                        FROM nexdoor.users
-                        WHERE user_id=${userId}
-                      )
-                    ) < ${range}
-                  )
+                  SELECT coordinate
+                  FROM nexdoor.address
+                  WHERE address_id=nexdoor.tasks.address_id
+                )
+                <@>
+                (
+                  SELECT coordinate
+                  FROM nexdoor.address
+                  WHERE address_id=
+                    (
+                      SELECT address_id
+                      FROM nexdoor.users
+                      WHERE user_id=${userId}
+                    )
+                ) < ${range}
+              )
               ORDER BY
                 start_date ASC NULLS LAST,
                 start_time ASC NULLS LAST
