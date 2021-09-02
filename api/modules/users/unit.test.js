@@ -316,6 +316,21 @@ describe('Users Controller', () => {
       // Assert
       expect(getUsersByRatingServiceSpy).toBeCalled();
     });
+
+    it('provides default quantity and range parameters if not provided', async () => {
+      // Arrange
+      const req = getMockReq();
+      req.params = { quantity: undefined, userId: 1, range: undefined };
+      const getUsersByRatingSpy = jest.spyOn(usersService, 'getUsersByRating').mockImplementation(jest.fn());
+
+      // Act
+      await usersController.getUsersByRating(req, res, next);
+
+      // Assert
+      expect(getUsersByRatingSpy).toHaveBeenLastCalledWith(
+        expect.objectContaining({ quantity: 25, range: 1, userId: 1 }),
+      );
+    });
   });
 });
 

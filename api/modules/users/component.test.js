@@ -201,6 +201,22 @@ describe('Users API', () => {
       expect(response.statusCode).toEqual(404);
     });
 
+    it('throws an 404 error when email provided does not exist in the database', async () => {
+      // Arrange
+      const body = {
+        password: 'thewrongA4pa!sword',
+        email: `jimbotester${randomizedNums()}@tester${randomizedNums()}.com`,
+      };
+
+      // Act
+      const response = await supertest(app)
+        .post('/api/users/login')
+        .send(body);
+
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
+
     it('throws an 400 error when no password is provided', async () => {
       // Arrange
       const body = {
