@@ -14,6 +14,7 @@ import {
   ButtonGoToRequest,
   ButtonClaimed,
   ButtonCancel,
+  ButtonRow,
 } from './TaskCard.styles';
 
 /* TOC
@@ -57,10 +58,10 @@ export const InputClaimedRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const clickAcceptHandler = () => {
-    axios.put(`${url}/api/tasks/${taskId}/status/Active/`)
-      .then((res) => console.log(res))
-      .then(() => { history.push('/myactiverequest'); });
+  const clickAcceptHandler = async () => {
+    const res = await axios.put(`${url}/api/tasks/${taskId}/status/Active/`);
+    console.log(res);
+    history.push('/myactiverequest');
   };
   const clickDeclineHandler = () => {
     axios.delete(`${url}/api/tasks/helper/${taskId}`)
@@ -88,20 +89,20 @@ export const InputUnclaimedRequest = ({ taskId }) => {
     dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'edit' });
   }
 
-  const clickDeclineHandler = () => {
-    axios.delete(`${url}/api/tasks/${taskId}`)
-      .then((res) => console.log(res));
+  const clickDeclineHandler = async () => {
+    const res = await axios.delete(`${url}/api/tasks/${taskId}`);
+    console.log(res);
     dispatch({ type: 'SHOW_MAP', toggle: true });
     dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
   };
 
   return (
     <ColCentered>
-      <LineTop style={{ marginBottom: '5px' }} />
-      <Row>
+      <LineTop style={{ marginBottom: '1px' }} />
+      <ButtonRow>
         <ButtonCancel onClick={clickDeclineHandler}>Cancel request</ButtonCancel>
         <ButtonDecline onClick={handleClickOpen}>Edit request</ButtonDecline>
-      </Row>
+      </ButtonRow>
     </ColCentered>
   );
 };
@@ -110,13 +111,22 @@ InputUnclaimedRequest.propTypes = {
   taskId: PropTypes.number.isRequired,
 };
 
-export const InputOpenRequest = ({ taskId }) => {
+export const InputOpenRequest = ({ taskId, task }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
-  const clickClaimHandler = () => {
-    axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`)
-      .then((res) => console.log(res));
+  const clickClaimHandler = async () => {
+    const res = await axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`);
+    console.log(res);
     dispatch({ type: 'SHOW_MAP', toggle: true });
+    const newTask = task;
+    newTask.status = 'Claimed';
+    dispatch({ type: 'SET_TASK', task: newTask });
+    dispatch({
+      type: 'SET_CATEGORY',
+      role: 'helper',
+      status: 'pending',
+      statusText: `${task.requester.firstname} has not accepted your help yet`,
+    });
   };
 
   const clickBackHandler = () => {
@@ -137,4 +147,9 @@ export const InputOpenRequest = ({ taskId }) => {
 };
 InputOpenRequest.propTypes = {
   taskId: PropTypes.number.isRequired,
+  task: PropTypes.shape({
+    requester: PropTypes.shape({
+      firstname: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
 };

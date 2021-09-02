@@ -1,7 +1,8 @@
 process.env.NODE_ENV = 'test';
 
-const getCoordinates = require('./coordinates');
+const coordinatesHelpers = require('./coordinates');
 const locationsService = require('./service');
+const locationsController = require('./controller');
 const db = require('../../db');
 
 describe('Coordinates API', () => {
@@ -14,7 +15,7 @@ describe('Coordinates API', () => {
     const addressQuery = `${streetAddress}+${city}+${state}+${zipcode}`;
 
     // Act
-    const coordinates = await getCoordinates(addressQuery);
+    const coordinates = await coordinatesHelpers.getCoordinates(addressQuery);
 
     // Assert
     expect(coordinates).toEqual('point(-118.2400339,34.0614828)');
@@ -22,6 +23,43 @@ describe('Coordinates API', () => {
 });
 
 describe('Locations component', () => {
+  describe('getAddressOrAdd component', () => {
+    it('gets address from database and returns addressId DTO when address exists in database', async () => {
+      // Arrange
+      const address = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighboorhood: undefined,
+      };
+
+      // Act
+      const addressIdDTO = await locationsController.getAddressOrAdd(address);
+
+      // Assert
+      expect(addressIdDTO).toEqual({ addressId: expect.any(Number) });
+    });
+
+    it('adds address if address does not exist in the database', async () => {
+      // Arrange
+      const randomizedNums = () => Math.floor(Math.random() * 987654321);
+      const address = {
+        streetAddress: `${randomizedNums()} N Broadway ${randomizedNums()}`,
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: randomizedNums(),
+        neighboorhood: undefined,
+      };
+
+      // Act
+      const addressIdDTO = await locationsController.getAddressOrAdd(address);
+
+      // Assert
+      expect(addressIdDTO).toEqual({ addressId: expect.any(Number) });
+    });
+  });
+
   describe('Add new address', () => {
     afterEach(() => jest.restoreAllMocks());
 
@@ -33,11 +71,11 @@ describe('Locations component', () => {
         state: 'CA',
         zipcode: '90012',
         neighboorhood: undefined,
-        coordinates: 'point(-118.2400339,34.0614828)',
       };
+      const coordinates = 'point(-118.2400339,34.0614828)';
 
-      // Arrange
-      const addressIdDTO = await locationsService.addAddress(addressQueryParams);
+      // Act
+      const addressIdDTO = await locationsService.addAddress(addressQueryParams, coordinates);
 
       // Assert
       expect(addressIdDTO).toEqual({ addressId: expect.any(Number) });
@@ -45,17 +83,17 @@ describe('Locations component', () => {
 
     it('throws an API error if called with incorrect coordinates request parameters (coordinates)', async () => {
       // Arrange
-      const addressQueryParamsWrongCoord = {
+      const addressQuery = {
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',
         zipcode: '90012',
         neighboorhood: undefined,
-        coordinates: 'these coordinates are wrong',
       };
+      const wrongCoordinates = 'these coordinates are wrong';
 
       // Act
-      const addAddressService = (() => locationsService.addAddress(addressQueryParamsWrongCoord));
+      const addAddressService = (() => locationsService.addAddress(addressQuery, wrongCoordinates));
 
       // Assert
       await expect(addAddressService).rejects.toThrow(new Error('syntax error at or near "coordinates"'));

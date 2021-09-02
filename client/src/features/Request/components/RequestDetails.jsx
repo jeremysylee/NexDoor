@@ -2,12 +2,14 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
+import LocationPinSvg from '../../../static/LocationPin';
 import {
   Col,
   ColCentered,
   DetailsContainer,
   DetailsContainerTime,
   HeadingSmall,
+  LocationPinContainer,
   Row,
   RowCenter,
 } from './TaskCard.styles';
@@ -34,10 +36,15 @@ const DetailsSection = () => {
       <Row>
         <DetailsContainer>
           <HeadingSmall>TASK LOCATION</HeadingSmall>
-          <Col>
-            <span>{`${street_address}`}</span>
-            <span>{`${city} ${state} ${zipcode}`}</span>
-          </Col>
+          <Row style={{ justifyContent: 'left', marginTop: '0px' }}>
+            <LocationPinContainer>
+              <LocationPinSvg style={{ marginRight: '5px' }} />
+            </LocationPinContainer>
+            <Col>
+              <span>{`${street_address}`}</span>
+              <span>{`${city} ${state} ${zipcode}`}</span>
+            </Col>
+          </Row>
         </DetailsContainer>
         <DetailsContainerTime>
           <HeadingSmall>TIME</HeadingSmall>

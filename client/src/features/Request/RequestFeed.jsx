@@ -27,7 +27,7 @@ const RequestFeed = () => {
       <MakeRequestTile />
       {page === '/myrequests' || page === '/' ? (
         <>
-          <SectionCard>People Helping Me</SectionCard>
+          <SectionCard>My Requests</SectionCard>
           {myRequests.map((request) => (
             <MyRequestTile request={request} key={request.task_id} />
           ))}
@@ -45,7 +45,7 @@ const RequestFeed = () => {
       <SectionLine />
       {page === '/tasks' || page === '/' ? (
         <>
-          <SectionCard>Others Requesting Help</SectionCard>
+          <SectionCard>Neighbors Requesting Help</SectionCard>
           {openTasks.map((task) => (
             <OpenTaskTile task={task} key={task.task_id} />
           ))}

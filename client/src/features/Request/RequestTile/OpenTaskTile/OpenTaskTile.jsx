@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import useFormatDate from '../../hooks/useFormatDate';
@@ -16,16 +16,9 @@ import {
 
 const OpenTask = ({ task }) => {
   const dispatch = useDispatch();
-  const selectedTaskId = useSelector((store) => store.selectedTaskReducer.task.task_id);
   const { day, time } = useFormatDate(task.start_date, task.start_time);
 
   const selectTaskHandler = () => {
-    // clear task if clicking on open task
-    if (selectedTaskId === task.task_id) {
-      return dispatch({
-        type: 'SET_TASK', task: { task_id: 0 },
-      });
-    }
     dispatch({
       type: 'SET_TASK', task,
     });

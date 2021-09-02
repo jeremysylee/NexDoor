@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const supertest = require('supertest');
 
 const { app, redisClient } = require('../../app');
-const locationsService = require('../locations/service');
+const locationsController = require('../locations/controller');
 const db = require('../../db');
 
 let testTaskIdToDelete;
@@ -50,6 +50,14 @@ describe('Tasks API', () => {
       expect(response.body.helper[0]).toMatchObject(expectedObjectShape);
       expect(response.body.allothers[0]).toMatchObject(expectedObjectShape);
     });
+
+    it('should get return a 404 status wheno tasks are found', async () => {
+      // Act + Arrange
+      const response = await supertest(app)
+        .get('/api/tasks/999999999992342342/0/10/0');
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
   });
 
   describe('POST /api/tasks/:userId', () => {
@@ -71,7 +79,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => ({ addressId: 1 }));
 
       // Act
       const response = await supertest(app)
@@ -96,7 +104,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      const getAddressorAdd = jest.spyOn(locationsController, 'getAddressOrAdd');
 
       // Act
       const response = await supertest(app)
@@ -105,6 +113,7 @@ describe('Tasks API', () => {
       testTaskIdToDelete = response.body.task_id;
 
       // Assert
+      expect(getAddressorAdd).not.toBeCalled();
       expect(response.statusCode).toEqual(200);
     });
 
@@ -125,8 +134,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => (null));
-      jest.spyOn(locationsService, 'addAddress').mockImplementation(() => (null));
+      jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => (null));
 
       // Act
       const response = await supertest(app)
@@ -143,6 +151,7 @@ describe('Tasks API', () => {
     it('Should update a task and return a 200 status if called with the proper parameters with existing address', async () => {
       // Arrange
       const body = {
+        addressId: undefined,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',
@@ -157,7 +166,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => ({ addressId: 1 }));
 
       // Act
       const response = await supertest(app)
@@ -181,7 +190,7 @@ describe('Tasks API', () => {
         duration: null,
         carRequired: false,
       };
-      // jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      const getAddresOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd');
 
       // Act
       const response = await supertest(app)
@@ -189,6 +198,7 @@ describe('Tasks API', () => {
         .send(body);
 
       // Assert
+      expect(getAddresOrAddSpy).not.toBeCalled();
       expect(response.statusCode).toEqual(200);
     });
   });

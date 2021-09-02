@@ -4,7 +4,7 @@ const { getMockReq, getMockRes } = require('@jest-mock/express');
 
 const tasksController = require('./controller');
 const tasksService = require('./service');
-const locationsService = require('../locations/service');
+const locationsController = require('../locations/controller');
 const db = require('../../db');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/apiError');
@@ -51,33 +51,16 @@ describe('Tasks Controller', () => {
 
     afterEach(() => jest.restoreAllMocks());
 
-    it('Calls the get getAddress, addAddress, and addTask service if address does not exist in the db', async () => {
+    it('Calls the get getAddressOrAdd if addressId is not provided in the query', async () => {
       // Arrange
-      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => (false));
-      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ address_id: 1 }));
+      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => ({ addressId: 1 }));
       const addTasksServiceSpy = jest.spyOn(tasksService, 'addTask').mockImplementation(() => ({ task_id: 1 }));
 
       // Act
       await tasksController.addTask(req, res, next);
 
       // Assert
-      expect(getAddressSpy).toBeCalled();
-      expect(addAddressSpy).toBeCalled();
-      expect(addTasksServiceSpy).toBeCalled();
-    });
-
-    it('it calls the getAddress service but does not call the addAddress service if address exists in the db but no address Id is provided', async () => {
-      // Arrange
-      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
-      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ addressId: 1 }));
-      const addTasksServiceSpy = jest.spyOn(tasksService, 'addTask').mockImplementation(() => ({ task_id: 1 }));
-
-      // Act
-      await tasksController.addTask(req, res, next);
-
-      // Assert
-      expect(getAddressSpy).toBeCalled();
-      expect(addAddressSpy).not.toBeCalled();
+      expect(getAddressOrAddSpy).toBeCalled();
       expect(addTasksServiceSpy).toBeCalled();
     });
 
@@ -94,16 +77,14 @@ describe('Tasks Controller', () => {
         duration: null,
         carRequired: false,
       };
-      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
-      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ addressId: 1 }));
+      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => ({ addressId: 1 }));
       const addTasksServiceSpy = jest.spyOn(tasksService, 'addTask').mockImplementation(() => ({ task_id: 1 }));
 
       // Act
       await tasksController.addTask(req, res, next);
 
       // Assert
-      expect(getAddressSpy).not.toBeCalled();
-      expect(addAddressSpy).not.toBeCalled();
+      expect(getAddressOrAddSpy).not.toBeCalled();
       expect(addTasksServiceSpy).toBeCalled();
     });
   });
@@ -111,7 +92,7 @@ describe('Tasks Controller', () => {
   describe('Update Task', () => {
     afterEach(() => jest.restoreAllMocks());
 
-    it('calls the getAddress, addAddress, and updateTask services if address does not exist in db', async () => {
+    it('calls the getAddressOrAdd if addressId is not provided in the update task query', async () => {
       // Arrange
       req.params = { userId: 1 };
       req.body = {
@@ -130,16 +111,14 @@ describe('Tasks Controller', () => {
         duration: null,
         carRequired: false,
       };
-      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => (false));
-      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ addressId: 1 }));
+      const getAddressOrAddSpy = jest.spyOn(locationsController, 'getAddressOrAdd').mockImplementation(() => ({ addressId: 1 }));
       const addTasksServiceSpy = jest.spyOn(tasksService, 'updateTask').mockImplementation(() => ({ task_id: 1 }));
 
       // Act
       await tasksController.updateTask(req, res, next);
 
       // Assert
-      expect(getAddressSpy).toBeCalled();
-      expect(addAddressSpy).toBeCalled();
+      expect(getAddressOrAddSpy).toBeCalled();
       expect(addTasksServiceSpy).toBeCalled();
     });
   });

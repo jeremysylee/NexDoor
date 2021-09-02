@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 // const getCoordinates = require('./coordinates');
 const tasksService = require('./service');
-const locationsService = require('../locations/service');
+const locationsController = require('../locations/controller');
 
 const taskControllers = {
   getTasks: async (req, res, next) => {
@@ -16,7 +16,6 @@ const taskControllers = {
       const tasks = await tasksService.getTasks(params);
       res.status(200).send(tasks);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },
@@ -41,16 +40,14 @@ const taskControllers = {
     };
     try {
       let addressIdDTO = { addressId: task.addressId || false };
+
       if (!addressIdDTO.addressId) {
-        addressIdDTO = await locationsService.getAddress(task);
-        if (!addressIdDTO) {
-          addressIdDTO = await locationsService.addAddress(task);
-        }
+        addressIdDTO = await locationsController.getAddressOrAdd(task);
       }
+
       const taskId = await tasksService.addTask(task, addressIdDTO.addressId);
       res.status(200).send(taskId);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },
@@ -76,15 +73,11 @@ const taskControllers = {
     try {
       let addressIdDTO = { addressId: task.addressId || false };
       if (!addressIdDTO.addressId) {
-        addressIdDTO = await locationsService.getAddress(task);
-        if (!addressIdDTO) {
-          addressIdDTO = await locationsService.addAddress(task);
-        }
+        addressIdDTO = locationsController.getAddressOrAdd(task);
       }
       const taskIdDTO = await tasksService.updateTask(task, addressIdDTO.addressId);
       res.status(200).send(`Task ${taskIdDTO.task_id} has been updated`);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },

@@ -3,7 +3,9 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 const usersService = require('./service');
-const locationsService = require('../locations/service');
+const locationsController = require('../locations/controller');
+const ApiError = require('../../errors/apiError');
+const httpStatusCodes = require('../../errors/httpStatusCodes');
 
 const userController = {
   addUser: async (req, res, next) => {
@@ -19,25 +21,25 @@ const userController = {
       email: req.body.email,
       imgUrl: req.body.imgUrl,
     };
-
     try {
-      let addressIdDTO = await locationsService.getAddress(userInfo);
-      if (!addressIdDTO.addressId) {
-        addressIdDTO = await locationsService.addAddress(userInfo);
+      if (await usersService.checkForEmail(userInfo)) {
+        throw new ApiError('This email address already exists', httpStatusCodes.NOT_FOUND);
       }
+
+      const addressIdDTO = await locationsController.getAddressOrAdd(userInfo);
 
       const user = await usersService.addUser(userInfo, addressIdDTO.addressId);
       res.status(200).send(user);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },
 
   getUser: async (req, res, next) => {
     const userId = { userId: req.params.userId };
+    const email = { email: req.body.email };
     try {
-      const user = await usersService.getUser(userId);
+      const user = await usersService.getUser(userId, email);
       res.status(200).send(user);
     } catch (err) {
       next(err);
@@ -46,9 +48,9 @@ const userController = {
 
   getUsersByRating: async (req, res, next) => {
     const params = {
-      quantity: req.params.quantity,
+      quantity: req.params.quantity || 25,
       userId: req.params.userId,
-      range: req.params.range,
+      range: req.params.range || 1,
     };
     try {
       const users = await usersService.getUsersByRating(params);
@@ -60,18 +62,20 @@ const userController = {
   },
 
   authenticateLogin: async (req, res, next) => {
-    const credentials = {
-      email: req.body.email,
-      password: req.body.password,
-    };
+    const email = { email: req.body.email };
+    const submittedPassword = { submittedPassword: req.body.password };
     try {
-      const userIdDTO = await usersService.authenticateLogin(credentials);
-      const user = await usersService.getUser(userIdDTO);
+      const userCredentialsDTO = await usersService.checkForEmail(email);
+      if (!userCredentialsDTO) {
+        throw new ApiError('This email address does not exist', httpStatusCodes.NOT_FOUND);
+      }
+      await usersService.authenticateLogin(submittedPassword, userCredentialsDTO);
+      const userDTO = await usersService.getUser(userCredentialsDTO);
 
-      req.session.userId = userIdDTO.userId;
+      req.session.userId = userCredentialsDTO.userId;
       req.session.save();
 
-      res.status(200).send(user);
+      res.status(200).send(userDTO);
     } catch (err) {
       req.session.destroy();
       next(err);
@@ -88,7 +92,6 @@ const userController = {
       next(err);
     }
   },
-
 };
 
 module.exports = userController;

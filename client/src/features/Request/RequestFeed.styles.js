@@ -70,17 +70,18 @@ export const Description = styled.div`
 export const DetailsCol = styled.div`
   font-family: Roboto;
   display: flex;
-  justify-content: flex-end;
   flex-direction: column;
+  justify-content: right;
   text-align: right;
   color: grey;
-  flex-wrap: nowrap;
+  min-width: 80px;
 `;
 
 export const Details = styled.div`
   font-size: 14px;
   font-weight: lighter;
   color: grey;
+  min-width: 105%;
 `;
 
 export const Subdetails = styled.div`

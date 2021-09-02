@@ -25,10 +25,10 @@ const usersService = {
       lastName,
       password,
       email,
+      imgUrl,
     } = body;
     const hashPass = bcrypt.hashSync(password, 10);
 
-    const { imgUrl } = body || null;
     const queryStr = `
       INSERT INTO nexdoor.users (
         firstname,
@@ -96,9 +96,11 @@ const usersService = {
   },
 
   getUsersByRating: async (params) => {
-    const { userId } = params;
-    const { range } = params || 1;
-    const { quantity } = params || 25;
+    const {
+      userId,
+      range,
+      quantity,
+    } = params;
 
     const queryStr = `
       SELECT
@@ -147,21 +149,11 @@ const usersService = {
     return usersDTO;
   },
 
-  authenticateLogin: async ({ email, password }) => {
-    const queryStr = `
-      SELECT user_id, password
-      FROM nexdoor.users
-      WHERE email='${email}'
-    ;`;
-    const data = await db.query(queryStr);
-    if (!data.rows[0]) {
-      throw new ApiError('No user found with this email address', httpStatusCodes.NOT_FOUND);
-    }
-    const userIdDTO = { userId: data.rows[0].user_id };
-    if (!bcrypt.compareSync(password, data.rows[0].password)) {
+  authenticateLogin: async ({ submittedPassword }, { password }) => {
+    if (!bcrypt.compareSync(submittedPassword, password)) {
       throw new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND);
     }
-    return userIdDTO;
+    return true;
   },
 
   authenticateSession: async ({ sessionUserId }) => {
@@ -170,6 +162,20 @@ const usersService = {
     }
     const userIdDTO = { userId: sessionUserId };
     return userIdDTO;
+  },
+
+  checkForEmail: async ({ email }) => {
+    const queryStr = `
+      SELECT user_id, password
+      FROM nexdoor.users
+      WHERE email='${email}'
+    `;
+    const data = await db.query(queryStr);
+    if (!data.rows[0]) {
+      return false;
+    }
+    const userCredentialsDTO = { userId: data.rows[0].user_id, password: data.rows[0].password };
+    return userCredentialsDTO;
   },
 };
 
