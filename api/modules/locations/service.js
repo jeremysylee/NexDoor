@@ -9,8 +9,7 @@ const locationService = {
     state,
     zipcode,
     neighborhood,
-    coordinates,
-  }) => {
+  }, coordinates) => {
     if (!streetAddress || !city || !state || !zipcode || !coordinates) {
       throw new ApiError('Undefined address / coordinates!', httpStatusCodes.BAD_REQUEST);
     }

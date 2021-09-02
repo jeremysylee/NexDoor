@@ -30,6 +30,7 @@ describe('Users Controller', () => {
         email: 'jimbotester@tester.com',
         imgUrl: 'www.google.com',
       };
+      jest.spyOn(usersService, 'checkForEmail').mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
       const getAddressSpy = jest.spyOn(locationsService, 'getAddress')
         .mockImplementation(() => ({ addressId: 1 }));
       const addUserServiceSpy = jest.spyOn(usersService, 'addUser')
@@ -58,6 +59,7 @@ describe('Users Controller', () => {
         email: 'jimbotester@tester.com',
         imgUrl: 'www.google.com',
       };
+      jest.spyOn(usersService, 'checkForEmail').mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
       const addUserServiceSpy = jest.spyOn(usersService, 'addUser')
         .mockImplementation(() => ({ user_id: 1 }));
       const getAddressSpy = jest.spyOn(locationsService, 'getAddress')
@@ -89,6 +91,8 @@ describe('Users Controller', () => {
         email: 'jimbotester@tester.com',
         imgUrl: 'www.google.com',
       };
+      jest.spyOn(usersService, 'checkForEmail')
+        .mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
       jest.spyOn(usersService, 'addUser')
         .mockImplementation(() => ({ user_id: 1 }));
       jest.spyOn(locationsService, 'getAddress')
@@ -140,9 +144,9 @@ describe('Users Controller', () => {
         email: 'testaker@tester.com',
         password: 'notpassword',
       };
-      const returnedUserId = 1;
+      jest.spyOn(usersService, 'checkForEmail').mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
       const authenticateLoginServiceSpy = jest.spyOn(usersService, 'authenticateLogin')
-        .mockImplementation(() => (returnedUserId));
+        .mockImplementation(() => true);
       const getUserServiceSpy = jest.spyOn(usersService, 'getUser')
         .mockImplementation(() => {});
       req.session = {
@@ -170,8 +174,8 @@ describe('Users Controller', () => {
         email: 'testaker@tester.com',
         password: 'notpassword',
       };
-      const returnedUserIdDTO = { userId: 1 };
-      jest.spyOn(usersService, 'authenticateLogin').mockImplementation(() => returnedUserIdDTO);
+      jest.spyOn(usersService, 'checkForEmail').mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
+      jest.spyOn(usersService, 'authenticateLogin').mockImplementation(() => true);
       jest.spyOn(usersService, 'getUser').mockImplementation(() => {});
       req.session = {
         destroy: jest.fn(),
@@ -191,6 +195,7 @@ describe('Users Controller', () => {
         email: 'testaker@tester.com',
         password: 'notpassworddd',
       };
+      jest.spyOn(usersService, 'checkForEmail').mockImplementation(() => ({ userId: 1, password: 'notpassword' }));
       jest.spyOn(usersService, 'authenticateLogin')
         .mockImplementation(() => { throw new ApiError('error: password does not match', httpStatusCodes.NOT_FOUND); });
       jest.spyOn(usersService, 'getUser').mockImplementation(() => {});
@@ -204,6 +209,29 @@ describe('Users Controller', () => {
 
       // Assert
       expect(req.session.destroy).toBeCalled();
+    });
+
+    it('checks for email in db before authenticating', async () => {
+      // Arrange
+      const req = getMockReq();
+      req.params = {
+        email: 'testaker@tester.com',
+        password: 'notpassworddd',
+      };
+      const checkForEmailServiceSpy = jest.spyOn(usersService, 'checkForEmail')
+        .mockImplementation(() => ({ rows: [{ userId: 1, password: 'potato' }] }));
+      const authenticateLoginServiceSpy = jest.spyOn(usersService, 'authenticateLogin').mockImplementation(() => {});
+      req.session = {
+        save: jest.fn(),
+        destroy: jest.fn(),
+      };
+
+      // Act
+      await usersController.authenticateLogin(req, res, next);
+
+      // Assert
+      expect(checkForEmailServiceSpy).toBeCalled();
+      expect(authenticateLoginServiceSpy).toBeCalled();
     });
   });
 
@@ -363,51 +391,31 @@ describe('Users Service', () => {
 
   describe('authenticateLogin', () => {
     afterEach(() => jest.restoreAllMocks());
-    it('queries the db and returns userId DTO if passwords match', async () => {
+    it('queries the db and returns true if passwords match', async () => {
       // Arrange
-      const credentials = {
-        email: 'tester@tester.com',
-        password: 'notpassword',
-      };
-      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ user_id: 1 }] }));
+      const submittedPassword = { password: 'notpassword' };
+      const password = { password: 'notpassword' };
       jest.spyOn(bcrypt, 'compareSync').mockImplementation(() => true);
 
       // Act
-      const userIdDTO = await usersService.authenticateLogin(credentials);
+      const userIdDTO = await usersService.authenticateLogin(submittedPassword, password);
 
       // Assert
-      expect(userIdDTO).toEqual({ userId: 1 });
-    });
-
-    it('queries the db and throws API error if user email not found in db', async () => {
-      // Arrange
-      const credentials = {
-        email: 'nonexistingemail@tester.com',
-        password: 'wrongPassword',
-      };
-      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
-
-      // Act
-      const authenticateLoginService = (() => usersService.authenticateLogin(credentials));
-
-      // Assert
-      await expect(authenticateLoginService).rejects.toThrow(new ApiError('No user found with this email address', httpStatusCodes.NOT_FOUND));
+      expect(userIdDTO).toEqual(true);
     });
 
     it('queries the db and throws API error if passwords do not match', async () => {
       // Arrange
-      const credentials = {
-        email: 'tester@tester.com',
-        password: 'wrongPassword',
-      };
+      const submittedPassword = { password: 'thewrongpassword' };
+      const password = { password: 'notpassword' };
       jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ user_id: 1 }] }));
       jest.spyOn(bcrypt, 'compareSync').mockImplementation(() => false);
 
       // Act
-      const authenticateLoginService = (() => usersService.authenticateLogin(credentials));
+      const authenticateLogin = (() => usersService.authenticateLogin(submittedPassword, password));
 
       // Assert
-      await expect(authenticateLoginService).rejects.toThrow(new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND));
+      await expect(authenticateLogin).rejects.toThrow(new ApiError('Passwords do not match, wrong password', httpStatusCodes.NOT_FOUND));
     });
   });
 
@@ -432,6 +440,23 @@ describe('Users Service', () => {
 
       // Assert
       await expect(authenticateSession).rejects.toThrow(new ApiError('No session found', httpStatusCodes.NOT_FOUND));
+    });
+  });
+
+  describe('checkForEmail', () => {
+    it('queries the db and throws API error if user email not found in db', async () => {
+      // Arrange
+      const credentials = {
+        email: 'nonexistingemail@tester.com',
+        password: 'wrongPassword',
+      };
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+
+      // Act
+      const checkForEmailFn = (() => usersService.checkForEmail(credentials));
+
+      // Assert
+      await expect(checkForEmailFn).toEqual(false);
     });
   });
 });

@@ -4,6 +4,8 @@
 
 const usersService = require('./service');
 const locationsService = require('../locations/service');
+const ApiError = require('../../errors/apiError');
+const httpStatusCodes = require('../../errors/httpStatusCodes');
 
 const userController = {
   addUser: async (req, res, next) => {
@@ -19,8 +21,11 @@ const userController = {
       email: req.body.email,
       imgUrl: req.body.imgUrl,
     };
-
     try {
+      if (await usersService.checkForEmail(userInfo)) {
+        throw new ApiError('This email address already exists', httpStatusCodes.NOT_FOUND);
+      }
+
       let addressIdDTO = await locationsService.getAddress(userInfo);
       if (!addressIdDTO.addressId) {
         addressIdDTO = await locationsService.addAddress(userInfo);
@@ -29,7 +34,6 @@ const userController = {
       const user = await usersService.addUser(userInfo, addressIdDTO.addressId);
       res.status(200).send(user);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   },
@@ -61,18 +65,20 @@ const userController = {
   },
 
   authenticateLogin: async (req, res, next) => {
-    const credentials = {
-      email: req.body.email,
-      password: req.body.password,
-    };
+    const email = { email: req.body.email };
+    const submittedPassword = { submittedPassword: req.body.password };
     try {
-      const userIdDTO = await usersService.authenticateLogin(credentials);
-      const user = await usersService.getUser(userIdDTO);
+      const userCredentialsDTO = await usersService.checkForEmail(email);
+      if (!userCredentialsDTO) {
+        throw new ApiError('This email address does not exist', httpStatusCodes.NOT_FOUND);
+      }
+      await usersService.authenticateLogin(submittedPassword, userCredentialsDTO);
+      const userDTO = await usersService.getUser(userCredentialsDTO);
 
-      req.session.userId = userIdDTO.userId;
+      req.session.userId = userCredentialsDTO.userId;
       req.session.save();
 
-      res.status(200).send(user);
+      res.status(200).send(userDTO);
     } catch (err) {
       req.session.destroy();
       next(err);

@@ -3,6 +3,7 @@ process.env.NODE_ENV = 'test';
 const axios = require('axios');
 const getCoordinates = require('./coordinates');
 const locationsService = require('./service');
+const locationsController = require('./controller');
 const db = require('../../db');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');
@@ -30,6 +31,54 @@ describe('Coordinates Helper Function', () => {
     // Assert
     expect(axiosSpy).toBeCalled();
     expect(coordinatesDTO).toEqual('point(-118.2400339,34.0614828)');
+  });
+});
+
+describe('Locations Controller', () => {
+  describe('getAddressOrAdd', () => {
+    it('calls the get address service, then the coordinates helper function, then the add address if address is not in database', async () => {
+      // Arrange
+      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => false);
+      const getCoordinatesSpy = jest.spyOn(getCoordinates).mockImplementation(() => 'point(14231,234234)');
+      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ addressId: 1 }));
+      const address = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighboorhood: undefined,
+      };
+
+      // Act
+      await locationsController.getAddressOrAdd(address);
+
+      // Assert
+      expect(getAddressSpy).toBeCalled();
+      expect(getCoordinatesSpy).toBeCalled();
+      expect(addAddressSpy).toBeCalled();
+    });
+
+    it('calls the get address service but does not call getCoordinates or addAddress services if address does exist in db', async () => {
+      // Arrange
+      const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
+      const getCoordinatesSpy = jest.spyOn(getCoordinates).mockImplementation(() => 'point(14231,234234)');
+      const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ addressId: 1 }));
+      const address = {
+        streetAddress: '727 N Broadway',
+        city: 'Los Angeles',
+        state: 'CA',
+        zipcode: '90012',
+        neighboorhood: undefined,
+      };
+
+      // Act
+      await locationsController.getAddressOrAdd(address);
+
+      // Assert
+      expect(getAddressSpy).toBeCalled();
+      expect(getCoordinatesSpy).not.toBeCalled();
+      expect(addAddressSpy).not.toBeCalled();
+    });
   });
 });
 
