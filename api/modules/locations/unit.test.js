@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 
 const axios = require('axios');
-const getCoordinates = require('./coordinates');
+const coordinatesHelpers = require('./coordinates');
 const locationsService = require('./service');
 const locationsController = require('./controller');
 const db = require('../../db');
@@ -26,7 +26,7 @@ describe('Coordinates Helper Function', () => {
     const axiosSpy = await jest.spyOn(axios, 'get').mockImplementation(() => mockReturnData);
 
     // Act
-    const coordinatesDTO = await getCoordinates(addressQuery);
+    const coordinatesDTO = await coordinatesHelpers.getCoordinates(addressQuery);
 
     // Assert
     expect(axiosSpy).toBeCalled();
@@ -39,7 +39,7 @@ describe('Locations Controller', () => {
     it('calls the get address service, then the coordinates helper function, then the add address if address is not in database', async () => {
       // Arrange
       const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => false);
-      const getCoordinatesSpy = jest.spyOn(getCoordinates).mockImplementation(() => 'point(14231,234234)');
+      const getCoordinatesSpy = jest.spyOn(coordinatesHelpers, 'getCoordinates').mockImplementation(() => 'point(14231,234234)');
       const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ addressId: 1 }));
       const address = {
         streetAddress: '727 N Broadway',
@@ -61,7 +61,7 @@ describe('Locations Controller', () => {
     it('calls the get address service but does not call getCoordinates or addAddress services if address does exist in db', async () => {
       // Arrange
       const getAddressSpy = jest.spyOn(locationsService, 'getAddress').mockImplementation(() => ({ addressId: 1 }));
-      const getCoordinatesSpy = jest.spyOn(getCoordinates).mockImplementation(() => 'point(14231,234234)');
+      const getCoordinatesSpy = jest.spyOn(coordinatesHelpers, 'getCoordinates').mockImplementation(() => 'point(14231,234234)');
       const addAddressSpy = jest.spyOn(locationsService, 'addAddress').mockImplementation(() => ({ addressId: 1 }));
       const address = {
         streetAddress: '727 N Broadway',
@@ -83,7 +83,7 @@ describe('Locations Controller', () => {
 });
 
 describe('Locations Service', () => {
-  describe('Add new address', () => {
+  describe('addAddress', () => {
     afterEach(() => jest.restoreAllMocks());
     it('queries the db and returns an address id DTO on success', async () => {
       // Arrange
@@ -93,12 +93,12 @@ describe('Locations Service', () => {
         state: 'CA',
         zipcode: '90012',
         neighboorhood: undefined,
-        coordinates: 'point(-118.2400339,34.0614828)',
       };
+      const coordinates = 'point(-118.2400339,34.0614828)';
       const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [{ address_id: 1 }] }));
 
       // Act
-      const addressIdDTO = await locationsService.addAddress(addressQueryParams);
+      const addressIdDTO = await locationsService.addAddress(addressQueryParams, coordinates);
 
       // Assert
       expect(dbSpy).toBeCalled();
@@ -124,7 +124,7 @@ describe('Locations Service', () => {
     });
   });
 
-  describe('Get address Id', () => {
+  describe('getAddress', () => {
     afterEach(() => jest.restoreAllMocks());
 
     it('queries the db and returns address id DTO if address is found', async () => {
