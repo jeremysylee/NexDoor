@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
 import SelectedRequest from '../../features/Request/SelectedRequestCard';
-// import Map from './Map';
+import Map from '../../features/Map/Map';
 
 import {
   SelectedTaskContainer,
@@ -61,7 +61,11 @@ const Home = () => {
             <SelectedTaskContainer>
               <SelectedRequest />
             </SelectedTaskContainer>
-          ) : <MapContainer />}
+          ) : (
+            <MapContainer>
+              <Map />
+            </MapContainer>
+          )}
         </Grid>
       </Grid>
     </Body>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
@@ -24,6 +24,7 @@ StatusBadge.defaultProps = {
 };
 
 const MyRequest = ({ request }) => {
+  const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const dispatch = useDispatch();
   const { day, time } = useFormatDate(request.start_date, request.start_time);
 
@@ -58,6 +59,30 @@ const MyRequest = ({ request }) => {
 
   const selectTaskHandler = () => {
     dispatch({ type: 'SET_TASK', task: request });
+    if (request.status === 'Open' && request.requester.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'requester',
+        status: 'unclaimed',
+        statusText: 'No one has claimed your request yet...',
+      });
+    }
+    if (request.status === 'Pending' && request.requester.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'requester',
+        status: 'claimed',
+        statusText: `${request.helper.firstname} has claimed your request!`,
+      });
+    }
+    if (request.status === 'Active' && request.requester.user_id === currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'requester',
+        status: 'active',
+        statusText: 'is helping you with this request!',
+      });
+    }
     return <></>;
   };
 
@@ -89,6 +114,7 @@ const MyRequest = ({ request }) => {
 MyRequest.propTypes = {
   request: PropTypes.shape({
     requester: PropTypes.shape({
+      user_id: PropTypes.number.isRequired,
       firstname: PropTypes.string.isRequired,
       lastname: PropTypes.string.isRequired,
       profile_picture_url: PropTypes.string.isRequired,

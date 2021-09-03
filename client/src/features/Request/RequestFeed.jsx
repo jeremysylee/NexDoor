@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import {
-  MakeRequestTile, OpenTaskTile, MyRequestTile, MyTaskTile,
+  OpenTaskTile, MyRequestTile, MyTaskTile,
 } from './RequestTile';
+import MakeRequestInput from './components/MakeRequestInput';
 import {
   SectionCard,
   SectionLine,
@@ -24,7 +25,7 @@ const RequestFeed = () => {
 
   return (
     <MainFeedContainer>
-      <MakeRequestTile />
+      <MakeRequestInput />
       {page === '/myrequests' || page === '/' ? (
         <>
           <SectionCard>My Requests</SectionCard>

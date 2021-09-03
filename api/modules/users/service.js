@@ -50,7 +50,7 @@ const usersService = {
         ${address_id},
         0,
         0,
-        null,
+        0,
         '${imgUrl}',
         (SELECT CURRENT_TIMESTAMP)
       )
@@ -81,7 +81,8 @@ const usersService = {
               city,
               state,
               zipcode,
-              neighborhood
+              neighborhood,
+              coordinate
             FROM nexdoor.address
             WHERE address_id=nexdoor.users.address_id
           ) add

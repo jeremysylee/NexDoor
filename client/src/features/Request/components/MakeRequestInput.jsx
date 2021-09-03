@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
-import RequestModal from '../../RequestModal';
+import RequestModal from '../RequestModal';
 
 import {
   SectionCard,
@@ -11,7 +11,7 @@ import {
   ButtonDecline,
   Line,
   RowRight,
-} from '../../RequestFeed.styles';
+} from '../RequestFeed.styles';
 
 const Input = styled.button`
   border-radius: 100px;
