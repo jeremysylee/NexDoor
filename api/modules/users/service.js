@@ -81,7 +81,8 @@ const usersService = {
               city,
               state,
               zipcode,
-              neighborhood
+              neighborhood,
+              coordinate
             FROM nexdoor.address
             WHERE address_id=nexdoor.users.address_id
           ) add
