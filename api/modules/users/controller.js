@@ -19,7 +19,7 @@ const userController = {
       lastName: req.body.lastName,
       password: req.body.password,
       email: req.body.email,
-      imgUrl: req.body.imgUrl,
+      imgUrl: req.body.imgUrl || '',
     };
     try {
       if (await usersService.checkForEmail(userInfo)) {
