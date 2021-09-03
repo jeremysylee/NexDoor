@@ -50,30 +50,6 @@ const SelectedTask = () => {
 
   // <-------------------SET CATEGORY-------------------------> //
   const setCategory = () => {
-    if (task.status === 'Open' && task.requester.user_id === currentUserId) {
-      return dispatch({
-        type: 'SET_CATEGORY',
-        role: 'requester',
-        status: 'unclaimed',
-        statusText: 'No one has claimed your request yet...',
-      });
-    }
-    if (task.status === 'Pending' && task.requester.user_id === currentUserId) {
-      return dispatch({
-        type: 'SET_CATEGORY',
-        role: 'requester',
-        status: 'claimed',
-        statusText: `${task.helper.firstname} has claimed your request!`,
-      });
-    }
-    if (task.status === 'Active' && task.requester.user_id === currentUserId) {
-      return dispatch({
-        type: 'SET_CATEGORY',
-        role: 'requester',
-        status: 'active',
-        statusText: 'is helping you with this request!',
-      });
-    }
     if (task.status === 'Pending' && task.helper.user_id === currentUserId) {
       return dispatch({
         type: 'SET_CATEGORY',
@@ -90,12 +66,15 @@ const SelectedTask = () => {
         statusText: `You are helping ${task.requester.firstname} with this request`,
       });
     }
-    return dispatch({
-      type: 'SET_CATEGORY',
-      role: 'helper',
-      status: 'open',
-      statusText: 'is requesting your assistance',
-    });
+    if (task.status === 'Open' && task.requester.user_id !== currentUserId) {
+      return dispatch({
+        type: 'SET_CATEGORY',
+        role: 'helper',
+        status: 'open',
+        statusText: 'is requesting your assistance',
+      });
+    }
+    return <> </>;
   };
   // <-------------------SET CATEGORY END-------------------------> //
 
