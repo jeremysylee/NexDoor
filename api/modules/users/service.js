@@ -50,7 +50,7 @@ const usersService = {
         ${address_id},
         0,
         0,
-        null,
+        0,
         '${imgUrl}',
         (SELECT CURRENT_TIMESTAMP)
       )

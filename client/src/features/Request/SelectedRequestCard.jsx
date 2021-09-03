@@ -123,9 +123,9 @@ const SelectedTask = () => {
         <BackButton onClick={clickBackHandler}>Back</BackButton>
       </RowSlim>
       {category.role === 'helper' && <UserInfo user={task.requester} />}
-      {category.status === 'claimed' && <UserInfo user={task.helper} />}
+      {!task.helper && category.status === 'claimed' && <UserInfo user={task.helper} />}
       {task.helper && category.role === 'requester' && <UserInfo user={task.helper} />}
-      {category.status === 'unclaimed' && <UserInfoBlank />}
+      {category.status === 'unclaimed' && <UserInfoBlank user={task.requester} />}
       <StatusText>{category.statusText}</StatusText>
       <DetailsSection />
       {category.status === 'active' && <InputActiveTask />}

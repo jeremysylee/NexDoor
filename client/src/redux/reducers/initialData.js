@@ -2,7 +2,7 @@ export const testTasks = [
   {
     task_id: 0,
     requester_id: 0,
-    helper_id: null,
+    helper_id: 0,
     location: {
       street_address: '',
       city: '',
@@ -19,6 +19,16 @@ export const testTasks = [
     timestamp_requested: '2021-07-15',
     duration: 0,
     requester: {
+      id: 0,
+      firstname: '',
+      lastname: '',
+      address_id: 0,
+      karma: 0,
+      response_count: 0,
+      average_rating: 0,
+      profile_picture_url: '',
+    },
+    helper: {
       id: 0,
       firstname: '',
       lastname: '',
