@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
+import { motion } from 'framer-motion';
 
 // Imported Components
 import { UserInfo, UserInfoBlank } from './components/UserInfo';
@@ -95,24 +96,60 @@ const SelectedTask = () => {
     setCategory();
   }, [task]);
 
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   // RENDER //
   return (
-    <SelectedTaskCard>
-      <RowSlim>
-        <BackButton onClick={clickBackHandler}>Back</BackButton>
-      </RowSlim>
-      {category.role === 'helper' && <UserInfo user={task.requester} />}
-      {!task.helper && category.status === 'claimed' && <UserInfo user={task.helper} />}
-      {task.helper && category.role === 'requester' && <UserInfo user={task.helper} />}
-      {category.status === 'unclaimed' && <UserInfoBlank user={task.requester} />}
-      <StatusText>{category.statusText}</StatusText>
-      <DetailsSection />
-      {category.status === 'active' && <InputActiveTask />}
-      {category.status === 'claimed' && <InputClaimedRequest taskId={task.task_id} />}
-      {category.status === 'pending' && <div style={{ height: '1em' }} />}
-      {category.status === 'unclaimed' && <InputUnclaimedRequest taskId={task.task_id} />}
-      {category.status === 'open' && <InputOpenRequest taskId={task.task_id} task={task} />}
-    </SelectedTaskCard>
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      className="container"
+      variants={container}
+      transition={{
+        type: 'spring',
+        stiffness: 260,
+        damping: 20,
+      }}
+    >
+      <SelectedTaskCard>
+        <RowSlim>
+          <BackButton onClick={clickBackHandler}>Back</BackButton>
+        </RowSlim>
+        {category.role === 'helper' && <UserInfo user={task.requester} />}
+        {!task.helper && category.status === 'claimed' && <UserInfo user={task.helper} />}
+        {task.helper && category.role === 'requester' && <UserInfo user={task.helper} />}
+        {category.status === 'unclaimed' && <UserInfoBlank user={task.requester} />}
+        <motion.div variants={item}>
+          <StatusText>{category.statusText}</StatusText>
+        </motion.div>
+        <motion.div variants={item}>
+          <DetailsSection />
+          {category.status === 'active' && <InputActiveTask />}
+          {category.status === 'claimed' && <InputClaimedRequest taskId={task.task_id} />}
+          {category.status === 'pending' && <div style={{ height: '1em' }} />}
+          {category.status === 'unclaimed' && <InputUnclaimedRequest taskId={task.task_id} />}
+          {category.status === 'open' && <InputOpenRequest taskId={task.task_id} task={task} />}
+        </motion.div>
+      </SelectedTaskCard>
+    </motion.div>
   );
 };
 
