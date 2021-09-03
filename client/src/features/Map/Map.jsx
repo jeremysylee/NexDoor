@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
 const Map = () => {
+  const dispatch = useDispatch();
   const tasks = useSelector((store) => store.tasksReducer.tasks);
 
   const mapStyles = {
@@ -18,6 +19,11 @@ const Map = () => {
 
   const [center] = useState(defaultCenter);
 
+  const selectTaskHandler = (task) => {
+    dispatch({ type: 'SET_TASK', task });
+    return <></>;
+  };
+
   return (
     <LoadScript
       googleMapsApiKey="AIzaSyAF8YxtZo1Y_VwXnNrmb1ErGpupP1kYniI"
@@ -32,7 +38,11 @@ const Map = () => {
           const splitCoord = coord.substring(1, coord.length - 1).split(',');
           const coordinate = { lat: Number(splitCoord[1]), lng: Number(splitCoord[0]) };
           return (
-            <Marker key={task.task_id} position={coordinate} />
+            <Marker
+              key={task.task_id}
+              position={coordinate}
+              onClick={() => selectTaskHandler(task)}
+            />
           );
         })}
       </GoogleMap>
