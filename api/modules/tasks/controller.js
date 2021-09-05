@@ -7,10 +7,10 @@ const locationsController = require('../locations/controller');
 const taskControllers = {
   getTasks: async (req, res, next) => {
     const params = {
-      userId: req.params.userId,
-      range: req.params.range,
-      quantity: req.params.quantity,
-      offset: req.params.offset,
+      userId: req.query.userId,
+      range: req.query.range,
+      quantity: req.query.quantity,
+      offset: req.query.offset,
     };
     try {
       const tasks = await tasksService.getTasks(params);

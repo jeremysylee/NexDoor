@@ -18,7 +18,7 @@ describe('Tasks API', () => {
     it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
-        .get('/api/tasks/1/1500/10/0');
+        .get('/api/tasks/?userId=1&range=1500&quantity=10&offset=0');
 
       // Assert
       expect(response.statusCode).toEqual(200);
@@ -43,7 +43,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .get('/api/tasks/1/1500/10/0');
+        .get('/api/tasks/?userId=1&range=1500&quantity=10&offset=0');
 
       // Assert
       expect(response.body.requested[0]).toMatchObject(expectedObjectShape);
@@ -54,7 +54,7 @@ describe('Tasks API', () => {
     it('should get return a 404 status wheno tasks are found', async () => {
       // Act + Arrange
       const response = await supertest(app)
-        .get('/api/tasks/999999999992342342/0/10/0');
+        .get('/api/tasks/?userId=930293092239429034890234802&range=1500&quantity=10&offset=0');
       // Assert
       expect(response.statusCode).toEqual(404);
     });
