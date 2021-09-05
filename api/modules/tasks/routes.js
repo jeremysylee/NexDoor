@@ -6,7 +6,7 @@ const tasksController = require('./controller');
 
 tasks
   .get('/', tasksController.getTasks)
-  .post('/:userId', tasksController.addTask)
+  .post('/', tasksController.addTask)
   .put('/:taskId', tasksController.updateTask)
   .delete('/:taskId', tasksController.deleteTask)
 

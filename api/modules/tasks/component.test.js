@@ -83,7 +83,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .post('/api/tasks/1')
+        .post('/api/tasks/?userId=1')
         .send(body);
       testTaskIdToDelete = response.body.task_id;
 
@@ -108,7 +108,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .post('/api/tasks/1')
+        .post('/api/tasks/?userId=1')
         .send(body);
       testTaskIdToDelete = response.body.task_id;
 
@@ -138,7 +138,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .post('/api/tasks/1')
+        .post('/api/tasks/?userId=1')
         .send(body);
 
       // Assert
