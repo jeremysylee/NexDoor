@@ -6,6 +6,7 @@ const tasksController = require('./controller');
 
 tasks
   .get('/', tasksController.getTasks)
+  .get('/:taskId', tasksController.getTask)
   .post('/', tasksController.addTask)
   .put('/:taskId', tasksController.updateTask)
   .delete('/:taskId', tasksController.deleteTask)

@@ -55,6 +55,52 @@ describe('Tasks API', () => {
       // Act + Arrange
       const response = await supertest(app)
         .get('/api/tasks/?userId=930293092239429034890234802&range=1500&quantity=10&offset=0');
+
+      // Assert
+      expect(response.statusCode).toEqual(404);
+    });
+  });
+
+  describe('GET /api/tasks/:taskId', () => {
+    it('should get task and return 200 status when called with the appropriate inputs', async () => {
+      // Arrange + Act
+      const response = await supertest(app)
+        .get('/api/tasks/1');
+
+      // Assert
+      expect(response.statusCode).toEqual(200);
+    });
+
+    it('should return a tasks array shaped accordingly', async () => {
+      // Arrange
+      const expectedObjectShape = {
+        task_id: expect.any(Number),
+        requester: expect.any(Object),
+        location: expect.any(Object),
+        description: expect.any(String),
+        category: expect.any(String),
+        status: expect.any(String),
+        start_time: expect.any(String),
+        start_date: expect.any(String),
+        end_date: expect.any(String),
+        physical_labor_required: expect.any(String),
+        helper: expect.any(Object),
+        timestamp_requested: expect.any(String),
+      };
+
+      // Act
+      const response = await supertest(app)
+        .get('/api/tasks/1');
+
+      // Assert
+      expect(response.body).toMatchObject(expectedObjectShape);
+    });
+
+    it('should get return a 404 status wheno tasks are found', async () => {
+      // Act + Arrange
+      const response = await supertest(app)
+        .get('/api/tasks/930293092239429034890234802');
+
       // Assert
       expect(response.statusCode).toEqual(404);
     });
