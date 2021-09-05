@@ -18,7 +18,7 @@ describe('Tasks Controller', () => {
 
     it('Calls the get tasks service', async () => {
       // Arrange
-      req.params = {
+      req.query = {
         userId: 1, range: 15, quantity: 15, offset: 0,
       };
       const getTasksServiceSpy = jest.spyOn(tasksService, 'getTasks').mockImplementation(() => jest.fn());
@@ -28,6 +28,22 @@ describe('Tasks Controller', () => {
 
       // Assert
       expect(getTasksServiceSpy).toBeCalled();
+    });
+  });
+
+  describe('Get Tasks', () => {
+    afterEach(() => jest.restoreAllMocks());
+
+    it('Calls the get task service', async () => {
+      // Arrange
+      req.params = { taskId: 1 };
+      const getTaskSpy = jest.spyOn(tasksService, 'getTask').mockImplementation(() => jest.fn());
+
+      // Act
+      tasksController.getTask(req, res, next);
+
+      // Assert
+      expect(getTaskSpy).toBeCalled();
     });
   });
 
@@ -228,6 +244,50 @@ describe('Tasks Service', () => {
 
       // Assert
       await expect(getTasksService).rejects.toThrow(new ApiError('Undefined params (userId || range || quantity)', httpStatusCodes.BAD_REQUEST));
+    });
+  });
+
+  describe('getTask', () => {
+    afterEach(() => jest.resetAllMocks());
+
+    it('queries the db and returns a task DTO', async () => {
+      // Arrange
+      const params = { taskId: 1 };
+      const taskResponseObj = {
+        rows: [{
+          task_id: 1,
+          requester: {},
+          helper: {},
+          address: {},
+          description: 'help me with life',
+        }],
+      };
+      const dbSpy = jest.spyOn(db, 'query').mockImplementation(() => taskResponseObj);
+
+      // Act
+      const taskDTO = await tasksService.getTask(params);
+
+      // Assert
+      expect(dbSpy).toBeCalled();
+      expect(taskDTO).toEqual({
+        task_id: expect.any(Number),
+        requester: expect.any(Object),
+        helper: expect.any(Object),
+        address: expect.any(Object),
+        description: expect.any(String),
+      });
+    });
+
+    it('throws an API error if no tasks are found', async () => {
+      // Arrange
+      const paramWithUnfindableTask = { taskId: 9102930123890123890182390123 };
+      jest.spyOn(db, 'query').mockImplementation(() => ({ rows: [] }));
+
+      // Act
+      const getTaskService = (() => tasksService.getTask(paramWithUnfindableTask));
+
+      // Assert
+      await expect(getTaskService).rejects.toThrow(new ApiError('No task found!', httpStatusCodes.NOT_FOUND));
     });
   });
 
