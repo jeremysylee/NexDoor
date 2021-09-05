@@ -63,10 +63,11 @@ export const InputClaimedRequest = ({ taskId }) => {
     console.log(res);
     history.push('/myactiverequest');
   };
-  const clickDeclineHandler = () => {
-    axios.delete(`${url}/api/tasks/helper/${taskId}`)
-      .then((res) => console.log(res));
+  const clickDeclineHandler = async () => {
+    await axios.put(`${url}/api/tasks/${taskId}/status/Open`);
+    await axios.delete(`${url}/api/tasks/${taskId}/helper`);
     dispatch({ type: 'SHOW_MAP', toggle: true });
+    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
   };
   return (
     <ColCentered>
