@@ -22,7 +22,7 @@ const taskControllers = {
 
   addTask: async (req, res, next) => {
     const task = {
-      userId: req.query.userId,
+      userId: req.body.userId,
       addressId: req.body.addressId,
       streetAddress: req.body.streetAddress,
       city: req.body.city,

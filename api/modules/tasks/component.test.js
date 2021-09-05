@@ -14,7 +14,7 @@ describe('Tasks API', () => {
     db.end();
   });
 
-  describe('GET tasks/:userId/:range/:quantity/:offset', () => {
+  describe('GET /api/tasks', () => {
     it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
@@ -60,10 +60,11 @@ describe('Tasks API', () => {
     });
   });
 
-  describe('POST /api/tasks/:userId', () => {
+  describe('POST /api/tasks/', () => {
     it('Should add a task and return 200 status when called with the appropriate parameters', async () => {
       // Arrange
       const body = {
+        userId: 1,
         addressId: undefined,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
@@ -94,6 +95,7 @@ describe('Tasks API', () => {
     it('Should add a task and return 200 status when called an addressId instead of an address', async () => {
       // Arrange
       const body = {
+        userId: 1,
         addressId: 1,
         description: 'Can someone watch my dogs for an hour?',
         laborRequired: true,
@@ -120,6 +122,7 @@ describe('Tasks API', () => {
     it('Should throw an API error and return 500 status if locationsService is down', async () => {
       // Arrange
       const body = {
+        userId: 1,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',
@@ -146,7 +149,7 @@ describe('Tasks API', () => {
     });
   });
 
-  describe('PUT /:taskId', () => {
+  describe('PUT /tasks', () => {
     afterEach(() => jest.restoreAllMocks());
     it('Should update a task and return a 200 status if called with the proper parameters with existing address', async () => {
       // Arrange

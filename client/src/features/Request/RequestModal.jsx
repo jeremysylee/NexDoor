@@ -59,6 +59,7 @@ function NewRequestModal() {
       data.address = data.location;
     }
     setRequest({
+      userId: user.user_id,
       addressId: null,
       streetAddress: data.address.street_address,
       city: data.address.city,
@@ -99,6 +100,8 @@ function NewRequestModal() {
   // resets input values & validation errs when you successfully submit form
   function resetReqAndErr() {
     setRequest({
+      userId: user.user_id,
+      addressId: null,
       streetAddress: '',
       city: '',
       state: '',
