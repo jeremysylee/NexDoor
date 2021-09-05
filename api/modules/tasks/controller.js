@@ -73,7 +73,7 @@ const taskControllers = {
     try {
       let addressIdDTO = { addressId: task.addressId || false };
       if (!addressIdDTO.addressId) {
-        addressIdDTO = locationsController.getAddressOrAdd(task);
+        addressIdDTO = await locationsController.getAddressOrAdd(task);
       }
       const taskIdDTO = await tasksService.updateTask(task, addressIdDTO.addressId);
       res.status(200).send(`Task ${taskIdDTO.task_id} has been updated`);
