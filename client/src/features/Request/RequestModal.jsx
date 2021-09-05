@@ -59,6 +59,7 @@ function NewRequestModal() {
       data.address = data.location;
     }
     setRequest({
+      userId: user.user_id,
       addressId: null,
       streetAddress: data.address.street_address,
       city: data.address.city,
@@ -99,6 +100,8 @@ function NewRequestModal() {
   // resets input values & validation errs when you successfully submit form
   function resetReqAndErr() {
     setRequest({
+      userId: user.user_id,
+      addressId: null,
       streetAddress: '',
       city: '',
       state: '',
@@ -157,7 +160,7 @@ function NewRequestModal() {
 
   const postNewRequest = async () => {
     try {
-      const { data } = await axios.post(`${url}/api/tasks/${user.user_id}`, request);
+      const { data } = await axios.post(`${url}/api/tasks/?userId=${user.user_id}`, request);
       console.log(data);
       cleanInputAndClose();
       dispatch({ type: 'SET_TASK', task });

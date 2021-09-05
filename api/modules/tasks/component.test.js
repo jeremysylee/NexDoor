@@ -14,11 +14,11 @@ describe('Tasks API', () => {
     db.end();
   });
 
-  describe('GET tasks/:userId/:range/:quantity/:offset', () => {
+  describe('GET /api/tasks', () => {
     it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
-        .get('/api/tasks/1/1500/10/0');
+        .get('/api/tasks/?userId=1&range=1500&quantity=10&offset=0');
 
       // Assert
       expect(response.statusCode).toEqual(200);
@@ -43,7 +43,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .get('/api/tasks/1/1500/10/0');
+        .get('/api/tasks/?userId=1&range=1500&quantity=10&offset=0');
 
       // Assert
       expect(response.body.requested[0]).toMatchObject(expectedObjectShape);
@@ -54,16 +54,17 @@ describe('Tasks API', () => {
     it('should get return a 404 status wheno tasks are found', async () => {
       // Act + Arrange
       const response = await supertest(app)
-        .get('/api/tasks/999999999992342342/0/10/0');
+        .get('/api/tasks/?userId=930293092239429034890234802&range=1500&quantity=10&offset=0');
       // Assert
       expect(response.statusCode).toEqual(404);
     });
   });
 
-  describe('POST /api/tasks/:userId', () => {
+  describe('POST /api/tasks/', () => {
     it('Should add a task and return 200 status when called with the appropriate parameters', async () => {
       // Arrange
       const body = {
+        userId: 1,
         addressId: undefined,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
@@ -83,7 +84,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .post('/api/tasks/1')
+        .post('/api/tasks/?userId=1')
         .send(body);
       testTaskIdToDelete = response.body.task_id;
 
@@ -94,6 +95,7 @@ describe('Tasks API', () => {
     it('Should add a task and return 200 status when called an addressId instead of an address', async () => {
       // Arrange
       const body = {
+        userId: 1,
         addressId: 1,
         description: 'Can someone watch my dogs for an hour?',
         laborRequired: true,
@@ -108,7 +110,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .post('/api/tasks/1')
+        .post('/api/tasks/?userId=1')
         .send(body);
       testTaskIdToDelete = response.body.task_id;
 
@@ -120,6 +122,7 @@ describe('Tasks API', () => {
     it('Should throw an API error and return 500 status if locationsService is down', async () => {
       // Arrange
       const body = {
+        userId: 1,
         streetAddress: '727 N Broadway',
         city: 'Los Angeles',
         state: 'CA',
@@ -138,7 +141,7 @@ describe('Tasks API', () => {
 
       // Act
       const response = await supertest(app)
-        .post('/api/tasks/1')
+        .post('/api/tasks/?userId=1')
         .send(body);
 
       // Assert
@@ -146,7 +149,7 @@ describe('Tasks API', () => {
     });
   });
 
-  describe('PUT /:taskId', () => {
+  describe('PUT /tasks', () => {
     afterEach(() => jest.restoreAllMocks());
     it('Should update a task and return a 200 status if called with the proper parameters with existing address', async () => {
       // Arrange

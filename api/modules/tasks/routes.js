@@ -5,8 +5,8 @@ const tasks = express.Router();
 const tasksController = require('./controller');
 
 tasks
-  .get('/:userId/:range/:quantity/:offset', tasksController.getTasks)
-  .post('/:userId', tasksController.addTask)
+  .get('/', tasksController.getTasks)
+  .post('/', tasksController.addTask)
   .put('/:taskId', tasksController.updateTask)
   .delete('/:taskId', tasksController.deleteTask)
 

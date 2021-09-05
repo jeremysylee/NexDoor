@@ -132,12 +132,12 @@ describe('Users API', () => {
     });
   });
 
-  describe('GET api/users/rating/:quantity/:userId/:range', () => {
+  describe('GET api/users/?sortBy&quantity&userId&range', () => {
     afterEach(() => jest.restoreAllMocks());
     it('Gets users array and returns a 200 status when called with appropriate inputs', async () => {
       // Arrange + Act
       const response = await supertest(app)
-        .get('/api/users/rating/10/1/100');
+        .get('/api/users/?sortBy=rating&quantity=10&userId=1&range=100');
 
       // Assert
       expect(response.statusCode).toEqual(200);
@@ -152,7 +152,7 @@ describe('Users API', () => {
     it('throws an API error and returns a 404 when no tasks are found', async () => {
       // Arrange + Act
       const response = await supertest(app)
-        .get('/api/users/rating/0/10/10');
+        .get('/api/users/?sortBy=rating&quantity=10&userId=9921380192839108231&range=100');
 
       // Assert
       expect(response.statusCode).toEqual(404);

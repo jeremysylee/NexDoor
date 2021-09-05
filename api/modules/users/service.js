@@ -96,7 +96,7 @@ const usersService = {
     return userDTO;
   },
 
-  getUsersByRating: async (params) => {
+  getUsers: async (params) => {
     const {
       userId,
       range,
