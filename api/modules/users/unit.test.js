@@ -302,33 +302,43 @@ describe('Users Controller', () => {
     });
   });
 
-  describe('getUsersByRating', () => {
+  describe('getUsers', () => {
     afterEach(() => jest.restoreAllMocks());
-    it('calls the getUsersByRating service', async () => {
+    it('calls the getUsers service', async () => {
       // Arrange
       const req = getMockReq();
       req.params = { quantity: 10, userId: 1, range: 10 };
-      const getUsersByRatingServiceSpy = jest.spyOn(usersService, 'getUsersByRating').mockImplementation(jest.fn());
+      const getUsersSpy = jest.spyOn(usersService, 'getUsers').mockImplementation(jest.fn());
 
       // Act
-      await usersController.getUsersByRating(req, res, next);
+      await usersController.getUsers(req, res, next);
 
       // Assert
-      expect(getUsersByRatingServiceSpy).toBeCalled();
+      expect(getUsersSpy).toBeCalled();
     });
 
     it('provides default quantity and range parameters if not provided', async () => {
       // Arrange
       const req = getMockReq();
-      req.params = { quantity: undefined, userId: 1, range: undefined };
-      const getUsersByRatingSpy = jest.spyOn(usersService, 'getUsersByRating').mockImplementation(jest.fn());
+      req.query = {
+        sortBy: 'ratings',
+        quantity: undefined,
+        userId: 1,
+        range: undefined,
+      };
+      const getUsersSpy = jest.spyOn(usersService, 'getUsers').mockImplementation(jest.fn());
 
       // Act
-      await usersController.getUsersByRating(req, res, next);
+      await usersController.getUsers(req, res, next);
 
       // Assert
-      expect(getUsersByRatingSpy).toHaveBeenLastCalledWith(
-        expect.objectContaining({ quantity: 25, range: 1, userId: 1 }),
+      expect(getUsersSpy).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          quantity: 25,
+          range: 1,
+          userId: 1,
+          sortBy: 'ratings',
+        }),
       );
     });
   });
@@ -412,7 +422,7 @@ describe('Users Service', () => {
     });
   });
 
-  describe('getUsersByRating', () => {
+  describe('getUsers', () => {
     afterEach(() => jest.restoreAllMocks());
     it('queries the db and returns a users array DTO', async () => {
       // Arrange
@@ -431,7 +441,7 @@ describe('Users Service', () => {
       };
 
       // Act
-      const usersDTO = await usersService.getUsersByRating(params);
+      const usersDTO = await usersService.getUsers(params);
 
       // Assert
       expect(usersDTO[0]).toEqual(userDTO);

@@ -157,7 +157,7 @@ function NewRequestModal() {
 
   const postNewRequest = async () => {
     try {
-      const { data } = await axios.post(`${url}/api/tasks/${user.user_id}`, request);
+      const { data } = await axios.post(`${url}/api/tasks/?userId=${user.user_id}`, request);
       console.log(data);
       cleanInputAndClose();
       dispatch({ type: 'SET_TASK', task });

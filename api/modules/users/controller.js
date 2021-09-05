@@ -46,14 +46,15 @@ const userController = {
     }
   },
 
-  getUsersByRating: async (req, res, next) => {
+  getUsers: async (req, res, next) => {
     const params = {
-      quantity: req.params.quantity || 25,
-      userId: req.params.userId,
-      range: req.params.range || 1,
+      sortBy: req.query.sortBy || 'ratings',
+      quantity: req.query.quantity || 25,
+      userId: req.query.userId,
+      range: req.query.range || 1,
     };
     try {
-      const users = await usersService.getUsersByRating(params);
+      const users = await usersService.getUsers(params);
       res.status(200).send(users);
     } catch (err) {
       console.log(err);
