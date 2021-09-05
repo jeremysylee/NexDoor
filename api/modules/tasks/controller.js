@@ -20,6 +20,18 @@ const taskControllers = {
     }
   },
 
+  getTask: async (req, res, next) => {
+    const taskId = {
+      taskId: req.params.taskId,
+    };
+    try {
+      const task = await tasksService.getTask(taskId);
+      res.status(200).send(task);
+    } catch (err) {
+      next(err);
+    }
+  },
+
   addTask: async (req, res, next) => {
     const task = {
       userId: req.body.userId,

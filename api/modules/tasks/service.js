@@ -279,6 +279,73 @@ const tasksService = {
     return tasksDTO;
   },
 
+  getTask: async ({ taskId }) => {
+    const queryStr = `
+      SELECT
+        task_id,
+        (
+          SELECT ROW_TO_JSON(reqname)
+          FROM (
+            SELECT
+              user_id,
+              firstname,
+              lastname,
+              email,
+              address_id,
+              karma,
+              task_count,
+              average_rating,
+              profile_picture_url
+            FROM nexdoor.users
+            WHERE user_id=nexdoor.tasks.requester_id
+          ) reqname
+        ) as requester,
+        (
+          SELECT ROW_TO_JSON(helpname)
+          FROM (
+            SELECT
+              user_id,
+              firstname,
+              lastname,
+              email,
+              address_id,
+              karma,
+              task_count,
+              average_rating,
+              profile_picture_url
+            FROM nexdoor.users
+            WHERE user_id=nexdoor.tasks.helper_id
+          ) helpname
+        ) as helper,
+        (
+          SELECT ROW_TO_JSON(loc)
+          FROM (
+            SELECT *
+            FROM nexdoor.address
+            WHERE address_id=nexdoor.tasks.address_id
+          ) loc
+        ) as location,
+        description,
+        car_required,
+        physical_labor_required,
+        status,
+        category,
+        start_date,
+        end_date,
+        start_time,
+        duration,
+        timestamp_requested
+      FROM nexdoor.tasks
+      WHERE task_id=${taskId}
+      ;`;
+    const data = await db.query(queryStr);
+    if (!data.rows[0]) {
+      throw new ApiError('No task found!', httpStatusCodes.NOT_FOUND);
+    }
+    const taskDTO = data.rows[0];
+    return taskDTO;
+  },
+
   addTask: async ({
     userId,
     description,
