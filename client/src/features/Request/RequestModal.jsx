@@ -160,6 +160,7 @@ function NewRequestModal() {
       const { data } = await axios.post(`${url}/api/tasks/${user.user_id}`, request);
       console.log(data);
       cleanInputAndClose();
+      dispatch({ type: 'SET_TASK', task });
     } catch (err) {
       console.log(err);
     }
@@ -170,6 +171,7 @@ function NewRequestModal() {
       const { data } = await axios.put(`${url}/api/tasks/${task.task_id}`, request);
       console.log(data);
       cleanInputAndClose();
+      dispatch({ type: 'SET_TASK', task });
     } catch (err) {
       console.log(err);
     }
