@@ -59,6 +59,7 @@ function NewRequestModal() {
       data.address = data.location;
     }
     setRequest({
+      addressId: null,
       streetAddress: data.address.street_address,
       city: data.address.city,
       state: data.address.state,
@@ -154,28 +155,24 @@ function NewRequestModal() {
     resetReqAndErr();
   };
 
-  const postNewRequest = () => {
-    axios.post(`${url}/api/tasks/${user.user_id}`, request)
-      .then((response) => {
-        console.log(response.data);
-        cleanInputAndClose();
-      })
-      .catch((err) => {
-        console.log(err);
-        cleanInputAndClose();
-      });
+  const postNewRequest = async () => {
+    try {
+      const { data } = await axios.post(`${url}/api/tasks/${user.user_id}`, request);
+      console.log(data);
+      cleanInputAndClose();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const editRequest = () => {
-    axios.put(`${url}/api/tasks/${task.task_id}`, request)
-      .then((response) => {
-        console.log(response.data);
-        cleanInputAndClose();
-      })
-      .catch((err) => {
-        console.log(err);
-        cleanInputAndClose();
-      });
+  const editRequest = async () => {
+    try {
+      const { data } = await axios.put(`${url}/api/tasks/${task.task_id}`, request);
+      console.log(data);
+      cleanInputAndClose();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // submit form info with validation check
