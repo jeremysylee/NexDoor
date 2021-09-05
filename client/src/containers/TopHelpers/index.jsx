@@ -8,11 +8,12 @@ import User from './User';
 
 const TopHelpers = () => {
   const [topReviews, setTopReviews] = useState([{profile_picture_url: ''}, {profile_picture_url: ''}, {profile_picture_url: ''}]);
+  const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const url = 'http://localhost:3500';
 
   useEffect(() => {
-    axios.get(`${url}/api/users/rating/10`)
+    axios.get(`${url}/api/users/?sortBy=rating&userId=${currentUserId}&quantity=10&range=10`)
       .then(({ data }) => {
         setTopReviews(data);
       })
