@@ -263,6 +263,10 @@ CREATE INDEX start_date_time_idx
 	ON nexdoor.tasks USING btree
     (start_date ASC NULLS LAST, start_time ASC NULLS LAST)
     TABLESPACE pg_default;
+
+CREATE INDEX status_idx
+    ON nexdoor.tasks USING btree
+    (status);
 --*********************************************************************
 -- MESSAGES TABLE
 --*********************************************************************

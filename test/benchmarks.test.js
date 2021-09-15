@@ -1,13 +1,15 @@
+/* eslint-disable import/no-unresolved */
+
 process.env.NODE_ENV = 'test';
 
 const supertest = require('supertest');
 
-const { app, redisClient } = require('./app');
+const { app, redisClient } = require('../api/app');
 
-const db = require('./db');
+const db = require('../api/db');
 
-const lastTenPercentRandomizer = () => Math.floor(Math.random() * 100000 + 900000);
-// const lastTenPercentRandomizer = () => 1;
+// const lastTenPercentRandomizer = () => Math.floor(Math.random() * 100000 + 900000);
+const lastTenPercentRandomizer = () => 964494;
 
 afterAll(async () => {
   redisClient.quit();
@@ -19,6 +21,7 @@ let testTaskIdToDelete;
 /* ************************************************************************* */
 // ANNOUNCEMENTS //
 describe('BENCHMARK TESTING', () => {
+  afterAll(() => setTimeout(() => console.log('tests complete')), 10000);
   describe('Announcements', () => {
     describe('GET api/announcements/:quantity', () => {
       it('should get announcements and return 200 status when called with the appropriate inputs', async () => {
@@ -91,21 +94,32 @@ describe('BENCHMARK TESTING', () => {
   // TASKS //
 
   describe('Tasks', () => {
-    describe('GET tasks/:userId/:range/:quantity/:offset', () => {
+    describe('GET tasks/?userId&range&quantity&offset', () => {
       it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .get(`/api/tasks/${lastTenPercentRandomizer()}/1500/10/0`);
+          .get(`/api/tasks/?userId=${lastTenPercentRandomizer()}&range=1500&quantity=10&offset=0`);
+
+        // Assert
+        expect(response.statusCode).toEqual(200);
+      });
+    });
+    describe('GET tasks/taskId', () => {
+      it('should get tasks and return 200 status when called with the appropriate inputs', async () => {
+        // Arrange + Act
+        const response = await supertest(app)
+          .get(`/api/tasks/${lastTenPercentRandomizer()}`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
       });
     });
 
-    describe('POST tasks/:userId', () => {
+    describe('POST tasks/', () => {
       it('Should add a task and return 200 status when called with the appropriate parameters', async () => {
         // Arrange
         const body = {
+          userId: 1,
           addressId: 1,
           streetAddress: '727 N Broadway',
           city: 'Los Angeles',
@@ -125,7 +139,7 @@ describe('BENCHMARK TESTING', () => {
 
         // Act
         const response = await supertest(app)
-          .post(`/api/tasks/${lastTenPercentRandomizer()}`)
+          .post('/api/tasks')
           .send(body);
         testTaskIdToDelete = response.body.task_id;
 
@@ -274,12 +288,12 @@ describe('BENCHMARK TESTING', () => {
       });
     });
 
-    describe('GET api/users/rating/:quantity/:userId/:range', () => {
+    describe('GET api/users/?sortBy&quantity&userId&range', () => {
       afterEach(() => jest.restoreAllMocks());
       it('Gets users array and returns a 200 status when called with appropriate inputs', async () => {
         // Arrange + Act
         const response = await supertest(app)
-          .get(`/api/users/rating/10/${lastTenPercentRandomizer()}/100`);
+          .get(`/api/users/?sortBy=rating&quantity=10&userId=${lastTenPercentRandomizer()}&range=100`);
 
         // Assert
         expect(response.statusCode).toEqual(200);
