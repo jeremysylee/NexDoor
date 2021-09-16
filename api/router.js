@@ -9,9 +9,6 @@ router
     .use('/tasks', tasks)
     .use('/users', users)
     .use('/messages', messages)
-    .use('/announcements', announcements)
-    .use('/loaderio-1a4211073599720da7419a4e8835d00b', (req, res, next) => {
-        res.send('loaderio-1a4211073599720da7419a4e8835d00b');
-    })
+    .use('/announcements', announcements);
 
 module.exports = router;
