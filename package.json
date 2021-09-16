@@ -4,14 +4,14 @@
   "description": "Basically NextDoor",
   "main": "index.js",
   "scripts": {
-    "parcel": "parcel ./client/static/index.html",
     "server": "nodemon api",
     "clean": "rm dist/bundle.js",
     "build-dev": "webpack --mode development",
     "build-prod": "webpack --mode production",
     "start": "webpack serve --hot --mode development --history-api-fallback",
     "test": "jest",
-    "benchmark": "jest -i /api/benchmarks.test.js"
+    "benchmark": "jest /test/benchmarks.test.js --coverage=false",
+    "benchmark-s": "jest /test/benchmarks.test.js --silent --coverage=false"
   },
   "repository": {
     "type": "git",
