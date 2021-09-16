@@ -42,6 +42,10 @@ app.use(session({
 }));
 
 app.use('/api', router);
+app.use('*', (req, res, next) => {
+  next();
+});
+
 app.use(express.static(path.join(__dirname, '..', 'client/index')));
 
 // Error handling middleware:

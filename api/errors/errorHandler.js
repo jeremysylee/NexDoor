@@ -11,8 +11,9 @@ const logErrorMiddleware = (err, req, res, next) => {
   next(err);
 };
 
-const returnError = (err, req, res) => {
+const returnError = (err, req, res, next) => {
   res.status(err.statusCode || 500).send(err.message);
+  next();
 };
 
 const isOperationalError = (error) => {
