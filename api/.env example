@@ -17,3 +17,7 @@ CLIENT_PORT=8080
 # Configuration for Redis server (storage for sessions)
 REDIS_PORT=6379
 REDIS_HOST=localhost
+
+# New Relic Credentials
+NEW_RELIC_LICENSE_KEY=key_goes_here
+NEW_RELIC_APP_NAME=NEXDOOR
