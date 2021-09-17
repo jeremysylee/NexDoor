@@ -1,6 +1,5 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
-// const getCoordinates = require('./coordinates');
 const tasksService = require('./service');
 const locationsController = require('../locations/controller');
 
