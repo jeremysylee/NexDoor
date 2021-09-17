@@ -7,7 +7,7 @@
 -- DROP DATABASE postgres;
 -- CREATE DATABASE nexdoorTesting
 --     WITH
---     OWNER = blueboolean
+--     OWNER = postgres
 --     ENCODING = 'UTF8'
 --     LC_COLLATE = 'en_US.UTF-8'
 --     LC_CTYPE = 'en_US.UTF-8'
@@ -21,7 +21,7 @@
 -- SCHEMA: nexdoor
 -- DROP SCHEMA nexdoor ;
 CREATE SCHEMA nexdoor
-    AUTHORIZATION blueboolean;
+    AUTHORIZATION postgres;
 --*********************************************************************
 -- EXTENSIONS
 --*********************************************************************
@@ -44,7 +44,7 @@ CREATE TABLE nexdoor.address (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.address
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: address_id_idx
 -- DROP INDEX nexdoor.address_id_idx;
 CREATE INDEX address_id_idx
@@ -89,7 +89,7 @@ CREATE TABLE nexdoor.users (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.users
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: user_id_idx
 -- DROP INDEX nexdoor.user_id_idx;
 CREATE INDEX user_id_idx
@@ -127,7 +127,7 @@ CREATE TABLE nexdoor.announcements (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.announcements
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: announcement_id_idx
 -- DROP INDEX nexdoor.announcement_id_idx;
 CREATE INDEX announcement_id_idx
@@ -158,7 +158,7 @@ CREATE TABLE nexdoor.sessions (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.sessions
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: session_id_idx
 -- DROP INDEX nexdoor.session_id_idx;
 CREATE INDEX session_id_idx
@@ -190,7 +190,7 @@ END;
 $BODY$;
 
 ALTER FUNCTION nexdoor.sessions_expiry_date_delete()
-    OWNER TO blueboolean;
+    OWNER TO postgres;
 --*********************************************************************
 -- Trigger: sessions_expiry_date_delete_trigger
 -- DROP TRIGGER sessions_expiry_date_delete_trigger ON nexdoor.sessions;
@@ -233,7 +233,7 @@ CREATE TABLE nexdoor.tasks (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.tasks
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: task_id_idx
 -- DROP INDEX nexdoor.task_id_idx;
 CREATE INDEX task_id_idx
@@ -292,7 +292,7 @@ CREATE TABLE nexdoor.messages (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.messages
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: message_id_idx
 -- DROP INDEX nexdoor.message_id_idx;
 CREATE INDEX message_id_idx
@@ -343,7 +343,7 @@ CREATE TABLE nexdoor.photos (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.photos
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: photo_id_idx
 -- DROP INDEX nexdoor.photo_id_idx;
 CREATE INDEX photo_id_idx
@@ -395,7 +395,7 @@ CREATE TABLE nexdoor.reviews (
 )
 TABLESPACE pg_default;
 ALTER TABLE nexdoor.reviews
-    OWNER to blueboolean;
+    OWNER to postgres;
 -- Index: review_id_idx
 -- DROP INDEX nexdoor.review_id_idx;
 CREATE INDEX review_id_idx
