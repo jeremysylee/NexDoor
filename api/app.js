@@ -41,9 +41,9 @@ app.use(session({
 }));
 
 app.use('/api', router);
-// app.get('/loaderio-1a4211073599720da7419a4e8835d00b', (req, res) => {
-//   res.set({ contentType: 'text/plain', charset: 'utf-8' }).status(200).send('loaderio-1a4211073599720da7419a4e8835d00b');
-// });
+app.get('/loaderio-1a4211073599720da7419a4e8835d00b', (req, res) => {
+  res.set({ contentType: 'text/plain', charset: 'utf-8' }).status(200).send('loaderio-1a4211073599720da7419a4e8835d00b');
+});
 
 app.use(express.static(path.join(__dirname, '..', 'client/index')));
 
