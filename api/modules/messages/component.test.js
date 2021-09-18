@@ -35,15 +35,6 @@ describe('Messages API', () => {
       expect(response.body[0]).toEqual(expectedObject);
     });
 
-    it('should return an 500 status if called without taskId parameter', async () => {
-      // Arrange + Act
-      const response = await supertest(app)
-        .get('/api/messages/');
-
-      // Assert
-      expect(response.statusCode).toEqual(500);
-    });
-
     it('should return an 404 status if no messages are found', async () => {
       // Arrange + Act
       const response = await supertest(app)

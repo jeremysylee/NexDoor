@@ -51,7 +51,7 @@ describe('Tasks API', () => {
       expect(response.body.allothers[0]).toMatchObject(expectedObjectShape);
     });
 
-    it('should get return a 404 status wheno tasks are found', async () => {
+    it('should get return a 404 status when no tasks are found', async () => {
       // Act + Arrange
       const response = await supertest(app)
         .get('/api/tasks/?userId=930293092239429034890234802&range=1500&quantity=10&offset=0');
@@ -195,7 +195,7 @@ describe('Tasks API', () => {
     });
   });
 
-  describe('PUT /tasks', () => {
+  describe('PUT /tasks/taskId', () => {
     afterEach(() => jest.restoreAllMocks());
     it('Should update a task and return a 200 status if called with the proper parameters with existing address', async () => {
       // Arrange

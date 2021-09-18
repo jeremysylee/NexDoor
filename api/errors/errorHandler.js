@@ -1,4 +1,3 @@
-const newrelic = require('newrelic');
 const BaseError = require('./baseError');
 
 const logError = (err) => {
@@ -9,14 +8,11 @@ const logError = (err) => {
 
 const logErrorMiddleware = (err, req, res, next) => {
   logError(err);
-  newrelic.noticeError(err);
   next(err);
 };
 
 const returnError = (err, req, res, next) => {
-  console.log(err);
-  newrelic.noticeError(err);
-  res.status(err.statusCode || 500).send(err.message, err);
+  res.status(err.statusCode || 500).send(err.message);
   next();
 };
 
