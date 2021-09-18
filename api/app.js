@@ -2,7 +2,7 @@ require('dotenv').config();
 // require('newrelic');
 
 const express = require('express');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
@@ -16,7 +16,7 @@ const router = require('./router');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(cors({ origin: `http://localhost:${process.env.CLIENT_PORT}`, credentials: true }));
 
 app.set('trust proxy', 1); // enable if using proxy/load balancer
@@ -41,8 +41,8 @@ app.use(session({
 }));
 
 app.use('/api', router);
-app.get('/loaderio-1a4211073599720da7419a4e8835d00b', (req, res) => {
-  res.set({ contentType: 'text/plain', charset: 'utf-8' }).status(200).send('loaderio-1a4211073599720da7419a4e8835d00b');
+app.get('/loaderio-a7bbbdd11fe9bd5bf199f90e1c860262', (req, res) => {
+  res.set({ contentType: 'text/plain', charset: 'utf-8' }).status(200).send('loaderio-a7bbbdd11fe9bd5bf199f90e1c860262');
 });
 
 app.use(express.static(path.join(__dirname, '..', 'client/index')));
