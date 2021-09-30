@@ -18,15 +18,16 @@ To install and use Nexdoor, you'll need these prerequisites
 2. Redis
 
 ### Setup & Installation
+
 1. Fork repository and clone to machine
-2. From your root directory, run `npm install` to install dependencies
-3. Rename `.env example` file to `.env`
-4. Populate `.env` with corresponding credentials
-5. Boot Redis database
-6. Run script `npm run server`
-7. Run script `npm start`
-8. Open your browser to `http://localhost:8080`
-9. Create a new account
+2. From the api directory, run `npm install` to install dependencies for the api
+3. From the root directory, run `npm install` to install dependencies
+4. Rename `.env example` file to `.env`
+5. Populate `.env` with corresponding credentials
+6. Boot Redis database
+7. Run script `npm run server` to start the api server
+8. Run script `npm start` to build the webpack bundle and serve the client on localhost:8080
+9. Congratulations! Your app should be running on localhost:8080!
 
 # Technologies
 Front End: 
