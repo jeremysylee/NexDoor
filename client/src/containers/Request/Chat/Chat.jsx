@@ -7,7 +7,7 @@ import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import { DateTime } from 'luxon';
 import Message from './Message';
 
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:3500');
 
 const Chat = () => {
   const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
@@ -20,16 +20,16 @@ const Chat = () => {
   // display existing chat messages
   //
   const user = useSelector((store) => store.currentUserReducer.userData);
+  const task = useSelector((store) => store.selectedTaskReducer.task);
   const userId = user.user_id;
-  // console.log('userId: ', userId);
+
   const url = 'http://localhost:3500';
   const [currentMessage, setCurrentMessage] = useState('');
-  const [currentTask, setCurrentTask] = useState(taskId);
-  const [firstName, setFirstName] = useState();
-  const [lastName, setLastName] = useState();
   const [messages, setMessages] = useState([]);
 
-  // const [currentUser, setCurrentUser] = useState(userId);//set to user id*********
+  socket.on(task.task_id, (data) => {
+    setMessages((prev) => [...prev, data]);
+  });
 
   const handleChange = (e) => {
     setCurrentMessage(e.target.value);
@@ -43,46 +43,35 @@ const Chat = () => {
     let trail = 'AM';
     let hour = Number(time.substring(0, 2));
     const minutes = time.slice(2);
-    // console.log(minutes);
-    // console.log(hour);
     if (hour >= 12) {
       hour -= 12;
       trail = 'PM';
     }
-
-    return hour + minutes + ' ' + trail;
+    return `${hour}${minutes} ${trail}`;
   };
 
-  const handleSend = () => {
-    // send Message to database
-    // add message to messages and display render on screen(setstate)
-    const d = new Date();
-    const dStr = d.toString();
-    const currentDayOfMonth = d.getDate();
-    const currentMonth = d.getMonth(); // Be careful! January is 0, not 1
-    const currentYear = d.getFullYear();
-    // const timeString = dStr.slice(16, 21);
-    const timeString = formatTime(dStr.slice(16, 21));
-    const dateString = (currentMonth + 1) + "/" + currentDayOfMonth + "/" + currentYear;
-
+  const handleSend = async () => {
+    const now = DateTime.local();
+    const dateFormatted = DateTime.fromISO(now).toFormat('yyyy-MM-dd');
+    const timeFormatted = DateTime.fromISO(now).toFormat('HH:mm:ss');
     const message = {
       userId,
-      firstname: firstName,
-      lastname: lastName,
-      message_body: currentMessage,
-      date: dateString,
-      time: timeString,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      messageBody: currentMessage,
+      date: dateFormatted,
+      time: timeFormatted,
     };
-    socket.emit('send-message', { task: currentTask, message: message });
 
-    setMessages((prev) => [...prev, message]); // ???
+    // socket.io for live updates
+    socket.emit('send-message', { task: task.task_id, message });
 
-    // axios.post(`${url}/${taskId}/${userId}`)
-    //   .catch((err) => {
-    //     throw (err);
-    //   });
+    setMessages((prev) => [...prev, message]);
 
-    // add message to
+    // data persistence stores in database
+    await axios.post(`${url}/api/messages/${task.task_id}/${userId}`, message);
+
+    // reset inputs
     const resetElements = document.getElementsByClassName('messageInput');
     for (let i = 0; i < resetElements.length; i++) {
       resetElements[i].value = '';
@@ -90,40 +79,23 @@ const Chat = () => {
     }
   };
 
-  useEffect(() => {
-    // const result = window.prompt('Enter name and task number');
-    // const resultContainer = result.split(' ');
-    // setFirstName();
-    // setLastName();
-    // setCurrentUser(userId);
-    // setCurrentTask(taskId);
-    // axios.get(`${url}/api/messages/${taskId}`)
-    //   .then((data) => {
-    //     setMessages(data.data);
-    //   });
-  }, [taskId, userId]);
+  const getMessages = () => {
+    axios.get(`${url}/api/messages/${taskId}`)
+      .then((data) => {
+        setMessages(data.data);
+      });
+  };
 
-  // useEffect(() => {
-  //   // console.log('hi');
-  //   // console.log('result: ', result);
-  //   // setCurrentTask(taskId);
-  //   // socket.emit('join', 'room1');
-  //   socket.on(currentTask, (data) => {
-  //     // console.log('currentTask: ', currentTask);
-  //     // console.log('data: ', data);
-  //     setMessages((prev) => [...prev, data]);
-  //   });
-  // }, [currentTask]);
+  useEffect(() => {
+    // get the messages on load
+    getMessages();
+  }, [taskId, userId]);
 
   useEffect(() => {
     const elem = document.getElementById('allMessages');
     elem.scrollTop = elem.scrollHeight;
+    console.log(messages, 'messages');
   }, [messages]);
-
-  // useEffect(() => {
-  //   const elem = document.getElementById('allMessages');
-  //   elem.scrollTop = elem.scrollHeight;
-  // }, []);
 
   const chatStyle = {
     position: 'relative',
@@ -139,32 +111,7 @@ const Chat = () => {
     overflow: 'auto',
   };
 
-  const handleMessage = () => {
-    const now = DateTime.local();
-    const dateFormatted = DateTime.fromISO(now).toFormat('yyyy-MM-dd');
-    const timeFormatted = DateTime.fromISO(now).toFormat('HH:mm:ss');
-
-    const message = {
-      messageBody: currentMessage,
-      date: dateFormatted,
-      time: timeFormatted,
-    };
-
-    console.log(message);
-    axios.post(`${url}/api/messages/${taskId}/${userId}`, message)
-      .then((res) => console.log(res))
-      .then(() => resetInput())
-      .catch((err) => console.log(err));
-  };
-
-  const getMessages = () => {
-    axios.get(`${url}/api/messages/${taskId}`)
-      .then((data) => {
-        setMessages(data.data);
-      });
-  };
-
-  const [currentInterval, setCurrentInterval] = useState();
+  // const [currentInterval, setCurrentInterval] = useState();
 
   // useEffect(() => {
   //   getMessages();
@@ -180,13 +127,8 @@ const Chat = () => {
     <div style={chatStyle}>
       <div style={messageContaierStyle} id="allMessages">
         {messages.map((message, idx) => {
-          // console.log('current User: ', currentUser);
-          // console.log('info: ', message.firstname, ' ', message.lastname);
-          const user_1 = userId;
-          // console.log(messages);
           let isUser;
-          // console.log(user_1, currentUser);
-          if (message.user_id === userId) {//set user to user id *********
+          if (message.user_id === userId) {
             isUser = true;
           } else {
             isUser = false;
@@ -194,19 +136,33 @@ const Chat = () => {
           return (<Message key={idx} message={message} user={user} isUser={isUser} />);
         })}
       </div>
-      <div style={{ position: 'relative', bottom: '0', right: '0', margin: '5px' }}>
+      <div style={{
+        position: 'relative',
+        bottom: '0',
+        right: '0',
+        margin: '5px',
+      }}
+      >
         <input
-          style={{ width: '45vw', borderRadius: '25px', height: '6vh', borderColor: 'grey' }}
-          className="messageInput" placeholder="Write message here..." onChange={handleChange} />
+          style={{
+            width: '45vw',
+            borderRadius: '25px',
+            height: '6vh',
+            borderColor: 'grey',
+          }}
+          className="messageInput"
+          placeholder="Write message here..."
+          onChange={handleChange}
+        />
         <IconButton onClick={() => {
-          // handleSend();
-          handleMessage();
-        }} > <SendTwoToneIcon /></IconButton>
-        {/* <button onClick={handleSend}>Send</button> */}
+          handleSend();
+        }}
+        >
+          <SendTwoToneIcon />
+        </IconButton>
       </div>
     </div>
   );
-return ( <div></div>)
 };
 export default Chat;
 

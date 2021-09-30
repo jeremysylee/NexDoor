@@ -53,7 +53,7 @@ const Message = ({ message, user, isUser }) => {
     return (
       <Grid container display="flex" justifyContent="flex-end">
       <div style={style}>
-        <span style={messageStyle}>{message.message_body}</span>
+        <span style={messageStyle}>{message.messageBody}</span>
         <div style={profilePicStyle}>{user.firstname.slice(0, 1)}</div>
         <div style={dateStyle}>{message.time} {message.date}</div>
         {/* <span>{message.time}</span> */}
@@ -74,7 +74,7 @@ const Message = ({ message, user, isUser }) => {
       <div style={style}>
         <Row>
           <span style={profilePicStyle}>{profilePic}</span>
-          <div style={messageStyle}>{message.message_body}</div>
+          <div style={messageStyle}>{message.messageBody}</div>
         </Row>
         <div style={dateStyle2}>{DateTime.fromISO(message.time).toFormat('ccc')} {DateTime.fromISO(message.date).toFormat('HH:mm:ss')}</div>
         {/* <span>{message.time}</span> */}
@@ -85,11 +85,11 @@ const Message = ({ message, user, isUser }) => {
   const dateFormatted = DateTime.fromISO(now).toFormat('yyyy-MM-dd');
   const timeFormatted = DateTime.fromISO(now).toFormat('HH:mm:ss');
 
-  // console.log(message.message_body)
+  // console.log(message.messageBody)
   // return (
   //   <div style={style}>
 
-  //     <div>{message.message_body}</div>
+  //     <div>{message.messageBody}</div>
   //     {/* <span>{message.time}</span> */}
   //   </div>
   // );
