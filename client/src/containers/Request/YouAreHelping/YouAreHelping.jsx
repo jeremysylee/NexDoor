@@ -10,10 +10,17 @@ const YouAreHelpingContainer = styled.div`
 width: 250px;
 height: 100%;
 padding: 10px;
-background-color: #F2F1F7;
 margin-top: 2em;
-border-radius: 10px;
 flex-direction: row;
+
+border-radius: 10px;
+background-color: #FFFFFF;
+overflow: hidden;
+padding: 1em;
+box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
+font-family: Roboto;
+font-size: 18px;
+font-weight: 500;
 font-family: Roboto;
 `;
 

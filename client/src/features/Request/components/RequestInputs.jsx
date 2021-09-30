@@ -37,9 +37,9 @@ export const InputActiveTask = () => {
 
   const clickGoToRequestHandler = () => {
     if (category.role === 'requester') {
-      history.push('/myactiverequest');
+      history.push('/request');
     } else {
-      history.push('/active');
+      history.push('/request');
     }
   };
 
@@ -61,7 +61,7 @@ export const InputClaimedRequest = ({ taskId }) => {
   const clickAcceptHandler = async () => {
     const res = await axios.put(`${url}/api/tasks/${taskId}/status/Active/`);
     console.log(res);
-    history.push('/myactiverequest');
+    history.push('/request');
   };
   const clickDeclineHandler = async () => {
     await axios.put(`${url}/api/tasks/${taskId}/status/Open`);

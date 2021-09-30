@@ -7,7 +7,7 @@ import { url } from '../../config';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './containers/Home/Home';
 import TopHelpers from './containers/TopHelpers/TopHelpers';
-import Request from './containers/Request/YouAreHelping/Active';
+import Request from './containers/Request';
 import MyActiveRequest from './containers/Request/MyActive/MyActiveRequest';
 import Login from './features/Accounts/Login';
 import Signup from './features/Accounts/Signup';
@@ -16,7 +16,7 @@ const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
-  const getTasksByLocation = () => {
+  const getTasks = () => {
     axios.get(`${url}/api/tasks/?userId=${userId}&range=50&quantity=30&offset=0`)
       .then(({ data }) => {
         dispatch({ type: 'SET_TASKS', tasks: data.allothers });
@@ -26,8 +26,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    getTasksByLocation();
-    const interval = setInterval(() => getTasksByLocation(), 1000);
+    getTasks();
+    const interval = setInterval(() => getTasks(), 1000);
     return () => {
       clearInterval(interval);
     };
@@ -41,7 +41,7 @@ const App = () => {
         <PrivateRoute exact path="/TopHelpers">
           <TopHelpers />
         </PrivateRoute>
-        <PrivateRoute exact path="/active">
+        <PrivateRoute exact path="/request">
           <Request />
         </PrivateRoute>
         <PrivateRoute exact path="/myactiverequest">
