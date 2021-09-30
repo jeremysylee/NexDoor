@@ -11,7 +11,7 @@ const tasksService = {
     quantity,
     offset,
   }) => {
-    if (!userId || !range || !quantity) { throw new ApiError('Undefined params (userId || range || quantity)', httpStatusCodes.BAD_REQUEST); }
+    if (!userId || !range || !quantity || !offset) { throw new ApiError('Undefined params (userId || range || quantity)', httpStatusCodes.BAD_REQUEST); }
     const queryStr = `
       SELECT
         (
