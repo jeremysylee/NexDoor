@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Grid, Avatar } from '@material-ui/core';
-import { Button } from 'react-bootstrap';
+import React from 'react';
+import { Grid, Avatar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import StarIcon from '@material-ui/icons/Star';
@@ -56,7 +55,8 @@ const YouAreHelping = () => {
       <Avatar
         style={{ height: '60px', width: '60px', marginLeft: '83px' }}
         justifyContent="center"
-        src={selectTask.requester.profile_picture_url} />
+        src={selectTask.requester.profile_picture_url}
+      />
       <RequestUser>
         {selectTask.requester.firstname}
         &nbsp;
@@ -64,7 +64,7 @@ const YouAreHelping = () => {
       </RequestUser>
       <RequestUserInfo>
         <span>
-          <StarIcon style={{ fill: "red" }} />
+          <StarIcon style={{ fill: 'red' }} />
         </span>
         &nbsp;&nbsp;&nbsp;&nbsp;
         <span>1.2 miles away</span>
@@ -78,7 +78,15 @@ const YouAreHelping = () => {
           REQUEST DESCRIPTION:
         </p>
         <br />
-        <p style={{ fontSize: '13px', fontWeight: '300', lineHeight: '21.53px', width: '53vw', paddingRight: '5em', marginTop: '-9px' }}>
+        <p style={{
+          fontSize: '13px',
+          fontWeight: '300',
+          lineHeight: '21.53px',
+          width: '53vw',
+          paddingRight: '5em',
+          marginTop: '-9px',
+        }}
+        >
           {selectTask.description}
         </p>
       </Grid>
@@ -87,7 +95,13 @@ const YouAreHelping = () => {
           REQUEST TIMELINE:
         </p>
         <br />
-        <p style={{ fontSize: '13px', fontWeight: '300', lineHeight: '0.53px', width: '63vw' }}>
+        <p style={{
+          fontSize: '13px',
+          fontWeight: '300',
+          lineHeight: '0.53px',
+          width: '63vw',
+        }}
+        >
           {new Date(selectTask.start_date).toString().slice(4, 16)}
         </p>
       </Grid>
@@ -96,4 +110,3 @@ const YouAreHelping = () => {
 };
 
 export default YouAreHelping;
-
