@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Grid, Avatar } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 
@@ -10,11 +11,8 @@ const Row = styled.div`
 `;
 
 const Message = ({ message, user, isUser }) => {
-  // console.log(message);
   let style;
-  // let profilePic = message.firstname[0];//******** uncomment
-  let profilePic = 'm';
-  // console.log(profilePic);
+  const profilePic = 'm';
   const dateStyle = {
     fontSize: '10px',
     color: 'grey',
@@ -52,15 +50,18 @@ const Message = ({ message, user, isUser }) => {
 
     return (
       <Grid container display="flex" justifyContent="flex-end">
-      <div style={style}>
-        <span style={messageStyle}>{message.messageBody}</span>
-        <div style={profilePicStyle}>{user.firstname.slice(0, 1)}</div>
-        <div style={dateStyle}>{message.time} {message.date}</div>
-        {/* <span>{message.time}</span> */}
-      </div>
+        <div style={style}>
+          <span style={messageStyle}>{message.message_body}</span>
+          <div style={profilePicStyle}>{user.firstname.slice(0, 1)}</div>
+          <div style={dateStyle}>
+            {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+          </div>
+          {/* <span>{message.time}</span> */}
+        </div>
       </Grid>
     );
   }
+
   style = {
     marginLeft: '10%',
     margin: '10px 10px',
@@ -74,25 +75,42 @@ const Message = ({ message, user, isUser }) => {
       <div style={style}>
         <Row>
           <span style={profilePicStyle}>{profilePic}</span>
-          <div style={messageStyle}>{message.messageBody}</div>
+          <div style={messageStyle}>{message.message_body}</div>
         </Row>
-        <div style={dateStyle2}>{DateTime.fromISO(message.time).toFormat('ccc')} {DateTime.fromISO(message.date).toFormat('HH:mm:ss')}</div>
+        <div style={dateStyle2}>
+          {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+        </div>
         {/* <span>{message.time}</span> */}
       </div>
     </Grid>
   );
 
-  const dateFormatted = DateTime.fromISO(now).toFormat('yyyy-MM-dd');
-  const timeFormatted = DateTime.fromISO(now).toFormat('HH:mm:ss');
-
-  // console.log(message.messageBody)
+  // console.log(message.message_body)
   // return (
   //   <div style={style}>
 
-  //     <div>{message.messageBody}</div>
+  //     <div>{message.message_body}</div>
   //     {/* <span>{message.time}</span> */}
   //   </div>
   // );
+};
+
+Message.propTypes = {
+  message: PropTypes.shape({
+    date: PropTypes.string,
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    message_body: PropTypes.string,
+    time: PropTypes.string,
+    userId: PropTypes.number,
+  }).isRequired,
+  user: PropTypes.shape({
+    address: PropTypes.oneOfType([PropTypes.object]),
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    user_id: PropTypes.number,
+  }).isRequired,
+  isUser: PropTypes.bool.isRequired,
 };
 
 export default Message;

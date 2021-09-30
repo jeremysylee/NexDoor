@@ -15,10 +15,7 @@ const Chat = () => {
   if (taskId === undefined) {
     return <></>;
   }
-  // input -> two user id's
-  // get existing chat messages from database
-  // display existing chat messages
-  //
+
   const user = useSelector((store) => store.currentUserReducer.userData);
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const userId = user.user_id;
@@ -41,14 +38,19 @@ const Chat = () => {
 
   const handleSend = async (e) => {
     e.preventDefault();
+
+    if (!input) {
+      return 'requires input';
+    }
+
     const now = DateTime.local();
     const dateFormatted = DateTime.fromISO(now).toFormat('yyyy-MM-dd');
     const timeFormatted = DateTime.fromISO(now).toFormat('HH:mm:ss');
     const message = {
-      userId,
+      user_id: user.user_id,
       firstname: user.firstname,
       lastname: user.lastname,
-      messageBody: input,
+      message_body: input,
       date: dateFormatted,
       time: timeFormatted,
     };
@@ -66,17 +68,13 @@ const Chat = () => {
     }
 
     // reset inputs
-    resetInput();
-    const resetElements = document.getElementsByClassName('messageInput');
-    for (let i = 0; i < resetElements.length; i++) {
-      resetElements[i].value = '';
-      resetElements[i].src = '';
-    }
+    return resetInput();
   };
 
   const getMessages = () => {
     axios.get(`${url}/api/messages/${taskId}`)
       .then((data) => {
+        console.log('++++>', data)
         setMessages(data.data);
       });
   };
@@ -86,11 +84,12 @@ const Chat = () => {
     getMessages();
   }, [taskId, userId]);
 
-  // useEffect(() => {
-  //   const elem = document.getElementById('allMessages');
-  //   elem.scrollTop = elem.scrollHeight;
-  //   console.log(messages, 'messages');
-  // }, [messages]);
+  // Keeps window scrolled to the bottom of the chat window //
+  useEffect(() => {
+    const elem = document.getElementById('allMessages');
+    elem.scrollTop = elem.scrollHeight;
+    console.log(messages, 'messages');
+  }, [messages]);
 
   const chatStyle = {
     position: 'relative',
@@ -117,26 +116,26 @@ const Chat = () => {
   //   const getTimer = setInterval(getMessages, 100);
   //   setCurrentInterval(getTimer);
   // }, [userId]);
-
   return (
     <div style={chatStyle}>
       <div style={messageContaierStyle} id="allMessages">
-        {messages.map((message, idx) => {
-          let isUser;
-          if (message.user_id === userId) {
-            isUser = true;
-          } else {
-            isUser = false;
-          }
-          return (<Message key={idx} message={message} user={user} isUser={isUser} />);
-        })}
+        {messages.map((message) => (
+          <Message
+            key={message.time + message.date}
+            message={message}
+            user={user}
+            isUser={message.user_id === userId}
+          />
+        ))}
       </div>
-      <form style={{
-        position: 'relative',
-        bottom: '0',
-        right: '0',
-        margin: '5px',
-      }}
+      <form
+        style={{
+          position: 'relative',
+          bottom: '0',
+          right: '0',
+          margin: '5px',
+        }}
+        onSubmit={(e) => { handleSend(e); }}
       >
         <input
           style={{
@@ -151,7 +150,6 @@ const Chat = () => {
           onChange={handleChange}
         />
         <IconButton
-          onClick={(e) => { handleSend(e); }}
           type="submit"
         >
           <SendTwoToneIcon />
@@ -161,6 +159,3 @@ const Chat = () => {
   );
 };
 export default Chat;
-
-// // are messages already in order??
-// // using user_id rather than name would be preferable
