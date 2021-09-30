@@ -24,7 +24,7 @@ const Chat = () => {
   const userId = user.user_id;
 
   const url = 'http://localhost:3500';
-  const [currentMessage, setCurrentMessage] = useState('');
+  const [input, setinput] = useState('');
   const [messages, setMessages] = useState([]);
 
   socket.on(task.task_id, (data) => {
@@ -32,25 +32,15 @@ const Chat = () => {
   });
 
   const handleChange = (e) => {
-    setCurrentMessage(e.target.value);
+    setinput(e.target.value);
   };
 
   const resetInput = () => {
-    setCurrentMessage('');
+    setinput('');
   };
 
-  const formatTime = (time) => {
-    let trail = 'AM';
-    let hour = Number(time.substring(0, 2));
-    const minutes = time.slice(2);
-    if (hour >= 12) {
-      hour -= 12;
-      trail = 'PM';
-    }
-    return `${hour}${minutes} ${trail}`;
-  };
-
-  const handleSend = async () => {
+  const handleSend = async (e) => {
+    e.preventDefault();
     const now = DateTime.local();
     const dateFormatted = DateTime.fromISO(now).toFormat('yyyy-MM-dd');
     const timeFormatted = DateTime.fromISO(now).toFormat('HH:mm:ss');
@@ -58,7 +48,7 @@ const Chat = () => {
       userId,
       firstname: user.firstname,
       lastname: user.lastname,
-      messageBody: currentMessage,
+      messageBody: input,
       date: dateFormatted,
       time: timeFormatted,
     };
@@ -69,9 +59,14 @@ const Chat = () => {
     setMessages((prev) => [...prev, message]);
 
     // data persistence stores in database
-    await axios.post(`${url}/api/messages/${task.task_id}/${userId}`, message);
+    try {
+      await axios.post(`${url}/api/messages/${task.task_id}/${userId}`, message);
+    } catch (err) {
+      console.log(err);
+    }
 
     // reset inputs
+    resetInput();
     const resetElements = document.getElementsByClassName('messageInput');
     for (let i = 0; i < resetElements.length; i++) {
       resetElements[i].value = '';
@@ -91,11 +86,11 @@ const Chat = () => {
     getMessages();
   }, [taskId, userId]);
 
-  useEffect(() => {
-    const elem = document.getElementById('allMessages');
-    elem.scrollTop = elem.scrollHeight;
-    console.log(messages, 'messages');
-  }, [messages]);
+  // useEffect(() => {
+  //   const elem = document.getElementById('allMessages');
+  //   elem.scrollTop = elem.scrollHeight;
+  //   console.log(messages, 'messages');
+  // }, [messages]);
 
   const chatStyle = {
     position: 'relative',
@@ -136,7 +131,7 @@ const Chat = () => {
           return (<Message key={idx} message={message} user={user} isUser={isUser} />);
         })}
       </div>
-      <div style={{
+      <form style={{
         position: 'relative',
         bottom: '0',
         right: '0',
@@ -150,17 +145,18 @@ const Chat = () => {
             height: '6vh',
             borderColor: 'grey',
           }}
-          className="messageInput"
           placeholder="Write message here..."
+          type="text"
+          value={input}
           onChange={handleChange}
         />
-        <IconButton onClick={() => {
-          handleSend();
-        }}
+        <IconButton
+          onClick={(e) => { handleSend(e); }}
+          type="submit"
         >
           <SendTwoToneIcon />
         </IconButton>
-      </div>
+      </form>
     </div>
   );
 };
