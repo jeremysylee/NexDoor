@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import YouAreHelping from './YouAreHelping/YouAreHelping';
-import Chat from './Chat/Chat';
+import Chat from '../../features/Chat/Chat';
 import {
   Body,
 } from '../../components/App.styles';

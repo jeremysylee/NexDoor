@@ -39,32 +39,6 @@ const YourText = styled(MyText)`
   padding: 4px 31px 5px 19px;
 `;
 
-// const IsTyping = styled(YourText)`
-//   background-color: #c7c7c7;
-//   color: white;
-//   margin-left: 7px;
-//   padding: 9px;
-// `;
-
-// const BubbleContainer = styled.div`
-//   position: relative;
-// `;
-
-// const BubbleLarger = styled.div`
-//   height: 8px;
-//   width: 8px;
-//   position: absolute;
-//   transform: scale(1) translate(-9px, 8px);
-//   background-color: #c7c7c7;
-//   border-radius: 50%;
-// `;
-
-// const BubbleSmaller = styled(BubbleLarger)`
-//   height: 4px;
-//   width: 4px;
-//   transform: scale(1) translate(-12px, 14px);
-// `;
-
 const MyTimeStamp = styled.div`
   font-size: 9px;
   color: white;
@@ -73,14 +47,6 @@ const YourTimeStamp = styled(MyTimeStamp)`
   color: grey;
 `;
 
-// const Dot = styled.div`
-//   height: 7px;
-//   width: 7px;
-//   border-radius: 50%;
-//   background-color: white;
-//   margin-right: 2px;
-// `;
-
 const Message = ({
   message,
   otherUser,
@@ -88,10 +54,6 @@ const Message = ({
   isTyping,
   isLast,
 }) => {
-  if (isLast) {
-    console.log('is typing: ', isTyping, '<><><><><><>');
-  }
-
   const rightBubble = {
     hidden: {
       opacity: 1,
