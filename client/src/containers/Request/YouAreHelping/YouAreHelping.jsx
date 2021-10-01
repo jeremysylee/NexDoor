@@ -63,7 +63,6 @@ const YouAreHelping = () => {
           fontWeight: '300',
           lineHeight: '21.53px',
           width: '53vw',
-          paddingRight: '5em',
           marginTop: '-9px',
         }}
         >

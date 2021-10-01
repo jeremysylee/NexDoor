@@ -22,7 +22,6 @@ const Request = () => (
       <Grid
         container
         justifyContent="center"
-        style={{ width: '90%' }}
       >
         <Sidebar />
         <YouAreHelping />

@@ -2,7 +2,7 @@ export const rightBubbleVariants = {
   hidden: {
     opacity: 0,
     scale: 0,
-    x: 40,
+    x: 80,
     y: 40,
   },
   visible: {
@@ -28,11 +28,12 @@ export const leftBubbleVariants = {
   },
 };
 
-export const leftBubbleTransition = {
+export const BubbleTransition = {
   type: 'spring',
-  stiffness: 260,
+  stiffness: 250,
   damping: 20,
   ease: 'easeInOut',
+  // delay: 0.1,
 };
 
 export const dotContainerVariants = {

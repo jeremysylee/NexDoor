@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 
 export const ChatContainer = styled.div`
-  position: relative;
-  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50vh;
   margin: 2em;
   padding: 2em;
   border-radius: 20px;
   background-color: white;
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
+  min-height: 340px;
 `;
 
 export const MessagesContainer = styled.div`
   margin: 10px;
-  height: 89%;
   overflow-x: hidden;
 `;
 
@@ -61,6 +63,8 @@ export const Col = styled.div`
 export const MyTextContainer = styled.div`
   display: flex;
   justify-content: right;
+  margin-right: 14px;
+  overflow: hidden;
 `;
 
 export const MyText = styled.div`
