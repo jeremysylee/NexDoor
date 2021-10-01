@@ -7,41 +7,16 @@ import { useSelector } from 'react-redux';
 import { IconButton } from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import { DateTime } from 'luxon';
-import styled from 'styled-components';
 import Message from './Message';
+import {
+  ChatContainer,
+  MessagesContainer,
+  Input,
+  Form,
+} from './Chat.styles';
 
 const url = 'http://localhost:3500';
 const socket = io('http://localhost:3500');
-
-const ChatContainer = styled.div`
-  position: relative;
-  height: 75vh;
-  margin: 2em;
-  padding: 2em;
-  border-radius: 20px;
-  box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.07), -3px -3px 4px #FFFFFF;
-`;
-
-const Input = styled.input`
-  width: 45vw;
-  border-radius: 25px;
-  border: none;
-  height: 3em;
-  border-color: grey;
-  text-indent: 24px;
-  margin-right: 1.2em;
-  -webkit-transition: all 100ms ease;
-  -moz-transition: all 100ms ease;
-  -ms-transition: all 100ms ease;
-  -o-transition: all 100ms ease;
-  transition: all 100ms ease;
-  &:focus {
-    outline: none;
-    border: none;
-    border-radius: none;
-    box-shadow: inset 4px 4px 4px rgb(181 181 181 / 25%), inset -2px -2px 4px #ffffff;
-  }
-`;
 
 const Chat = () => {
   const user = useSelector((store) => store.currentUserReducer.userData);
@@ -107,6 +82,11 @@ const Chat = () => {
     }
   };
 
+  const scrollToBottom = () => {
+    const elem = document.getElementById('allMessages');
+    elem.scrollTop = elem.scrollHeight;
+  };
+
   const getMessages = async () => {
     try {
       const { data } = await axios.get(`${url}/api/messages/${task.task_id}`);
@@ -129,19 +109,19 @@ const Chat = () => {
 
   useEffect(() => {
     // Keeps window scrolled to the bottom of the chat window //
-    const elem = document.getElementById('allMessages');
-    elem.scrollTop = elem.scrollHeight;
+    scrollToBottom();
   }, [messages]);
 
-  const messageContainerStyle = {
-    margin: '10px',
-    height: '89%',
-    overflow: 'auto',
-  };
+  useEffect(() => {
+    // scrolls to bottom when someone starts typing, but not when they stop.
+    if (typing) {
+      scrollToBottom();
+    }
+  }, [typing]);
 
   return (
     <ChatContainer>
-      <div style={messageContainerStyle} id="allMessages">
+      <MessagesContainer id="allMessages">
         {messages.map((message, idx) => (
           <Message
             key={idx}
@@ -153,28 +133,18 @@ const Chat = () => {
             isLast={idx === messages.length - 1}
           />
         ))}
-      </div>
-      <form
-        style={{
-          position: 'relative',
-          bottom: '0',
-          right: '0',
-          margin: '5px',
-        }}
-        onSubmit={(e) => { handleSend(e); }}
-      >
+      </MessagesContainer>
+      <Form onSubmit={(e) => { handleSend(e); }}>
         <Input
           placeholder="Write message here..."
           type="text"
           value={input}
           onChange={handleChange}
         />
-        <IconButton
-          type="submit"
-        >
+        <IconButton type="submit">
           <SendTwoToneIcon />
         </IconButton>
-      </form>
+      </Form>
     </ChatContainer>
   );
 };
