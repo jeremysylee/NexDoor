@@ -22,17 +22,11 @@ const messagesService = {
         photo_url
       )
       VALUES
-      (
-        ${taskId},
-        ${userId},
-        '${messageBody}',
-        '${date}',
-        '${time}',
-        '${imgUrl}'
-      )
+      ($1, $2, $3, $4, $5, $6)
       RETURNING message_id
     ;`;
-    const messageId = await db.query(queryStr);
+    const values = [taskId, userId, messageBody, date, time, imgUrl];
+    const messageId = await db.query(queryStr, values);
     if (!messageId) { throw new ApiError('Error adding message to the db', httpStatusCodes.INTERNAL_SERVER); }
     const messageIdDTO = messageId.rows[0];
     return messageIdDTO;

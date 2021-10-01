@@ -13,24 +13,9 @@ const io = require('socket.io')(server, { cors: { origin: '*' } });
 
 io.sockets.on('connection', (socket) => {
   socket.on('send-message', ({ task, message }) => {
-    console.log('socket', task, message);
     socket.broadcast.emit(task, message);
   });
   socket.on('typing', ({ task, status }) => {
     socket.broadcast.emit(task, status);
   });
 });
-
-/* CONCEPT: app.listen is identical to http.Server.listen().
-In fact Express uses the http (note: NOT https) module under the hood.
-
-        express().listen = function() {
-          var server = http.createServer(this);
-          return server.listen.apply(server, arguments);
-        }
-
-The app returned by express() is a javascript function to be used as a callback by the server.
-In otherwords, when the server is accessed, it invokes app function (object) as a callback.
-Also, as seen above, app.listen returns the server instance
-if you need to re-use the server instance
-*/
