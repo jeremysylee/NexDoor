@@ -61,7 +61,6 @@ const Chat = () => {
     clearTimeout(timer);
 
     setTimer(setTimeout(() => {
-      console.log('STOP!');
       socket.emit('typing', { task: task.task_id, status: false });
     }, 5000));
 
@@ -123,7 +122,6 @@ const Chat = () => {
       if (data.user_id) {
         setMessages((prev) => [...prev, data]);
       } else {
-        console.log('triggered');
         setTyping(data);
       }
     });

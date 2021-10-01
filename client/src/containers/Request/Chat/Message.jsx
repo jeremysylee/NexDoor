@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { motion } from 'framer-motion';
 
+import IsTyping from './IsTyping';
+
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -37,12 +39,31 @@ const YourText = styled(MyText)`
   padding: 4px 31px 5px 19px;
 `;
 
-const IsTyping = styled(YourText)`
-  background-color: #c7c7c7;
-  color: white;
-  margin-left: 0;
-  padding: 9px;
-`;
+// const IsTyping = styled(YourText)`
+//   background-color: #c7c7c7;
+//   color: white;
+//   margin-left: 7px;
+//   padding: 9px;
+// `;
+
+// const BubbleContainer = styled.div`
+//   position: relative;
+// `;
+
+// const BubbleLarger = styled.div`
+//   height: 8px;
+//   width: 8px;
+//   position: absolute;
+//   transform: scale(1) translate(-9px, 8px);
+//   background-color: #c7c7c7;
+//   border-radius: 50%;
+// `;
+
+// const BubbleSmaller = styled(BubbleLarger)`
+//   height: 4px;
+//   width: 4px;
+//   transform: scale(1) translate(-12px, 14px);
+// `;
 
 const MyTimeStamp = styled.div`
   font-size: 9px;
@@ -52,13 +73,13 @@ const YourTimeStamp = styled(MyTimeStamp)`
   color: grey;
 `;
 
-const Dot = styled.div`
-  height: 7px;
-  width: 7px;
-  border-radius: 50%;
-  background-color: white;
-  margin-right: 2px;
-`;
+// const Dot = styled.div`
+//   height: 7px;
+//   width: 7px;
+//   border-radius: 50%;
+//   background-color: white;
+//   margin-right: 2px;
+// `;
 
 const Message = ({
   message,
@@ -90,34 +111,6 @@ const Message = ({
     },
   };
 
-  if (isUser) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'right' }}>
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={rightBubble}
-          transition={{
-            type: 'spring',
-            stiffness: 260,
-            damping: 20,
-          }}
-        >
-          <MyText>
-            <Row>
-              <Col style={{ marginRight: '15px' }}>
-                <span>{message.message_body}</span>
-                <MyTimeStamp>
-                  {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
-                </MyTimeStamp>
-              </Col>
-            </Row>
-          </MyText>
-        </motion.div>
-      </div>
-    );
-  }
-
   const leftBubble = {
     start: {
       opacity: 0,
@@ -133,29 +126,38 @@ const Message = ({
     },
   };
 
-  const dotContainer = {
-    start: {
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-    end: {
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-  const dot = {
-    start: { opacity: 0.2 },
-    end: { opacity: 0.8 },
-  };
-
-  const dotTransition = {
-    duration: 0.8,
-    repeat: Infinity,
-    repeatType: 'reverse',
-    ease: 'easeInOut',
-  };
+  if (isUser) {
+    return (
+      <>
+        <div style={{ display: 'flex', justifyContent: 'right' }}>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={rightBubble}
+            transition={{
+              type: 'spring',
+              stiffness: 260,
+              damping: 20,
+            }}
+          >
+            <MyText>
+              <Row>
+                <Col style={{ marginRight: '15px' }}>
+                  <span>{message.message_body}</span>
+                  <MyTimeStamp>
+                    {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+                  </MyTimeStamp>
+                </Col>
+              </Row>
+            </MyText>
+          </motion.div>
+        </div>
+        {isTyping && isLast && (
+          <IsTyping />
+        )}
+      </>
+    );
+  }
 
   return (
     <Grid container justifyContent="flex-start">
@@ -184,47 +186,7 @@ const Message = ({
           </motion.div>
         </Row>
         {isTyping && isLast && (
-          <Row>
-            <motion.div
-              initial="start"
-              animate="end"
-              variants={leftBubble}
-              transition={{
-                type: 'spring',
-                stiffness: 260,
-                damping: 20,
-                ease: 'easeInOut',
-              }}
-            >
-              <Row>
-                <IsTyping>
-                  <Row
-                    as={motion.div}
-                    initial="start"
-                    animate="end"
-                    variants={dotContainer}
-                  >
-                    <Dot
-                      as={motion.span}
-                      variants={dot}
-                      transition={dotTransition}
-                    />
-                    <Dot
-                      as={motion.span}
-                      variants={dot}
-                      transition={dotTransition}
-                    />
-                    <Dot
-                      as={motion.span}
-                      variants={dot}
-                      transition={dotTransition}
-                    />
-
-                  </Row>
-                </IsTyping>
-              </Row>
-            </motion.div>
-          </Row>
+          <IsTyping />
         )}
       </Col>
     </Grid>
