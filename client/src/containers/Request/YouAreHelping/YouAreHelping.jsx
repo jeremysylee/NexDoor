@@ -1,79 +1,59 @@
 import React from 'react';
-import { Grid, Avatar } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import StarIcon from '@material-ui/icons/Star';
 import styled from 'styled-components';
+import { UserInfo } from '../../../features/Request/components/UserInfo';
 
 const YouAreHelpingContainer = styled.div`
-width: 250px;
+max-width: 300px;
 height: 100%;
-padding: 10px;
 margin-top: 2em;
-flex-direction: row;
-
+flex-direction: column;
+display: flex;
+align-items: center;
 border-radius: 10px;
 background-color: #FFFFFF;
-overflow: hidden;
-padding: 1em;
+padding: 1em 2.5em;
 box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
-font-family: Roboto;
-font-size: 18px;
-font-weight: 500;
-font-family: Roboto;
 `;
 
-const RequestUser = styled.div`
-font-weight: 400;
-font-size: 18px;
-margin-top: 5px;
-display: flex;
-justify-content: center;
+const RequestStatus = styled.div`
+  font-weight: 400;
+  justify-content: center;
+  font-size: 16px;
+  margin-top: 0.75em;
+  margin-bottom: 1.3em;
 `;
 
-const RequestUserInfo = styled.div`
-font-weight: 400;
-font-size: 14px;
-margin-top: 5px;
-display: flex;
-justify-content: center;
+const HelperStatus = styled(RequestStatus)`
+  margin-top: -0.5em;
+  margin-bottom: -0.5em;
 `;
 
-const RequestUserStatus = styled.div`
-font-weight: 200;
-margin-top: 5px;
-display: flex;
-justify-content: center;
+const LineHorizontal = styled.hr`
+  width: 100%;
 `;
 
 const YouAreHelping = () => {
-  const selectTask = useSelector((store) => store.selectedTaskReducer.task);
+  const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
+  const user = useSelector((store) => store.currentUserReducer.userData);
+  const relevantUser = user.user_id === selectedTask.requester.user_id
+    ? selectedTask.helper : selectedTask.requester;
 
   return (
     <YouAreHelpingContainer>
-      <p style={{ display: 'flex', justifyContent: 'center' }}>You are helping</p>
-      <Avatar
-        style={{ height: '60px', width: '60px', marginLeft: '83px' }}
-        justifyContent="center"
-        src={selectTask.requester.profile_picture_url}
-      />
-      <RequestUser>
-        {selectTask.requester.firstname}
-        &nbsp;
-        {selectTask.requester.lastname}
-      </RequestUser>
-      <RequestUserInfo>
-        <span>
-          <StarIcon style={{ fill: 'red' }} />
-        </span>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <span>1.2 miles away</span>
-      </RequestUserInfo>
-      <RequestUserStatus>
-        is waiting for you
-      </RequestUserStatus>
-      <hr />
-      <Grid container direction="row" style={{ marginTop: '2em', marginLeft: '2em', fontStyle: 'Roboto' }}>
+      <RequestStatus>{selectedTask.requester.user_id !== user.user_id && 'You are helping'}</RequestStatus>
+      <UserInfo user={relevantUser} />
+      <LineHorizontal />
+      {selectedTask.requester.user_id === user.user_id
+      && (
+        <>
+          <HelperStatus>is helping you</HelperStatus>
+          <LineHorizontal />
+        </>
+      )}
+      <Grid container direction="row">
         <p style={{ fontWeight: '400', fontSize: '14px' }}>
           REQUEST DESCRIPTION:
         </p>
@@ -87,10 +67,10 @@ const YouAreHelping = () => {
           marginTop: '-9px',
         }}
         >
-          {selectTask.description}
+          {selectedTask.description}
         </p>
       </Grid>
-      <Grid container direction="row" style={{ marginTop: '1px', marginLeft: '2em', fontStyle: 'Roboto' }}>
+      <Grid container direction="row" style={{ marginTop: '1px', fontStyle: 'Roboto' }}>
         <p style={{ fontWeight: '400', fontSize: '14px' }}>
           REQUEST TIMELINE:
         </p>
@@ -102,7 +82,7 @@ const YouAreHelping = () => {
           width: '63vw',
         }}
         >
-          {new Date(selectTask.start_date).toString().slice(4, 16)}
+          {new Date(selectedTask.start_date).toString().slice(4, 16)}
         </p>
       </Grid>
     </YouAreHelpingContainer>

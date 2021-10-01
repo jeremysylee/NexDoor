@@ -6,7 +6,8 @@ export const ChatContainer = styled.div`
   margin: 2em;
   padding: 2em;
   border-radius: 20px;
-  box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.07), -3px -3px 4px #FFFFFF;
+  background-color: white;
+  box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
 `;
 
 export const MessagesContainer = styled.div`
@@ -23,6 +24,8 @@ export const Input = styled.input`
   border-color: grey;
   text-indent: 24px;
   margin-right: 1.2em;
+  background-color: #f3f3f3;
+  font-size: 14px;
   -webkit-transition: all 100ms ease;
   -moz-transition: all 100ms ease;
   -ms-transition: all 100ms ease;
@@ -73,7 +76,7 @@ export const MyText = styled.div`
 
 export const YourText = styled(MyText)`
   text-align: left;
-  background-color: white;
+  background-color: #f1f2f5;
   color: black;
   margin-left: 10%;
   margin: 10px 10px;
@@ -89,7 +92,7 @@ export const YourTimeStamp = styled(MyTimeStamp)`
 `;
 
 export const IsTypingContainer = styled(YourText)`
-  background-color: #c7c7c7;
+  background-color: #d1d1d1;
   color: white;
   margin-left: 7px;
   padding: 9px;
@@ -104,7 +107,7 @@ export const BubbleLarger = styled.div`
   width: 8px;
   position: absolute;
   transform: scale(1) translate(-9px, 8px);
-  background-color: #c7c7c7;
+  background-color: #ededed;
   border-radius: 50%;
 `;
 

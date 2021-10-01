@@ -1,6 +1,6 @@
 export const rightBubbleVariants = {
   hidden: {
-    opacity: 1,
+    opacity: 0,
     scale: 0,
     x: 40,
     y: 40,

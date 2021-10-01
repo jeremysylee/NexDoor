@@ -82,6 +82,11 @@ const Chat = () => {
     }
   };
 
+  const scrollToBottom = () => {
+    const elem = document.getElementById('allMessages');
+    elem.scrollTop = elem.scrollHeight;
+  };
+
   const getMessages = async () => {
     try {
       const { data } = await axios.get(`${url}/api/messages/${task.task_id}`);
@@ -104,9 +109,15 @@ const Chat = () => {
 
   useEffect(() => {
     // Keeps window scrolled to the bottom of the chat window //
-    const elem = document.getElementById('allMessages');
-    elem.scrollTop = elem.scrollHeight;
+    scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    // scrolls to bottom when someone starts typing, but not when they stop.
+    if (typing) {
+      scrollToBottom();
+    }
+  }, [typing]);
 
   return (
     <ChatContainer>
