@@ -59,7 +59,7 @@ const Chat = () => {
     setInput('');
   };
 
-  const handleSend = async (e) => {
+  const handleSend = (e) => {
     e.preventDefault();
 
     if (!input) {
@@ -88,7 +88,7 @@ const Chat = () => {
 
     // data persistence stores in database
     try {
-      return await axios.post(`${url}/api/messages/${task.task_id}/${userId}`, message);
+      return axios.post(`${url}/api/messages/${task.task_id}/${userId}`, message);
     } catch (err) {
       return console.log(err);
     }
