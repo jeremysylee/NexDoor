@@ -5,6 +5,7 @@ import axios from 'axios';
 import { url } from '../../config';
 
 import PrivateRoute from './components/PrivateRoute';
+import GlobalStyle from './components/Global.styles';
 import Home from './containers/Home/Home';
 import TopHelpers from './containers/TopHelpers/TopHelpers';
 import Request from './containers/Request';
@@ -35,6 +36,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Switch>
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/Login" component={Login} />

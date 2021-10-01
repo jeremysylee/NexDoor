@@ -9,7 +9,7 @@ const messagesControllers = {
       userId: req.params.userId,
     };
     const message = {
-      messageBody: req.body.messageBody,
+      messageBody: req.body.message_body,
       date: req.body.date,
       time: req.body.time,
     };
