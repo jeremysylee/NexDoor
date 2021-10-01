@@ -51,16 +51,19 @@ const Chat = () => {
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
   const [messages, setMessages] = useState([]);
-  let timeout;
+  const [timer, setTimer] = useState();
+  // Concept: if a variable is declared here instead of state,
+  // that variable will get reassigned on every re-render.
 
   const handleChange = (e) => {
     socket.emit('typing', { task: task.task_id, status: true });
 
-    clearTimeout(timeout);
+    clearTimeout(timer);
 
-    timeout = setTimeout(() => {
+    setTimer(setTimeout(() => {
+      console.log('STOP!');
       socket.emit('typing', { task: task.task_id, status: false });
-    }, 5000);
+    }, 5000));
 
     setInput(e.target.value);
   };
@@ -120,6 +123,7 @@ const Chat = () => {
       if (data.user_id) {
         setMessages((prev) => [...prev, data]);
       } else {
+        console.log('triggered');
         setTyping(data);
       }
     });

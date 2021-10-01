@@ -67,7 +67,9 @@ const Message = ({
   isTyping,
   isLast,
 }) => {
-  console.log(isTyping, '<><><><><><>');
+  if (isLast) {
+    console.log('is typing: ', isTyping, '<><><><><><>');
+  }
 
   const rightBubble = {
     hidden: {
@@ -150,7 +152,8 @@ const Message = ({
 
   const dotTransition = {
     duration: 0.8,
-    yoyo: Infinity,
+    repeat: Infinity,
+    repeatType: 'reverse',
     ease: 'easeInOut',
   };
 
