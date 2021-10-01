@@ -11,6 +11,8 @@ import {
   MyTextContainer,
   MyText,
   YourText,
+  TextBody,
+  TextBodySmall,
   MyTimeStamp,
   YourTimeStamp,
 } from './Chat.styles';
@@ -39,14 +41,12 @@ const Message = ({
             transition={leftBubbleTransition}
           >
             <MyText>
-              <Row>
-                <Col style={{ marginRight: '15px' }}>
-                  <span>{message.message_body}</span>
-                  <MyTimeStamp>
-                    {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
-                  </MyTimeStamp>
-                </Col>
-              </Row>
+              {message.message_body.length < 20
+                ? <TextBodySmall>{message.message_body}</TextBodySmall>
+                : <TextBody>{message.message_body}</TextBody>}
+              <MyTimeStamp>
+                {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+              </MyTimeStamp>
             </MyText>
           </motion.div>
         </MyTextContainer>
@@ -80,12 +80,10 @@ const Message = ({
             }}
           >
             <YourText>
-              <Col>
-                <div>{message.message_body}</div>
-                <YourTimeStamp>
-                  {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
-                </YourTimeStamp>
-              </Col>
+              <TextBody>{message.message_body}</TextBody>
+              <YourTimeStamp>
+                {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+              </YourTimeStamp>
             </YourText>
           </motion.div>
         </Row>

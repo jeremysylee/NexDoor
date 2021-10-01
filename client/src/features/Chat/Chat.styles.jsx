@@ -72,6 +72,12 @@ export const MyText = styled.div`
   color: white;
   font-size: 14px;
   margin: 0.4em 3.5em;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  padding-right: 15px;
+  max-width: 350px;
 `;
 
 export const YourText = styled(MyText)`
@@ -81,6 +87,17 @@ export const YourText = styled(MyText)`
   margin-left: 10%;
   margin: 10px 10px;
   padding: 4px 31px 5px 19px;
+
+  justify-content: left;
+`;
+
+export const TextBody = styled.span`
+  overflow-wrap: break-word;
+  text-align: left;
+`;
+
+export const TextBodySmall = styled(TextBody)`
+  text-align: right;
 `;
 
 export const MyTimeStamp = styled.div`
