@@ -1,51 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Avatar } from '@material-ui/core';
-import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { motion } from 'framer-motion';
 
 import IsTyping from './IsTyping';
+import {
+  Row,
+  Col,
+  MyTextContainer,
+  MyText,
+  YourText,
+  MyTimeStamp,
+  YourTimeStamp,
+} from './Chat.styles';
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const Col = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: right;
-`;
-
-const MyText = styled.div`
-  text-align: right;
-  background-color: #4496B4;
-  border-radius: 22px;
-  width: fit-content;
-  padding: 6px 2px 6px 24px;
-  color: white;
-  font-size: 14px;
-  margin: 0.4em 3.5em;
-`;
-
-const YourText = styled(MyText)`
-  text-align: left;
-  background-color: white;
-  color: black;
-  margin-left: 10%;
-  margin: 10px 10px;
-  padding: 4px 31px 5px 19px;
-`;
-
-const MyTimeStamp = styled.div`
-  font-size: 9px;
-  color: white;
-`;
-const YourTimeStamp = styled(MyTimeStamp)`
-  color: grey;
-`;
+import {
+  rightBubbleVariants,
+  leftBubbleVariants,
+  leftBubbleTransition,
+} from './Chat.motion';
 
 const Message = ({
   message,
@@ -54,53 +28,15 @@ const Message = ({
   isTyping,
   isLast,
 }) => {
-  const rightBubble = {
-    hidden: {
-      opacity: 1,
-      scale: 0,
-      x: 40,
-      y: 40,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      transition: {
-        delayChildren: 0.3,
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const leftBubble = {
-    start: {
-      opacity: 0,
-      scale: 0,
-      x: -40,
-      y: 40,
-    },
-    end: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-    },
-  };
-
   if (isUser) {
     return (
       <>
-        <div style={{ display: 'flex', justifyContent: 'right' }}>
+        <MyTextContainer>
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={rightBubble}
-            transition={{
-              type: 'spring',
-              stiffness: 260,
-              damping: 20,
-            }}
+            variants={rightBubbleVariants}
+            transition={leftBubbleTransition}
           >
             <MyText>
               <Row>
@@ -113,7 +49,7 @@ const Message = ({
               </Row>
             </MyText>
           </motion.div>
-        </div>
+        </MyTextContainer>
         {isTyping && isLast && (
           <IsTyping />
         )}
@@ -125,11 +61,17 @@ const Message = ({
     <Grid container justifyContent="flex-start">
       <Col>
         <Row>
-          <Avatar src={otherUser.profile_picture_url} alt={otherUser.firstname.slice(0, 1)} />
+          <Avatar
+            as={motion.div}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            src={otherUser.profile_picture_url}
+            alt={otherUser.firstname.slice(0, 1)}
+          />
           <motion.div
             initial="start"
             animate="end"
-            variants={leftBubble}
+            variants={leftBubbleVariants}
             transition={{
               type: 'spring',
               stiffness: 260,

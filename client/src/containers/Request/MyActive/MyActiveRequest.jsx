@@ -12,7 +12,7 @@ import Header from '../../../components/Header';
 import Sidebar from '../../../components/Sidebar';
 // import ActiveModal from './ActiveModal';
 import YourHelper from './YourHelper';
-import Chat from '../Chat/Chat';
+import Chat from '../../../features/Chat/Chat';
 
 const MyActiveRequest = () => {
   // const history = useHistory();
