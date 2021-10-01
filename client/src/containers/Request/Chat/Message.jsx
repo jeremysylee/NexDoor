@@ -44,7 +44,7 @@ const YourTimeStamp = styled(MyTimeStamp)`
   color: grey;
 `;
 
-const Message = ({ message, user, isUser }) => {
+const Message = ({ message, otherUser, isUser }) => {
   if (isUser) {
     return (
       <Grid container display="flex" justifyContent="flex-end">
@@ -65,7 +65,7 @@ const Message = ({ message, user, isUser }) => {
   return (
     <Grid container justifyContent="flex-start">
       <Row>
-        <Avatar src={user.profile_picture_url} alt={user.firstname.slice(0, 1)} />
+        <Avatar src={otherUser.profile_picture_url} alt={otherUser.firstname.slice(0, 1)} />
         <YourText>
           <Col>
             <div>{message.message_body}</div>
@@ -73,7 +73,6 @@ const Message = ({ message, user, isUser }) => {
               {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
             </YourTimeStamp>
           </Col>
-          {/* <span>{message.time}</span> */}
         </YourText>
       </Row>
     </Grid>
@@ -90,6 +89,13 @@ Message.propTypes = {
     userId: PropTypes.number,
   }).isRequired,
   user: PropTypes.shape({
+    address: PropTypes.oneOfType([PropTypes.object]),
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    user_id: PropTypes.number,
+    profile_picture_url: PropTypes.string,
+  }).isRequired,
+  otherUser: PropTypes.shape({
     address: PropTypes.oneOfType([PropTypes.object]),
     firstname: PropTypes.string,
     lastname: PropTypes.string,

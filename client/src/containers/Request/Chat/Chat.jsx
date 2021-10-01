@@ -131,6 +131,7 @@ const Chat = () => {
             key={idx}
             message={message}
             user={user}
+            otherUser={task.requester.user_id === userId ? task.helper : task.requester}
             isUser={message.user_id === userId}
           />
         ))}
