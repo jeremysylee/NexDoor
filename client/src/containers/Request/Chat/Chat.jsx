@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { io } from 'socket.io-client';
@@ -5,35 +7,56 @@ import { useSelector } from 'react-redux';
 import { IconButton } from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import { DateTime } from 'luxon';
+import styled from 'styled-components';
 import Message from './Message';
 
+const url = 'http://localhost:3500';
 const socket = io('http://localhost:3500');
 
-const Chat = () => {
-  const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
-  const taskId = selectedTask.task_id;
-  if (taskId === undefined) {
-    return <></>;
-  }
+const ChatContainer = styled.div`
+  position: relative;
+  height: 75vh;
+  margin: 2em;
+  padding: 2em;
+  border-radius: 20px;
+  box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.07), -3px -3px 4px #FFFFFF;
+`;
 
+const Input = styled.input`
+  width: 45vw;
+  border-radius: 25px;
+  border: none;
+  height: 3em;
+  border-color: grey;
+  text-indent: 24px;
+  margin-right: 1.2em;
+  -webkit-transition: all 100ms ease;
+  -moz-transition: all 100ms ease;
+  -ms-transition: all 100ms ease;
+  -o-transition: all 100ms ease;
+  transition: all 100ms ease;
+  &:focus {
+    outline: none;
+    border: none;
+    border-radius: none;
+    box-shadow: inset 4px 4px 4px rgb(181 181 181 / 25%), inset -2px -2px 4px #ffffff;
+  }
+`;
+
+const Chat = () => {
   const user = useSelector((store) => store.currentUserReducer.userData);
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const userId = user.user_id;
 
-  const url = 'http://localhost:3500';
-  const [input, setinput] = useState('');
+  const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
 
-  socket.on(task.task_id, (data) => {
-    setMessages((prev) => [...prev, data]);
-  });
-
   const handleChange = (e) => {
-    setinput(e.target.value);
+    setInput(e.target.value);
   };
 
   const resetInput = () => {
-    setinput('');
+    setInput('');
   };
 
   const handleSend = async (e) => {
@@ -60,68 +83,52 @@ const Chat = () => {
 
     setMessages((prev) => [...prev, message]);
 
+    // reset input (before the api call so there is no delay);
+    resetInput();
+
     // data persistence stores in database
     try {
-      await axios.post(`${url}/api/messages/${task.task_id}/${userId}`, message);
+      return await axios.post(`${url}/api/messages/${task.task_id}/${userId}`, message);
+    } catch (err) {
+      return console.log(err);
+    }
+  };
+
+  const getMessages = async () => {
+    try {
+      const { data } = await axios.get(`${url}/api/messages/${task.task_id}`);
+      setMessages(data);
     } catch (err) {
       console.log(err);
     }
-
-    // reset inputs
-    return resetInput();
-  };
-
-  const getMessages = () => {
-    axios.get(`${url}/api/messages/${taskId}`)
-      .then((data) => {
-        console.log('++++>', data)
-        setMessages(data.data);
-      });
   };
 
   useEffect(() => {
-    // get the messages on load
     getMessages();
-  }, [taskId, userId]);
+    socket.on(task.task_id, (data) => {
+      setMessages((prev) => [...prev, data]);
+    });
+  }, []);
 
-  // Keeps window scrolled to the bottom of the chat window //
   useEffect(() => {
+    // Keeps window scrolled to the bottom of the chat window //
     const elem = document.getElementById('allMessages');
     elem.scrollTop = elem.scrollHeight;
     console.log(messages, 'messages');
   }, [messages]);
 
-  const chatStyle = {
-    position: 'relative',
-    minWidth: '40%',
-    height: '75vh',
-    padding: '5px',
-    borderRadius: '20px',
-  };
-
-  const messageContaierStyle = {
+  const messageContainerStyle = {
     margin: '10px',
     height: '89%',
     overflow: 'auto',
   };
 
-  // const [currentInterval, setCurrentInterval] = useState();
-
-  // useEffect(() => {
-  //   getMessages();
-  //   if (currentInterval) {
-  //     clearInterval(currentInterval);
-  //   }
-
-  //   const getTimer = setInterval(getMessages, 100);
-  //   setCurrentInterval(getTimer);
-  // }, [userId]);
   return (
-    <div style={chatStyle}>
-      <div style={messageContaierStyle} id="allMessages">
-        {messages.map((message) => (
+    <ChatContainer>
+      <div style={messageContainerStyle} id="allMessages">
+        {messages.map((message, idx) => (
           <Message
-            key={message.time + message.date}
+            key={idx}
             message={message}
             user={user}
             isUser={message.user_id === userId}
@@ -137,13 +144,7 @@ const Chat = () => {
         }}
         onSubmit={(e) => { handleSend(e); }}
       >
-        <input
-          style={{
-            width: '45vw',
-            borderRadius: '25px',
-            height: '6vh',
-            borderColor: 'grey',
-          }}
+        <Input
           placeholder="Write message here..."
           type="text"
           value={input}
@@ -155,7 +156,7 @@ const Chat = () => {
           <SendTwoToneIcon />
         </IconButton>
       </form>
-    </div>
+    </ChatContainer>
   );
 };
 export default Chat;
