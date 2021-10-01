@@ -12,10 +12,12 @@ const server = app.listen(port, () => {
 const io = require('socket.io')(server, { cors: { origin: '*' } });
 
 io.sockets.on('connection', (socket) => {
-  console.log('user connected');
   socket.on('send-message', ({ task, message }) => {
     console.log('socket', task, message);
     socket.broadcast.emit(task, message);
+  });
+  socket.on('typing', ({ task, status }) => {
+    socket.broadcast.emit(task, status);
   });
 });
 

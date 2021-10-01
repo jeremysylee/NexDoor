@@ -49,9 +49,19 @@ const Chat = () => {
   const userId = user.user_id;
 
   const [input, setInput] = useState('');
+  const [typing, setTyping] = useState(false);
   const [messages, setMessages] = useState([]);
+  let timeout;
 
   const handleChange = (e) => {
+    socket.emit('typing', { task: task.task_id, status: true });
+
+    clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+      socket.emit('typing', { task: task.task_id, status: false });
+    }, 5000);
+
     setInput(e.target.value);
   };
 
@@ -80,6 +90,7 @@ const Chat = () => {
 
     // socket.io for live updates
     socket.emit('send-message', { task: task.task_id, message });
+    socket.emit('typing', { task: task.task_id, status: false });
 
     setMessages((prev) => [...prev, message]);
 
@@ -106,7 +117,11 @@ const Chat = () => {
   useEffect(() => {
     getMessages();
     socket.on(task.task_id, (data) => {
-      setMessages((prev) => [...prev, data]);
+      if (data.user_id) {
+        setMessages((prev) => [...prev, data]);
+      } else {
+        setTyping(data);
+      }
     });
   }, []);
 
@@ -114,7 +129,6 @@ const Chat = () => {
     // Keeps window scrolled to the bottom of the chat window //
     const elem = document.getElementById('allMessages');
     elem.scrollTop = elem.scrollHeight;
-    console.log(messages, 'messages');
   }, [messages]);
 
   const messageContainerStyle = {
@@ -133,6 +147,8 @@ const Chat = () => {
             user={user}
             otherUser={task.requester.user_id === userId ? task.helper : task.requester}
             isUser={message.user_id === userId}
+            isTyping={typing}
+            isLast={idx === messages.length - 1}
           />
         ))}
       </div>

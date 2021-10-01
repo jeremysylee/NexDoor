@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
+import { motion } from 'framer-motion';
 
 const Row = styled.div`
   display: flex;
@@ -36,6 +37,13 @@ const YourText = styled(MyText)`
   padding: 4px 31px 5px 19px;
 `;
 
+const IsTyping = styled(YourText)`
+  background-color: #c7c7c7;
+  color: white;
+  margin-left: 0;
+  padding: 9px;
+`;
+
 const MyTimeStamp = styled.div`
   font-size: 9px;
   color: white;
@@ -44,37 +52,178 @@ const YourTimeStamp = styled(MyTimeStamp)`
   color: grey;
 `;
 
-const Message = ({ message, otherUser, isUser }) => {
+const Dot = styled.div`
+  height: 7px;
+  width: 7px;
+  border-radius: 50%;
+  background-color: white;
+  margin-right: 2px;
+`;
+
+const Message = ({
+  message,
+  otherUser,
+  isUser,
+  isTyping,
+  isLast,
+}) => {
+  console.log(isTyping, '<><><><><><>');
+
+  const rightBubble = {
+    hidden: {
+      opacity: 1,
+      scale: 0,
+      x: 40,
+      y: 40,
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
   if (isUser) {
     return (
-      <Grid container display="flex" justifyContent="flex-end">
-        <MyText>
-          <Row>
-            <Col style={{ marginRight: '15px' }}>
-              <span>{message.message_body}</span>
-              <MyTimeStamp>
-                {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
-              </MyTimeStamp>
-            </Col>
-          </Row>
-        </MyText>
-      </Grid>
+      <div style={{ display: 'flex', justifyContent: 'right' }}>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={rightBubble}
+          transition={{
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+          }}
+        >
+          <MyText>
+            <Row>
+              <Col style={{ marginRight: '15px' }}>
+                <span>{message.message_body}</span>
+                <MyTimeStamp>
+                  {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+                </MyTimeStamp>
+              </Col>
+            </Row>
+          </MyText>
+        </motion.div>
+      </div>
     );
   }
 
+  const leftBubble = {
+    start: {
+      opacity: 0,
+      scale: 0,
+      x: -40,
+      y: 40,
+    },
+    end: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+    },
+  };
+
+  const dotContainer = {
+    start: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+    end: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+  const dot = {
+    start: { opacity: 0.2 },
+    end: { opacity: 0.8 },
+  };
+
+  const dotTransition = {
+    duration: 0.8,
+    yoyo: Infinity,
+    ease: 'easeInOut',
+  };
+
   return (
     <Grid container justifyContent="flex-start">
-      <Row>
-        <Avatar src={otherUser.profile_picture_url} alt={otherUser.firstname.slice(0, 1)} />
-        <YourText>
-          <Col>
-            <div>{message.message_body}</div>
-            <YourTimeStamp>
-              {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
-            </YourTimeStamp>
-          </Col>
-        </YourText>
-      </Row>
+      <Col>
+        <Row>
+          <Avatar src={otherUser.profile_picture_url} alt={otherUser.firstname.slice(0, 1)} />
+          <motion.div
+            initial="start"
+            animate="end"
+            variants={leftBubble}
+            transition={{
+              type: 'spring',
+              stiffness: 260,
+              damping: 20,
+              ease: 'easeInOut',
+            }}
+          >
+            <YourText>
+              <Col>
+                <div>{message.message_body}</div>
+                <YourTimeStamp>
+                  {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+                </YourTimeStamp>
+              </Col>
+            </YourText>
+          </motion.div>
+        </Row>
+        {isTyping && isLast && (
+          <Row>
+            <motion.div
+              initial="start"
+              animate="end"
+              variants={leftBubble}
+              transition={{
+                type: 'spring',
+                stiffness: 260,
+                damping: 20,
+                ease: 'easeInOut',
+              }}
+            >
+              <Row>
+                <IsTyping>
+                  <Row
+                    as={motion.div}
+                    initial="start"
+                    animate="end"
+                    variants={dotContainer}
+                  >
+                    <Dot
+                      as={motion.span}
+                      variants={dot}
+                      transition={dotTransition}
+                    />
+                    <Dot
+                      as={motion.span}
+                      variants={dot}
+                      transition={dotTransition}
+                    />
+                    <Dot
+                      as={motion.span}
+                      variants={dot}
+                      transition={dotTransition}
+                    />
+
+                  </Row>
+                </IsTyping>
+              </Row>
+            </motion.div>
+          </Row>
+        )}
+      </Col>
     </Grid>
   );
 };
@@ -103,6 +252,8 @@ Message.propTypes = {
     profile_picture_url: PropTypes.string,
   }).isRequired,
   isUser: PropTypes.bool.isRequired,
+  isTyping: PropTypes.bool.isRequired,
+  isLast: PropTypes.bool.isRequired,
 };
 
 export default Message;
