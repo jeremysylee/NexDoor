@@ -56,8 +56,8 @@ const Sidebar = () => {
     history.push('/opentasks');
   };
 
-  const handleHelpfulFeed = () => {
-    history.push('/helpfulfeed');
+  const handleTopHelpers = () => {
+    history.push('/top');
   };
 
   const logOut = () => {
@@ -87,8 +87,8 @@ const Sidebar = () => {
       <NavigationButton button onClick={handleOpenTasks}>
         <MyListItemText>Open Tasks</MyListItemText>
       </NavigationButton>
-      <NavigationButton button onClick={handleHelpfulFeed}>
-        <MyListItemText>Most Helpful</MyListItemText>
+      <NavigationButton button onClick={handleTopHelpers}>
+        <MyListItemText>Top Helpers</MyListItemText>
       </NavigationButton>
       <NavigationButton button onClick={handleLogOut}>
         <MyListItemText>Log Out</MyListItemText>

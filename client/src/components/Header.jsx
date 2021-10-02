@@ -9,7 +9,7 @@ const Row = styled(Grid)`
   flex-direction: row;
   justify-content: space-between;
   margin: 15px 22px;
-  width: 500px;
+  width: 350px;
 `;
 
 const Col = styled.div`
@@ -51,6 +51,15 @@ const Header = () => {
     history.push('/');
   };
 
+  const clickGetHelpHandler = () => {
+    history.push('/');
+    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'new' });
+  };
+
+  const clickTopHelpersHandler = () => {
+    history.push('/top');
+  };
+
   const LogoSvg = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -77,9 +86,9 @@ const Header = () => {
     >
       <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
       <Row>
-        <NaviHeaders>Get Help</NaviHeaders>
-        <NaviHeaders>Top Helpers</NaviHeaders>
-        <NaviHeaders>About Us</NaviHeaders>
+        <NaviHeaders onClick={onClickLogoHandler}>Requests</NaviHeaders>
+        <NaviHeaders onClick={clickGetHelpHandler}>Get Help</NaviHeaders>
+        <NaviHeaders onClick={clickTopHelpersHandler}>Top Helpers</NaviHeaders>
       </Row>
       <Col>
         <div style={{ fontSize: '12px', marginRight: '10px' }}>{`${user.firstname} | id: ${user.user_id}`}</div>
