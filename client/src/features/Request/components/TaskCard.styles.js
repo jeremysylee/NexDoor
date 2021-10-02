@@ -219,7 +219,12 @@ export const FormSectionContainer = styled.div`
 
 export const FormSectionHeader = styled.h4`
   font-weight: 200;
-  text-align: center;
+  text-align: left;
   margin: 1em 0em;
   letter-spacing: 2px;
+  margin-left: 12px;
+`;
+
+export const HorizontalSpacer = styled.div`
+  width: 10px;
 `;

@@ -82,7 +82,10 @@ const Header = () => {
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      style={{ backgroundColor: 'white' }}
+      style={{
+        // backgroundColor: 'white',
+        boxShadow: '0 4px 16px 0 #e5e5e5',
+      }}
     >
       <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
       <Row>
