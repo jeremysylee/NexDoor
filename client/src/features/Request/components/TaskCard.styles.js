@@ -123,8 +123,9 @@ export const RowSlim = styled(Row)`
 `;
 
 export const Col = styled.div`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `;
 
 export const ColCentered = styled(Col)`
@@ -204,4 +205,21 @@ export const Star = styled.span`
 export const LocationPinContainer = styled.div`
   margin-right: 5px;
   margin-top: 2px;
+`;
+
+export const FormTypography = styled.div`
+  font-size: 1rem;
+  font-weight: 300;
+  margin-bottom: 1em;
+`;
+
+export const FormSectionContainer = styled.div`
+  margin: 0.75em;
+`;
+
+export const FormSectionHeader = styled.h4`
+  font-weight: 200;
+  text-align: center;
+  margin: 1em 0em;
+  letter-spacing: 2px;
 `;

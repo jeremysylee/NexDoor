@@ -2,16 +2,16 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
-import RequestModal from '../RequestModal';
+import RequestModal from './RequestModal';
 
 import {
-  SectionCard,
+  SectionTileContainer,
   Row,
   Button,
   ButtonDecline,
   Line,
   RowRight,
-} from '../RequestFeed.styles';
+} from './Request.styles';
 
 const Input = styled.button`
   border-radius: 100px;
@@ -40,14 +40,18 @@ const VerticalLine = styled.div`
   width: 4px;
   height: 105px;
   position: absolute;
-  transform: scale(1) translate(-720%,-8%);
+  transform: scale(1) translate(-720%,-12%);
   border-radius: 60px;
 `;
 
 const FlairContainer = styled.div`
   position: absolute;
-  top: 137px;
-  margin-right: 13px;
+  top: 10px;
+  left: -30px;
+`;
+
+const Anchor = styled.div`
+  position: relative;
 `;
 
 const RowRightFlair = styled(RowRight)`
@@ -72,8 +76,8 @@ const MakeRequestTile = () => {
   const FlairSVG = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="none"
       viewBox="0 0 16 16"
     >
@@ -101,13 +105,15 @@ const MakeRequestTile = () => {
 
   return (
     <div>
-      <SectionCard>
+      <SectionTileContainer style={{ marginTop: '0.75em' }}>
         <VerticalLine />
         <Row>
           <Avatar src={user.profile_picture_url} alt={user.firstname} />
           <RowRightFlair onClick={openModal}>
             <Input>&nbsp;&nbsp;What do you need help with?</Input>
-            <FlairContainer onClick={openModal}><FlairSVG /></FlairContainer>
+            <Anchor>
+              <FlairContainer onClick={openModal}><FlairSVG /></FlairContainer>
+            </Anchor>
           </RowRightFlair>
           <RequestModal />
         </Row>
@@ -116,7 +122,7 @@ const MakeRequestTile = () => {
           <ButtonDecline onClick={openModal}>Schedule for later</ButtonDecline>
           <Button onClick={openModal}>Make a request</Button>
         </Row>
-      </SectionCard>
+      </SectionTileContainer>
     </div>
   );
 };

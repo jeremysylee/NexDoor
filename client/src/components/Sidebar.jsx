@@ -3,18 +3,8 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-
-import {
-  Dashboard,
-  People,
-  BarChart,
-  MarkunreadMailboxTwoTone,
-  Star,
-} from '@material-ui/icons';
-
 import {
   ListItem,
-  ListItemIcon,
 } from '@material-ui/core';
 
 import {
@@ -25,10 +15,15 @@ const MyListItemText = styled.div`
   font-size: 14px;
   color: black;
   font-weight: 500;
+  margin 0.25em 0;
 `;
 
-const MyListItemIcon = styled(ListItemIcon)`
-  color: white;
+const NavigationButton = styled(ListItem)`
+  border-radius: 100px;
+  background-color: blue;
+  &: hover {
+    border-radius: 100px;
+  }
 `;
 
 const Sidebar = () => {
@@ -39,6 +34,7 @@ const Sidebar = () => {
   const handleHome = () => {
     dispatch({ type: 'SET_PAGE', page: '/' });
     dispatch({ type: 'SHOW_MAP', toggle: true });
+    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
     history.push('/');
   };
 
@@ -60,8 +56,8 @@ const Sidebar = () => {
     history.push('/opentasks');
   };
 
-  const handleHelpfulFeed = () => {
-    history.push('/helpfulfeed');
+  const handleTopHelpers = () => {
+    history.push('/top');
   };
 
   const logOut = () => {
@@ -79,39 +75,24 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <ListItem button onClick={handleHome}>
-        <MyListItemIcon>
-          <Dashboard />
-        </MyListItemIcon>
+      <NavigationButton button onClick={handleHome}>
         <MyListItemText>Home</MyListItemText>
-      </ListItem>
-      <ListItem button onClick={handleMyRequests}>
-        <ListItemIcon>
-          <MarkunreadMailboxTwoTone />
-        </ListItemIcon>
+      </NavigationButton>
+      <NavigationButton button onClick={handleMyRequests}>
         <MyListItemText>My Requests</MyListItemText>
-      </ListItem>
-      <ListItem button onClick={handleMyTasks}>
-        <ListItemIcon>
-          <People />
-        </ListItemIcon>
+      </NavigationButton>
+      <NavigationButton button onClick={handleMyTasks}>
         <MyListItemText>My Tasks</MyListItemText>
-      </ListItem>
-      <ListItem button onClick={handleOpenTasks}>
-        <ListItemIcon>
-          <BarChart />
-        </ListItemIcon>
+      </NavigationButton>
+      <NavigationButton button onClick={handleOpenTasks}>
         <MyListItemText>Open Tasks</MyListItemText>
-      </ListItem>
-      <ListItem button onClick={handleHelpfulFeed}>
-        <ListItemIcon>
-          <Star />
-        </ListItemIcon>
-        <MyListItemText>Most Helpful</MyListItemText>
-      </ListItem>
-      <ListItem button onClick={handleLogOut}>
+      </NavigationButton>
+      <NavigationButton button onClick={handleTopHelpers}>
+        <MyListItemText>Top Helpers</MyListItemText>
+      </NavigationButton>
+      <NavigationButton button onClick={handleLogOut}>
         <MyListItemText>Log Out</MyListItemText>
-      </ListItem>
+      </NavigationButton>
     </SidebarContainer>
   );
 };

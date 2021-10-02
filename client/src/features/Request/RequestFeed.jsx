@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import {
   OpenTaskTile, MyRequestTile, MyTaskTile,
 } from './RequestTile';
-import MakeRequestInput from './components/MakeRequestInput';
+import MakeRequestInput from './MakeRequestInput';
+import FeedHeader from './FeedHeader';
 import {
-  SectionCard,
+  SectionTileHeaderContainer,
   SectionLine,
-} from './RequestFeed.styles';
+} from './Request.styles';
 
 const MainFeedContainer = styled.div`
   margin: 1em;
@@ -25,10 +26,11 @@ const RequestFeed = () => {
 
   return (
     <MainFeedContainer>
+      <FeedHeader />
       <MakeRequestInput />
       {page === '/myrequests' || page === '/' ? (
         <>
-          <SectionCard>My Requests</SectionCard>
+          <SectionTileHeaderContainer>My Requests</SectionTileHeaderContainer>
           {myRequests.map((request) => (
             <MyRequestTile request={request} key={request.task_id} />
           ))}
@@ -37,7 +39,7 @@ const RequestFeed = () => {
       <SectionLine />
       {page === '/mytasks' || page === '/' ? (
         <>
-          <SectionCard>People I Am Helping</SectionCard>
+          <SectionTileHeaderContainer>People I Am Helping</SectionTileHeaderContainer>
           {myTasks.map((task) => (
             <MyTaskTile task={task} key={task.task_id} />
           ))}
@@ -46,7 +48,7 @@ const RequestFeed = () => {
       <SectionLine />
       {page === '/tasks' || page === '/' ? (
         <>
-          <SectionCard>Neighbors Requesting Help</SectionCard>
+          <SectionTileHeaderContainer>Neighbors Requesting Help</SectionTileHeaderContainer>
           {openTasks.map((task) => (
             <OpenTaskTile task={task} key={task.task_id} />
           ))}

@@ -9,8 +9,10 @@ import {
   Row,
   Col,
   MyTextContainer,
-  MyText,
-  YourText,
+  RightText,
+  LeftText,
+  TextBody,
+  TextBodySmall,
   MyTimeStamp,
   YourTimeStamp,
 } from './Chat.styles';
@@ -18,7 +20,7 @@ import {
 import {
   rightBubbleVariants,
   leftBubbleVariants,
-  leftBubbleTransition,
+  BubbleTransition,
 } from './Chat.motion';
 
 const Message = ({
@@ -36,18 +38,16 @@ const Message = ({
             initial="hidden"
             animate="visible"
             variants={rightBubbleVariants}
-            transition={leftBubbleTransition}
+            transition={BubbleTransition}
           >
-            <MyText>
-              <Row>
-                <Col style={{ marginRight: '15px' }}>
-                  <span>{message.message_body}</span>
-                  <MyTimeStamp>
-                    {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
-                  </MyTimeStamp>
-                </Col>
-              </Row>
-            </MyText>
+            <RightText>
+              {message.message_body.length < 20
+                ? <TextBodySmall>{message.message_body}</TextBodySmall>
+                : <TextBody>{message.message_body}</TextBody>}
+              <MyTimeStamp>
+                {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+              </MyTimeStamp>
+            </RightText>
           </motion.div>
         </MyTextContainer>
         {isTyping && isLast && (
@@ -72,21 +72,14 @@ const Message = ({
             initial="start"
             animate="end"
             variants={leftBubbleVariants}
-            transition={{
-              type: 'spring',
-              stiffness: 260,
-              damping: 20,
-              ease: 'easeInOut',
-            }}
+            transition={BubbleTransition}
           >
-            <YourText>
-              <Col>
-                <div>{message.message_body}</div>
-                <YourTimeStamp>
-                  {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
-                </YourTimeStamp>
-              </Col>
-            </YourText>
+            <LeftText>
+              <TextBody>{message.message_body}</TextBody>
+              <YourTimeStamp>
+                {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
+              </YourTimeStamp>
+            </LeftText>
           </motion.div>
         </Row>
         {isTyping && isLast && (

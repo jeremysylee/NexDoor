@@ -15,7 +15,7 @@ import {
   RowRight,
   StatusBadge,
   Username,
-} from '../../RequestFeed.styles';
+} from '../../Request.styles';
 
 StatusBadge.defaultProps = {
   theme: {

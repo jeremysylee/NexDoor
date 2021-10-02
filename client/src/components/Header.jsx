@@ -4,6 +4,14 @@ import { Grid, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
+const Row = styled(Grid)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 15px 22px;
+  width: 350px;
+`;
+
 const Col = styled.div`
   display: flex;
   flex-direction: row;
@@ -13,12 +21,22 @@ const Col = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  margin-top: 19px;
+  margin-top: 15px;
   margin-bottom: 12px;
   margin-left: 20px;
   &:hover{
     cursor: pointer;
   }
+`;
+
+const NaviHeaders = styled.div`
+font-weight: 200;
+font-size: 16px;
+transition: all 150ms ease;
+&:hover {
+  cursor: pointer;
+  color: grey;
+}
 `;
 
 const Header = () => {
@@ -29,7 +47,17 @@ const Header = () => {
   const onClickLogoHandler = () => {
     dispatch({ type: 'SET_PAGE', page: '/' });
     dispatch({ type: 'SHOW_MAP', showMap: true });
+    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
     history.push('/');
+  };
+
+  const clickGetHelpHandler = () => {
+    history.push('/');
+    dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'new' });
+  };
+
+  const clickTopHelpersHandler = () => {
+    history.push('/top');
   };
 
   const LogoSvg = () => (
@@ -53,16 +81,22 @@ const Header = () => {
       container
       direction="row"
       justifyContent="space-between"
-      alignItems="flex-start"
+      alignItems="center"
       style={{ backgroundColor: 'white' }}
     >
       <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
+      <Row>
+        <NaviHeaders onClick={onClickLogoHandler}>Requests</NaviHeaders>
+        <NaviHeaders onClick={clickGetHelpHandler}>Get Help</NaviHeaders>
+        <NaviHeaders onClick={clickTopHelpersHandler}>Top Helpers</NaviHeaders>
+      </Row>
       <Col>
         <div style={{ fontSize: '12px', marginRight: '10px' }}>{`${user.firstname} | id: ${user.user_id}`}</div>
         <Avatar
           src={user.profile_picture_url}
           alt={user.firstname}
           onError={(e) => { e.target.onerror = null; e.target.src = 'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=6&m=1223671392&s=170667a&w=0&h=zP3l7WJinOFaGb2i1F4g8IS2ylw0FlIaa6x3tP9sebU='; }}
+          style={{ height: '44px', width: '44px' }}
         />
       </Col>
     </Grid>

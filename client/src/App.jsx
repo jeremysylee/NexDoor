@@ -8,8 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import GlobalStyle from './components/Global.styles';
 import Home from './containers/Home/Home';
 import TopHelpers from './containers/TopHelpers/TopHelpers';
-import Request from './containers/Request';
-import MyActiveRequest from './containers/Request/MyActive/MyActiveRequest';
+import Current from './containers/Current';
 import Login from './features/Accounts/Login';
 import Signup from './features/Accounts/Signup';
 
@@ -40,14 +39,11 @@ const App = () => {
       <Switch>
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/Login" component={Login} />
-        <PrivateRoute exact path="/TopHelpers">
+        <PrivateRoute exact path="/top">
           <TopHelpers />
         </PrivateRoute>
         <PrivateRoute exact path="/request">
-          <Request />
-        </PrivateRoute>
-        <PrivateRoute exact path="/myactiverequest">
-          <MyActiveRequest />
+          <Current />
         </PrivateRoute>
         <PrivateRoute path="/">
           <Home />

@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 
 export const ChatContainer = styled.div`
-  position: relative;
-  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 50vh;
   margin: 2em;
   padding: 2em;
   border-radius: 20px;
   background-color: white;
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
+  min-height: 340px;
 `;
 
 export const MessagesContainer = styled.div`
   margin: 10px;
-  height: 89%;
   overflow-x: hidden;
 `;
 
@@ -61,9 +63,11 @@ export const Col = styled.div`
 export const MyTextContainer = styled.div`
   display: flex;
   justify-content: right;
+  margin-right: 14px;
+  overflow: hidden;
 `;
 
-export const MyText = styled.div`
+export const RightText = styled.div`
   text-align: right;
   background-color: #4496B4;
   border-radius: 22px;
@@ -72,15 +76,32 @@ export const MyText = styled.div`
   color: white;
   font-size: 14px;
   margin: 0.4em 3.5em;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  padding-right: 15px;
+  max-width: 350px;
 `;
 
-export const YourText = styled(MyText)`
+export const LeftText = styled(RightText)`
   text-align: left;
   background-color: #f1f2f5;
   color: black;
   margin-left: 10%;
   margin: 10px 10px;
   padding: 4px 31px 5px 19px;
+
+  justify-content: left;
+`;
+
+export const TextBody = styled.span`
+  overflow-wrap: break-word;
+  text-align: left;
+`;
+
+export const TextBodySmall = styled(TextBody)`
+  text-align: right;
 `;
 
 export const MyTimeStamp = styled.div`
@@ -91,7 +112,7 @@ export const YourTimeStamp = styled(MyTimeStamp)`
   color: grey;
 `;
 
-export const IsTypingContainer = styled(YourText)`
+export const IsTypingContainer = styled(LeftText)`
   background-color: #d1d1d1;
   color: white;
   margin-left: 7px;
