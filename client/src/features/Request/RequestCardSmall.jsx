@@ -3,9 +3,9 @@ import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
-import { UserInfo } from '../../../features/Request/components/UserInfo';
+import { UserInfo } from './components/UserInfo';
 
-const YouAreHelpingContainer = styled.div`
+const RequestCardSmallContainer = styled.div`
 max-width: 300px;
 height: 100%;
 margin-top: 2em;
@@ -35,14 +35,14 @@ const LineHorizontal = styled.hr`
   width: 100%;
 `;
 
-const YouAreHelping = () => {
+const RequestCardSmall = () => {
   const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
   const user = useSelector((store) => store.currentUserReducer.userData);
   const relevantUser = user.user_id === selectedTask.requester.user_id
     ? selectedTask.helper : selectedTask.requester;
 
   return (
-    <YouAreHelpingContainer>
+    <RequestCardSmallContainer>
       <RequestStatus>{selectedTask.requester.user_id !== user.user_id && 'You are helping'}</RequestStatus>
       <UserInfo user={relevantUser} />
       <LineHorizontal />
@@ -84,8 +84,8 @@ const YouAreHelping = () => {
           {new Date(selectedTask.start_date).toString().slice(4, 16)}
         </p>
       </Grid>
-    </YouAreHelpingContainer>
+    </RequestCardSmallContainer>
   );
 };
 
-export default YouAreHelping;
+export default RequestCardSmall;

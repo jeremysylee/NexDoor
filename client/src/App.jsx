@@ -9,7 +9,6 @@ import GlobalStyle from './components/Global.styles';
 import Home from './containers/Home/Home';
 import TopHelpers from './containers/TopHelpers/TopHelpers';
 import Request from './containers/Request';
-import MyActiveRequest from './containers/Request/MyActive/MyActiveRequest';
 import Login from './features/Accounts/Login';
 import Signup from './features/Accounts/Signup';
 
@@ -45,9 +44,6 @@ const App = () => {
         </PrivateRoute>
         <PrivateRoute exact path="/request">
           <Request />
-        </PrivateRoute>
-        <PrivateRoute exact path="/myactiverequest">
-          <MyActiveRequest />
         </PrivateRoute>
         <PrivateRoute path="/">
           <Home />

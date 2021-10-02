@@ -67,7 +67,7 @@ export const MyTextContainer = styled.div`
   overflow: hidden;
 `;
 
-export const MyText = styled.div`
+export const RightText = styled.div`
   text-align: right;
   background-color: #4496B4;
   border-radius: 22px;
@@ -84,7 +84,7 @@ export const MyText = styled.div`
   max-width: 350px;
 `;
 
-export const YourText = styled(MyText)`
+export const LeftText = styled(RightText)`
   text-align: left;
   background-color: #f1f2f5;
   color: black;
@@ -112,7 +112,7 @@ export const YourTimeStamp = styled(MyTimeStamp)`
   color: grey;
 `;
 
-export const IsTypingContainer = styled(YourText)`
+export const IsTypingContainer = styled(LeftText)`
   background-color: #d1d1d1;
   color: white;
   margin-left: 7px;

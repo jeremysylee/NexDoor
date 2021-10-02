@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import styled from 'styled-components';
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
-import YouAreHelping from './YouAreHelping/YouAreHelping';
+import RequestCardSmall from '../../features/Request/RequestCardSmall';
 import Chat from '../../features/Chat/Chat';
 import {
   Body,
@@ -24,7 +24,7 @@ const Request = () => (
         justifyContent="center"
       >
         <Sidebar />
-        <YouAreHelping />
+        <RequestCardSmall />
         <Chat />
       </Grid>
     </Grid>

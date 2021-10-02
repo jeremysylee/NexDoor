@@ -12,7 +12,7 @@ import {
   DetailsCol,
   Row,
   Username,
-} from '../../RequestFeed.styles';
+} from '../../Request.styles';
 
 const OpenTask = ({ task }) => {
   const dispatch = useDispatch();

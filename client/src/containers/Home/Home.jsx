@@ -6,12 +6,12 @@ import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
-import SelectedRequest from '../../features/Request/SelectedRequestCard';
+import RequestCard from '../../features/Request/RequestCard';
 import Map from '../../features/Map/Map';
 
 import {
-  SelectedTaskContainer,
-} from '../../features/Request/RequestFeed.styles';
+  RequestCardContainer,
+} from '../../features/Request/Request.styles';
 
 import {
   Body,
@@ -38,6 +38,13 @@ const MapContainer = styled.div`
   transition: 200ms linear;
 `;
 
+// const Row = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   flex-grow: 0.1;
+// `;
+
 const Home = () => {
   const selectedTaskId = useSelector((store) => store.selectedTaskReducer.task.task_id);
 
@@ -55,12 +62,14 @@ const Home = () => {
           justifyContent="center"
           style={{ width: '90%' }}
         >
+          {/* <Row> */}
           <Sidebar />
           <RequestFeed />
+          {/* </Row> */}
           {selectedTaskId ? (
-            <SelectedTaskContainer>
-              <SelectedRequest />
-            </SelectedTaskContainer>
+            <RequestCardContainer>
+              <RequestCard />
+            </RequestCardContainer>
           ) : (
             <MapContainer>
               <Map />

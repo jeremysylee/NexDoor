@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SectionCard = styled.div`
+export const SectionTileContainer = styled.div`
   max-width: 100%;
   margin-top: 1em;
   border-radius: 10px;
@@ -13,8 +13,10 @@ export const SectionCard = styled.div`
   font-size: 18px;
   font-weight: 500;
   font-family: Roboto;
-  font-size: 18px;
-  font-weight: 500;
+`;
+
+export const SectionTileHeaderContainer = styled(SectionTileContainer)`
+  padding: 0.5em 1em;
 `;
 
 export const Username = styled.div`
@@ -22,7 +24,7 @@ export const Username = styled.div`
   font-size: 14px;
 `;
 
-export const Card = styled(SectionCard)`
+export const Card = styled(SectionTileContainer)`
   overflow: visible;
   color: black;
   -webkit-transition: all 150ms ease;
@@ -97,7 +99,6 @@ export const StatusBadge = styled.div`
   width: 100px;
   z-index: 1;
   background-color: ${(props) => props.theme.statusColor};
-  position: absolute;
   text-align: center;
   padding: 1px;
   color: white;
@@ -131,7 +132,7 @@ export const Button = styled.button`
 `;
 
 export const ButtonDecline = styled(Button)`
-  color: grey;
+  color: black;
 `;
 
 export const Line = styled.hr`
@@ -159,7 +160,7 @@ export const VerticalLineFaded = styled.div`
   }
 `;
 
-export const SelectedTaskContainer = styled.div`
+export const RequestCardContainer = styled.div`
 position: sticky;
 top: 20;
 flex-grow: 3;

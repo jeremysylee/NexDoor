@@ -9,8 +9,8 @@ import {
   Row,
   Col,
   MyTextContainer,
-  MyText,
-  YourText,
+  RightText,
+  LeftText,
   TextBody,
   TextBodySmall,
   MyTimeStamp,
@@ -40,14 +40,14 @@ const Message = ({
             variants={rightBubbleVariants}
             transition={BubbleTransition}
           >
-            <MyText>
+            <RightText>
               {message.message_body.length < 20
                 ? <TextBodySmall>{message.message_body}</TextBodySmall>
                 : <TextBody>{message.message_body}</TextBody>}
               <MyTimeStamp>
                 {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
               </MyTimeStamp>
-            </MyText>
+            </RightText>
           </motion.div>
         </MyTextContainer>
         {isTyping && isLast && (
@@ -74,12 +74,12 @@ const Message = ({
             variants={leftBubbleVariants}
             transition={BubbleTransition}
           >
-            <YourText>
+            <LeftText>
               <TextBody>{message.message_body}</TextBody>
               <YourTimeStamp>
                 {`${DateTime.fromISO(message.date).toFormat('ccc')} ${DateTime.fromISO(message.time).toFormat('t')}`}
               </YourTimeStamp>
-            </YourText>
+            </LeftText>
           </motion.div>
         </Row>
         {isTyping && isLast && (
