@@ -8,7 +8,7 @@ import {
 } from './Request.styles';
 
 const SectionHeaderContainer = styled(SectionTileContainer)`
-  background-color: #DB8457;
+  background-color: #eb783c;
   box-shadow: none;
   display: flex;
   flex-direction: row;
