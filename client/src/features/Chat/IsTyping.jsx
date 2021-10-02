@@ -11,7 +11,7 @@ import {
 
 import {
   leftBubbleVariants,
-  leftBubbleTransition,
+  bubbleTransition,
   dotContainerVariants,
   dotVariants,
   dotTransition,
@@ -23,7 +23,7 @@ const IsTyping = () => (
       initial="start"
       animate="end"
       variants={leftBubbleVariants}
-      transition={leftBubbleTransition}
+      transition={bubbleTransition}
     >
       <Row>
         <IsTypingContainer>
@@ -33,9 +33,9 @@ const IsTyping = () => (
           </BubbleContainer>
           <Row
             as={motion.div}
+            variants={dotContainerVariants}
             initial="start"
             animate="end"
-            variants={dotContainerVariants}
           >
             <Dot
               as={motion.span}

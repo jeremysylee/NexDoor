@@ -15,6 +15,7 @@ const config = {
   output: {
     path: DIST_DIR,
     filename: 'bundle.js',
+    publicPath: '/',
   },
   module: {
     rules: [

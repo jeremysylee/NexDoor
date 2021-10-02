@@ -27,10 +27,10 @@ const App = () => {
 
   useEffect(() => {
     getTasks();
-    const interval = setInterval(() => getTasks(), 1000);
-    return () => {
-      clearInterval(interval);
-    };
+    // const interval = setInterval(() => getTasks(), 1000);
+    // return () => {
+    //   clearInterval(interval);
+    // };
   });
 
   return (

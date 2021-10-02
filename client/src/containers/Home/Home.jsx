@@ -62,19 +62,17 @@ const Home = () => {
           justifyContent="center"
           style={{ width: '90%' }}
         >
-          {/* <Row> */}
           <Sidebar />
           <RequestFeed />
-          {/* </Row> */}
-          {selectedTaskId ? (
+          {/* {selectedTaskId ? (
             <RequestCardContainer>
               <RequestCard />
             </RequestCardContainer>
-          ) : (
+          ) : ( */}
             <MapContainer>
               <Map />
             </MapContainer>
-          )}
+          {/* )} */}
         </Grid>
       </Grid>
     </Body>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-
+import RequestCard from './RequestCard';
 import {
   OpenTaskTile, MyRequestTile, MyTaskTile,
 } from './RequestTile';
@@ -23,9 +23,11 @@ const RequestFeed = () => {
   const myRequests = useSelector((store) => store.myRequestsReducer.myRequests) || [];
   const openTasks = useSelector((store) => store.tasksReducer.tasks) || [];
   const page = useSelector((store) => store.currentPageReducer.page);
+  const modalToggle = useSelector((store) => store.modalRequestCardReducer.toggle);
 
   return (
     <MainFeedContainer>
+      <RequestCard />
       <FeedHeader />
       <MakeRequestInput />
       {page === '/myrequests' || page === '/' ? (

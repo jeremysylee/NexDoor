@@ -54,7 +54,7 @@ const MyTask = ({ task }) => {
 
   const selectTaskHandler = () => {
     dispatch({ type: 'SET_TASK', task });
-    return <></>;
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: true });
   };
 
   return (
