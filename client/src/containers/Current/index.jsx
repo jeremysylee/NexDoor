@@ -1,5 +1,4 @@
-import React from 'react';
-import { Grid } from '@material-ui/core';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
@@ -12,17 +11,23 @@ import {
   RowCentered,
 } from '../../components/App.styles';
 
-const Request = () => (
-  <Body>
-    <Header />
-    <RowCentered style={{ marginTop: '5em' }}>
-      <Sidebar />
-      <Anchor>
-        <PageHeader>Task Dashboard</PageHeader>
-      </Anchor>
-      <RequestCardSmall />
-      <Chat />
-    </RowCentered>
-  </Body>
-);
+const Request = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <Body>
+      <Header />
+      <RowCentered style={{ marginTop: '5em' }}>
+        <Sidebar />
+        <Anchor>
+          <PageHeader>Task Dashboard</PageHeader>
+        </Anchor>
+        <RequestCardSmall />
+        <Chat />
+      </RowCentered>
+    </Body>
+  );
+}
 export default Request;

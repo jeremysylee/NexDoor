@@ -33,8 +33,7 @@ const Sidebar = () => {
 
   const handleHome = () => {
     dispatch({ type: 'SET_PAGE', page: '/' });
-    dispatch({ type: 'SHOW_MAP', toggle: true });
-    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
     history.push('/');
   };
 
