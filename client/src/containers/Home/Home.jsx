@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Header from '../../components/Header';
 import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
-import Map from '../../features/Map/Map';
+import Map2 from '../../features/Map/Map2';
 import { Body } from '../../components/App.styles';
 
 const MapContainer = styled.div`
@@ -13,6 +13,7 @@ const MapContainer = styled.div`
   top: 20;
   min-width: 300px;
   max-width: 520px;
+  height: 80vh;
   height: 95vh;
   border-radius: 20px;
   // box-shadow: 0 8px 16px 0 #BDC9D7;
@@ -39,7 +40,7 @@ const Home = () => (
         <Sidebar />
         <RequestFeed />
         <MapContainer>
-          <Map />
+          <Map2 />
         </MapContainer>
       </Grid>
     </Grid>

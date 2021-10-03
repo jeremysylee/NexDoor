@@ -1,5 +1,6 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 import { Avatar } from '@material-ui/core';
@@ -20,9 +21,11 @@ const RequestCardTinyContainer = styled(Row)`
   justify-content: center;
   border-radius: 10px;
   background-color: #FFFFFF;
-  padding: 0.7em;
+  padding: 1em 0em;
   box-shadow: 2px 2px 3px #cacaca, -1px -1px 11px #f1f2f5;
   background-color: white;
+  transform: translate(-40%, -200%);
+  z-index: 200;
 `;
 
 const AvatarRingSmall = styled(AvatarRing)`
@@ -55,12 +58,16 @@ const AvatarTiny = styled(Avatar)`
   z-index: 100;
 `;
 
-const RequestCardTiny = () => {
-  const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
-  const user = selectedTask.requester;
+const RequestCardTiny = ({ task }) => {
+  const dispatch = useDispatch();
+  const user = task.requester;
+
+  const clickHandler = () => {
+    dispatch({ type: 'SET_TASK', task });
+  };
 
   return (
-    <RequestCardTinyContainer>
+    <RequestCardTinyContainer onClick={clickHandler}>
       <ColCentered>
         <AvatarTiny src={user.profile_picture_url} alt={user.firstname} />
         <AvatarRingSmall />
@@ -88,6 +95,30 @@ const RequestCardTiny = () => {
       </Row>
     </RequestCardTinyContainer>
   );
+};
+
+RequestCardTiny.propTypes = {
+  task: PropTypes.shape({
+    requester: PropTypes.shape({
+      profile_picture_url: PropTypes.string,
+      firstname: PropTypes.string,
+      lastname: PropTypes.string,
+      average_rating: PropTypes.number,
+      task_count: PropTypes.number,
+    }),
+  }),
+};
+
+RequestCardTiny.defaultProps = {
+  task: {
+    requester: {
+      profile_picture_url: '',
+      firstname: '',
+      lastname: '',
+      average_rating: 0,
+      task_count: 0,
+    },
+  },
 };
 
 export default RequestCardTiny;

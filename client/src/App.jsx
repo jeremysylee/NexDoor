@@ -11,6 +11,7 @@ import TopHelpers from './containers/TopHelpers/TopHelpers';
 import Current from './containers/Current';
 import Login from './features/Accounts/Login';
 import Signup from './features/Accounts/Signup';
+import Map2 from './features/Map/Map2';
 
 const App = () => {
   const dispatch = useDispatch();
