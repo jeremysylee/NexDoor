@@ -24,7 +24,7 @@ const RequestCardTinyContainer = styled(Row)`
   padding: 1em 0em;
   box-shadow: 2px 2px 3px #cacaca, -1px -1px 11px #f1f2f5;
   background-color: white;
-  transform: translate(-40%, -200%);
+  transform: translate(-40%, -150%);
   z-index: 200;
 `;
 

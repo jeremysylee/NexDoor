@@ -3,8 +3,6 @@ import { useSelector } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
 import LocationPin from './Pin';
 
-import RequestCardTiny from '../Request/RequestCardTiny';
-
 const Map = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
   const defaultCenter = {
@@ -12,16 +10,10 @@ const Map = () => {
     lng: -118.2437,
   };
 
-  // const options = {
-  //   styles: {
-  //     height: '200px',
-  //     width: '200px',
-  //     '& div:first-child': {
-  //       height: '100%',
-  //       width: '100%',
-  //     },
-  //   }
-  // }
+  const options = {
+    scrollwheel: true,
+    clickableIcons: false,
+  };
 
   const [center] = useState(defaultCenter);
 
@@ -48,15 +40,10 @@ const Map = () => {
 
   return (
     <GoogleMapReact
-      styles={{
-        height: '200px',
-        width: '200px',
-        position: 'absolute',
-        transform: 'translate(-50%, -100%)',
-      }}
+      options={options}
       zoom={16}
       defaultCenter={center}
-      yesIWantToUseGoogleMapApiInternals
+      yesIWantToUseGoogleMapApiInternals={false}
       bootstrapURLKeys={{ key: 'AIzaSyAF8YxtZo1Y_VwXnNrmb1ErGpupP1kYniI' }}
       onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
     >
