@@ -59,6 +59,8 @@ const MyRequest = ({ request }) => {
 
   const selectTaskHandler = () => {
     dispatch({ type: 'SET_TASK', task: request });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: true });
+
     if (request.status === 'Open' && request.requester.user_id === currentUserId) {
       return dispatch({
         type: 'SET_CATEGORY',

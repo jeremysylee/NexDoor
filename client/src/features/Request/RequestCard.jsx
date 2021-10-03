@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { motion } from 'framer-motion';
+import { Dialog } from '@material-ui/core/';
 
 // Imported Components
 import { UserInfo, UserInfoBlank } from './components/UserInfo';
@@ -22,6 +23,7 @@ import {
 const SelectedTaskCard = styled.div`
   width: 100%;
   height: 100%;
+  max-width: 500px;
   padding: 3em 2.5em 1em;
   overflow: hidden;
   background-color: white;
@@ -39,6 +41,11 @@ const SelectedTask = () => {
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const category = useSelector((store) => store.taskCategoryReducer);
+  const modalToggle = useSelector((store) => store.modalRequestCardReducer.toggle);
+
+  const closeHandler = () => {
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
+  };
 
   const getTimeUntil = (rawDate) => {
     const dateToday = DateTime.local();
@@ -79,13 +86,6 @@ const SelectedTask = () => {
   };
   // <-------------------SET CATEGORY END-------------------------> //
 
-  // EVENT HANDLERS //
-  const clickBackHandler = () => {
-    dispatch({
-      type: 'SET_TASK', task: { task_id: 0 },
-    });
-  };
-
   // LIFECYCLE //
   useEffect(() => {
     dispatch({
@@ -118,38 +118,40 @@ const SelectedTask = () => {
 
   // RENDER //
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      className="container"
-      variants={container}
-      transition={{
-        type: 'spring',
-        stiffness: 260,
-        damping: 20,
-      }}
-    >
-      <SelectedTaskCard>
-        <RowSlim>
-          <BackButton onClick={clickBackHandler}>Back</BackButton>
-        </RowSlim>
-        {category.role === 'helper' && <UserInfo user={task.requester} />}
-        {!task.helper && category.status === 'claimed' && <UserInfo user={task.helper} />}
-        {task.helper && category.role === 'requester' && <UserInfo user={task.helper} />}
-        {category.status === 'unclaimed' && <UserInfoBlank user={task.requester} />}
-        <motion.div variants={item}>
-          <StatusText>{category.statusText}</StatusText>
-        </motion.div>
-        <motion.div variants={item}>
-          <DetailsSection />
-          {category.status === 'active' && <InputActiveTask />}
-          {category.status === 'claimed' && <InputClaimedRequest taskId={task.task_id} />}
-          {category.status === 'pending' && <div style={{ height: '1em' }} />}
-          {category.status === 'unclaimed' && <InputUnclaimedRequest taskId={task.task_id} />}
-          {category.status === 'open' && <InputOpenRequest taskId={task.task_id} task={task} />}
-        </motion.div>
-      </SelectedTaskCard>
-    </motion.div>
+    <Dialog open={modalToggle} onClose={closeHandler}>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        className="container"
+        variants={container}
+        transition={{
+          type: 'spring',
+          stiffness: 260,
+          damping: 20,
+        }}
+      >
+        <SelectedTaskCard>
+          <RowSlim>
+            <BackButton onClick={closeHandler}>Back</BackButton>
+          </RowSlim>
+          {category.role === 'helper' && <UserInfo user={task.requester} />}
+          {!task.helper && category.status === 'claimed' && <UserInfo user={task.helper} />}
+          {task.helper && category.role === 'requester' && <UserInfo user={task.helper} />}
+          {category.status === 'unclaimed' && <UserInfoBlank user={task.requester} />}
+          <motion.div variants={item}>
+            <StatusText>{category.statusText}</StatusText>
+          </motion.div>
+          <motion.div variants={item}>
+            <DetailsSection />
+            {category.status === 'active' && <InputActiveTask />}
+            {category.status === 'claimed' && <InputClaimedRequest taskId={task.task_id} />}
+            {category.status === 'pending' && <div style={{ height: '1em' }} />}
+            {category.status === 'unclaimed' && <InputUnclaimedRequest taskId={task.task_id} />}
+            {category.status === 'open' && <InputOpenRequest taskId={task.task_id} task={task} />}
+          </motion.div>
+        </SelectedTaskCard>
+      </motion.div>
+    </Dialog>
   );
 };
 

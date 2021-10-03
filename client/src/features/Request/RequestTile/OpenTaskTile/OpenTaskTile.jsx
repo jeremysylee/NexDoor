@@ -19,10 +19,8 @@ const OpenTask = ({ task }) => {
   const { day, time } = useFormatDate(task.start_date, task.start_time);
 
   const selectTaskHandler = () => {
-    dispatch({
-      type: 'SET_TASK', task,
-    });
-    return <></>;
+    dispatch({ type: 'SET_TASK', task });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: true });
   };
 
   return (

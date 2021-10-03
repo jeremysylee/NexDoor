@@ -46,8 +46,7 @@ const Header = () => {
 
   const onClickLogoHandler = () => {
     dispatch({ type: 'SET_PAGE', page: '/' });
-    dispatch({ type: 'SHOW_MAP', showMap: true });
-    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
     history.push('/');
   };
 
@@ -82,7 +81,10 @@ const Header = () => {
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      style={{ backgroundColor: 'white' }}
+      style={{
+        // backgroundColor: 'white',
+        boxShadow: '0 4px 16px 0 #e5e5e5',
+      }}
     >
       <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
       <Row>

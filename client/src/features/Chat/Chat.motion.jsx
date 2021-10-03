@@ -28,7 +28,7 @@ export const leftBubbleVariants = {
   },
 };
 
-export const BubbleTransition = {
+export const bubbleTransition = {
   type: 'spring',
   stiffness: 250,
   damping: 20,

@@ -30,9 +30,7 @@ export const InputActiveTask = () => {
   const category = useSelector((store) => store.taskCategoryReducer);
 
   const clickBackHandler = () => {
-    dispatch({
-      type: 'SET_TASK', task: { task_id: 0 },
-    });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
   };
 
   const clickGoToRequestHandler = () => {
@@ -59,15 +57,13 @@ export const InputClaimedRequest = ({ taskId }) => {
   const history = useHistory();
 
   const clickAcceptHandler = async () => {
-    const res = await axios.put(`${url}/api/tasks/${taskId}/status/Active/`);
-    console.log(res);
+    await axios.put(`${url}/api/tasks/${taskId}/status/Active/`);
     history.push('/request');
   };
   const clickDeclineHandler = async () => {
     await axios.put(`${url}/api/tasks/${taskId}/status/Open`);
     await axios.delete(`${url}/api/tasks/${taskId}/helper`);
-    dispatch({ type: 'SHOW_MAP', toggle: true });
-    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
   };
   return (
     <ColCentered>
@@ -86,15 +82,12 @@ InputClaimedRequest.propTypes = {
 export const InputUnclaimedRequest = ({ taskId }) => {
   const dispatch = useDispatch();
   function handleClickOpen() {
-    // setOpen(true);
     dispatch({ type: 'TOGGLE_AR_MODAL', toggle: true, mode: 'edit' });
   }
 
   const clickDeclineHandler = async () => {
-    const res = await axios.delete(`${url}/api/tasks/${taskId}`);
-    console.log(res);
-    dispatch({ type: 'SHOW_MAP', toggle: true });
-    dispatch({ type: 'SET_TASK', task: { task_id: 0 } });
+    await axios.delete(`${url}/api/tasks/${taskId}`);
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
   };
 
   return (
@@ -116,9 +109,7 @@ export const InputOpenRequest = ({ taskId, task }) => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
   const clickClaimHandler = async () => {
-    const res = await axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`);
-    console.log(res);
-    dispatch({ type: 'SHOW_MAP', toggle: true });
+    await axios.put(`${url}/api/tasks/${taskId}/helper/${userId}`);
     const newTask = task;
     newTask.status = 'Claimed';
     dispatch({ type: 'SET_TASK', task: newTask });
@@ -131,9 +122,7 @@ export const InputOpenRequest = ({ taskId, task }) => {
   };
 
   const clickBackHandler = () => {
-    dispatch({
-      type: 'SET_TASK', task: { task_id: 0 },
-    });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
   };
 
   return (

@@ -20,7 +20,7 @@ import {
 import {
   rightBubbleVariants,
   leftBubbleVariants,
-  BubbleTransition,
+  bubbleTransition,
 } from './Chat.motion';
 
 const Message = ({
@@ -38,7 +38,7 @@ const Message = ({
             initial="hidden"
             animate="visible"
             variants={rightBubbleVariants}
-            transition={BubbleTransition}
+            transition={bubbleTransition}
           >
             <RightText>
               {message.message_body.length < 20
@@ -72,7 +72,7 @@ const Message = ({
             initial="start"
             animate="end"
             variants={leftBubbleVariants}
-            transition={BubbleTransition}
+            transition={bubbleTransition}
           >
             <LeftText>
               <TextBody>{message.message_body}</TextBody>
