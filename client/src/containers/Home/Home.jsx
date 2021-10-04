@@ -7,7 +7,6 @@ import Sidebar from '../../components/Sidebar';
 import Map from '../../features/Map/Map';
 import { Body } from '../../components/App.styles';
 
-
 const Home = () => (
   <Body>
     <Header />

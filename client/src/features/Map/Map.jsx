@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
@@ -20,12 +20,12 @@ const MapContainer = styled.div`
 
 const Map = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
-  const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
+  // const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
   const defaultCenter = {
     lat: 34.0522,
     lng: -118.2437,
   };
-  const [center, setCenter] = useState(defaultCenter);
+  const [center] = useState(defaultCenter);
 
   // useEffect(() => {
   //   const coord = selectedTask.location.coordinate;
