@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import RequestCardTiny from '../Request/RequestCardTiny';
 
@@ -20,6 +21,7 @@ const Pin = ({ task }) => {
   const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
   const clickHandler = () => {
     dispatch({ type: 'SET_TASK', task });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: true });
   };
 
   const [hovered, setHovered] = useState(false);
@@ -35,7 +37,15 @@ const Pin = ({ task }) => {
 
   return (
     <>
-      {selectedTask.task_id === task.task_id && <RequestCardTiny task={task} />}
+      <AnimatePresence>
+        {selectedTask.task_id === task.task_id && hovered && (
+          <RequestCardTiny
+            task={task}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          />
+        )}
+      </AnimatePresence>
       <PinContainer
         onClick={clickHandler}
         onMouseEnter={onMouseEnter}

@@ -27,6 +27,9 @@ const RequestCardTinyContainer = styled(Row)`
   background-color: white;
   transform: translate(-40%, -160%);
   z-index: 200;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const CardPoint = styled(RequestCardTinyContainer)`
@@ -77,12 +80,13 @@ const AvatarTiny = styled(Avatar)`
   z-index: 100;
 `;
 
-const RequestCardTiny = ({ task }) => {
+const RequestCardTiny = ({ task, onMouseEnter, onMouseLeave }) => {
   const dispatch = useDispatch();
   const user = task.requester;
 
   const clickHandler = () => {
     dispatch({ type: 'SET_TASK', task });
+    dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: true });
   };
 
   const requestCardTinyContainerVariants = {
@@ -93,11 +97,14 @@ const RequestCardTiny = ({ task }) => {
   return (
     <RequestCardTinyContainer
       onClick={clickHandler}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       as={motion.div}
       initial="start"
       animate="end"
+      exit={{ opacity: 0 }}
       variants={requestCardTinyContainerVariants}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
       <CardPointCover />
       <CardPoint />
@@ -140,6 +147,8 @@ RequestCardTiny.propTypes = {
       task_count: PropTypes.number,
     }),
   }),
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
 };
 
 RequestCardTiny.defaultProps = {
