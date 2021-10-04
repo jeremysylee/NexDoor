@@ -16,6 +16,18 @@ import {
 
 import { Col, Row } from '../../components/App.styles';
 
+const RequestCardTinyOutline = styled(Row)`
+  position: absolute;
+  width: 50px;
+  height: 83px;
+  justify-content: center;
+  transform: translate(-73%, -123%);
+  &:hover {
+    cursor: pointer;
+  }
+  z-index: 499
+`;
+
 const RequestCardTinyContainer = styled(Row)`
   position: absolute;
   width: 262px;
@@ -25,8 +37,8 @@ const RequestCardTinyContainer = styled(Row)`
   padding: 1em 0em;
   box-shadow: 2px 2px 5px #aeaeae, -1px -1px 5px #ededed;
   background-color: white;
-  transform: translate(-40%, -160%);
-  z-index: 200;
+  transform: translate(11%, 0%);
+  z-index: 500;
   &:hover {
     cursor: pointer;
   }
@@ -95,45 +107,48 @@ const RequestCardTiny = ({ task, onMouseEnter, onMouseLeave }) => {
   };
 
   return (
-    <RequestCardTinyContainer
-      onClick={clickHandler}
+    <RequestCardTinyOutline
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      as={motion.div}
-      initial="start"
-      animate="end"
-      exit={{ opacity: 0 }}
-      variants={requestCardTinyContainerVariants}
-      transition={{ duration: 0.25, ease: 'easeInOut' }}
     >
-      <CardPointCover />
-      <CardPoint />
-      <ColCentered>
-        <AvatarTiny src={user.profile_picture_url} alt={user.firstname} />
-        <AvatarRingSmall />
-        <AvatarMiddleRingSmall />
-      </ColCentered>
-      <Row style={{ marginLeft: '1em' }}>
-        <Col>
-          <UsernameSmall>{`${user.firstname} ${user.lastname}`}</UsernameSmall>
-          <UserInfoStSmall>
-            <Row style={{ alignItems: 'center' }}>
-              <Star> ★ </Star>
-              &nbsp;
-              <b>{`${user.average_rating.toFixed(1) || 0}`}</b>
-              <span>
+      <RequestCardTinyContainer
+        onClick={clickHandler}
+        as={motion.div}
+        initial="start"
+        animate="end"
+        exit={{ opacity: 0 }}
+        variants={requestCardTinyContainerVariants}
+        transition={{ duration: 0.25, ease: 'easeInOut' }}
+      >
+        <CardPointCover />
+        <CardPoint />
+        <ColCentered>
+          <AvatarTiny src={user.profile_picture_url} alt={user.firstname} />
+          <AvatarRingSmall />
+          <AvatarMiddleRingSmall />
+        </ColCentered>
+        <Row style={{ marginLeft: '1em' }}>
+          <Col>
+            <UsernameSmall>{`${user.firstname} ${user.lastname}`}</UsernameSmall>
+            <UserInfoStSmall>
+              <Row style={{ alignItems: 'center' }}>
+                <Star> ★ </Star>
                 &nbsp;
-                {`(${user.task_count})`}
-              </span>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <b>1.2</b>
-              &nbsp;
-              <span> miles away</span>
-            </Row>
-          </UserInfoStSmall>
-        </Col>
-      </Row>
-    </RequestCardTinyContainer>
+                <b>{`${user.average_rating.toFixed(1) || 0}`}</b>
+                <span>
+                  &nbsp;
+                  {`(${user.task_count})`}
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <b>1.2</b>
+                &nbsp;
+                <span> miles away</span>
+              </Row>
+            </UserInfoStSmall>
+          </Col>
+        </Row>
+      </RequestCardTinyContainer>
+    </RequestCardTinyOutline>
   );
 };
 
