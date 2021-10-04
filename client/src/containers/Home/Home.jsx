@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Header from '../../components/Header';
 import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
-import Map2 from '../../features/Map/Map2';
+import Map from '../../features/Map/Map';
 import { Body } from '../../components/App.styles';
 
 const MapContainer = styled.div`
@@ -40,7 +40,7 @@ const Home = () => (
         <Sidebar />
         <RequestFeed />
         <MapContainer>
-          <Map2 />
+          <Map />
         </MapContainer>
       </Grid>
     </Grid>
