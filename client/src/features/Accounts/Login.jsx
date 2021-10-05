@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { url } from '../../../../config';
+import { url } from '../../../config';
 
 function Copyright() {
   return (

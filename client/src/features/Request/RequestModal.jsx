@@ -23,7 +23,7 @@ import {
   FormSectionContainer,
   FormSectionHeader,
 } from './components/TaskCard.styles';
-import { url } from '../../../../config';
+import { url } from '../../../config';
 
 function NewRequestModal() {
   const dispatch = useDispatch();

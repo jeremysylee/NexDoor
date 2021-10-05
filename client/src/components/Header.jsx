@@ -93,7 +93,6 @@ const Header = () => {
         <NaviHeaders onClick={clickTopHelpersHandler}>Top Helpers</NaviHeaders>
       </Row>
       <Col>
-        {/* <div style={{ fontSize: '12px', marginRight: '10px' }}>{`${user.firstname} | id: ${user.user_id}`}</div> */}
         <Avatar
           src={user.profile_picture_url}
           alt={user.firstname}

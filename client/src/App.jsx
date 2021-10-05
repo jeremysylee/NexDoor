@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
-import { url } from '../../config';
+import { url } from '../config';
 
 import PrivateRoute from './components/PrivateRoute';
 import GlobalStyle from './components/Global.styles';
@@ -15,7 +15,6 @@ import Signup from './features/Accounts/Signup';
 const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
-  const tasks = useSelector((store) => store.tasksReducer.tasks);
 
   const getTasks = () => {
     if (userId) {
