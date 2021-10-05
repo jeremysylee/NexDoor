@@ -5,12 +5,12 @@ import styled from 'styled-components';
 import { UserInfo } from './components/UserInfo';
 import { ButtonGoToRequest } from './components/TaskCard.styles';
 
-const RequestCardSmallContainer = styled.div`
+const RequestStatusCardContainer = styled.div`
   max-width: 300px;
-  height: 100%;
   margin-top: 2em;
   flex-direction: column;
   display: flex;
+  flex-grow: 0;
   align-items: center;
   border-radius: 10px;
   background-color: #FFFFFF;
@@ -40,13 +40,13 @@ const RequestStatusCard = () => {
     ? selectedTask.helper : selectedTask.requester;
 
   return (
-    <RequestCardSmallContainer>
+    <RequestStatusCardContainer>
       <RequestStatus>{selectedTask.requester.user_id !== user.user_id && 'You are helping'}</RequestStatus>
       <UserInfo user={relevantUser} />
       <ButtonContainer>
         <ButtonGoToRequest style={{ width: '100%' }}>Complete task</ButtonGoToRequest>
       </ButtonContainer>
-    </RequestCardSmallContainer>
+    </RequestStatusCardContainer>
   );
 };
 

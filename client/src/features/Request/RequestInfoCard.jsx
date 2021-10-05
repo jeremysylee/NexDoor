@@ -42,6 +42,7 @@ const InfoDetails = styled(InfoBody)`
   font-size: 14px;
   font-weight: 400;
   text-align: right;
+  line-height: 1.3;
 `;
 
 const DateTime = styled(InfoDetails)`
@@ -78,6 +79,7 @@ const RequestInfoCard = () => {
           </Col>
         </Row>
         <Col>
+          <InfoDetails><b>Location:</b></InfoDetails>
           <InfoDetails>{street_address}</InfoDetails>
           <InfoDetails>{`${city}, ${state} ${zipcode}`}</InfoDetails>
         </Col>

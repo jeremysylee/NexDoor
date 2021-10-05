@@ -21,7 +21,7 @@ const Request = () => {
   return (
     <Body>
       <Header />
-      <RowCentered style={{ marginTop: '5em' }}>
+      <RowCentered style={{ marginTop: '5em', alignItems: 'flex-start' }}>
         <Sidebar />
         <Anchor>
           <PageHeader>Task Dashboard</PageHeader>

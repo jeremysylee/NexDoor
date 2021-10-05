@@ -4,8 +4,8 @@ export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex-grow: 1;
-  max-height: 60vh;
+  flex-grow: 0;
+  max-height: 50vh;
   margin: 0 2em 2em 2em;
   padding: 0.75em 2em;
   border-radius: 20px;
@@ -58,12 +58,12 @@ export const Row = styled.div`
 export const Col = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: right;
+  justify-content: flex-end;
 `;
 
 export const MyTextContainer = styled.div`
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   margin-right: 14px;
   overflow: hidden;
 `;
@@ -80,7 +80,7 @@ export const RightText = styled.div`
 
   display: flex;
   flex-direction: column;
-  justify-content: right;
+  justify-content: flex-end;
   padding-right: 15px;
   max-width: 350px;
 `;
@@ -93,7 +93,7 @@ export const LeftText = styled(RightText)`
   margin: 10px 10px;
   padding: 4px 31px 5px 19px;
 
-  justify-content: left;
+  justify-content: flex-start;
 `;
 
 export const TextBody = styled.span`
