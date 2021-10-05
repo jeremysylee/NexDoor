@@ -10,14 +10,13 @@ import { Body } from '../../components/App.styles';
 
 const MapContainer = styled.div`
   position: sticky;
-  // top: 20;
+  top: 20;
   min-width: 300px;
   max-width: 650px;
   height: 95vh;
   border-radius: 20px;
   // box-shadow: 0 8px 16px 0 #BDC9D7;
   margin-top: 2em;
-  position: sticky;
   flex-grow: 4;
   flex-shrink: 2;
 `;
