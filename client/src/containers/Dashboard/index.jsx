@@ -16,7 +16,7 @@ import {
   Col,
 } from '../../components/App.styles';
 
-const Request = () => {
+const Dashboard = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -24,12 +24,12 @@ const Request = () => {
   return (
     <Body>
       <Header />
-      <RowCentered style={{ marginTop: '5em', alignItems: 'flex-start' }}>
+      <RowCentered style={{ marginTop: '3em', alignItems: 'flex-start' }}>
         <Sidebar />
         <Anchor>
           <PageHeader>Task Dashboard</PageHeader>
         </Anchor>
-        <Col>
+        <Col style={{ maxWidth: '300px' }}>
           <RequestStatusCard />
           <MapSmall />
           <LocationCard />
@@ -43,4 +43,4 @@ const Request = () => {
   );
 };
 
-export default Request;
+export default Dashboard;

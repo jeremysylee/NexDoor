@@ -10,7 +10,7 @@ const MapContainer = styled.div`
   height: 25vh;
   border-radius: 20px;
   box-shadow: 2px 2px 3px #cccccc, -3px -3px 5px #ededed;
-  margin-top: 2em;
+  margin-top: 1.5em;
   flex-grow: 4;
   flex-shrink: 2;
   overflow: hidden;

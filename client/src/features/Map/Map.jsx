@@ -5,19 +5,18 @@ import LocationPin from './Pin';
 
 const Map = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
-  // const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
+  const user = useSelector((store) => store.currentUserReducer.userData);
+
+  const getCoordinates = (coord) => {
+    const splitCoord = coord.substring(1, coord.length - 1).split(',');
+    return { lat: Number(splitCoord[1]), lng: Number(splitCoord[0]) };
+  };
+
   const defaultCenter = {
-    lat: 34.0522,
-    lng: -118.2437,
+    lat: getCoordinates(user.address.coordinate).lat,
+    lng: getCoordinates(user.address.coordinate).lng,
   };
   const [center] = useState(defaultCenter);
-
-  // useEffect(() => {
-  //   const coord = selectedTask.location.coordinate;
-  //   const splitCoord = coord.substring(1, coord.length - 1).split(',');
-  //   const coordinate = { lat: Number(splitCoord[1]), lng: Number(splitCoord[0]) };
-  //   setCenter(coordinate);
-  // }, [selectedTask]);
 
   const options = {
     scrollwheel: true,
@@ -29,16 +28,13 @@ const Map = () => {
   };
 
   const Markers = tasks.map((task) => {
-    const coord = task.location.coordinate;
-    const splitCoord = coord.substring(1, coord.length - 1).split(',');
-    const coordinate = { lat: Number(splitCoord[1]), lng: Number(splitCoord[0]) };
+    const coordinate = getCoordinates(task.location.coordinate);
     return (
       <LocationPin
         key={task.task_id}
         task={task}
         lat={coordinate.lat}
         lng={coordinate.lng}
-        showCard="true"
         style={{
           position: 'absolute',
           transform: 'translate(-50%, -100%)',

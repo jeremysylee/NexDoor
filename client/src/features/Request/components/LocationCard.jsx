@@ -11,7 +11,7 @@ const RequestInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 1em 0em;
+  margin: 1.5em 0em;
   padding: 1.2em 2.5em;
   border-radius: 20px;
   background-color: white;

@@ -8,7 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import GlobalStyle from './components/Global.styles';
 import Home from './containers/Home/Home';
 import TopHelpers from './containers/TopHelpers/TopHelpers';
-import Current from './containers/Current';
+import Dashboard from './containers/Dashboard';
 import Login from './features/Accounts/Login';
 import Signup from './features/Accounts/Signup';
 
@@ -45,7 +45,7 @@ const App = () => {
           <TopHelpers />
         </PrivateRoute>
         <PrivateRoute exact path="/request">
-          <Current />
+          <Dashboard />
         </PrivateRoute>
         <PrivateRoute path="/">
           <Home />

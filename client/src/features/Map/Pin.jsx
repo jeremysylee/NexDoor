@@ -81,7 +81,7 @@ Pin.propTypes = {
       task_count: PropTypes.number,
     }),
   }),
-  showCard: PropTypes.bool.isRequired,
+  showCard: PropTypes.bool,
 };
 
 Pin.defaultProps = {
@@ -95,6 +95,7 @@ Pin.defaultProps = {
       task_count: 0,
     },
   },
+  showCard: true,
 };
 
 export default Pin;
