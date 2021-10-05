@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
+import sadAlien from '../../../../static/sadAlien.png';
 
 import useFormatDate from '../../hooks/useFormatDate';
 
@@ -98,7 +99,7 @@ const MyRequest = ({ request }) => {
         </RowRight>
         <Row style={{ justifyContent: 'space-between' }}>
           <Row style={{ marginBottom: '0.5em' }}>
-            {request.status === 'Open' && <Avatar src="" alt="?" />}
+            {request.status === 'Open' && <Avatar src={sadAlien} alt="?" />}
             {request.status !== 'Open' && <Avatar src={request.helper.profile_picture_url} alt={request.helper.firstname} />}
             <CardContent>
               {request.status === 'Open' && <Username>No one has claimed your request yet!</Username>}

@@ -15,6 +15,7 @@ import Signup from './features/Accounts/Signup';
 const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
+  const tasks = useSelector((store) => store.tasksReducer.tasks);
 
   const getTasks = () => {
     if (userId) {
@@ -28,11 +29,11 @@ const App = () => {
   };
 
   useEffect(() => {
-    getTasks();
-    // const interval = setInterval(() => getTasks(), 1000);
-    // return () => {
-    //   clearInterval(interval);
-    // };
+    // getTasks();
+    const interval = setInterval(() => getTasks(), 1000);
+    return () => {
+      clearInterval(interval);
+    };
   });
 
   return (
