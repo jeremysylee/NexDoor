@@ -46,7 +46,7 @@ const VerticalLine = styled.div`
 
 const FlairContainer = styled.div`
   position: absolute;
-  top: 10px;
+  top: 5px;
   left: -30px;
 `;
 

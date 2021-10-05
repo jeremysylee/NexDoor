@@ -4,9 +4,10 @@ export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 50vh;
-  margin: 2em;
-  padding: 2em;
+  flex-grow: 0;
+  max-height: 50vh;
+  margin: 0 2em 2em 2em;
+  padding: 0.75em 2em;
   border-radius: 20px;
   background-color: white;
   box-shadow: 2px 2px 3px #cccccc, -1px -1px 27px #f1f2f5;
@@ -19,7 +20,7 @@ export const MessagesContainer = styled.div`
 `;
 
 export const Input = styled.input`
-  width: 45vw;
+  width: 100%;
   border-radius: 25px;
   border: none;
   height: 3em;
@@ -57,12 +58,12 @@ export const Row = styled.div`
 export const Col = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: right;
+  justify-content: flex-end;
 `;
 
 export const MyTextContainer = styled.div`
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   margin-right: 14px;
   overflow: hidden;
 `;
@@ -79,7 +80,7 @@ export const RightText = styled.div`
 
   display: flex;
   flex-direction: column;
-  justify-content: right;
+  justify-content: flex-end;
   padding-right: 15px;
   max-width: 350px;
 `;
@@ -92,7 +93,7 @@ export const LeftText = styled(RightText)`
   margin: 10px 10px;
   padding: 4px 31px 5px 19px;
 
-  justify-content: left;
+  justify-content: flex-start;
 `;
 
 export const TextBody = styled.span`

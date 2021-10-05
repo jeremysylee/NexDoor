@@ -21,8 +21,6 @@ import {
 } from './components/TaskCard.styles';
 
 const SelectedTaskCard = styled.div`
-  width: 100%;
-  height: 100%;
   max-width: 500px;
   padding: 3em 2.5em 1em;
   overflow: hidden;

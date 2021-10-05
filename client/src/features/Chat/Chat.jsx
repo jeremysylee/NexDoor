@@ -13,6 +13,7 @@ import {
   MessagesContainer,
   Input,
   Form,
+  Row,
 } from './Chat.styles';
 
 const url = 'http://localhost:3500';
@@ -27,8 +28,6 @@ const Chat = () => {
   const [typing, setTyping] = useState(false);
   const [messages, setMessages] = useState([]);
   const [timer, setTimer] = useState();
-  // Concept: if a variable is declared here instead of state,
-  // that variable will get reassigned on every re-render.
 
   const handleChange = (e) => {
     socket.emit('typing', { task: task.task_id, status: true });
@@ -107,13 +106,13 @@ const Chat = () => {
     });
   }, []);
 
+  // Pushes chat window to bottom on new messages//
   useEffect(() => {
-    // Keeps window scrolled to the bottom of the chat window //
     scrollToBottom();
   }, [messages]);
 
+  // Scrolls to bottom when someone starts typing, but not when they stop.
   useEffect(() => {
-    // scrolls to bottom when someone starts typing, but not when they stop.
     if (typing) {
       scrollToBottom();
     }
@@ -135,15 +134,17 @@ const Chat = () => {
         ))}
       </MessagesContainer>
       <Form onSubmit={(e) => { handleSend(e); }}>
-        <Input
-          placeholder="Write message here..."
-          type="text"
-          value={input}
-          onChange={handleChange}
-        />
-        <IconButton type="submit">
-          <SendTwoToneIcon />
-        </IconButton>
+        <Row>
+          <Input
+            placeholder="Write message here..."
+            type="text"
+            value={input}
+            onChange={handleChange}
+          />
+          <IconButton type="submit">
+            <SendTwoToneIcon />
+          </IconButton>
+        </Row>
       </Form>
     </ChatContainer>
   );

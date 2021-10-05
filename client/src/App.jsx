@@ -11,19 +11,20 @@ import TopHelpers from './containers/TopHelpers/TopHelpers';
 import Current from './containers/Current';
 import Login from './features/Accounts/Login';
 import Signup from './features/Accounts/Signup';
-import Map2 from './features/Map/Map2';
 
 const App = () => {
   const dispatch = useDispatch();
   const userId = useSelector((store) => store.currentUserReducer.userData.user_id);
 
   const getTasks = () => {
-    axios.get(`${url}/api/tasks/?userId=${userId}&range=50&quantity=30&offset=0`)
-      .then(({ data }) => {
-        dispatch({ type: 'SET_TASKS', tasks: data.allothers });
-        dispatch({ type: 'SET_REQUESTS', myRequests: data.requested });
-        dispatch({ type: 'SET_MY_TASKS', myTasks: data.helper });
-      });
+    if (userId) {
+      axios.get(`${url}/api/tasks/?userId=${userId}&range=50&quantity=30&offset=0`)
+        .then(({ data }) => {
+          dispatch({ type: 'SET_TASKS', tasks: data.allothers });
+          dispatch({ type: 'SET_REQUESTS', myRequests: data.requested });
+          dispatch({ type: 'SET_MY_TASKS', myTasks: data.helper });
+        });
+    }
   };
 
   useEffect(() => {

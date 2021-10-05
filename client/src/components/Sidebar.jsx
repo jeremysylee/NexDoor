@@ -14,7 +14,7 @@ import {
 const MyListItemText = styled.div`
   font-size: 14px;
   color: black;
-  font-weight: 500;
+  font-weight: 400;
   margin 0.25em 0;
 `;
 

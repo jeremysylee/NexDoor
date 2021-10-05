@@ -225,7 +225,6 @@ function NewRequestModal() {
                       helperText={validationErrors.streetAddress && validationErrors.streetAddress}
                       variant="outlined"
                       fullWidth
-                      color="warning"
                     />
                     <Row style={{ gap: '10px' }}>
                       <TextField
@@ -388,7 +387,7 @@ function NewRequestModal() {
                     </Row>
                   </FormSectionContainer>
                 </Col>
-                <ButtonGoToRequest type="submit" style={{ marginTop: '1em' }}>Submit</ButtonGoToRequest>
+                <ButtonGoToRequest type="submit" style={{ margin: '1em 0' }}>Submit</ButtonGoToRequest>
               </ColCentered>
             </form>
           </DialogContent>
