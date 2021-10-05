@@ -49,8 +49,8 @@ const CardPoint = styled(RequestCardTinyContainer)`
   position: absolute;
   z-index: -2;
   border-radius: 3px;
-  width: 50;
-  height: 50;
+  width: 50px;
+  height: 50px;
   left: 78px;
 `;
 

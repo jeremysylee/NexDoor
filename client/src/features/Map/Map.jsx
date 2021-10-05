@@ -1,22 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
 import LocationPin from './Pin';
-
-const MapContainer = styled.div`
-  position: sticky;
-  top: 20;
-  min-width: 300px;
-  max-width: 650px;
-  height: 95vh;
-  border-radius: 20px;
-  // box-shadow: 0 8px 16px 0 #BDC9D7;
-  margin-top: 2em;
-  position: sticky;
-  flex-grow: 4;
-  flex-shrink: 2;
-`;
 
 const Map = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
@@ -39,9 +24,7 @@ const Map = () => {
     clickableIcons: false,
   };
 
-  const handleApiLoaded = (map) => {
-    console.log(map);
-  };
+  const handleApiLoaded = (map) => map;
 
   const Markers = tasks.map((task) => {
     const coord = task.location.coordinate;
@@ -62,20 +45,16 @@ const Map = () => {
   });
 
   return (
-    <MapContainer>
-      <GoogleMapReact
-        options={options}
-        zoom={16}
-        center={center}
-        yesIWantToUseGoogleMapApiInternals={false}
-        bootstrapURLKeys={{ key: 'AIzaSyAF8YxtZo1Y_VwXnNrmb1ErGpupP1kYniI' }}
-        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-        // hoverDistance={1}
-        // distanceToMouse={52}
-      >
-        {Markers}
-      </GoogleMapReact>
-    </MapContainer>
+    <GoogleMapReact
+      options={options}
+      zoom={16}
+      center={center}
+      yesIWantToUseGoogleMapApiInternals={false}
+      bootstrapURLKeys={{ key: 'AIzaSyAF8YxtZo1Y_VwXnNrmb1ErGpupP1kYniI' }}
+      onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+    >
+      {Markers}
+    </GoogleMapReact>
   );
 };
 
