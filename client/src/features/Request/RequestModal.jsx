@@ -179,7 +179,7 @@ function NewRequestModal() {
       const { data } = await axios.put(`${url}/api/tasks/${task.task_id}`, request);
       console.log(data);
       cleanInputAndClose();
-      dispatch({ type: 'SET_TASK', task });
+      dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
     } catch (err) {
       console.log(err);
     }
