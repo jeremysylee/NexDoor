@@ -33,15 +33,15 @@ const InfoHeader = styled.span`
   font-size: 16px;
   margin-bottom: 0.5em;
 `;
-const InfoBody = styled.span`
+const InfoBody = styled.div`
   font-weight: 300;
   font-size: 14px;
 `;
 
 const InfoDetails = styled(InfoBody)`
-  font-size: 14px;
-  font-weight: 400;
-  text-align: left;
+  font-size: 15px;
+  font-weight: 300;
+  text-align: right;
   line-height: 1.3;
 `;
 
@@ -65,6 +65,7 @@ const RequestInfoCard = () => {
     street_address,
     city,
     state,
+    zipcode,
   } = selectedTask.location;
 
   return (
@@ -78,9 +79,8 @@ const RequestInfoCard = () => {
           </Col>
         </Row>
         <Col>
-          <InfoDetails><b>Location:</b></InfoDetails>
           <InfoDetails>{street_address}</InfoDetails>
-          <InfoDetails>{`${city}, ${state}`}</InfoDetails>
+          <InfoDetails>{`${city}, ${state} ${zipcode}`}</InfoDetails>
         </Col>
       </Row>
       <br />

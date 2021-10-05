@@ -1,21 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components';
 import GoogleMapReact from 'google-map-react';
 import LocationPin from './Pin';
-
-const MapContainer = styled.div`
-  position: sticky;
-  top: 0;
-  min-width: 300px;
-  max-width: 650px;
-  height: 95vh;
-  border-radius: 20px;
-  // box-shadow: 0 8px 16px 0 #BDC9D7;
-  margin-top: 2em;
-  flex-grow: 4;
-  flex-shrink: 2;
-`;
 
 const Map = () => {
   const tasks = useSelector((store) => store.tasksReducer.tasks);
@@ -52,6 +38,7 @@ const Map = () => {
         task={task}
         lat={coordinate.lat}
         lng={coordinate.lng}
+        showCard="true"
         style={{
           position: 'absolute',
           transform: 'translate(-50%, -100%)',
@@ -61,18 +48,16 @@ const Map = () => {
   });
 
   return (
-    <MapContainer>
-      <GoogleMapReact
-        options={options}
-        zoom={16}
-        center={center}
-        yesIWantToUseGoogleMapApiInternals={false}
-        bootstrapURLKeys={{ key: 'AIzaSyAF8YxtZo1Y_VwXnNrmb1ErGpupP1kYniI' }}
-        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
-      >
-        {Markers}
-      </GoogleMapReact>
-    </MapContainer>
+    <GoogleMapReact
+      options={options}
+      zoom={16}
+      center={center}
+      yesIWantToUseGoogleMapApiInternals={false}
+      bootstrapURLKeys={{ key: 'AIzaSyAF8YxtZo1Y_VwXnNrmb1ErGpupP1kYniI' }}
+      onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
+    >
+      {Markers}
+    </GoogleMapReact>
   );
 };
 

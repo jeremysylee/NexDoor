@@ -30,7 +30,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin: 1em 0;
-  width: 110%;
+  width: 100%;
 `;
 
 const RequestStatusCard = () => {
@@ -44,7 +44,7 @@ const RequestStatusCard = () => {
       <RequestStatus>{selectedTask.requester.user_id !== user.user_id && 'You are helping'}</RequestStatus>
       <UserInfo user={relevantUser} />
       <ButtonContainer>
-        <ButtonGoToRequest style={{ width: '100%' }}>Complete task</ButtonGoToRequest>
+        <ButtonGoToRequest style={{ width: '100%', fontSize: '16px' }}>Complete task</ButtonGoToRequest>
       </ButtonContainer>
     </RequestStatusCardContainer>
   );

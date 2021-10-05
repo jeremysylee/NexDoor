@@ -16,7 +16,7 @@ const PinContainer = styled.div`
   }
 `;
 
-const Pin = ({ task }) => {
+const Pin = ({ task, showCard }) => {
   const dispatch = useDispatch();
   const selectedTask = useSelector((store) => store.selectedTaskReducer.task);
   const clickHandler = () => {
@@ -38,7 +38,7 @@ const Pin = ({ task }) => {
   return (
     <>
       <AnimatePresence>
-        {selectedTask.task_id === task.task_id && hovered && (
+        {selectedTask.task_id === task.task_id && hovered && showCard && (
           <RequestCardTiny
             task={task}
             onMouseEnter={onMouseEnter}
@@ -81,6 +81,7 @@ Pin.propTypes = {
       task_count: PropTypes.number,
     }),
   }),
+  showCard: PropTypes.bool.isRequired,
 };
 
 Pin.defaultProps = {
