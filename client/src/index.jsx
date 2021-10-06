@@ -6,7 +6,7 @@ import store from './redux/store';
 import App from './App';
 
 const root = document.getElementById('app');
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store}>
     <App />
   </Provider>,

@@ -3,17 +3,17 @@
 const webpack = require('webpack');
 const path = require('path');
 require('dotenv').config();
+const nodeExternals = require('webpack-node-externals');
 
 const SRC_DIR = path.join(__dirname, '/src');
+const SERVER_SRC_DIR = path.join(__dirname, '/server');
+var PUBLIC_DIR = path.join(__dirname, '/public');
 var DIST_DIR = path.join(__dirname, '/dist');
 
-const config = {
-  entry: [
-    'react-hot-loader/patch',
-    './src/index.jsx',
-  ],
+const clientConfig = {
+  entry: SRC_DIR,
   output: {
-    path: DIST_DIR,
+    path: PUBLIC_DIR,
     filename: 'bundle.js',
     publicPath: '/',
   },
@@ -54,4 +54,37 @@ const config = {
   },
 };
 
-module.exports = config;
+const serverConfig = {
+  entry: SERVER_SRC_DIR,
+  output: {
+    path: DIST_DIR,
+    filename: 'index.js',
+ },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'file-loader',
+      },
+    ],
+
+  },
+  target: 'node',
+  externals: [nodeExternals()],
+  node: {
+    __dirname: false,
+  },
+  resolve: {
+    extensions: [
+      '.js',
+      '.jsx',
+    ],
+  }
+};
+
+module.exports = [serverConfig, clientConfig];

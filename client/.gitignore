@@ -9,5 +9,4 @@ coverage
 data
 newrelic_agent.log
 Dockerfile
-.eslintrc.js
-jest.config.js
+config.js
