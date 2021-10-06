@@ -6,8 +6,8 @@ require('dotenv').config();
 const nodeExternals = require('webpack-node-externals');
 
 const SRC_DIR = path.join(__dirname, '/src');
-const SERVER_SRC_DIR = path.join(__dirname, '/server');
 var PUBLIC_DIR = path.join(__dirname, '/public');
+const SERVER_SRC_DIR = path.join(__dirname, '/server');
 var DIST_DIR = path.join(__dirname, '/dist');
 
 const clientConfig = {
@@ -15,7 +15,7 @@ const clientConfig = {
   output: {
     path: PUBLIC_DIR,
     filename: 'bundle.js',
-    publicPath: '/',
+    // publicPath: '/',
   },
   module: {
     rules: [
@@ -49,7 +49,7 @@ const clientConfig = {
     },
   },
   devServer: {
-    contentBase: DIST_DIR,
+    contentBase: PUBLIC_DIR,
     port: process.env.CLIENT_PORT || 8080,
   },
 };
@@ -87,4 +87,5 @@ const serverConfig = {
   }
 };
 
-module.exports = [serverConfig, clientConfig];
+// module.exports = [serverConfig, clientConfig];
+module.exports = clientConfig;
