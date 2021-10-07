@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Avatar } from '@material-ui/core';
+import Avatar from '../../components/Avatar';
 import RequestModal from './RequestModal';
 
 import {
@@ -66,11 +66,6 @@ const RowRightFlair = styled(RowRight)`
   }
 `;
 
-const AvatarStyled = styled(Avatar)`
-  height: 30px;
-  width: 20px;
-`;
-
 const MakeRequestTile = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.currentUserReducer.userData);
@@ -113,7 +108,7 @@ const MakeRequestTile = () => {
       <SectionTileContainer style={{ marginTop: '0.75em' }}>
         <VerticalLine />
         <Row>
-          <AvatarStyled src={user.profile_picture_url} alt={user.firstname} />
+          <Avatar src={user.profile_picture_url} alt={user.firstname} />
           <RowRightFlair onClick={openModal}>
             <Input>&nbsp;&nbsp;What do you need help with?</Input>
             <Anchor>

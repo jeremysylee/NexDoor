@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import {
-  ListItem,
-} from '@material-ui/core';
-
+// import { ListItem } from '@material-ui/core';
+import NavigationListItem from './NavigationListItem';
 import {
   SidebarContainer,
 } from './App.styles';
@@ -16,14 +14,6 @@ const MyListItemText = styled.div`
   color: black;
   font-weight: 400;
   margin 0.25em 0;
-`;
-
-const NavigationButton = styled(ListItem)`
-  border-radius: 100px;
-  background-color: blue;
-  &: hover {
-    border-radius: 100px;
-  }
 `;
 
 const Sidebar = () => {
@@ -74,24 +64,24 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <NavigationButton button onClick={handleHome}>
+      <NavigationListItem button onClick={handleHome}>
         <MyListItemText>Home</MyListItemText>
-      </NavigationButton>
-      <NavigationButton button onClick={handleMyRequests}>
+      </NavigationListItem>
+      <NavigationListItem button onClick={handleMyRequests}>
         <MyListItemText>My Requests</MyListItemText>
-      </NavigationButton>
-      <NavigationButton button onClick={handleMyTasks}>
+      </NavigationListItem>
+      <NavigationListItem button onClick={handleMyTasks}>
         <MyListItemText>My Tasks</MyListItemText>
-      </NavigationButton>
-      <NavigationButton button onClick={handleOpenTasks}>
+      </NavigationListItem>
+      <NavigationListItem button onClick={handleOpenTasks}>
         <MyListItemText>Open Tasks</MyListItemText>
-      </NavigationButton>
-      <NavigationButton button onClick={handleTopHelpers}>
+      </NavigationListItem>
+      <NavigationListItem button onClick={handleTopHelpers}>
         <MyListItemText>Top Helpers</MyListItemText>
-      </NavigationButton>
-      <NavigationButton button onClick={handleLogOut}>
+      </NavigationListItem>
+      <NavigationListItem button onClick={handleLogOut}>
         <MyListItemText>Log Out</MyListItemText>
-      </NavigationButton>
+      </NavigationListItem>
     </SidebarContainer>
   );
 };
