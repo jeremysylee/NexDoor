@@ -1,11 +1,10 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
 import Map from '../../features/Map/Map';
-import { Body } from '../../components/App.styles';
+import { Body, Row } from '../../components/App.styles';
 
 const MapContainer = styled.div`
   position: sticky;
@@ -21,27 +20,22 @@ const MapContainer = styled.div`
   overflow: hidden;
 `;
 
+const HomePageContainer = styled(Row)`
+  justify-content: center;
+  width: 100%;
+  align-items: flex-start;
+`;
+
 const Home = () => (
   <Body>
     <Header />
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="flex-start"
-    >
-      <Grid
-        container
-        justifyContent="center"
-        style={{ width: '90%' }}
-      >
-        <Sidebar />
-        <RequestFeed />
-        <MapContainer>
-          <Map />
-        </MapContainer>
-      </Grid>
-    </Grid>
+    <HomePageContainer>
+      <Sidebar />
+      <RequestFeed />
+      <MapContainer>
+        <Map />
+      </MapContainer>
+    </HomePageContainer>
   </Body>
 );
 
