@@ -4,25 +4,42 @@ const webpack = require('webpack');
 const path = require('path');
 require('dotenv').config();
 const nodeExternals = require('webpack-node-externals');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const SRC_DIR = path.join(__dirname, '/src');
 var PUBLIC_DIR = path.join(__dirname, '/public');
-const SERVER_SRC_DIR = path.join(__dirname, '/server');
-var DIST_DIR = path.join(__dirname, '/dist');
 
 const clientConfig = {
   entry: SRC_DIR,
   output: {
     path: PUBLIC_DIR,
     filename: 'bundle.js',
-    // publicPath: '/',
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: 'babel-loader',
         exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            '@babel/preset-react',
+            ['@babel/env', {targets: { browsers: ['last 2 versions']}}]
+          ]
+        }
+        // use: {
+        //   loader: 'babel-loader',
+        //   options: {
+        //     presets: [
+        //       ['@babel/preset-env', { modules: false, targets: {  node: 'current' } }],
+        //       '@babel/preset-react'
+        //     ],
+        //     plugins: [
+        //       'react-hot-loader/babel',
+        //       '@babel/plugin-proposal-class-properties'
+        //     ]
+        //   }
+        // }
       },
       {
         test: /\.css$/,
@@ -54,28 +71,44 @@ const clientConfig = {
   },
 };
 
+const SERVER_SRC_DIR = path.join(__dirname, '/server');
+const DIST_DIR = path.join(__dirname, '/dist');
 const serverConfig = {
   entry: SERVER_SRC_DIR,
   output: {
     path: DIST_DIR,
-    filename: 'index.js',
+    filename: 'bundle.js',
  },
+  target: 'node',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: 'babel-loader',
+        loader: 'babel-loader',
         exclude: /node_modules/,
+        options: {
+          presets: [
+            '@babel/preset-react',
+            ['@babel/env', {targets: { browsers: ['last 2 versions']}}]
+          ]
+        }
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loader: 'file-loader',
       },
+      {
+        test: /\.css$/,
+        include: /stylesheets|node_modules/,
+        use: [ 'css-loader' ],
+        // use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
     ],
 
   },
-  target: 'node',
-  externals: [nodeExternals()],
+  externals: [nodeExternals({
+    allowlist: [/\.(?!(?:jsx?|json)$).{1,5}$/i]
+  })],
   node: {
     __dirname: false,
   },
@@ -87,5 +120,4 @@ const serverConfig = {
   }
 };
 
-// module.exports = [serverConfig, clientConfig];
-module.exports = clientConfig;
+module.exports = [serverConfig, clientConfig];

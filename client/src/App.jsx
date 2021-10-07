@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { url } from '../config';
 
@@ -36,7 +36,7 @@ const App = () => {
   });
 
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyle />
       <Switch>
         <Route exact path="/Signup" component={Signup} />
@@ -47,11 +47,11 @@ const App = () => {
         <PrivateRoute exact path="/request">
           <Dashboard />
         </PrivateRoute>
-        <PrivateRoute path="/">
+        {/* <PrivateRoute path="/"> */}
           <Home />
-        </PrivateRoute>
+        {/* </PrivateRoute> */}
       </Switch>
-    </BrowserRouter>
+    </>
   );
 };
 
