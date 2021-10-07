@@ -48,9 +48,9 @@ const App = () => {
         <PrivateRoute exact path="/request">
           <Dashboard />
         </PrivateRoute>
-        {/* <PrivateRoute path="/"> */}
+        <PrivateRoute path="/">
           <Home />
-        {/* </PrivateRoute> */}
+        </PrivateRoute>
       </Switch>
     </>
   );

@@ -9,7 +9,7 @@ import store from './redux/store';
 import App from './App';
 
 const root = document.getElementById('app');
-ReactDOM.hydrate(
+ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <App />
