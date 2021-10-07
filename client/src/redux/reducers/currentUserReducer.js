@@ -5,6 +5,7 @@ const initialState = {
     address: {
       coordinate: '(-83.0609736,42.5843253)',
     },
+    firstname: 'Chris',
   },
 };
 

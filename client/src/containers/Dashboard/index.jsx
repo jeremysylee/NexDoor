@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../../components/Header';
 import Sidebar from '../../components/Sidebar';
 import RequestStatusCard from '../../features/Request/RequestStatusCard';
