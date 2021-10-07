@@ -38,12 +38,12 @@ const render = (req, store) => {
     <html>
       <head>
         <title>NexDoordo</title>
-        <link rel="stylesheet" type="text/css" href="/static/style.css">
+        <link rel="stylesheet" type="text/css" href="/style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </head>
       <body>
         <div id="app">${component}</div>
-        <script src="bundle.js"></script>
+        <script src="/bundle.js"></script>
       </body>
     </html>
   `;
@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
   const store = preCreateStore();
   const html = render(req, store);
   console.log(html);
-  res.status(400).send(html);
+  res.status(200).send(html);
 });
 
 const port = process.env.PORT || 8000;
