@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 
 import { Col } from '../../../components/App.styles';

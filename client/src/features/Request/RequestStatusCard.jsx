@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 import { UserInfo } from './components/UserInfo';
 import { ButtonGoToRequest } from './components/TaskCard.styles';

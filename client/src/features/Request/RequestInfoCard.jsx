@@ -3,7 +3,6 @@
 import React from 'react';
 import { Avatar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 
 import {

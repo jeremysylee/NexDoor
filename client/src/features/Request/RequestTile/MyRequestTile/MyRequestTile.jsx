@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Avatar } from '@material-ui/core';
 import { ThemeProvider } from 'styled-components';
+import Avatar from '../../../../components/Avatar';
 import sadAlien from '../../../../static/sadAlien.png';
 
 import useFormatDate from '../../hooks/useFormatDate';

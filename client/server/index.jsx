@@ -3,20 +3,17 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import thunk from 'redux-thunk';
+
 import { ServerStyleSheet } from 'styled-components';
 import reducers from '../src/redux/reducers';
 import App from '../src/App';
 
 const express = require('express');
-const cors = require('cors');
 const React = require('react');
 const { renderToString } = require('react-dom/server');
 
 const app = express();
 
-// app.use(cors());
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 const preCreateStore = () => {
@@ -46,7 +43,7 @@ const render = (req, store) => {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>NexDoordo</title>
+        <title>NexDoor</title>
         ${styleTags}
         <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
@@ -60,7 +57,6 @@ const render = (req, store) => {
 };
 
 app.get('/', (req, res) => {
-  console.log('GOT IT')
   const store = preCreateStore();
   const html = render(req, store);
   res.status(200).send(html);

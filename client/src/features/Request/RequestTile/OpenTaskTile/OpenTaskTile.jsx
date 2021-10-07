@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Avatar } from '@material-ui/core';
+import Avatar from '../../../../components/Avatar';
 import useFormatDate from '../../hooks/useFormatDate';
 
 import {

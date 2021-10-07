@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 import { url } from '../config';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import PrivateRoute from './components/PrivateRoute';
 import GlobalStyle from './components/Global.styles';
