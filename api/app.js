@@ -7,7 +7,6 @@ const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
-// const io = require('socket.io')(3000, { cors: { origin: '*' } });
 const redis = require('redis');
 const connectRedis = require('connect-redis');
 const { logErrorMiddleware, returnError } = require('./errors/errorHandler');
@@ -50,18 +49,6 @@ app.use(express.static(path.join(__dirname, '..', 'client/index')));
 // Error handling middleware:
 app.use(logErrorMiddleware);
 app.use(returnError);
-
-// io.on('connection', (socket) => {
-//   console.log('user connected');
-//   // socket.on('join', (room) => {
-//   //   socket.join(room);
-//   // });
-//   socket.on('send-message', ({ task, message }) => {
-//     console.log(task);
-//     socket.broadcast.emit(task, message);
-//     // socket.to('room1').emit(message);
-//   });
-// });
 
 module.exports.redisClient = redisClient;
 module.exports.app = app;
