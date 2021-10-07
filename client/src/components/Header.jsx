@@ -1,12 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Grid, Avatar } from '@material-ui/core';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import Avatar from './Avatar';
 
-const Row = styled(Grid)`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+const NavRow = styled(Row)`
   justify-content: space-between;
   margin: 15px 22px;
   width: 350px;
@@ -76,22 +79,20 @@ const Header = () => {
   );
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
+    <Row
       style={{
-        // backgroundColor: 'white',
+        width: '100%',
         boxShadow: '0 4px 16px 0 #e5e5e5',
+        alignItems: 'center',
+        justifyContent: 'space-between',
       }}
     >
       <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
-      <Row>
+      <NavRow>
         <NaviHeaders onClick={onClickLogoHandler}>Requests</NaviHeaders>
         <NaviHeaders onClick={clickGetHelpHandler}>Get Help</NaviHeaders>
         <NaviHeaders onClick={clickTopHelpersHandler}>Top Helpers</NaviHeaders>
-      </Row>
+      </NavRow>
       <Col>
         <Avatar
           src={user.profile_picture_url}
@@ -100,7 +101,7 @@ const Header = () => {
           style={{ height: '44px', width: '44px' }}
         />
       </Col>
-    </Grid>
+    </Row>
   );
 };
 

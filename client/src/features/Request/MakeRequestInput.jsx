@@ -66,6 +66,11 @@ const RowRightFlair = styled(RowRight)`
   }
 `;
 
+const AvatarStyled = styled(Avatar)`
+  height: 30px;
+  width: 20px;
+`;
+
 const MakeRequestTile = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.currentUserReducer.userData);
@@ -108,7 +113,7 @@ const MakeRequestTile = () => {
       <SectionTileContainer style={{ marginTop: '0.75em' }}>
         <VerticalLine />
         <Row>
-          <Avatar src={user.profile_picture_url} alt={user.firstname} />
+          <AvatarStyled src={user.profile_picture_url} alt={user.firstname} />
           <RowRightFlair onClick={openModal}>
             <Input>&nbsp;&nbsp;What do you need help with?</Input>
             <Anchor>

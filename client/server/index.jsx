@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import thunk from 'redux-thunk';
-// import { createMemoryHistory } from 'history';
+import { ServerStyleSheet } from 'styled-components';
 import reducers from '../src/redux/reducers';
 import App from '../src/App';
 
@@ -25,26 +25,36 @@ const preCreateStore = () => {
 };
 
 const render = (req, store) => {
-  const component = renderToString(
-    <Provider store={store}>
-      <StaticRouter location={req.path} context={{}}>
-        <App />
-      </StaticRouter>
-    </Provider>,
-  );
-  // console.log('path:', req.path, 'store: ', store, 'component :', component);
+  const sheet = new ServerStyleSheet();
+  let component;
+  let styleTags;
+  try {
+    component = renderToString(sheet.collectStyles(
+      <Provider store={store}>
+        <StaticRouter location={req.path} context={{}}>
+          <App />
+        </StaticRouter>
+      </Provider>,
+    ));
+    styleTags = sheet.getStyleTags();
+  } catch (err) {
+    console.log(err);
+  } finally {
+    sheet.seal();
+  }
   return `
     <!DOCTYPE html>
     <html>
       <head>
         <title>NexDoordo</title>
-        <link rel="stylesheet" type="text/css" href="/style.css">
+        ${styleTags}
+        <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
       </head>
       <body>
         <div id="app">${component}</div>
         <script src="/bundle.js"></script>
-      </body>
+        </body>
     </html>
   `;
 };
@@ -53,7 +63,6 @@ app.get('/', (req, res) => {
   console.log('GOT IT')
   const store = preCreateStore();
   const html = render(req, store);
-  console.log(html);
   res.status(200).send(html);
 });
 
