@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 const AvatarImage = styled.img`
   color: transparent;
-  width: 100%;
-  height: 100%;
+  width: inherit;
+  height: inherit;
   object-fit: cover;
   text-align: center;
   text-indent: 100000px;

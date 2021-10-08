@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
@@ -8,10 +8,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PrivateRoute from './components/PrivateRoute';
 import GlobalStyle from './components/Global.styles';
 import Home from './containers/Home/Home';
-import TopHelpers from './containers/TopHelpers/TopHelpers';
-import Dashboard from './containers/Dashboard';
+// import TopHelpers from './containers/TopHelpers/TopHelpers';
+// import Dashboard from './containers/Dashboard';
 import Login from './features/Accounts/Login';
-import Signup from './features/Accounts/Signup';
+// import Signup from './features/Accounts/Signup';
+
+const TopHelpers = lazy(() => import('./containers/TopHelpers/TopHelpers'));
+const Dashboard = lazy(() => import('./containers/Dashboard'));
+const Signup = lazy(() => import('./features/Accounts/Signup'));
 
 const App = () => {
   const dispatch = useDispatch();

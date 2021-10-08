@@ -2,13 +2,13 @@ require('dotenv').config();
 // require('newrelic');
 
 const express = require('express');
-// const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
 const redis = require('redis');
 const connectRedis = require('connect-redis');
+const compression = require('compression');
 const { logErrorMiddleware, returnError } = require('./errors/errorHandler');
 const router = require('./router');
 
@@ -39,6 +39,7 @@ app.use(session({
   },
 }));
 
+app.use(compression());
 app.use('/api', router);
 app.get('/loaderio-a7bbbdd11fe9bd5bf199f90e1c860262', (req, res) => {
   res.set({ contentType: 'text/plain', charset: 'utf-8' }).status(200).send('loaderio-a7bbbdd11fe9bd5bf199f90e1c860262');

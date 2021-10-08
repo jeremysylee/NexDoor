@@ -4,7 +4,9 @@ const webpack = require('webpack');
 const path = require('path');
 require('dotenv').config();
 const nodeExternals = require('webpack-node-externals');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
+const zlib = require('zlib');
 
 const SRC_DIR = path.join(__dirname, '/src');
 var PUBLIC_DIR = path.join(__dirname, '/public');
@@ -13,7 +15,7 @@ const clientConfig = {
   entry: SRC_DIR,
   output: {
     path: PUBLIC_DIR,
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   module: {
     rules: [
@@ -27,19 +29,6 @@ const clientConfig = {
             ['@babel/env', {targets: { browsers: ['last 2 versions']}}]
           ]
         }
-        // use: {
-        //   loader: 'babel-loader',
-        //   options: {
-        //     presets: [
-        //       ['@babel/preset-env', { modules: false, targets: {  node: 'current' } }],
-        //       '@babel/preset-react'
-        //     ],
-        //     plugins: [
-        //       'react-hot-loader/babel',
-        //       '@babel/plugin-proposal-class-properties'
-        //     ]
-        //   }
-        // }
       },
       {
         test: /\.css$/,
@@ -69,6 +58,21 @@ const clientConfig = {
     contentBase: PUBLIC_DIR,
     port: process.env.CLIENT_PORT || 8080,
   },
+  plugins: [
+    new CompressionPlugin({
+      filename: 'bundle.gz',
+      algorithm: 'gzip',
+      test: /\.(js|jsx|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    }),
+    new BrotliPlugin({
+      filename: 'bundle.br',
+      test: /\.(js|jsx|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    }),
+  ]
 };
 
 const SERVER_SRC_DIR = path.join(__dirname, '/server');
@@ -77,7 +81,7 @@ const serverConfig = {
   entry: SERVER_SRC_DIR,
   output: {
     path: DIST_DIR,
-    filename: 'bundle.js',
+    filename: '[name].js',
  },
   target: 'node',
   module: {
@@ -101,7 +105,6 @@ const serverConfig = {
         test: /\.css$/,
         include: /stylesheets|node_modules/,
         use: [ 'css-loader' ],
-        // use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
 

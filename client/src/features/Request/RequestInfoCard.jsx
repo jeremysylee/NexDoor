@@ -1,9 +1,9 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 import React from 'react';
-import { Avatar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import Avatar from '../../components/Avatar';
 
 import {
   Row,

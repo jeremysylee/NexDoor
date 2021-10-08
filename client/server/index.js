@@ -11,12 +11,16 @@
 // import App from '../src/App';
 
 const express = require('express');
+const expressStaticGzip = require('express-static-gzip');
 // const React = require('react');
 // const { renderToString } = require('react-dom/server');
 
 const app = express();
 
-app.use(express.static('public'));
+app.use('/', expressStaticGzip('public', {
+  enableBrotli: true,
+}));
+// app.use(express.static('public'));
 
 // const preCreateStore = () => {
 //   const store = createStore(reducers, {}, applyMiddleware(thunk));

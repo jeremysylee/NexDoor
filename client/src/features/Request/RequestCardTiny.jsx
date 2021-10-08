@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Avatar } from '@material-ui/core';
 import { motion } from 'framer-motion';
+import Avatar from '../../components/Avatar';
 
 import {
   AvatarRing,
