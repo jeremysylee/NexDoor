@@ -12,7 +12,8 @@
   "plugins": [
     ["babel-plugin-styled-components",
       {
-        "displayName": "false"
+        "displayName": false,
+        "pure": true
       }
     ],
     "react-hot-loader/babel",

@@ -12,3 +12,4 @@ Dockerfile
 config.js
 bundle.gz
 bundle.js.br
+*bundle*

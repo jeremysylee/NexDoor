@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
-import Map from '../../features/Map/Map';
+// import Map from '../../features/Map/Map';
 import { Body, Row } from '../../components/App.styles';
+
+const Map = lazy(() => import('../../features/Map/Map'));
 
 const MapContainer = styled.div`
   position: sticky;
@@ -33,7 +35,9 @@ const Home = () => (
       <Sidebar />
       <RequestFeed />
       <MapContainer>
-        <Map />
+        <Suspense fallback={<div>map is loading</div>}>
+          <Map />
+        </Suspense>
       </MapContainer>
     </HomePageContainer>
   </Body>

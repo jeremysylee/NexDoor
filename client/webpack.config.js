@@ -15,7 +15,7 @@ const clientConfig = {
   entry: SRC_DIR,
   output: {
     path: PUBLIC_DIR,
-    filename: '[name].js',
+    filename: '[name]bundle.js',
   },
   module: {
     rules: [
@@ -38,7 +38,7 @@ const clientConfig = {
         ],
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.(jpe?g|png|gif|svg|webp)$/i,
         loader: 'file-loader',
       },
     ],
@@ -60,14 +60,14 @@ const clientConfig = {
   },
   plugins: [
     new CompressionPlugin({
-      filename: 'bundle.gz',
+      filename: '[path][base].gz',
       algorithm: 'gzip',
       test: /\.(js|jsx|css|html|svg)$/,
       threshold: 10240,
       minRatio: 0.8,
     }),
     new BrotliPlugin({
-      filename: 'bundle.br',
+      filename: '[path][base].br',
       test: /\.(js|jsx|css|html|svg)$/,
       threshold: 10240,
       minRatio: 0.8,

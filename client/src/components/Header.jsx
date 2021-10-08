@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import Avatar from './Avatar';
+import ProfileModal from '../features/Accounts/ProfileModal';
 
 const Row = styled.div`
   display: flex;
@@ -46,6 +47,16 @@ const Header = () => {
   const user = useSelector((store) => store.currentUserReducer.userData);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [showModal, toggleShowModal] = useState(false);
+
+  const openModal = () => {
+    console.log('hello?');
+    toggleShowModal(true);
+  };
+
+  const closeHandler = () => {
+    toggleShowModal(false);
+  };
 
   const onClickLogoHandler = () => {
     dispatch({ type: 'SET_PAGE', page: '/' });
@@ -79,29 +90,34 @@ const Header = () => {
   );
 
   return (
-    <Row
-      style={{
-        width: '100%',
-        boxShadow: '0 4px 16px 0 #e5e5e5',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
-      <NavRow>
-        <NaviHeaders onClick={onClickLogoHandler}>Requests</NaviHeaders>
-        <NaviHeaders onClick={clickGetHelpHandler}>Get Help</NaviHeaders>
-        <NaviHeaders onClick={clickTopHelpersHandler}>Top Helpers</NaviHeaders>
-      </NavRow>
-      <Col>
-        <Avatar
-          src={user.profile_picture_url}
-          alt={user.firstname}
-          onError={(e) => { e.target.onerror = null; e.target.src = 'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=6&m=1223671392&s=170667a&w=0&h=zP3l7WJinOFaGb2i1F4g8IS2ylw0FlIaa6x3tP9sebU='; }}
-          style={{ height: '44px', width: '44px' }}
-        />
-      </Col>
-    </Row>
+    <>
+      <ProfileModal showModal={showModal} closeHandler={closeHandler} />
+      <Row
+        style={{
+          width: '100%',
+          boxShadow: '0 4px 16px 0 #e5e5e5',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <LogoContainer onClick={onClickLogoHandler}><LogoSvg /></LogoContainer>
+        <NavRow>
+          <NaviHeaders onClick={onClickLogoHandler}>Requests</NaviHeaders>
+          <NaviHeaders onClick={clickGetHelpHandler}>Get Help</NaviHeaders>
+          <NaviHeaders onClick={clickTopHelpersHandler}>Top Helpers</NaviHeaders>
+        </NavRow>
+        <Col
+          onClick={openModal}
+        >
+          <Avatar
+            src={user.profile_picture_url}
+            alt={user.firstname}
+            onError={(e) => { e.target.onerror = null; e.target.src = 'https://media.istockphoto.com/vectors/default-profile-picture-avatar-photo-placeholder-vector-illustration-vector-id1223671392?k=6&m=1223671392&s=170667a&w=0&h=zP3l7WJinOFaGb2i1F4g8IS2ylw0FlIaa6x3tP9sebU='; }}
+            style={{ height: '44px', width: '44px' }}
+          />
+        </Col>
+      </Row>
+    </>
   );
 };
 

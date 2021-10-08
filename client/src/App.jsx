@@ -8,13 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PrivateRoute from './components/PrivateRoute';
 import GlobalStyle from './components/Global.styles';
 import Home from './containers/Home/Home';
-// import TopHelpers from './containers/TopHelpers/TopHelpers';
-// import Dashboard from './containers/Dashboard';
-import Login from './features/Accounts/Login';
-// import Signup from './features/Accounts/Signup';
 
 const TopHelpers = lazy(() => import('./containers/TopHelpers/TopHelpers'));
 const Dashboard = lazy(() => import('./containers/Dashboard'));
+const Login = lazy(() => import('./features/Accounts/Login'));
 const Signup = lazy(() => import('./features/Accounts/Signup'));
 
 const App = () => {

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import Avatar from '../../../../components/Avatar';
-import sadAlien from '../../../../static/sadAlien.png';
+import sadAlien from '../../../../static/sadAlien.webp';
 
 import useFormatDate from '../../hooks/useFormatDate';
 
