@@ -1,5 +1,7 @@
 // on refactor to SSR, change filename to jsx.
 
+const path = require('path');
+
 // import 'babel-polyfill';
 // import { createStore, applyMiddleware } from 'redux';
 // import { Provider } from 'react-redux';
@@ -17,10 +19,13 @@ const expressStaticGzip = require('express-static-gzip');
 
 const app = express();
 
-app.use('/', expressStaticGzip('public', {
+app.get('*.js', expressStaticGzip('public', {
   enableBrotli: true,
 }));
-// app.use(express.static('public'));
+app.use(express.static('public'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 // const preCreateStore = () => {
 //   const store = createStore(reducers, {}, applyMiddleware(thunk));

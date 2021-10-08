@@ -9,6 +9,7 @@ const AvatarImage = styled.img`
   object-fit: cover;
   text-align: center;
   text-indent: 100000px;
+  z-index: 5;
 `;
 
 const AvatarContainer = styled.div`
@@ -26,19 +27,31 @@ const AvatarContainer = styled.div`
   justify-content: center;
 `;
 
-const Avatar = ({ src, alt }) => (
-  <AvatarContainer>
-    <AvatarImage src={src} alt={alt} />
-  </AvatarContainer>
-);
+const Avatar = ({
+  src,
+  alt,
+  hw,
+  link,
+}) => {
+  const url = link ? `${src}?tr=w-${hw},h-${hw}` : src;
+  return (
+    <AvatarContainer>
+      <AvatarImage src={url} alt={alt} />
+    </AvatarContainer>
+  );
+};
 
 Avatar.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string.isRequired,
+  hw: PropTypes.number,
+  link: PropTypes.bool,
 };
 
 Avatar.defaultProps = {
   src: '',
+  hw: 40,
+  link: true,
 };
 
 export default Avatar;

@@ -85,12 +85,6 @@ const ColCentered = styled(Col)`
   align-items: center;
 `;
 
-const AvatarTiny = styled(Avatar)`
-  width: 42;
-  height: 42;
-  z-index: 100;
-`;
-
 const RequestCardTiny = ({ task, onMouseEnter, onMouseLeave }) => {
   const dispatch = useDispatch();
   const user = task.requester;
@@ -122,7 +116,7 @@ const RequestCardTiny = ({ task, onMouseEnter, onMouseLeave }) => {
         <CardPointCover />
         <CardPoint />
         <ColCentered>
-          <AvatarTiny src={user.profile_picture_url} alt={user.firstname} />
+          <Avatar src={user.profile_picture_url} alt={user.firstname} hw={42} />
           <AvatarRingSmall />
           <AvatarMiddleRingSmall />
         </ColCentered>

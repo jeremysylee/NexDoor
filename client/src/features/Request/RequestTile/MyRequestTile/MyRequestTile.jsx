@@ -99,7 +99,7 @@ const MyRequest = ({ request }) => {
         </RowRight>
         <Row style={{ justifyContent: 'space-between' }}>
           <Row style={{ marginBottom: '0.5em' }}>
-            {request.status === 'Open' && <Avatar src={sadAlien} alt="?" />}
+            {request.status === 'Open' && <Avatar src={sadAlien} alt="?" link={false} />}
             {request.status !== 'Open' && <Avatar src={request.helper.profile_picture_url} alt={request.helper.firstname} />}
             <CardContent>
               {request.status === 'Open' && <Username>No one has claimed your request yet!</Username>}
