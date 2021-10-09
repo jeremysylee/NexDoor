@@ -40,7 +40,7 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
 <ul>
  <li> See your request details on the request dashboard. </li>
 
- <li> Connect with the requester in with live, persistent, and low-latency chat.
+ <li> Connect with the requester with live, persistent, and low-latency chat.
   <br/>
   <img src="https://user-images.githubusercontent.com/74673975/136672766-ac06fc26-d3f2-4829-8b5e-2dbf655ea927.png" alt="feed.gif" height="271"/>
   <img src="https://ik.imagekit.io/g2ceigziuz7/ChatDemo_m3KNViRrG.gif" alt="feed.gif" width="400"/>
