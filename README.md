@@ -20,7 +20,7 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
  <li> A feed of surrounding neighbors requests, updates live as new requests come in. </li>
  <li> Includes requests you are currently serving and requests you've made.
   <br/>
-  <img src="https://user-images.githubusercontent.com/74673975/136668560-1d45ec30-033d-4dba-8b8a-a8fc90101c9e.gif" alt="feed.gif" width="400" margin-left="400px" border-radius="50px" />
+  <img src="https://user-images.githubusercontent.com/74673975/136668560-1d45ec30-033d-4dba-8b8a-a8fc90101c9e.gif" alt="feed.gif" width="400" border-radius="50px" />
   <br/> <br/>
  </li>
 </ul>
@@ -30,7 +30,7 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
  <li> Dynamic map view shows neighbor requests in a variable radius around your location. </li>
  <li> Isomorphic google maps api integration, ready for server side rendering.
   <br/>
-  <img src="https://user-images.githubusercontent.com/74673975/136669184-e85c35de-9b46-4add-8055-6c16c5d06cea.gif" alt="feed.gif" width="400" margin-left="400px" />
+  <img src="https://user-images.githubusercontent.com/74673975/136669184-e85c35de-9b46-4add-8055-6c16c5d06cea.gif" alt="feed.gif" width="400"/>
   <br/> <br/>
  </li>
 </ul>
@@ -41,18 +41,18 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
 
  <li> Connect with the requester in with live, persistent, and low-latency chat.
   <br/>
-  <img src="https://user-images.githubusercontent.com/74673975/136672766-ac06fc26-d3f2-4829-8b5e-2dbf655ea927.png" alt="feed.gif" height="271" margin-left="400px" />
-  <img src="https://ik.imagekit.io/g2ceigziuz7/ChatDemo_m3KNViRrG.gif" alt="feed.gif" width="400" margin-left="400px" />
+  <img src="https://user-images.githubusercontent.com/74673975/136672766-ac06fc26-d3f2-4829-8b5e-2dbf655ea927.png" alt="feed.gif" height="271"/>
+  <img src="https://ik.imagekit.io/g2ceigziuz7/ChatDemo_m3KNViRrG.gif" alt="feed.gif" width="400"/>
   <br/> <br/>
  </li>
 </ul>
 
 ### Optimized
 <ul>
- <li> Score of 95+ across all lighthouse parameters </li>
- <li> First contentful pain time of 0.7s, time to interactive 0.8s.
+ <li> Score of 95+ across all lighthouse parameters
   <br/>
-<!--   <img src="https://user-images.githubusercontent.com/74673975/136672766-ac06fc26-d3f2-4829-8b5e-2dbf655ea927.png" alt="feed.gif" height="271" margin-left="400px" /> -->
+  <img src="https://user-images.githubusercontent.com/74673975/136673518-b8d0c4e8-a4ed-487a-9bba-b4ef2940f514.png" alt="feed.gif" width="400"/><br>
+  <img src="https://user-images.githubusercontent.com/74673975/136673539-7ac50a02-cd27-40dc-8723-3ec6401e25ac.png" alt="feed.gif" width="400" />
   <br/> <br/>
  </li>
 </ul>
