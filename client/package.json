@@ -4,8 +4,8 @@
   "description": "Basically NextDoor",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon dist/bundle.js",
-    "server2": "nodemon server",
+    "server-ssr": "nodemon dist/bundle.js",
+    "server": "nodemon server",
     "build": "node-babel server",
     "clean": "rm dist/bundle.js",
     "build-dev": "webpack --mode development --watch",
