@@ -42,15 +42,20 @@ const TouchRipple = styled.span`
   pointer-events: none;
 `;
 
-const NavigationListItem = ({ children }) => (
-  <NavigationButtonContainer>
+const NavigationListItem = ({ onClick, children }) => (
+  <NavigationButtonContainer onClick={onClick}>
     {children}
     <TouchRipple />
   </NavigationButtonContainer>
 );
 
 NavigationListItem.propTypes = {
+  onClick: PropTypes.func,
   children: PropTypes.element.isRequired,
+};
+
+NavigationListItem.defaultProps = {
+  onClick: () => {},
 };
 
 export default NavigationListItem;

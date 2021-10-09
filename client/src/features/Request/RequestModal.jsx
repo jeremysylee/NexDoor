@@ -270,7 +270,7 @@ function NewRequestModal() {
                   </FormSectionContainer>
                   <FormSectionContainer>
                     <Row>
-                      <Col>
+                      <Col style={{ width: '100%' }}>
 
                         <FormTypography style={{ marginBottom: 0 }}>
                           SELECT ALL THAT APPLY

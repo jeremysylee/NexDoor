@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from 'react';
+import React, { lazy, useEffect, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +12,6 @@ import Login from './features/Accounts/Login';
 
 const TopHelpers = lazy(() => import('./containers/TopHelpers/TopHelpers'));
 const Dashboard = lazy(() => import('./containers/Dashboard'));
-// const Login = lazy(() => import('./features/Accounts/Login'));
 const Signup = lazy(() => import('./features/Accounts/Signup'));
 
 const App = () => {
@@ -45,10 +44,14 @@ const App = () => {
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/Login" component={Login} />
         <PrivateRoute exact path="/top">
-          <TopHelpers />
+          <Suspense fallback={<div>loading...</div>}>
+            <TopHelpers />
+          </Suspense>
         </PrivateRoute>
         <PrivateRoute exact path="/request">
-          <Dashboard />
+          <Suspense fallback={<div>loading</div>}>
+            <Dashboard />
+          </Suspense>
         </PrivateRoute>
         <PrivateRoute path="/">
           <Home />

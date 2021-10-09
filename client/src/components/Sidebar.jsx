@@ -64,22 +64,22 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <NavigationListItem button onClick={handleHome}>
+      <NavigationListItem onClick={handleHome}>
         <MyListItemText>Home</MyListItemText>
       </NavigationListItem>
-      <NavigationListItem button onClick={handleMyRequests}>
+      <NavigationListItem onClick={handleMyRequests}>
         <MyListItemText>My Requests</MyListItemText>
       </NavigationListItem>
-      <NavigationListItem button onClick={handleMyTasks}>
+      <NavigationListItem onClick={handleMyTasks}>
         <MyListItemText>My Tasks</MyListItemText>
       </NavigationListItem>
-      <NavigationListItem button onClick={handleOpenTasks}>
+      <NavigationListItem onClick={handleOpenTasks}>
         <MyListItemText>Open Tasks</MyListItemText>
       </NavigationListItem>
-      <NavigationListItem button onClick={handleTopHelpers}>
+      <NavigationListItem onClick={handleTopHelpers}>
         <MyListItemText>Top Helpers</MyListItemText>
       </NavigationListItem>
-      <NavigationListItem button onClick={handleLogOut}>
+      <NavigationListItem onClick={handleLogOut}>
         <MyListItemText>Log Out</MyListItemText>
       </NavigationListItem>
     </SidebarContainer>
