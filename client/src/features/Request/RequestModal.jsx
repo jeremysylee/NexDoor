@@ -23,7 +23,7 @@ import {
   FormSectionContainer,
   FormSectionHeader,
 } from './components/TaskCard.styles';
-import { url } from '../../../../config';
+import { url } from '../../../config';
 
 function NewRequestModal() {
   const dispatch = useDispatch();
@@ -179,7 +179,7 @@ function NewRequestModal() {
       const { data } = await axios.put(`${url}/api/tasks/${task.task_id}`, request);
       console.log(data);
       cleanInputAndClose();
-      dispatch({ type: 'SET_TASK', task });
+      dispatch({ type: 'TOGGLE_REQUEST_MODAL', toggle: false });
     } catch (err) {
       console.log(err);
     }
@@ -270,7 +270,7 @@ function NewRequestModal() {
                   </FormSectionContainer>
                   <FormSectionContainer>
                     <Row>
-                      <Col>
+                      <Col style={{ width: '100%' }}>
 
                         <FormTypography style={{ marginBottom: 0 }}>
                           SELECT ALL THAT APPLY

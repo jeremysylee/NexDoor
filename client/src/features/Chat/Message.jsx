@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Avatar } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { DateTime } from 'luxon';
 import { motion } from 'framer-motion';
+import Avatar from '../../components/Avatar';
 
 import IsTyping from './IsTyping';
 import {

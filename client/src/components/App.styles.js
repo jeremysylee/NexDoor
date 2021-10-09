@@ -39,7 +39,7 @@ export const PageHeader = styled.div`
   width: 400px;
   font-size: 23px;
   font-weight: 500;
-  top: -15;
+  top: -15px;
 `;
 
 export const Anchor = styled.div`

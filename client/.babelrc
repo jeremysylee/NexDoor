@@ -10,6 +10,13 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    "react-hot-loader/babel"
+    ["babel-plugin-styled-components",
+      {
+        "displayName": false,
+        "pure": true
+      }
+    ],
+    "react-hot-loader/babel",
+    "@babel/plugin-proposal-class-properties"
   ]
 }

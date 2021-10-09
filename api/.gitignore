@@ -7,3 +7,4 @@ newrelic_agent.log
 .env
 bundle.js
 .cache
+Dockerfile

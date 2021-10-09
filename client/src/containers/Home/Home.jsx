@@ -1,11 +1,12 @@
-import React from 'react';
-import { Grid } from '@material-ui/core';
+import React, { lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import Header from '../../components/Header';
 import RequestFeed from '../../features/Request/RequestFeed';
 import Sidebar from '../../components/Sidebar';
-import Map from '../../features/Map/Map';
-import { Body } from '../../components/App.styles';
+// import Map from '../../features/Map/Map';
+import { Body, Row } from '../../components/App.styles';
+
+const Map = lazy(() => import('../../features/Map/Map'));
 
 const MapContainer = styled.div`
   position: sticky;
@@ -21,27 +22,24 @@ const MapContainer = styled.div`
   overflow: hidden;
 `;
 
+const HomePageContainer = styled(Row)`
+  justify-content: center;
+  width: 100%;
+  align-items: flex-start;
+`;
+
 const Home = () => (
   <Body>
     <Header />
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="flex-start"
-    >
-      <Grid
-        container
-        justifyContent="center"
-        style={{ width: '90%' }}
-      >
-        <Sidebar />
-        <RequestFeed />
-        <MapContainer>
+    <HomePageContainer>
+      <Sidebar />
+      <RequestFeed />
+      <MapContainer>
+        <Suspense fallback={<div>map is loading</div>}>
           <Map />
-        </MapContainer>
-      </Grid>
-    </Grid>
+        </Suspense>
+      </MapContainer>
+    </HomePageContainer>
   </Body>
 );
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Avatar } from '@material-ui/core';
+import Avatar from '../../components/Avatar';
 import RequestModal from './RequestModal';
 
 import {

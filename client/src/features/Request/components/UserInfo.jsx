@@ -11,7 +11,7 @@ import {
   Star,
 } from './TaskCard.styles';
 
-import sadAlienImg from '../../../static/sadAlien.png';
+import sadAlienImg from '../../../static/sadAlien.webp';
 
 export const UserInfo = ({ user }) => (
   <ColCentered>

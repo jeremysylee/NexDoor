@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
-import { Avatar } from '@material-ui/core';
 import { motion } from 'framer-motion';
+import Avatar from '../../components/Avatar';
 
 import {
   AvatarRing,
@@ -86,12 +85,6 @@ const ColCentered = styled(Col)`
   align-items: center;
 `;
 
-const AvatarTiny = styled(Avatar)`
-  width: 42;
-  height: 42;
-  z-index: 100;
-`;
-
 const RequestCardTiny = ({ task, onMouseEnter, onMouseLeave }) => {
   const dispatch = useDispatch();
   const user = task.requester;
@@ -123,7 +116,7 @@ const RequestCardTiny = ({ task, onMouseEnter, onMouseLeave }) => {
         <CardPointCover />
         <CardPoint />
         <ColCentered>
-          <AvatarTiny src={user.profile_picture_url} alt={user.firstname} />
+          <Avatar src={user.profile_picture_url} alt={user.firstname} hw={42} />
           <AvatarRingSmall />
           <AvatarMiddleRingSmall />
         </ColCentered>

@@ -34,7 +34,7 @@ const SelectedTaskCard = styled.div`
   transition: 200ms linear;
 `;
 
-const SelectedTask = () => {
+const RequestCard = () => {
   const dispatch = useDispatch();
   const task = useSelector((store) => store.selectedTaskReducer.task);
   const currentUserId = useSelector((store) => store.currentUserReducer.userData.user_id);
@@ -153,4 +153,4 @@ const SelectedTask = () => {
   );
 };
 
-export default SelectedTask;
+export default RequestCard;

@@ -23,7 +23,6 @@ const RequestFeed = () => {
   const myRequests = useSelector((store) => store.myRequestsReducer.myRequests) || [];
   const openTasks = useSelector((store) => store.tasksReducer.tasks) || [];
   const page = useSelector((store) => store.currentPageReducer.page);
-  const modalToggle = useSelector((store) => store.modalRequestCardReducer.toggle);
 
   return (
     <MainFeedContainer>

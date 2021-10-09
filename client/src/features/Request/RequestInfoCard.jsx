@@ -1,10 +1,9 @@
 /* eslint camelcase: 0 */ // --> OFF
 
 import React from 'react';
-import { Avatar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
+import Avatar from '../../components/Avatar';
 
 import {
   Row,
@@ -30,7 +29,7 @@ const AvatarTiny = styled(Avatar)`
 
 const InfoHeader = styled.span`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 15px;
   margin-bottom: 0.5em;
 `;
 const InfoBody = styled.div`
@@ -39,7 +38,7 @@ const InfoBody = styled.div`
 `;
 
 const InfoDetails = styled(InfoBody)`
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 300;
   text-align: right;
   line-height: 1.3;
@@ -51,7 +50,7 @@ const DateTime = styled(InfoDetails)`
 
 const Username = styled.span`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 15px;
 `;
 
 const RequestInfoCard = () => {

@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { lazy, useEffect, Suspense } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import axios from 'axios';
-import { url } from '../../config';
+import { url } from '../config';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import PrivateRoute from './components/PrivateRoute';
 import GlobalStyle from './components/Global.styles';
 import Home from './containers/Home/Home';
-import TopHelpers from './containers/TopHelpers/TopHelpers';
-import Current from './containers/Current';
 import Login from './features/Accounts/Login';
-import Signup from './features/Accounts/Signup';
+
+const TopHelpers = lazy(() => import('./containers/TopHelpers/TopHelpers'));
+const Dashboard = lazy(() => import('./containers/Dashboard'));
+const Signup = lazy(() => import('./features/Accounts/Signup'));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,30 +30,34 @@ const App = () => {
   };
 
   useEffect(() => {
-    getTasks();
-    // const interval = setInterval(() => getTasks(), 1000);
-    // return () => {
-    //   clearInterval(interval);
-    // };
+    // getTasks();
+    const interval = setInterval(() => getTasks(), 1000);
+    return () => {
+      clearInterval(interval);
+    };
   });
 
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyle />
       <Switch>
         <Route exact path="/Signup" component={Signup} />
         <Route exact path="/Login" component={Login} />
         <PrivateRoute exact path="/top">
-          <TopHelpers />
+          <Suspense fallback={<div>loading...</div>}>
+            <TopHelpers />
+          </Suspense>
         </PrivateRoute>
         <PrivateRoute exact path="/request">
-          <Current />
+          <Suspense fallback={<div>loading</div>}>
+            <Dashboard />
+          </Suspense>
         </PrivateRoute>
         <PrivateRoute path="/">
           <Home />
         </PrivateRoute>
       </Switch>
-    </BrowserRouter>
+    </>
   );
 };
 

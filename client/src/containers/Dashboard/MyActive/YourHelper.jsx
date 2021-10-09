@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import StarIcon from '@material-ui/icons/Star';
 import styled from 'styled-components';
 import ActiveModal from './ActiveModal';

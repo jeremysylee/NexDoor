@@ -3,7 +3,6 @@ import { Container, Avatar, Grid } from '@material-ui/core';
 import styled from 'styled-components';
 import StarIcon from '@material-ui/icons/Star';
 import { Button, Modal } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 // import Ratings from 'react-ratings-declarative';
 
 const Card = styled.div`
