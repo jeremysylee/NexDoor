@@ -1,14 +1,61 @@
+<br />
+<a href="https://github.com/jeremysylee/NexDoor"> <img src="https://user-images.githubusercontent.com/74673975/136668234-fb310721-db29-40fc-8d9c-e04ce5b552f9.png" alt="NexDoor" width="180" align="left" /> </a> <br /> <br />
+<hr />
 
+Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get connected with neighbors in your area who are requesting help and offer to assist or submit a help request of your own.
 
-# Nexdoor 
-<a href="https://github.com/jeremysylee/NexDoor"> <img src="https://user-images.githubusercontent.com/74673975/131412411-a4a65e3e-4ec9-4549-b994-0ab56e157f0d.png" width="200" /> </a> <div />
+![Screen Shot 2021-10-09 at 7 14 44 AM](https://user-images.githubusercontent.com/74673975/136668053-1fe1d007-3a15-47a3-a8f0-fed14b1bb6e8.png)
 
-Nexdoor is a hyperlocal neighborhood assistance social networking platform. See local neighbors on the app who are requesting help and offer to assist or submit a help request of your own. 
 
 ## Features
-* See requests for assistance in a variable radius around your neighborhood.
-* Claim requests and connect to the requesting neighbor via chat. 
-* Submit requests for assistance for local neighbors to see.
+### Requests
+<ul>
+ <li> Submit requests for assistance for local neighbors to see. </li>
+ <li> Live handshake system so users can confirm bidirectional availability. </li>
+ <li> Requests have "Open", "Pending", and "Active" status to show request states.</li>
+</ul>
+ 
+### Request Feed
+<ul>
+ <li> A feed of surrounding neighbors requests, updates live as new requests come in. </li>
+ <li> Includes requests you are currently serving and requests you've made.
+  <br/>
+  <img src="https://user-images.githubusercontent.com/74673975/136668560-1d45ec30-033d-4dba-8b8a-a8fc90101c9e.gif" alt="feed.gif" width="400" margin-left="400px" border-radius="50px" />
+  <br/> <br/>
+ </li>
+</ul>
+ 
+### Map
+<ul>
+ <li> Dynamic map view shows neighbor requests in a variable radius around your location. </li>
+ <li> Isomorphic google maps api integration, ready for server side rendering.
+  <br/>
+  <img src="https://user-images.githubusercontent.com/74673975/136669184-e85c35de-9b46-4add-8055-6c16c5d06cea.gif" alt="feed.gif" width="400" margin-left="400px" />
+  <br/> <br/>
+ </li>
+</ul>
+ 
+### Dashboard
+<ul>
+ <li> See your request details on the request dashboard. </li>
+
+ <li> Connect with the requester in with live, persistent, and low-latency chat.
+  <br/>
+  <img src="https://user-images.githubusercontent.com/74673975/136672766-ac06fc26-d3f2-4829-8b5e-2dbf655ea927.png" alt="feed.gif" height="271" margin-left="400px" />
+  <img src="https://ik.imagekit.io/g2ceigziuz7/ChatDemo_m3KNViRrG.gif" alt="feed.gif" width="400" margin-left="400px" />
+  <br/> <br/>
+ </li>
+</ul>
+
+### Optimized
+<ul>
+ <li> Score of 95+ across all lighthouse parameters </li>
+ <li> First contentful pain time of 0.7s, time to interactive 0.8s.
+  <br/>
+<!--   <img src="https://user-images.githubusercontent.com/74673975/136672766-ac06fc26-d3f2-4829-8b5e-2dbf655ea927.png" alt="feed.gif" height="271" margin-left="400px" /> -->
+  <br/> <br/>
+ </li>
+</ul>
 
 # Getting Started
 
