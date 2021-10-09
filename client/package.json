@@ -77,6 +77,9 @@
     "@hot-loader/react-dom": "^17.0.1",
     "babel-jest": "^27.0.6",
     "babel-loader": "^8.2.2",
+    "babel-plugin-styled-components": "^1.13.2",
+    "brotli-webpack-plugin": "^1.1.0",
+    "compression-webpack-plugin": "^9.0.0",
     "css-loader": "^5.2.7",
     "eslint": "^7.30.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -92,6 +95,7 @@
     "webpack": "^5.44.0",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "zlib": "^1.0.5"
   }
 }

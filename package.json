@@ -1,0 +1,31 @@
+{
+  "name": "NexDoor",
+  "version": "1.0.0",
+  "description": "<a href=\"https://github.com/jeremysylee/NexDoor\"> <img src=\"https://user-images.githubusercontent.com/74673975/131412411-a4a65e3e-4ec9-4549-b994-0ab56e157f0d.png\" width=\"200\" /> </a> <div />",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bootstrap": "^5.0.2",
+    "dotenv": "^10.0.0",
+    "eslint-import-resolver-node": "^0.3.6",
+    "jest": "^27.0.6",
+    "react": "^17.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremysylee/NexDoor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeremysylee/NexDoor/issues"
+  },
+  "homepage": "https://github.com/jeremysylee/NexDoor#readme"
+}
