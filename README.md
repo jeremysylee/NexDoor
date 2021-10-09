@@ -6,8 +6,9 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
 
 ![Screen Shot 2021-10-09 at 7 14 44 AM](https://user-images.githubusercontent.com/74673975/136668053-1fe1d007-3a15-47a3-a8f0-fed14b1bb6e8.png)
 
+<br/>
 
-## Features
+# Features
 ### Requests
 <ul>
  <li> Submit requests for assistance for local neighbors to see. </li>
