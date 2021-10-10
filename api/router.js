@@ -1,9 +1,8 @@
-/* eslint-disable indent */
 const router = require('express').Router();
-const tasks = require('./modules/tasks/routes');
-const users = require('./modules/users/routes');
-const messages = require('./modules/messages/routes');
-const announcements = require('./modules/announcements/routes');
+const tasks = require('./components/tasks/routes');
+const users = require('./components/users/routes');
+const messages = require('./components/messages/routes');
+const announcements = require('./components/announcements/routes');
 
 router
     .use('/tasks', tasks)
