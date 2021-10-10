@@ -5,9 +5,9 @@ const messages = require('./components/messages/routes');
 const announcements = require('./components/announcements/routes');
 
 router
-    .use('/tasks', tasks)
-    .use('/users', users)
-    .use('/messages', messages)
-    .use('/announcements', announcements);
+  .use('/tasks', tasks)
+  .use('/users', users)
+  .use('/messages', messages)
+  .use('/announcements', announcements);
 
 module.exports = router;

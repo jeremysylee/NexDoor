@@ -5,7 +5,7 @@ const { getMockReq, getMockRes } = require('@jest-mock/express');
 const tasksController = require('./controller');
 const tasksService = require('./service');
 const locationsController = require('../locations/controller');
-const db = require('../../db');
+const db = require('../../../db');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/apiError');
 

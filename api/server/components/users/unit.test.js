@@ -7,7 +7,7 @@ const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');
 const usersController = require('./controller');
 const usersService = require('./service');
-const db = require('../../db');
+const db = require('../../../db');
 const locationsService = require('../locations/service');
 const locationsController = require('../locations/controller');
 

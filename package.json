@@ -23,8 +23,12 @@
     "eslint-plugin-react-hooks": "^1.7.0"
   },
   "scripts": {
-    "server": "nodemon nexdoor/src/server",
-    "start": "nodemon api/index.js"
+    "install": "npm install --prefix ./api & npm install --prefix ./nexdoor",
+    "build": "npm run build-prod --prefix ./nexdoor",
+    "setup": "npm run install && npm run build",
+    "start-app": "npm start --prefix ./nexdoor",
+    "start-api": "npm start --prefix ./api",
+    "start": "npm run start-app & npm run start-api"
   },
   "repository": {
     "type": "git",

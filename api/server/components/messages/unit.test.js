@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const { getMockReq, getMockRes } = require('@jest-mock/express');
 const messagesController = require('./controller');
 const messagesService = require('./service');
-const db = require('../../db');
+const db = require('../../../db');
 const ApiError = require('../../errors/apiError');
 
 const { res, next } = getMockRes();

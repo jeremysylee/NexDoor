@@ -4,7 +4,7 @@ const axios = require('axios');
 const coordinatesHelpers = require('./coordinates');
 const locationsService = require('./service');
 const locationsController = require('./controller');
-const db = require('../../db');
+const db = require('../../../db');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');
 

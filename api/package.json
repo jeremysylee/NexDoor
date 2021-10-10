@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon"
+    "start": "nodemon server",
+    "benchmark": "jest /test/benchmarks.test.js --coverage=false",
+    "benchmark-s": "jest /test/benchmarks.test.js --silent --coverage=false"
   },
   "keywords": [],
   "author": "",

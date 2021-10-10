@@ -1,7 +1,6 @@
 node_modules
 coverage
 seeder
-test
 newrelic_agent.log
 .DS_Store
 .env

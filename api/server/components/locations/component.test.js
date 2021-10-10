@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const coordinatesHelpers = require('./coordinates');
 const locationsService = require('./service');
 const locationsController = require('./controller');
-const db = require('../../db');
+const db = require('../../../db');
 
 describe('Coordinates API', () => {
   it('gets coordinates from the google api when appropriate address query is submitted', async () => {

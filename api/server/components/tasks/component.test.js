@@ -4,7 +4,7 @@ const supertest = require('supertest');
 
 const { app, redisClient } = require('../../app');
 const locationsController = require('../locations/controller');
-const db = require('../../db');
+const db = require('../../../db');
 
 let testTaskIdToDelete;
 

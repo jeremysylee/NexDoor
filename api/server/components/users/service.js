@@ -5,7 +5,7 @@
 const bcrypt = require('bcrypt');
 // const uuid = require('uuid');
 // const session = require('express-session');
-const db = require('../../db/index');
+const db = require('../../../db/index');
 
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');

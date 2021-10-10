@@ -4,11 +4,10 @@
   "description": "Basically NextDoor",
   "main": "index.js",
   "scripts": {
-    "build": "node-babel server",
     "clean": "rm dist/bundle.js",
     "build-dev": "webpack --mode development --watch",
     "build-prod": "webpack --mode production",
-    "start": "webpack serve --hot --mode development --history-api-fallback",
+    "start": "nodemon src/server",
     "test": "jest",
     "benchmark": "jest /test/benchmarks.test.js --coverage=false",
     "benchmark-s": "jest /test/benchmarks.test.js --silent --coverage=false"

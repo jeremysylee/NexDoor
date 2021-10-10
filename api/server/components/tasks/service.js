@@ -1,6 +1,6 @@
 /* eslint-disable spaced-comment */
 /* eslint-disable max-len */
-const db = require('../../db');
+const db = require('../../../db');
 const ApiError = require('../../errors/apiError');
 const httpStatusCodes = require('../../errors/httpStatusCodes');
 

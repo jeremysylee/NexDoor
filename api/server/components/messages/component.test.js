@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const supertest = require('supertest');
 
 const { app, redisClient } = require('../../app');
-const db = require('../../db');
+const db = require('../../../db');
 
 describe('Messages API', () => {
   afterAll(() => {
