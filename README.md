@@ -9,14 +9,14 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
 <br/>
 
 # Features
-### Requests
+## Requests
 <ul>
  <li> Submit requests for assistance for local neighbors to see. </li>
  <li> Live handshake system so users can confirm bidirectional availability. </li>
  <li> Requests have "Open", "Pending", and "Active" status to show request states.</li>
 </ul>
  
-### Request Feed
+## Request Feed
 <ul>
  <li> A feed of surrounding neighbors requests, updates live as new requests come in. </li>
  <li> Includes requests you are currently serving and requests you've made.
@@ -26,7 +26,7 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
  </li>
 </ul>
  
-### Map
+## Map
 <ul>
  <li> Dynamic map view shows neighbor requests in a variable radius around your location. </li>
  <li> Isomorphic google maps api integration, ready for server side rendering.
@@ -36,7 +36,7 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
  </li>
 </ul>
  
-### Dashboard
+## Dashboard
 <ul>
  <li> See your request details on the request dashboard. </li>
 
@@ -48,7 +48,7 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
  </li>
 </ul>
 
-### Optimized
+## Optimization
 <ul>
  <li> Score of 95+ across all lighthouse parameters
   <br/>
