@@ -50,7 +50,7 @@ Nexdoor is a hyperlocal neighborhood assistance social networking platform. Get 
 
 ## Optimization
 <ul>
- <li> Score of 95+ across all lighthouse parameters
+ <li> Score of 95%+ across all lighthouse parameters
   <br/>
   <img src="https://user-images.githubusercontent.com/74673975/136673518-b8d0c4e8-a4ed-487a-9bba-b4ef2940f514.png" alt="feed.gif" width="400"/><br>
   <img src="https://user-images.githubusercontent.com/74673975/136673539-7ac50a02-cd27-40dc-8723-3ec6401e25ac.png" alt="feed.gif" width="400" />
