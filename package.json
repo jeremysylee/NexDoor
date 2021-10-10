@@ -1,5 +1,5 @@
 {
-  "name": "NexDoor",
+  "name": "nexdoor",
   "version": "1.0.0",
   "description": "<a href=\"https://github.com/jeremysylee/NexDoor\"> <img src=\"https://user-images.githubusercontent.com/74673975/131412411-a4a65e3e-4ec9-4549-b994-0ab56e157f0d.png\" width=\"200\" /> </a> <div />",
   "main": "index.js",
@@ -23,10 +23,10 @@
     "eslint-plugin-react-hooks": "^1.7.0"
   },
   "scripts": {
-    "install": "npm install --prefix ./api & npm install --prefix ./nexdoor",
-    "build": "npm run build-prod --prefix ./nexdoor",
+    "install": "npm install --prefix ./api & npm install --prefix ./app",
+    "build": "npm run build-prod --prefix ./app",
     "setup": "npm run install && npm run build",
-    "start-app": "npm start --prefix ./nexdoor",
+    "start-app": "npm start --prefix ./app",
     "start-api": "npm start --prefix ./api",
     "start": "npm run start-app & npm run start-api"
   },
