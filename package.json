@@ -1,0 +1,44 @@
+{
+  "name": "nexdoor",
+  "version": "1.0.0",
+  "description": "<a href=\"https://github.com/jeremysylee/NexDoor\"> <img src=\"https://user-images.githubusercontent.com/74673975/131412411-a4a65e3e-4ec9-4549-b994-0ab56e157f0d.png\" width=\"200\" /> </a> <div />",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "eslint-import-resolver-node": "^0.3.6",
+    "express": "^4.17.1",
+    "express-static-gzip": "^2.1.1",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.13"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^1.7.0"
+  },
+  "scripts": {
+    "install": "npm install --prefix ./api & npm install --prefix ./app",
+    "build": "npm run build-prod --prefix ./app",
+    "setup": "npm run install && npm run build",
+    "start-app": "npm start --prefix ./app",
+    "start-api": "npm start --prefix ./api",
+    "start": "npm run start-app & npm run start-api"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremysylee/NexDoor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeremysylee/NexDoor/issues"
+  },
+  "homepage": "https://github.com/jeremysylee/NexDoor#readme"
+}

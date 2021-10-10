@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon"
+    "start": "nodemon server",
+    "benchmark": "jest /test/benchmarks.test.js --coverage=false",
+    "benchmark-s": "jest /test/benchmarks.test.js --silent --coverage=false"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
   "dependencies": {
     "axios": "^0.21.4",
     "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
     "connect-redis": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -26,7 +29,8 @@
     "redis": "^3.1.2",
     "socket.io": "^4.2.0",
     "supertest": "^6.1.6",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^4.0.4",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@jest-mock/express": "^1.4.5",
