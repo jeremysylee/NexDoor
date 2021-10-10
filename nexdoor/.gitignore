@@ -1,0 +1,15 @@
+node_modules
+package-lock.json
+.DS_Store
+.env
+bundle.js
+.cache
+dist
+coverage
+data
+newrelic_agent.log
+Dockerfile
+config.js
+bundle.gz
+bundle.js.br
+*bundle*

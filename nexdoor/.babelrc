@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "targets": {"node": "current"}
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    ["babel-plugin-styled-components",
+      {
+        "displayName": false,
+        "pure": true
+      }
+    ],
+    "react-hot-loader/babel",
+    "@babel/plugin-proposal-class-properties"
+  ]
+}
