@@ -1,10 +1,10 @@
-import { testTasks } from './initialData';
+import initialTasks from './initialData';
 
-let initialState = { tasks: testTasks };
+let initialState = { tasks: initialTasks };
 
 try {
-  const initialTasks = sessionStorage.getItem('tasks') ? JSON.parse(sessionStorage.getItem('tasks')) : testTasks;
-  initialState = { tasks: initialTasks };
+  const initialTasksFromStorage = sessionStorage.getItem('tasks') ? JSON.parse(sessionStorage.getItem('tasks')) : initialTasks;
+  initialState = { tasks: initialTasksFromStorage };
 } catch (err) {
   console.log(err);
 }
