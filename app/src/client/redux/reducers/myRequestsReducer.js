@@ -1,6 +1,6 @@
-import { testTasks } from './initialData';
+import initialTasks from './initialData';
 
-const initialState = { requests: [testTasks[0]] };
+const initialState = { requests: [initialTasks[0]] };
 
 const myRequestsReducer = (state = initialState, action) => {
   switch (action.type) {

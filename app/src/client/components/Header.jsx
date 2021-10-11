@@ -5,10 +5,9 @@ import { useHistory } from 'react-router-dom';
 import Avatar from './Avatar';
 import ProfileModal from '../features/Accounts/ProfileModal';
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
+import {
+  Row,
+} from './App.styles';
 
 const NavRow = styled(Row)`
   justify-content: space-between;
