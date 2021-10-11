@@ -84,11 +84,10 @@ Front End:
   * Redis
 
 # Contributors
-* @raphaelspies
-* @ajmunoz411
-* @jimmyG37
-* @migbuen44
-* @dchang1010
-* @raelyncs
-
+* <a href="https://github.com/raphaelspiesr">@raphaelspies </a>
+* <a href="https://github.com/JimmyG37">@jimmyg37 </a>
+* <a href="https://github.com/dchang1010">@dchang1010 </a>
+* * <a href="https://github.com/migbuen44">@migbuen44 </a>
+* * <a href="https://github.com/ajmunoz411">@ajmunoz411 </a>
+* * <a href="https://github.com/raelyncs">@raelyncs </a>
 
